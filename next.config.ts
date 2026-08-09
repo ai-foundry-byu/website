@@ -24,6 +24,37 @@ const nextConfig: NextConfig = {
      */
     root: path.resolve(__dirname),
   },
+
+  /**
+   * Serve the VC jobs board at aifoundry.byu.edu/jobs.
+   *
+   * The board is a separate Next app (repo: ai-foundry-jobs) with its own
+   * ingest pipeline, its own Supabase project, and a twice-daily refresh. It
+   * is rewritten in rather than ported so this repo takes on no jobs code, no
+   * extra environment variables, and no build-time dependency on that data.
+   * If the board is ever retired, deleting this block is the whole rollback.
+   *
+   * A rewrite rather than a redirect, so the URL the member sees stays on
+   * aifoundry.byu.edu. That matters for more than cosmetics: the board's
+   * sign-in cookie is deliberately set with no Domain attribute, so it binds
+   * to whichever host served the request. Under this rewrite that host is
+   * aifoundry.byu.edu and the cookie is scoped correctly with no further
+   * configuration.
+   *
+   * The /api/jobs/* rule is required, not optional. The board's sign-in and
+   * save calls are same-origin fetches; without it they would resolve against
+   * this app, 404, and the gate would appear to accept an email and then do
+   * nothing. That exact failure took the previous board down for weeks, so it
+   * is worth being explicit: both rules ship together or neither does.
+   */
+  async rewrites() {
+    const board = "https://ai-foundry-jobs.vercel.app"
+    return [
+      { source: "/jobs", destination: `${board}/jobs` },
+      { source: "/jobs/:path*", destination: `${board}/jobs/:path*` },
+      { source: "/api/jobs/:path*", destination: `${board}/api/jobs/:path*` },
+    ]
+  },
 }
 
 export default nextConfig
