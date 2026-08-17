@@ -451,6 +451,21 @@ html {
     rgba(255, 255, 255, 0) 88%
   );
 }
+/* On small screens the text column spans nearly the full width, so the
+   scrim has to carry much further — the field's dark right side otherwise
+   swallows the headline tail and support copy. A hint of field keeps the
+   right edge alive. */
+@media (max-width: 768px) {
+  .ml-scrim {
+    background: linear-gradient(
+      90deg,
+      #fff 0%,
+      rgba(255, 255, 255, 0.95) 55%,
+      rgba(255, 255, 255, 0.7) 80%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+  }
+}
 
 /* ── Name carousel ──────────────────────────────────────────
    CSS marquee for the shipped-at strip: the row renders twice

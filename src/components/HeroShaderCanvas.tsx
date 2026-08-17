@@ -15,16 +15,15 @@ import { ShaderGradient, ShaderGradientCanvas } from "shadergradient"
  * gizmoHelper, format, frameRate, destination, embedMode, range*) are not
  * part of the library's render API and are dropped.
  *
- * positionX is 0.6, not the snippet's -1.4 (QA, 2026-08-16): at the hero's
- * wide aspect the snippet value parks the bright field right-of-center and
- * leaves the left half of the plane near-black, which the scrim then wipes
- * to blank white — the field read as "running only on the right". 0.6 puts
- * the white bloom behind the text column with waves reaching both edges.
+ * Camera values are Corbin's second reference config (2026-08-16): pulled
+ * far back (cDistance 15.99) through a narrow fov 10, azimuth 377 / polar
+ * 83 — a flat, wide sweep of the plane rather than the first config's
+ * close-up, which at the hero's aspect had left half the plane near-black.
  */
 export default function HeroShaderCanvas() {
   return (
     <ShaderGradientCanvas
-      fov={45}
+      fov={10}
       pixelDensity={1}
       style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
     >
@@ -38,7 +37,7 @@ export default function HeroShaderCanvas() {
         uDensity={1.3}
         uFrequency={5.5}
         uAmplitude={1}
-        positionX={0.6}
+        positionX={-1.4}
         positionY={0}
         positionZ={0}
         rotationX={0}
@@ -50,14 +49,15 @@ export default function HeroShaderCanvas() {
         reflection={0.1}
         wireframe={false}
         shader="defaults"
-        cAzimuthAngle={180}
-        cPolarAngle={90}
-        cDistance={4.01}
+        cAzimuthAngle={377}
+        cPolarAngle={83}
+        cDistance={15.99}
         cameraZoom={1}
         lightType="3d"
-        brightness={1.3}
+        brightness={1.1}
         envPreset="city"
         grain="on"
+        zoomOut={false}
       />
     </ShaderGradientCanvas>
   )
