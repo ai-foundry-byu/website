@@ -29,10 +29,15 @@ export default function HeroShaderCanvas() {
     >
       <ShaderGradient
         control="props"
+        /* No mount fly-in: the library otherwise animates the plane into
+           pose over ~3s (rotation settles 2.7s, position 3.5s), which
+           read as jitter through our fade-in. The field starts at its
+           final pose and only the uTime drift moves. */
+        enableTransition={false}
         type="plane"
         animate="on"
         uTime={0}
-        uSpeed={0.1}
+        uSpeed={0.15}
         uStrength={4}
         uDensity={1.3}
         uFrequency={5.5}

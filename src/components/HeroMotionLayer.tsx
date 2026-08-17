@@ -57,9 +57,11 @@ export function HeroMotionLayer() {
     // Both flips ride timeouts: mounting on the next tick keeps setState
     // out of the effect body (react-hooks/set-state-in-effect), and the
     // fade lands a beat later so the WebGL context and shader compile
-    // have a moment — a fade, not a pop.
+    // have a moment — a fade, not a pop. 400ms is enough now that
+    // enableTransition={false} puts the plane at its final pose on the
+    // first frame (no fly-in to hide).
     const mount = setTimeout(() => setShader(true), 0)
-    const fade = setTimeout(() => setShaderOn(true), 700)
+    const fade = setTimeout(() => setShaderOn(true), 400)
     return () => {
       clearTimeout(mount)
       clearTimeout(fade)
@@ -90,7 +92,7 @@ export function HeroMotionLayer() {
             width: `${cover.w}px`,
             height: `${cover.h}px`,
             opacity: shaderOn ? 1 : 0,
-            transition: "opacity 900ms ease",
+            transition: "opacity 600ms ease",
           }}
         >
           <HeroShaderCanvas />

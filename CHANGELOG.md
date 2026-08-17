@@ -6,6 +6,10 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-17
 
+- 02:18 — (corbin-curtain-design-system branch) Hero shader load jitter fixed, per Corbin: the library was flying the plane into pose on mount (rotation settling at ~2.7s, position ~3.5s) and our fade-in revealed it mid-flight. enableTransition={false} pins the plane at its final pose from the first frame; with no fly-in to hide, the fade tightens to 400ms delay / 600ms duration, so the field arrives about a second sooner and completely still. Verified: captures at 2s and 5s show identical composition, only wave drift differing. Also uSpeed 0.1 → 0.15 so the field cycles from navy into royal/white a tad faster, per Corbin.
+
+## 2026-08-17
+
 - 02:04 — (corbin-curtain-design-system branch) Fixed the black in the hero shader field, per Corbin. Root cause: the defaults shader's 3D lighting multiplies color toward zero at grazing angles, and navy is dark enough that shaded troughs crushed to pure black (measured: darkest block rgb 0,0,0) — brightness, polar angle, and env lighting sweeps could not lift the floor. Fix at the compositing layer: a navy plate over the canvas blended with mix-blend-mode lighten (per-channel max) mathematically clamps every pixel's floor to brand navy #002E5D — black cannot exist, brighter field untouched, royal and white pass through unchanged. Measured after: darkest block exactly rgb(0,46,93). Shader params stay Corbin's reference config (brightness 1.4).
 
 ## 2026-08-17
