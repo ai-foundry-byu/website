@@ -1,0 +1,66 @@
+/* The splash treatment on the primary (royal) Button: an offset outline
+   ring that melts away on hover and splashes back in on mouse-leave.
+   Graduated from /lab/splash-button by Corbin's decision (2026-08-16),
+   recolored to the royal palette.
+
+   Two knowing deviations from the handoff spec, on the record:
+   - the fill is a TONAL royal gradient (single hue, color-mix derived),
+     bending "flat solids only";
+   - the ring melt/splash is a larger gesture than the 150/300ms
+     fade-and-translate motion rules.
+   Everything else holds: the ring is royal on WHITE grounds only — the
+   inverse (navy-band) variant never gets it, royal never sits on navy.
+
+   Geometry rides the system radius token, not the lab component's 8px. */
+
+.splash {
+  --splash-color: var(--royal);
+  --splash-radius: var(--radius);
+  --splash-ring: 4px;
+  --splash-gap: 3px;
+
+  position: relative;
+  background: var(--splash-color); /* solid fallback if color-mix is unsupported */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The ring lives on a pseudo-element offset outside the button, so the
+   gap stays transparent over any page background. */
+.splash::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * (var(--splash-gap) + var(--splash-ring)));
+  border: var(--splash-ring) solid var(--splash-ring-color, var(--splash-color));
+  border-radius: calc(var(--splash-radius) + var(--splash-gap) + var(--splash-ring));
+  opacity: 1;
+  transition: opacity 250ms ease-out; /* splash back in on leave */
+  pointer-events: none;
+}
+
+@supports (color: color-mix(in oklab, red 50%, white)) {
+  .splash {
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--splash-color) 85%, white) 0%,
+      var(--splash-color) 48%,
+      color-mix(in oklab, var(--splash-color) 90%, black) 100%
+    );
+  }
+  .splash::after {
+    border-color: var(
+      --splash-ring-color,
+      color-mix(in srgb, var(--splash-color) 50%, transparent)
+    );
+  }
+}
+
+.splash:hover::after {
+  opacity: 0;
+  transition-duration: 100ms; /* melt away fast, while the fill swaps to navy */
+}
+
+/* Keyboard users keep the ring even while hovered, alongside the
+   system's 2px royal focus outline — never weaken focus indication. */
+.splash:focus-visible::after {
+  opacity: 1;
+}

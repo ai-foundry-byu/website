@@ -2,16 +2,24 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import styles from "./Button.module.css"
 
 /**
- * Primary action. Royal fill, hover to navy, press stamps down 1px.
- * Port of design_handoff .../forms/Button.jsx, values preserved; internal
+ * Primary action. Royal splash fill (tonal gradient + offset ring that
+ * melts on hover, from /lab/splash-button — see Button.module.css for the
+ * recorded deviations), hover to navy, press stamps down 1px. Otherwise a
+ * port of design_handoff .../forms/Button.jsx, values preserved; internal
  * hrefs render through next/link so client navigation keeps working.
+ *
+ * The primary palette deliberately has NO background at idle: the splash
+ * class paints the gradient, and an inline background would override it.
+ * Its border is transparent (not royal) so the gradient shows through
+ * while the geometry stays identical to the other variants.
  */
 type Variant = "primary" | "secondary" | "inverse" | "ghost"
 
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { background: "var(--accent)", color: "var(--accent-ink)", border: "1px solid var(--accent)" },
+  primary: { color: "var(--accent-ink)", border: "1px solid transparent" },
   primaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
@@ -78,6 +86,9 @@ export function Button({
     onMouseUp: () => setPress(false),
     onClick: off ? undefined : onClick,
   }
+  // Splash ring on the royal primary only: on navy grounds (inverse) a
+  // royal ring would put royal on navy, which the palette prohibits.
+  const className = variant === "primary" ? styles.splash : undefined
   const inner = (
     <>
       {loading ? (
@@ -98,17 +109,17 @@ export function Button({
   )
   if (href) {
     return href.startsWith("/") ? (
-      <Link href={href} style={s} {...handlers}>
+      <Link href={href} className={className} style={s} {...handlers}>
         {inner}
       </Link>
     ) : (
-      <a href={href} style={s} {...handlers}>
+      <a href={href} className={className} style={s} {...handlers}>
         {inner}
       </a>
     )
   }
   return (
-    <button type={type} disabled={off} style={s} {...handlers}>
+    <button type={type} disabled={off} className={className} style={s} {...handlers}>
       {inner}
     </button>
   )
