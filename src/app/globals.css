@@ -451,9 +451,25 @@ html {
   border-top: 1px solid var(--border-hairline);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+[data-ground="navy"] {
+  --focus-ring: var(--white);
 }
 
 /* ── Link draw + arrow nudge (motion plan #2) ──────────────
@@ -542,6 +558,12 @@ html {
 ::selection {
   background: var(--royal);
   color: var(--white);
+}
+
+[data-ground="navy"] ::selection,
+[data-ground="navy"]::selection {
+  background: var(--white);
+  color: var(--navy);
 }
 
 /* ── Hero motion layer ──────────────────────────────────────
@@ -772,6 +794,7 @@ html {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }

@@ -1,15 +1,15 @@
+import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
 import { Button } from "@/components/ds/Button"
-import { NAV, NAV_CTA } from "@/lib/content"
+import { NAV, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * Top bar: stamped nameplate left, links + one action right. Port of
+ * Top bar: co-brand lockup left, links + one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The "× BYU MARRIOTT" tag is a TEXT PLACEHOLDER — the real co-branded
- * lockup ships as a locked file from BYU Marriott Marketing and must never
- * be recreated or approximated. Swap the placeholder for the file when
- * marketing provides it.
+ * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
+ * typographic recreation. White bar, so the navy variant is the
+ * sanctioned one here.
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -28,26 +28,15 @@ export function SiteHeader() {
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "var(--container)", padding: "0 var(--container-pad)", height: "72px" }}
       >
-        <CurtainNavLink
-          href="/"
-          className="flex items-baseline gap-2.5 whitespace-nowrap no-underline"
-          style={{ color: "var(--navy)" }}
-        >
-          <span className="nameplate" style={{ fontSize: "20px" }}>
-            AI FOUNDRY
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontStretch: "100%",
-              fontSize: "11px",
-              letterSpacing: "0.02em",
-              color: "var(--text-meta)",
-            }}
-          >
-            × BYU MARRIOTT
-          </span>
+        <CurtainNavLink href="/" className="flex items-center no-underline">
+          <Image
+            src="/byu-marriott-ai-foundry.png"
+            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
+            width={3305}
+            height={360}
+            priority
+            className="h-6 w-auto md:h-8"
+          />
         </CurtainNavLink>
 
         {/* desktop nav — the tabs carry the link-draw underline (motion

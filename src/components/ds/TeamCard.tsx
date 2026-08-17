@@ -18,7 +18,7 @@ export function TeamCard({
 }: {
   name: string
   role?: string
-  bio?: string
+  bio?: string | null
   linkedin?: string
   photo?: string
 }) {
@@ -93,7 +93,7 @@ export function TeamCard({
         )}
       </div>
       <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "4px" }}>
-        <h4 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h4)", margin: 0 }}>{name}</h4>
+        <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h4)", margin: 0 }}>{name}</h3>
         {role ? (
           <span className="caption" style={{ color: "var(--text-meta)" }}>
             {role}
@@ -107,6 +107,8 @@ export function TeamCard({
         {linkedin ? (
           <a
             href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
             className="link-draw"
             style={{
               display: "inline-flex",

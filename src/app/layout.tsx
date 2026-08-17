@@ -104,6 +104,7 @@ export default function RootLayout({
           rendered — children cross the boundary as a ReactNode prop. Remove
           this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
       <body className="min-h-full flex flex-col">
+        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important}'}</style></noscript>
         {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
             system; the curtain handles reduced motion itself, outside it. */}
         <CurtainRouteProvider effect="fade">

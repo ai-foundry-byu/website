@@ -82,7 +82,7 @@ export default function QuotePage() {
                   >
                     {s.n}
                   </span>
-                  <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "18px", margin: 0 }}>{s.title}</h3>
+                  <h2 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "18px", margin: 0 }}>{s.title}</h2>
                   <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", lineHeight: 1.55, color: "var(--text-primary)", margin: 0, maxWidth: "40ch" }}>
                     {s.detail}
                   </p>

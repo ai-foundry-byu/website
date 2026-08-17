@@ -36,10 +36,9 @@ export const metadata: Metadata = {
  * rest in navy-tinted monochrome, full color on hover), then culture as
  * expanding rows with credits.
  *
- * The design's cards carry name, role, and photo only — the long-form bios
- * in TEAM stay in content.ts as the record that backs the employer claims,
- * they just no longer render here. Roster order is presentation: staff
- * roles first, undergraduates after, each group in content.ts order.
+ * Each card renders the member's bio and LinkedIn link from TEAM — the
+ * record that backs the employer claims. Roster order is presentation:
+ * staff roles first, undergraduates after, each group in content.ts order.
  */
 const STAFF = TEAM.filter((m) => m.role !== "Undergraduate")
 const UNDERGRADS = TEAM.filter((m) => m.role === "Undergraduate")
@@ -91,6 +90,7 @@ export default function AboutPage() {
             }}
           >
             <div style={{ flex: "1 1 380px" }}>
+              <h2 className="sr-only">{FACULTY.role}</h2>
               <Eyebrow tone="meta">{FACULTY.role}</Eyebrow>
               <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h3)", margin: "8px 0 4px" }}>
                 {FACULTY.name}
@@ -103,6 +103,8 @@ export default function AboutPage() {
                   <a
                     key={l.href}
                     href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="link-draw"
                     style={{
                       display: "inline-flex",
@@ -128,13 +130,14 @@ export default function AboutPage() {
 
         <section style={{ padding: "0 24px 64px" }}>
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+            <h2 className="sr-only">{BUILDERS_EYEBROW}</h2>
             <div style={{ marginBottom: "20px" }}>
               <Eyebrow>{BUILDERS_EYEBROW}</Eyebrow>
             </div>
             <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
               {ROSTER.map((m) => (
                 <StaggerItem key={m.name}>
-                  <TeamCard name={m.name} role={m.role} photo={m.photo} />
+                  <TeamCard name={m.name} role={m.role} bio={m.bio} linkedin={m.linkedin} photo={m.photo} />
                 </StaggerItem>
               ))}
             </Stagger>

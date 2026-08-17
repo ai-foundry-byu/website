@@ -126,9 +126,9 @@ export default async function RoadmapPage() {
                       }}
                     >
                       <div style={{ flex: 1 }}>
-                        <h4 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h4)", margin: "0 0 4px" }}>
+                        <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h4)", margin: "0 0 4px" }}>
                           {it.name}
-                        </h4>
+                        </h3>
                         <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", lineHeight: 1.55, color: "var(--text-primary)", margin: 0, maxWidth: "66ch" }}>
                           {it.detail}
                         </p>
@@ -139,7 +139,7 @@ export default async function RoadmapPage() {
                         ) : null}
                         {it.goal ? (
                           <div style={{ marginTop: "12px", maxWidth: "420px" }}>
-                            <Progress value={stats.claudeArchCerts ?? 0} max={CERT_GOAL} label="Certified" />
+                            <Progress value={stats.claudeArchCerts} max={CERT_GOAL} label="Certified" ariaLabel="Claude Architect certifications" />
                           </div>
                         ) : null}
                       </div>

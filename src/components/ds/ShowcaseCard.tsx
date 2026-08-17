@@ -108,6 +108,8 @@ export function ShowcaseCard({
               <a
                 key={l.href}
                 href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="link-draw"
                 style={{
                   display: "inline-flex",

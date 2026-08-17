@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { Eyebrow } from "@/components/ds/Eyebrow"
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
-import { ShowcaseCard } from "@/components/ds/ShowcaseCard"
+import { Reveal } from "@/components/motion/MotionPrimitives"
+import { WorkShowcaseGrid } from "@/components/WorkShowcaseGrid"
 import { SCHOOL_FULL, SHOWCASE, SHOWCASE_EYEBROW, WORK_HEADING, WORK_LEAD } from "@/lib/content"
 
 export const metadata: Metadata = {
@@ -49,22 +49,7 @@ export default function WorkPage() {
           </Reveal>
         </section>
         <section style={{ padding: "40px 24px 64px" }}>
-          <Stagger
-            style={{
-              maxWidth: "var(--container)",
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))",
-              gap: "20px",
-              alignItems: "stretch",
-            }}
-          >
-            {SHOWCASE.map((s) => (
-              <StaggerItem key={s.name}>
-                <ShowcaseCard name={s.name} blurb={s.blurb} tags={s.tags} links={s.links} image={s.image} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <WorkShowcaseGrid items={SHOWCASE} />
         </section>
       </main>
       <SiteFooter />

@@ -34,6 +34,7 @@ export function Reveal({
 }) {
   return (
     <motion.div
+      className="m-reveal"
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -62,7 +63,7 @@ export function Stagger({ children, style }: { children: React.ReactNode; style?
       variants={STAGGER_PARENT}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.1 }}
+      viewport={{ once: true, amount: "some" }}
       style={style}
     >
       {children}
@@ -72,7 +73,7 @@ export function Stagger({ children, style }: { children: React.ReactNode; style?
 
 export function StaggerItem({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <motion.div variants={STAGGER_CHILD} style={style}>
+    <motion.div className="m-reveal" variants={STAGGER_CHILD} style={style}>
       {children}
     </motion.div>
   )

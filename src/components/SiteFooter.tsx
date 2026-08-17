@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
 
@@ -14,9 +15,13 @@ export function SiteFooter() {
     <footer data-ground="navy" className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         <div className="flex flex-wrap items-center justify-between gap-6">
-          <span className="nameplate" style={{ fontSize: "24px" }}>
-            AI FOUNDRY
-          </span>
+          <Image
+            src="/byu-marriott-ai-foundry-light.png"
+            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
+            width={3305}
+            height={360}
+            className="h-8 w-auto"
+          />
           <nav aria-label="Footer" className="flex flex-wrap gap-6">
             {FOOTER_LINKS.map((l) => (
               <Link

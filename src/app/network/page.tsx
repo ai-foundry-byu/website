@@ -137,10 +137,13 @@ export default function NetworkPage() {
               between-rows gap and the heading stopped reading as the parent of
               the list. Each step has to beat the one nested inside it.
             */}
-            {/* The list breaks out of the 3xl column (md:-mx-24 = 960px):
-                the longest row is ~104 characters, which needs ~900px at
-                18px to hold a single line. */}
-            <ul className="mt-12 border-t border-border-subtle md:-mx-24">
+            {/* The list breaks out of the 3xl column (lg:-mx-24 = 720+192
+                = 912px): the longest row is ~104 characters, which needs
+                ~900px at 18px to hold a single line. lg, not md — at md
+                the viewport can be as narrow as 768px, so a 912px row
+                would overflow it; at lg the centred column has 128px free
+                per side, which holds the 96px bleed. */}
+            <ul className="mt-12 border-t border-border-subtle lg:-mx-24">
               {NETWORK_INTERESTS.map((interest) => (
                 <li key={interest.title} className="border-b border-border-subtle py-5">
                   <div className="flex gap-3">

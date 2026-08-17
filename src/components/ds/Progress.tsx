@@ -6,13 +6,15 @@ export function Progress({
   max = 100,
   label,
   caption,
+  ariaLabel,
 }: {
-  value?: number
+  value?: number | null
   max?: number
   label?: string
   caption?: string
+  ariaLabel?: string
 }) {
-  const pct = Math.max(0, Math.min(100, (value / max) * 100))
+  const pct = value == null ? 0 : Math.max(0, Math.min(100, (value / max) * 100))
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       {label ? (
@@ -21,13 +23,14 @@ export function Progress({
           <span
             style={{ fontFamily: "var(--font-body)", fontSize: "var(--size-ui)", fontVariantNumeric: "tabular-nums", color: "var(--text-meta)" }}
           >
-            {value} / {max}
+            {value == null ? "—" : value} / {max}
           </span>
         </div>
       ) : null}
       <div
         role="progressbar"
-        aria-valuenow={value}
+        aria-label={ariaLabel ?? ((label ? label + ": " : "") + (value == null ? "not measured" : value) + " of " + max)}
+        aria-valuenow={value == null ? undefined : value}
         aria-valuemax={max}
         style={{ height: "6px", background: "rgba(0,46,93,.1)", borderRadius: "var(--radius)", overflow: "hidden" }}
       >

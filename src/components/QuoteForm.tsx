@@ -7,6 +7,7 @@ import { Input } from "@/components/ds/Input"
 import { Select } from "@/components/ds/Select"
 import { Textarea } from "@/components/ds/Textarea"
 import { QUOTE_CONFIRM, QUOTE_CTA, QUOTE_CTA_NOTE, QUOTE_FIELDS } from "@/lib/content"
+import styles from "./QuoteForm.module.css"
 
 /**
  * The quote request form, rebuilt to design_handoff .../ui_kits/quote:
@@ -35,6 +36,8 @@ const REQUIRED: Record<string, string> = {
   brief: "This field",
 }
 
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export function QuoteForm() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [sending, setSending] = useState(false)
@@ -48,6 +51,12 @@ export function QuoteForm() {
     const errs: Record<string, string> = {}
     for (const k in REQUIRED) {
       if (!String(f.get(k) || "").trim()) errs[k] = REQUIRED[k] + " is required."
+    }
+    const email = String(f.get("email") || "").trim()
+    if (email && !EMAIL.test(email)) errs.email = "Enter a valid email address."
+    const website = String(f.get("website") || "").trim()
+    if (website && (/\s/.test(website) || !website.includes("."))) {
+      errs.website = "Enter a valid website address."
     }
     setErrors(errs)
     if (Object.keys(errs).length) return
@@ -94,13 +103,13 @@ export function QuoteForm() {
   }
 
   return (
-    <form onSubmit={submit} noValidate style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+    <form onSubmit={submit} noValidate className={styles.grid}>
       <Input label="First name" name="first" required autoComplete="given-name" error={errors.first} />
       <Input label="Last name" name="last" required autoComplete="family-name" error={errors.last} />
       <Input label="Email" name="email" type="email" required autoComplete="email" error={errors.email} />
       <Input label="Phone number" name="phone" type="tel" required autoComplete="tel" error={errors.phone} />
       <Input label="Company" name="company" required autoComplete="organization" error={errors.company} />
-      <Input label="Website" name="website" type="url" autoComplete="url" />
+      <Input label="Website" name="website" type="url" autoComplete="url" error={errors.website} />
       <div style={{ gridColumn: "1 / -1" }}>
         <Textarea
           label="What do you want built"
