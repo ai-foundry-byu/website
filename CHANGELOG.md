@@ -6,6 +6,10 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-17
 
+- 02:04 — (corbin-curtain-design-system branch) Fixed the black in the hero shader field, per Corbin. Root cause: the defaults shader's 3D lighting multiplies color toward zero at grazing angles, and navy is dark enough that shaded troughs crushed to pure black (measured: darkest block rgb 0,0,0) — brightness, polar angle, and env lighting sweeps could not lift the floor. Fix at the compositing layer: a navy plate over the canvas blended with mix-blend-mode lighten (per-channel max) mathematically clamps every pixel's floor to brand navy #002E5D — black cannot exist, brighter field untouched, royal and white pass through unchanged. Measured after: darkest block exactly rgb(0,46,93). Shader params stay Corbin's reference config (brightness 1.4).
+
+## 2026-08-17
+
 - 01:44 — (corbin-curtain-design-system branch) Measured Color Tier 3, per Corbin. (1) The landing's navy CTA band and footer are now ONE composed terminal: internal white/15 hairline seam, composed padding — Stripe's one-dark-band-per-page rule; the double-dark stack is gone. (2) The navy/4 recessed surface is IN USE: the quote form section sits on --surface-recessed, so the white inputs read raised with zero shadows (Stripe #F6F9FC / Carbon layer move). ⚠ This ratifies the amendment to "all-white subpages" — sanctioned by Corbin 2026-08-17, one recessed surface per page maximum, flagged for team ratification with the other law changes. (3) Showcase cards carry the Linear monochrome frame: flat white browser-chrome bar with three navy-alpha dots above each screenshot, so the product shot stays the only saturated object. (4) The royal budget is written law in the globals contract: royal = interactive plus two named exceptions (eyebrows, live-badge outline), <= 3 marks per viewport, Yale's "what does this differentiate?" as the review question. All 25 contrast pairings hold.
 
 ## 2026-08-17

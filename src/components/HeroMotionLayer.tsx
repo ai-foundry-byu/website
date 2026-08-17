@@ -94,6 +94,20 @@ export function HeroMotionLayer() {
           }}
         >
           <HeroShaderCanvas />
+          {/* Navy floor: the defaults shader's 3D lighting crushes shaded
+              navy toward pure black. This plate, blended with lighten
+              (per-channel max), clamps every pixel's floor to brand navy
+              #002E5D — black cannot exist, brighter field is untouched. */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "var(--navy)",
+              mixBlendMode: "lighten",
+              pointerEvents: "none",
+            }}
+          />
         </div>
       )}
       <div className="ml-scrim" />
