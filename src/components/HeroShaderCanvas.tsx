@@ -54,7 +54,7 @@ export default function HeroShaderCanvas() {
         cDistance={15.99}
         cameraZoom={1}
         lightType="3d"
-        brightness={1.1}
+        brightness={1.4}
         envPreset="city"
         grain="on"
         zoomOut={false}

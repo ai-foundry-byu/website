@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 
 /**
@@ -21,9 +21,36 @@ import dynamic from "next/dynamic"
  */
 const HeroShaderCanvas = dynamic(() => import("./HeroShaderCanvas"), { ssr: false })
 
+/**
+ * The library maps fov to the camera's VERTICAL field of view, so what the
+ * camera sees horizontally grows with canvas aspect. shadergradient.co
+ * frames the config on a full ~16:10 viewport; a wide short hero band
+ * shows far more horizontal world than the site does, so the finite plane
+ * stops short of the edges ("doesn't stretch across") and its rim creeps
+ * in on wide monitors. Cover-fitting the canvas at the site's reference
+ * aspect and cropping — background-size: cover, but for the shader —
+ * reproduces the site's framing exactly at every hero size.
+ */
+const REF_ASPECT = 16 / 10
+
 export function HeroMotionLayer() {
+  const boxRef = useRef<HTMLDivElement>(null)
+  const [cover, setCover] = useState<{ w: number; h: number } | null>(null)
   const [shader, setShader] = useState(false)
   const [shaderOn, setShaderOn] = useState(false)
+
+  useEffect(() => {
+    const box = boxRef.current
+    if (!box) return
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      if (!width || !height) return
+      const h = Math.max(height, width / REF_ASPECT)
+      setCover({ w: h * REF_ASPECT, h })
+    })
+    ro.observe(box)
+    return () => ro.disconnect()
+  }, [])
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -40,22 +67,28 @@ export function HeroMotionLayer() {
   }, [])
 
   return (
-    <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+    <div
+      ref={boxRef}
+      aria-hidden="true"
+      style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}
+    >
       <div className="ml-field">
         <div className="ml-blob ml-b3" />
         <div className="ml-blob ml-b1" />
         <div className="ml-blob ml-b2" />
       </div>
       <div className="ml-grain" />
-      {shader && (
-        /* Oversized on purpose: at the hero's wide aspect the camera sees
-           past the plane's edge (a hard gray cutoff, bottom right). Bleeding
-           the canvas ~12% each side crops the edge off, same trick as the
-           CSS stand-in's inset -25% field. */
+      {shader && cover && (
+        /* The 16:10 cover frame, centered; the hero shows its middle band.
+           This replaces the old flat -12% bleed. */
         <div
           style={{
             position: "absolute",
-            inset: "-12%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            width: `${cover.w}px`,
+            height: `${cover.h}px`,
             opacity: shaderOn ? 1 : 0,
             transition: "opacity 900ms ease",
           }}
