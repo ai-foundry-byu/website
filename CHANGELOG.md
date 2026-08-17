@@ -6,6 +6,8 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-16
 
+- 18:56 — (corbin-experiments branch) Added PageCurtain, an experimental curtain page-transition (doors/wipe/iris/fade) with preview at /lab/page-curtain (unlinked, noindexed). Rebuilt from scratch after motion.dev's @motion/page-curtain proved Motion+ paywalled (registry 401s without a paid token); this version needs only the `motion` package the site already ships for MotionCta — no new dependencies. Direction-aware wipes, mid-close retargeting, JS-level reduced-motion handling (instant swap), StrictMode-pure state machine. Curtain and demo surfaces use semantic tokens only (navy curtain, flat bands, no gradients). Tension flagged in the component header: it's a client component with state on a site that keeps hydration to tiny leaves — fine as a section widget, but wiring it into real route navigation would break the static prerender model and needs a deliberate decision. Verified on dev (all four effects, lint, tsc, next build all clean).
+
 - 18:46 — (corbin-experiments branch) Added SplashButton, an experimental CTA button whose offset outline ring melts away on hover and splashes back on leave, recreated from a reference screen recording. One CSS variable (--splash-color) drives the whole look; gradient and ring derive via color-mix(). Preview page at /lab/splash-button (unlinked, noindexed) shows it on dark and light ground next to a --byu-navy variant. Known tension flagged in the component header: the default #1f63f4 gradient is off-palette for this site's flat navy/white brand rules — needs a brand decision before any public page uses it.
 
 ## 2026-08-08
