@@ -14,6 +14,12 @@ import { ShaderGradient, ShaderGradientCanvas } from "shadergradient"
  * the initial bundle. The editor/export props from the snippet (axesHelper,
  * gizmoHelper, format, frameRate, destination, embedMode, range*) are not
  * part of the library's render API and are dropped.
+ *
+ * positionX is 0.6, not the snippet's -1.4 (QA, 2026-08-16): at the hero's
+ * wide aspect the snippet value parks the bright field right-of-center and
+ * leaves the left half of the plane near-black, which the scrim then wipes
+ * to blank white — the field read as "running only on the right". 0.6 puts
+ * the white bloom behind the text column with waves reaching both edges.
  */
 export default function HeroShaderCanvas() {
   return (
@@ -32,7 +38,7 @@ export default function HeroShaderCanvas() {
         uDensity={1.3}
         uFrequency={5.5}
         uAmplitude={1}
-        positionX={-1.4}
+        positionX={0.6}
         positionY={0}
         positionZ={0}
         rotationX={0}

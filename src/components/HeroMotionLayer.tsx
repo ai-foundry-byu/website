@@ -48,10 +48,14 @@ export function HeroMotionLayer() {
       </div>
       <div className="ml-grain" />
       {shader && (
+        /* Oversized on purpose: at the hero's wide aspect the camera sees
+           past the plane's edge (a hard gray cutoff, bottom right). Bleeding
+           the canvas ~12% each side crops the edge off, same trick as the
+           CSS stand-in's inset -25% field. */
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            inset: "-12%",
             opacity: shaderOn ? 1 : 0,
             transition: "opacity 900ms ease",
           }}
