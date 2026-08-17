@@ -83,7 +83,7 @@ export default function RootLayout({
           rendered — children cross the boundary as a ReactNode prop. Remove
           this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
       <body className="min-h-full flex flex-col">
-        <CurtainRouteProvider>{children}</CurtainRouteProvider>
+        <CurtainRouteProvider effect="fade">{children}</CurtainRouteProvider>
       </body>
     </html>
   );
