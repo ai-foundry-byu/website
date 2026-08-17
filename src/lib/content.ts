@@ -44,6 +44,8 @@ export const HERO_SUPPORT =
  */
 export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
 
+/** Not currently rendered — removed from the hero by Corbin 2026-08-16;
+ *  kept as the decided support line should it come back. */
 export const HERO_STACK_SUPPORT =
   "MBA and undergraduate builders shipping production AI systems for real clients."
 

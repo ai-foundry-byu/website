@@ -13,7 +13,6 @@ import {
   BUILDERS_LOGOS,
   BUILDERS_STRIP_EYEBROW,
   HERO_STACK,
-  HERO_STACK_SUPPORT,
   HERO_SUPPORT,
   MISSION,
   NAV_CTA,
@@ -69,18 +68,6 @@ function Hero() {
           <br />
           <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
         </h1>
-        <p
-          style={{
-            fontSize: "var(--size-body)",
-            color: "var(--text-meta)",
-            maxWidth: "52ch",
-            margin: "24px 0 0",
-            textWrap: "balance",
-            textShadow: HERO_TEXT_GLOW,
-          }}
-        >
-          {HERO_STACK_SUPPORT}
-        </p>
         <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
           <Button variant="primary" size="lg" href={NAV_CTA.href}>
             {NAV_CTA.label}
