@@ -119,22 +119,9 @@ export default function NetworkPage() {
                   rather than one block, and the accent has a job at the top of
                   each row instead.
 
-              This is the same divided-list component as VALUES on the landing
-              page: a title column wide enough to hold every title on one line,
-              and the blurb in the reading column beside it.
-
-              17rem for the title column is measured, not chosen. The longest
-              title, "Live BYU-sponsored AI events", renders 235px wide at 16px
-              semibold, and the bullet plus its gap adds 18px, so the row needs
-              253px. 17rem is 272px, which clears it by 19px. Anything wider takes
-              the slack out of the blurb column, which needs it more; anything
-              narrower and one of the four titles wraps while the others do not.
-
-              The two columns arrive at md, not sm. At exactly the sm breakpoint
-              the column is 592px wide, which leaves the blurb 288px and pushes
-              the longest blurb to three lines while the other three hold two. Two
-              columns only earn their keep from 768px up, so below that the rows
-              stack and the blurb gets the full measure.
+              Single-line rows per Corbin 2026-08-16 (was a two-column
+              title/blurb grid): "Title – blurb" runs as one sentence per
+              row at 18px, wrapping only when the viewport forces it.
             */}
             {/*
               One spacing ladder governs this band, biggest gap outermost, the
@@ -150,32 +137,25 @@ export default function NetworkPage() {
               between-rows gap and the heading stopped reading as the parent of
               the list. Each step has to beat the one nested inside it.
             */}
-            <ul className="mt-12 border-t border-border-subtle">
+            {/* The list breaks out of the 3xl column (md:-mx-24 = 960px):
+                the longest row is ~104 characters, which needs ~900px at
+                18px to hold a single line. */}
+            <ul className="mt-12 border-t border-border-subtle md:-mx-24">
               {NETWORK_INTERESTS.map((interest) => (
-                <li
-                  key={interest.title}
-                  className="grid gap-x-8 gap-y-1.5 border-b border-border-subtle py-5 md:grid-cols-[minmax(0,17rem)_minmax(0,1fr)]"
-                >
+                <li key={interest.title} className="border-b border-border-subtle py-5">
                   <div className="flex gap-3">
-                    {/* The accent as a fill, never as type. A 6px square of
-                        orange carries no meaning on its own, so it is safe on
-                        any surface, and it is the same bullet the offering
-                        cards use. mt-[0.45rem] centres it on the cap height of
-                        16px text at leading-relaxed. */}
+                    {/* The accent as a fill, never as type — the same bullet
+                        the offering cards use, centred on the cap height of
+                        18px text at leading-relaxed. */}
                     <span
                       aria-hidden
-                      className="ember-bar mt-[0.45rem] h-1.5 w-1.5 shrink-0"
+                      className="ember-bar mt-[0.55rem] h-1.5 w-1.5 shrink-0"
                     />
-                    <p className="text-base font-semibold leading-relaxed text-text-primary">
-                      {interest.title}
+                    <p className="text-lg leading-relaxed text-text-primary">
+                      <span className="font-semibold">{interest.title}</span>
+                      <span className="opacity-80"> – {interest.blurb}</span>
                     </p>
                   </div>
-                  {/* Indented to the title's text, not to the bullet, when the
-                      row stacks on narrow screens. pl-[1.125rem] is the bullet
-                      plus its gap. */}
-                  <p className="pl-[1.125rem] text-base leading-relaxed text-text-primary opacity-80 md:pl-0">
-                    {interest.blurb}
-                  </p>
                 </li>
               ))}
             </ul>

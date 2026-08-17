@@ -6,6 +6,8 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-16
 
+- 23:31 — (corbin-curtain-design-system branch) /network's "What you can opt into" ledger reworked per Corbin: each interest is now ONE line — "Title – blurb" as a single 18px sentence (was a two-column 16px title/blurb grid) — with the list breaking out of the 3xl column to ~960px so the longest row (~104 characters) holds a single line at desktop widths. Rows still wrap gracefully below md.
+
 - 23:20 — (corbin-curtain-design-system branch) All subpages tightened to the landing's rhythm, per Corbin: /quote, /work, /about, /roadmap intros 88→64px, follow gaps 48/56→40, section tails 96→64, mid-sections 72/56→56/40, roadmap phase gap 56→44; /network (still old-style classes) py-16/20→py-12/14 and py-20/24→py-14/16.
 
 - 23:06 — (corbin-curtain-design-system branch) Removed the hero support line ("MBA and undergraduate builders shipping production AI systems for real clients.") per Corbin — the hero is now eyebrow, the cast stack, and the two buttons. The copy stays in content.ts (HERO_STACK_SUPPORT), marked unrendered, in case it returns.
