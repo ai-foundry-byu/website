@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
+import { HeroMotionLayer } from "@/components/HeroMotionLayer"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,17 +37,10 @@ import {
 function Hero() {
   return (
     <section style={{ padding: "112px 24px 96px", position: "relative", overflow: "hidden" }}>
-      {/* The one exception to flat solids: the slow shader-style field.
-          Classes live in globals.css; reduced motion stills the blobs. */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <div className="ml-field">
-          <div className="ml-blob ml-b3" />
-          <div className="ml-blob ml-b1" />
-          <div className="ml-blob ml-b2" />
-        </div>
-        <div className="ml-grain" />
-        <div className="ml-scrim" />
-      </div>
+      {/* The one exception to flat solids: the shader motion field.
+          HeroMotionLayer paints the CSS stand-in instantly, then fades in
+          the real ShaderGradient; reduced motion keeps the still CSS. */}
+      <HeroMotionLayer />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <Eyebrow>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
         <h1
