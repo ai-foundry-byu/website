@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="700x500" name="Display" subtitle="SectionHeader, Card, Stat, Badge, Table, Icon" -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>Babel.registerPreset("react-classic",{presets:[[Babel.availablePresets["react"],{runtime:"classic"}]]});</script>
+<script src="../../ds-fallback-loader.js"></script>
+<style>body{margin:0;padding:18px;background:#fff}</style>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+const {SectionHeader,Card,Stat,Badge,Table,Icon}=NS;
+function Demo(){return <div style={{display:'flex',flexDirection:'column',gap:22}}>
+  <SectionHeader eyebrow="What we build" title="Working software, judged by what ships." lead="Every engagement is scoped in writing." />
+  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,alignItems:'start'}}>
+    <Card title="Full-stack applications" blurb="Net-new web and mobile applications." points={["Customer-facing products","Internal tools"]} />
+    <div style={{display:'flex',flexDirection:'column',gap:16}}>
+      <div style={{display:'flex',gap:28}}><Stat value="30" caption="students" /><Stat value="9" caption="employers on the strip" /></div>
+      <div style={{display:'flex',gap:8,flexWrap:'wrap'}}><Badge>Open source</Badge><Badge tone="accent">Live</Badge><Badge>Healthcare</Badge></div>
+      <div style={{display:'flex',gap:14,color:'var(--navy)',alignItems:'center'}}><Icon name="arrow--right"/><Icon name="arrow--up-right"/><Icon name="close"/><Icon name="checkmark"/><Icon name="launch"/><Icon name="menu"/><Icon name="search"/><Icon name="warning"/><span class="caption" style={{color:'var(--slate)'}}>Carbon, 20px, currentColor</span></div>
+    </div>
+  </div>
+  <Table columns={[{key:'phase',label:'Phase'},{key:'item',label:'Item'},{key:'status',label:'Status',align:'right'}]} rows={[{phase:'1 Foundation',item:'Mission, brand, and website',status:'live'},{phase:'1 Foundation',item:'Advisory board',status:'active'},{phase:'2 Community',item:'Launch party',status:'planned'}]} />
+</div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>

@@ -1,69 +1,43 @@
-import Image from "next/image"
 import Link from "next/link"
-import { NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
+import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * Footer. Navy surface, so every text colour here comes from the
- * on-inverse set. The accent is never used as text on navy: that pair is
- * 2.90:1 and fails. It appears only as the fill in the rule above.
+ * Footer. Port of design_handoff .../navigation/Footer.jsx onto the repo's
+ * nav content. Navy ground, so text runs Plex 300 (the on-dark optical
+ * fix) and soft text is white at 75%. Royal never appears as text here.
+ * The roadmap link stays footer-only; see the note on ROADMAP_LINK.
  */
+const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK]
+
 export function SiteFooter() {
   return (
-    <footer className="surface-iron mt-auto text-text-on-inverse">
-      <div aria-hidden className="ember-bar h-1 w-full" />
-      <div className="mx-auto max-w-6xl px-6 py-14">
-        <div className="flex flex-col gap-10 md:flex-row md:justify-between">
-          <div className="max-w-sm">
-            <Image
-              src="/byu-marriott-ai-foundry-light.png"
-              alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-              width={3305}
-              height={360}
-              className="h-8 w-auto"
-            />
-            <p className="mt-5 max-w-[32rem] text-base leading-relaxed text-text-on-inverse-muted">
-              An experiential learning program where students build production
-              AI systems for real clients.
-            </p>
-          </div>
-
-          <nav aria-label="Footer">
-            <p className="eyebrow text-text-on-inverse-muted">Go to</p>
-            <ul className="mt-3 space-y-2">
-              {NAV.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-base text-text-on-inverse transition-opacity hover:opacity-70"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href={QUOTE_CTA.href}
-                  className="text-base text-text-on-inverse transition-opacity hover:opacity-70"
-                >
-                  {QUOTE_CTA.label}
-                </Link>
-              </li>
-              {/* Footer only, never the top bar. See the note on ROADMAP_LINK. */}
-              <li>
-                <Link
-                  href={ROADMAP_LINK.href}
-                  className="text-base text-text-on-inverse transition-opacity hover:opacity-70"
-                >
-                  {ROADMAP_LINK.label}
-                </Link>
-              </li>
-            </ul>
+    <footer className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <span className="nameplate" style={{ fontSize: "24px" }}>
+            AI FOUNDRY
+          </span>
+          <nav aria-label="Footer" className="flex flex-wrap gap-6">
+            {FOOTER_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="no-underline"
+                style={{ fontFamily: "var(--font-body)", fontWeight: 300, fontSize: "var(--size-ui)", color: "var(--text-on-dark-soft)" }}
+              >
+                {l.label}
+              </Link>
+            ))}
           </nav>
         </div>
-
-        <p className="mt-12 border-t border-border-on-inverse pt-6 text-sm leading-relaxed text-text-on-inverse-muted">
-          © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
-        </p>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "32px", paddingTop: "20px" }}>
+          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: 0 }}>
+            {HERO_SUPPORT}
+          </p>
+          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: "6px 0 0" }}>
+            © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
+          </p>
+        </div>
       </div>
     </footer>
   )

@@ -1,0 +1,138 @@
+/* AI Foundry type system. Source of truth: the design-system prompt md.
+   Three families, no others. Archivo (variable, width axis) is display only,
+   above 24px. IBM Plex Sans is body/UI, 24px and below. IBM Plex Mono is code.
+   Width stops: 125 Cast, 100 Plate, 62 Rail. Nothing in between.
+   Weight split: Plex never above 600. Archivo never below 600. */
+:root {
+  --font-display: 'Archivo', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --w-cast: 125%;
+  --w-plate: 100%;
+  --w-rail: 62%;
+
+  --size-hero: 64px;
+  --size-h1: 40px;
+  --size-h2: 30px;
+  --size-h3: 20px;
+  --size-h4: 17px;
+  --size-body: 17px;
+  --size-ui: 14px;
+  --size-caption: 13px;
+  --size-eyebrow: 12px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-primary);
+  background: var(--surface-page);
+  margin: 0;
+}
+
+a { color: var(--royal); }
+a:hover { color: var(--navy); }
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: var(--w-rail);
+  font-size: var(--size-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  line-height: 1.2;
+}
+
+.hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  font-size: var(--size-hero);
+  letter-spacing: -0.01em;
+  line-height: 1.0;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-plate);
+  font-size: var(--size-h1);
+  letter-spacing: -0.005em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-plate);
+  font-size: var(--size-h2);
+  line-height: 1.15;
+  margin: 0;
+}
+
+h3, .h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--size-h3);
+  line-height: 1.3;
+  margin: 0;
+}
+
+h4, .h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--size-h4);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--size-caption);
+  line-height: 1.4;
+}
+
+.stat {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+}
+
+/* Optical fix on any dark ground: light text gains weight, so body drops. */
+.on-dark {
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+table {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--size-ui);
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The wordmark treatment (signature device: stamped nameplate).
+   Never recreate the BYU Marriott co-branded lockup — it ships locked. */
+.nameplate {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 1.0;
+}

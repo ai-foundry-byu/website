@@ -1,0 +1,109 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Quote form page" subtitle="Request a proposal — 8 fields, validation, confirmation" --><!-- @startingPoint section="Website" subtitle="Quote form — request a proposal" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a proposal — AI Foundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>Babel.registerPreset("react-classic",{presets:[[Babel.availablePresets["react"],{runtime:"classic"}]]});</script>
+<script src="../../ds-fallback-loader.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+const {Button,Input,Textarea,Select,NavBar,Footer,Eyebrow,EmptyState}=NS;
+
+const STEPS=[
+ {n:"1",title:"You send the short form",detail:"Eight fields. Two minutes."},
+ {n:"2",title:"We follow up",detail:"A conversation, plus a longer intake survey covering process, users, data, platform, and compliance."},
+ {n:"3",title:"You get a written scope",detail:"Deliverables, cost, and schedule, in writing."}
+];
+
+function QuoteForm(){
+ const [errors,setErrors]=React.useState({});
+ const [sending,setSending]=React.useState(false);
+ const [sent,setSent]=React.useState(false);
+ const submit=(e)=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const req={first:"First name",last:"Last name",email:"Email",phone:"Phone number",company:"Company",brief:"This field"};
+  const errs={};
+  for(const k in req){ if(!String(f.get(k)||"").trim()) errs[k]=req[k]+" is required."; }
+  setErrors(errs);
+  if(Object.keys(errs).length) return;
+  setSending(true);
+  setTimeout(()=>{setSending(false);setSent(true);},900);
+ };
+ if(sent) return (
+  <EmptyState eyebrow="Request received" title="We will follow up within a few days." detail="A conversation first, then a written scope of work with cost and schedule.">
+   <div style={{marginTop:"8px"}}><Button variant="secondary" href="index.html" onClick={()=>setSent(false)}>Back to the form</Button></div>
+  </EmptyState>
+ );
+ return (
+  <form onSubmit={submit} noValidate style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"20px"}}>
+   <Input label="First name" name="first" required error={errors.first}/>
+   <Input label="Last name" name="last" required error={errors.last}/>
+   <Input label="Email" name="email" type="email" required error={errors.email}/>
+   <Input label="Phone number" name="phone" type="tel" required error={errors.phone}/>
+   <Input label="Company" name="company" required error={errors.company}/>
+   <Input label="Website" name="website" type="url"/>
+   <div style={{gridColumn:"1 / -1"}}>
+    <Textarea label="What do you want built" name="brief" required rows={5} error={errors.brief} hint="A few sentences is plenty. If you are not sure yet, say so, that is a normal place to start."/>
+   </div>
+   <div style={{gridColumn:"1 / -1"}}>
+    <Select label="When do you need it" name="timeline" options={["As soon as possible","Within a semester","Within the year","Exploring, no date yet"]} placeholder="Choose one"/>
+   </div>
+   <div style={{gridColumn:"1 / -1",display:"flex",alignItems:"center",gap:"14px",marginTop:"6px"}}>
+    <Button variant="primary" size="lg" type="submit" loading={sending}>{sending?"Sending":"Request a proposal"}</Button>
+    <span className="caption" style={{color:"var(--text-meta)"}}>(Approximately two minutes)</span>
+   </div>
+  </form>
+ );
+}
+
+function Page(){
+ return <div>
+  <NavBar sticky links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"}]} ctaLabel="Work with us" ctaHref="#form"/>
+  <section data-screen-label="Quote intro" style={{padding:"88px 24px 0"}}>
+   <div style={{maxWidth:"760px",margin:"0 auto"}}>
+    <Eyebrow>Request a proposal</Eyebrow>
+    <h1 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"var(--size-h1)",lineHeight:1.05,letterSpacing:"-0.005em",margin:"14px 0 0",color:"var(--navy)"}}>Tell us what you want built.</h1>
+    <p style={{fontSize:"var(--size-body)",lineHeight:1.55,color:"var(--text-meta)",maxWidth:"56ch",margin:"16px 0 0"}}>We come back with a scope of work, a cost estimate, and a delivery timeline. All information is treated as confidential.</p>
+   </div>
+  </section>
+  <section id="form" data-screen-label="Quote form" style={{padding:"48px 24px 96px"}}>
+   <div style={{maxWidth:"760px",margin:"0 auto"}}><QuoteForm/></div>
+  </section>
+  <section data-screen-label="What happens next" style={{borderTop:"1px solid var(--border-hairline)",padding:"72px 24px 96px"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto"}}>
+    <div style={{textAlign:"center",marginBottom:"36px"}}><Eyebrow>What happens next</Eyebrow></div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:"32px"}}>
+     {STEPS.map(s=>(
+      <div key={s.n} style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+       <span style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-cast)",fontSize:"40px",lineHeight:1,letterSpacing:"-0.02em",color:"var(--royal)"}}>{s.n}</span>
+       <h3 style={{fontFamily:"var(--font-body)",fontWeight:600,fontSize:"18px",margin:0}}>{s.title}</h3>
+       <p style={{fontFamily:"var(--font-body)",fontSize:"14px",lineHeight:1.55,color:"var(--text-primary)",margin:0,maxWidth:"40ch"}}>{s.detail}</p>
+      </div>
+     ))}
+    </div>
+   </div>
+  </section>
+  <Footer links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"},{label:"Roadmap",href:"../roadmap/index.html"}]}/>
+ </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="About page" subtitle="Faculty, the team with real headshots, culture principles" --><!-- @startingPoint section="Website" subtitle="About — team and culture" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About us — AI Foundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../ds-fallback-loader.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+
+const {NavBar,Footer,Eyebrow,TeamCard,ValueRow}=NS;
+const T=(n,r,p)=>({name:n,role:r,photo:"../../assets/team/"+p+".jpg"});
+const TEAM=[
+ T("JD Davenport","Managing Director","jd-davenport"),T("Rachel Moulton","Chief of Staff","rachel-moulton"),T("Corbin Sterling","Director of Marketing","corbin-sterling"),T("Alex Sisk","External Deals","alex-sisk"),T("Abe Bedard","SMBs","abe-bedard"),T("Felix Vivanco Salazar","Alumni Relations","felix-vivanco-salazar"),T("Tulga Ganbat","Product Evaluation and QC","tulga-ganbat"),T("Dawson Broadbent","MISM","dawson-broadbent"),T("Jake Healey","AI Tooling","jake-healey"),T("Sylvan Scott","Thought Leadership","sylvan-scott"),T("Chase Clement","Finance","chase-clement"),T("John Passey","UX and UI Design","john-passey"),T("Tyler Doman","Education and Training","tyler-doman"),T("Enoch Councill","Ambassador, Cougar Capital","enoch-councill"),T("Jorge Beltran","Ambassador, Savage","jorge-beltran"),T("Brandon Jeppson","BYU Products","brandon-jeppson"),T("Sophia Strong","Undergraduate","sophia-strong"),T("Nathan McCauley","Undergraduate","nate-mccauley"),T("Ella Moore","Undergraduate","ella-moore"),T("Calvin Nickerson","Undergraduate","calvin-nickerson"),T("Jordan Faust","Undergraduate","jordan-faust"),T("Carter King","Undergraduate","carter-king"),T("Tate Stevens","Undergraduate","tate-stevens"),T("Kainoa Shintaku","Undergraduate","kainoa-shintaku"),T("Andrew Bedell","Undergraduate","andrew-bedell")
+];
+const PRINCIPLES=[
+ {t:"Client results first",b:"We put the client's interest ahead of our own and measure ourselves by whether their performance actually improves.",c:"After McKinsey"},
+ {t:"Radical truthfulness",b:"We say what is true, especially when it is uncomfortable, and we carry an obligation to dissent when we disagree.",c:"After Bridgewater and McKinsey"},
+ {t:"Ownership",b:"We act on behalf of the whole program, never say that is not my job, and keep a bias for action.",c:"After Amazon"},
+ {t:"The highest standards",b:"We hold standards others may find unreasonably high, and we keep raising them. Work counts when it ships and works.",c:"After Amazon and McKinsey"},
+ {t:"Learn relentlessly",b:"We stay curious, dive deep, and treat mistakes as tuition for the lessons they carry.",c:"After Amazon and Bridgewater"},
+ {t:"Meaningful work, meaningful relationships",b:"We pursue excellence together and care about the people we do it with.",c:"After Bridgewater"},
+ {t:"Christlike character",b:"Faith, hope, charity, virtue, knowledge, patience, humility, and diligence govern how we treat every client, teammate, and competitor.",c:"After Preach My Gospel"},
+ {t:"Ask for feedback",b:"Everyone here is empowered to give feedback, and the stronger habit is asking for it. The norm at the Foundry is to ask first.",c:"Ours"},
+ {t:"The red face test",b:"When the right course is ambiguous, ask: could I explain this decision to a leader I respect without going red in the face? If not, do not do it.",c:"Ours"}
+];
+function Page(){
+ return <div>
+  <NavBar sticky links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"}]} ctaLabel="Work with us" ctaHref="../quote/index.html"/>
+  <section data-screen-label="About intro" style={{padding:"88px 24px 56px"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto"}}>
+    <Eyebrow>About us</Eyebrow>
+    <h1 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"var(--size-h1)",lineHeight:1.05,letterSpacing:"-0.005em",margin:"14px 0 0",color:"var(--navy)"}}>The people who build.</h1>
+    <p style={{fontSize:"var(--size-body)",lineHeight:1.55,color:"var(--text-meta)",maxWidth:"60ch",margin:"16px 0 0"}}>30 students from a range of disciplines and backgrounds, working in velocity pods matched to the expertise your project needs.</p>
+   </div>
+  </section>
+  <section data-screen-label="Faculty" style={{padding:"0 24px 56px"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto",border:"1px solid var(--border-hairline)",padding:"28px",display:"flex",gap:"24px",alignItems:"center",flexWrap:"wrap",borderRadius:"var(--radius)"}}>
+    <div style={{flex:"1 1 380px"}}>
+     <Eyebrow tone="meta">Faculty advisor</Eyebrow>
+     <h3 style={{fontFamily:"var(--font-body)",fontWeight:600,fontSize:"var(--size-h3)",margin:"8px 0 4px"}}>Scott Murff</h3>
+     <p style={{fontFamily:"var(--font-body)",fontSize:"15px",lineHeight:1.55,margin:0,maxWidth:"66ch"}}>Associate Teaching Professor of Strategy at the BYU Marriott School of Business, and former consultant at McKinsey &amp; Company.</p>
+    </div>
+   </div>
+  </section>
+  <section data-screen-label="Team grid" style={{padding:"0 24px 96px"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto"}}>
+    <div style={{marginBottom:"20px"}}><Eyebrow>The builders</Eyebrow></div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"16px"}}>
+     {TEAM.map(m=><TeamCard key={m.name} {...m}/>)}
+    </div>
+   </div>
+  </section>
+  <section data-screen-label="Culture" style={{borderTop:"1px solid var(--border-hairline)",padding:"72px 24px 96px"}}>
+   <div style={{maxWidth:"760px",margin:"0 auto"}}>
+    <div style={{textAlign:"center",marginBottom:"14px"}}><Eyebrow>Our culture</Eyebrow></div>
+    <p style={{fontSize:"var(--size-body)",lineHeight:1.55,color:"var(--text-primary)",textAlign:"center",margin:"0 0 8px"}}>AI Foundry is a program of the BYU Marriott School of Business and completely aligned to its mission, vision, and values.</p>
+    <p className="caption" style={{color:"var(--text-meta)",textAlign:"center",margin:"0 0 32px"}}>In the spirit of Brigham Young's admonition to gather up all the good and true principles wherever they are found, these operating principles are gathered from organizations we study and admire. Credit is noted where it is owed.</p>
+    <div style={{borderBottom:"1px solid var(--border-strong)"}}>
+     {PRINCIPLES.map(p=><ValueRow key={p.t} name={p.t} body={p.b+" ("+p.c+")"}/>)}
+    </div>
+   </div>
+  </section>
+  <Footer links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"},{label:"Roadmap",href:"../roadmap/index.html"}]}/>
+ </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>
+</body>
+</html>

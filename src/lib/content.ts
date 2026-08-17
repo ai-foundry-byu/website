@@ -35,6 +35,18 @@ export const HERO_STATEMENT = "An AI-native product studio and consultancy."
 export const HERO_SUPPORT =
   "An experiential learning program of the " + SCHOOL_FULL + "."
 
+/**
+ * The 2026-08 redesign hero (design_handoff_ai_foundry_website, direction 4b).
+ * A three-line cast-125 stack with the last line in royal, over one support
+ * sentence. HERO_SUPPORT becomes the eyebrow above the stack, so the naming
+ * rule still holds; HERO_STATEMENT no longer renders on the landing page but
+ * stays the decided one-line description used elsewhere.
+ */
+export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
+
+export const HERO_STACK_SUPPORT =
+  "MBA and undergraduate builders shipping production AI systems for real clients."
+
 /* ────────────────────────────────────────────────────────────
    Mission, vision, values. VERBATIM. Do not edit without Brandon.
    ──────────────────────────────────────────────────────────── */
@@ -125,8 +137,34 @@ export const ERA_NARRATIVE =
  */
 export const BUILDERS_EYEBROW = "The builders"
 
+/**
+ * The employer list as data, because the redesign renders it as an
+ * auto-scrolling text strip (NameCarousel) as well as a sentence. Names as
+ * text, never logos, per the rules above. BUILDERS_HEADLINE is derived so
+ * the sentence and the strip can never drift apart.
+ */
+export const BUILDERS_NAMES = [
+  "Google",
+  "Deloitte",
+  "National Grid",
+  "Ford",
+  "BambooHR",
+  "Leland",
+  "Cicero",
+  "Redo",
+  "Yatta Golf",
+]
+
+/** The strip's leading label. Reads as the start of the headline sentence. */
+export const BUILDERS_STRIP_EYEBROW = "Our builders have shipped at"
+
 export const BUILDERS_HEADLINE =
-  "Our builders have shipped at Google, Deloitte, National Grid, Ford, BambooHR, Leland, Cicero, Redo, and Yatta Golf."
+  BUILDERS_STRIP_EYEBROW +
+  " " +
+  BUILDERS_NAMES.slice(0, -1).join(", ") +
+  ", and " +
+  BUILDERS_NAMES[BUILDERS_NAMES.length - 1] +
+  "."
 
 /* ────────────────────────────────────────────────────────────
    Showcase: reference builds
@@ -276,6 +314,10 @@ export const PARTNER_DETAIL =
 
 export const BUILD_HEADING = "What we build"
 
+/** Under the BUILD_HEADING compression pair, from the redesign. */
+export const BUILD_LEAD =
+  "Every engagement combines what your project needs. You get a written scope, a cost estimate, and a delivery timeline."
+
 /**
  * The three things we sell.
  *
@@ -326,6 +368,22 @@ export const QUOTE_CTA_NOTE = "(Approximately two minutes)"
 
 export const QUOTE_LEAD =
   "Tell us what you want built. We come back with a scope of work, a cost estimate, and a delivery timeline. All information is treated as confidential."
+
+/**
+ * The redesign splits QUOTE_LEAD into a headline sentence and the rest, on
+ * both the landing CTA band and the /quote intro. Derived, not retyped, so
+ * an edit to QUOTE_LEAD flows through.
+ */
+export const QUOTE_HEADLINE = QUOTE_LEAD.slice(0, QUOTE_LEAD.indexOf(". ") + 1)
+
+export const QUOTE_FOLLOW = QUOTE_LEAD.slice(QUOTE_LEAD.indexOf(". ") + 2)
+
+/** The confirmation state after a successful submission, from the redesign. */
+export const QUOTE_CONFIRM = {
+  eyebrow: "Request received",
+  title: "We will follow up within a few days.",
+  detail: "A conversation first, then a written scope of work with cost and schedule.",
+}
 
 /**
  * The eight fields that go on the page.
@@ -451,6 +509,11 @@ export const NETWORK_INTERESTS: Interest[] = [
    Roster and headshots carried from the previous site. Roles are as
    recorded there and are pending Brandon's confirmation.
    ──────────────────────────────────────────────────────────── */
+
+/** The /about page opener, from the redesign. BUILDERS_DETAIL is its lead. */
+export const ABOUT_EYEBROW = "About us"
+
+export const ABOUT_HEADING = "The people who build."
 
 export type Member = {
   name: string

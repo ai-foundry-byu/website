@@ -65,7 +65,12 @@ function parseTokens(css) {
   const out = {}
   for (const key of Object.keys(raw)) {
     const v = resolve(raw[key])
-    if (/^#[0-9a-f]{3,8}$/i.test(v)) out[key.replace(/^--/, "")] = v
+    // Hex, or rgba(...) — the soft-on-dark text tokens are white at an
+    // alpha, which only has a contrast ratio once composited over the
+    // paired surface. check() does that compositing.
+    if (/^#[0-9a-f]{3,8}$/i.test(v) || /^rgba?\([^)]+\)$/i.test(v)) {
+      out[key.replace(/^--/, "")] = v
+    }
   }
   return out
 }
@@ -74,6 +79,21 @@ function toRgb(hex) {
   let h = hex.replace("#", "")
   if (h.length === 3) h = h.split("").map((c) => c + c).join("")
   return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16))
+}
+
+/**
+ * An alpha color has no contrast ratio of its own; composite it over the
+ * surface it is paired with first. Returns a hex string either way.
+ */
+function flatten(color, bgHex) {
+  const m = color.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,\s*([\d.]+)\s*)?\)$/i)
+  if (!m) return color
+  const a = m[4] === undefined ? 1 : Number(m[4])
+  const bg = toRgb(bgHex)
+  const ch = [Number(m[1]), Number(m[2]), Number(m[3])].map((c, i) =>
+    Math.round(c * a + bg[i] * (1 - a))
+  )
+  return "#" + ch.map((c) => c.toString(16).padStart(2, "0")).join("")
 }
 
 function luminance(hex) {
@@ -95,12 +115,13 @@ const failures = []
 const lines = []
 
 function check(fgName, bgName, threshold, label, expectFail = false) {
-  const fg = tokens[fgName]
+  let fg = tokens[fgName]
   const bg = tokens[bgName]
   if (!fg || !bg) {
     failures.push(`missing token: ${!fg ? fgName : bgName}`)
     return
   }
+  fg = flatten(fg, bg)
   const r = ratio(fg, bg)
   const passes = r >= threshold
   const ok = expectFail ? !passes : passes

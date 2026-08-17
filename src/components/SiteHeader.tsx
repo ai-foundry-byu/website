@@ -1,94 +1,101 @@
-import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
-import { MotionCta } from "@/components/MotionCta"
-import { NAV, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
+import { Button } from "@/components/ds/Button"
+import { NAV, NAV_CTA } from "@/lib/content"
 
 /**
- * Top bar. Navy, so it reads as one surface with the hero below it. Two tabs,
- * Join the network and About us. Click either and it takes you straight there.
+ * Top bar: stamped nameplate left, links + one action right. Port of
+ * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * Still a server component. The mobile menu is a native <details>, so the
- * disclosure needs no script.
+ * The "× BYU MARRIOTT" tag is a TEXT PLACEHOLDER — the real co-branded
+ * lockup ships as a locked file from BYU Marriott Marketing and must never
+ * be recreated or approximated. Swap the placeholder for the file when
+ * marketing provides it.
  *
- * corbin-curtain-site preview: nav links render through CurtainNavLink (a
- * client leaf wrapping next/link) so route changes run behind the curtain —
- * see CurtainRoute.tsx. The /#quote CTA is deliberately not curtained.
+ * Nav links render through CurtainNavLink (the corbin-curtain-site
+ * experiment) so route changes run behind the curtain. The CTA is
+ * deliberately not curtained: it targets the /#quote anchor.
  *
- * The Get a quote button is the exception: it is a MotionCta, which is a client
- * component, so that one leaf hydrates. It used to be true that this header
- * shipped no JavaScript of its own and that is no longer the case.
- *
- * The mark is the BYU Marriott + AI Foundry wordmark carried over from the
- * original site, in its light reversal for dark surfaces. BYU's rule is that
- * marks appear in navy or white only, so the white treatment is the
- * sanctioned one here.
+ * The handoff bar is desktop-only; the mobile disclosure below is the
+ * repo's own, styled to the system (Plex 500 UI labels, hairline panel).
  */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 bg-surface-inverse">
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
-        <CurtainNavLink href="/" className="flex items-center">
-          <Image
-            src="/byu-marriott-ai-foundry-light.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
-            height={360}
-            priority
-            className="h-6 w-auto md:h-9"
-          />
+    <header
+      className="sticky top-0 z-50"
+      style={{ background: "#fff", borderBottom: "1px solid var(--border-hairline)" }}
+    >
+      <div
+        className="mx-auto flex items-center justify-between gap-6"
+        style={{ maxWidth: "var(--container)", padding: "0 var(--container-pad)", height: "72px" }}
+      >
+        <CurtainNavLink
+          href="/"
+          className="flex items-baseline gap-2.5 whitespace-nowrap no-underline"
+          style={{ color: "var(--navy)" }}
+        >
+          <span className="nameplate" style={{ fontSize: "20px" }}>
+            AI FOUNDRY
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 600,
+              fontStretch: "100%",
+              fontSize: "11px",
+              letterSpacing: "0.02em",
+              color: "var(--text-meta)",
+            }}
+          >
+            × BYU MARRIOTT
+          </span>
         </CurtainNavLink>
 
         {/* desktop nav */}
-        <nav aria-label="Main" className="hidden md:block">
-          <ul className="flex items-center gap-2">
-            {NAV.map((link) => (
-              <li key={link.href}>
-                <CurtainNavLink
-                  href={link.href}
-                  className="block px-4 py-2 text-base font-semibold text-text-on-inverse transition-opacity hover:opacity-70"
-                >
-                  {link.label}
-                </CurtainNavLink>
-              </li>
-            ))}
-            <li className="ml-3">
-              <MotionCta
-                href={NAV_CTA.href}
-                className="btn-ember px-6 py-2.5 text-base"
-              >
-                {NAV_CTA.label}
-              </MotionCta>
-            </li>
-          </ul>
+        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+          {NAV.map((link) => (
+            <CurtainNavLink
+              key={link.href}
+              href={link.href}
+              className="whitespace-nowrap no-underline"
+              style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+            >
+              {link.label}
+            </CurtainNavLink>
+          ))}
+          <Button variant="primary" href={NAV_CTA.href}>
+            {NAV_CTA.label}
+          </Button>
         </nav>
 
         {/* mobile nav: native disclosure, no script */}
         <details className="relative md:hidden">
-          <summary className="cursor-pointer list-none px-2 py-2 text-base font-semibold text-text-on-inverse [&::-webkit-details-marker]:hidden">
+          <summary
+            className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
+            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+          >
             Menu
           </summary>
           <nav
             aria-label="Main"
-            className="absolute right-0 top-full z-50 mt-2 w-56 border border-border-on-inverse bg-surface-inverse-deep py-2 shadow-lg"
+            className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
+            style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)" }}
           >
             <ul>
               {NAV.map((link) => (
                 <li key={link.href}>
                   <CurtainNavLink
                     href={link.href}
-                    className="block px-4 py-3 text-base font-semibold text-text-on-inverse transition-colors hover:bg-surface-inverse-soft"
+                    className="block px-4 py-3 no-underline"
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
                   >
                     {link.label}
                   </CurtainNavLink>
                 </li>
               ))}
               <li className="px-4 pb-2 pt-3">
-                <MotionCta
-                  href={NAV_CTA.href}
-                  className="btn-ember w-full px-4 py-2.5 text-base"
-                >
+                <Button variant="primary" href={NAV_CTA.href} style={{ width: "100%" }}>
                   {NAV_CTA.label}
-                </MotionCta>
+                </Button>
               </li>
             </ul>
           </nav>

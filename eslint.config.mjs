@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Design reference material, not shipped code. The .jsx files in it are
+    // the handoff prototypes the src/components/ds ports were made from.
+    "design_handoff_ai_foundry_website/**",
   ]),
 ]);
 

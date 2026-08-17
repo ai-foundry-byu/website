@@ -1,0 +1,54 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Our work page" subtitle="Reference builds with real product screenshots" --><!-- @startingPoint section="Website" subtitle="Our work — reference builds" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our work — AI Foundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../ds-fallback-loader.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+
+const {NavBar,Footer,Eyebrow,ShowcaseCard}=NS;
+const SHOWCASE=[
+ {name:"App Feedback Loop",blurb:"Open-source build spec for an AI-native feedback widget: one click captures a screenshot and the machine context around it, Claude Code fixes with that context loaded, and the fix commit closes the loop back to the reporter. Built into every app we ship.",tags:["Open source","AI-native dev"],links:[{href:"https://github.com/ai-foundry-byu/app-feedback-loop",label:"GitHub"}],image:"../../assets/showcase/app-feedback-loop.jpg"},
+ {name:"CareBridge Connect",blurb:"An AI-native administration system for skilled nursing and acute care. It turns the notes staff already write in the EHR into plain-language updates for approved family members: changes of condition, appointments, events. HIPAA-compliant architecture throughout, with role-based access, encryption, and audit logging on every PHI access. Onboarding its first five facilities, each over 100 residents.",tags:["Web","Healthcare"],links:[{href:"https://carebridgeconnect.ai",label:"carebridgeconnect.ai"}],image:"../../assets/showcase/carebridge-connect.jpg"},
+ {name:"French 80/20",blurb:"An AI-native French learning app for web and iPhone, built around the words you actually use and a measured climb to 80% of everyday French.",tags:["Web","iOS app"],links:[{href:"https://french8020.com",label:"french8020.com"}],image:"../../assets/showcase/french8020.jpg"},
+ {name:"LawGrader / WriteGrader",blurb:"Agentic grading for legal and academic writing. It drafts the scores and the margin comments; the instructor keeps the final say on every grade.",tags:["Web","AI grading"],links:[{href:"https://lawgrader.ai",label:"lawgrader.ai"},{href:"https://new.writegrader.com",label:"new.writegrader.com"}],image:"../../assets/showcase/lawgrader.jpg"}
+];
+function Page(){
+ return <div>
+  <NavBar sticky links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"}]} ctaLabel="Work with us" ctaHref="../quote/index.html"/>
+  <section data-screen-label="Work intro" style={{padding:"88px 24px 0"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto"}}>
+    <Eyebrow>Reference builds</Eyebrow>
+    <h1 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"var(--size-h1)",lineHeight:1.05,letterSpacing:"-0.005em",margin:"14px 0 0",color:"var(--navy)"}}>Built here. Running now.</h1>
+    <p style={{fontSize:"var(--size-body)",lineHeight:1.55,color:"var(--text-meta)",maxWidth:"56ch",margin:"16px 0 0"}}>Every entry is a real product, shipped and running, built by the people on the About page.</p>
+   </div>
+  </section>
+  <section data-screen-label="Showcase grid" style={{padding:"48px 24px 96px"}}>
+   <div style={{maxWidth:"var(--container)",margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(420px, 1fr))",gap:"20px",alignItems:"stretch"}}>
+    {SHOWCASE.map(s=><ShowcaseCard key={s.name} {...s}/>)}
+   </div>
+  </section>
+  <Footer links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"},{label:"Roadmap",href:"../roadmap/index.html"}]}/>
+ </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>
+</body>
+</html>
