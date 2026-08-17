@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { QuoteForm } from "@/components/QuoteForm"
 import { Eyebrow } from "@/components/ds/Eyebrow"
-import { QUOTE_CTA, QUOTE_FOLLOW, QUOTE_HEADLINE, QUOTE_STEPS, SCHOOL_FULL } from "@/lib/content"
+import { QUOTE_FOLLOW, QUOTE_HEADLINE, QUOTE_STEPS, SCHOOL_FULL } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Request a proposal",
@@ -26,7 +26,9 @@ export default function QuotePage() {
       <main>
         <section style={{ padding: "88px 24px 0" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-            <Eyebrow>{QUOTE_CTA.label}</Eyebrow>
+            {/* The page eyebrow keeps naming the action; only BUTTONS
+                changed to "Work with us" (Corbin, 2026-08-16). */}
+            <Eyebrow>Request a proposal</Eyebrow>
             <h1
               style={{
                 fontFamily: "var(--font-display)",

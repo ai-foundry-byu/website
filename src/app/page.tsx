@@ -10,7 +10,7 @@ import { ValueRow } from "@/components/ds/ValueRow"
 import {
   BUILD_HEADING,
   BUILD_LEAD,
-  BUILDERS_NAMES,
+  BUILDERS_LOGOS,
   BUILDERS_STRIP_EYEBROW,
   HERO_STACK,
   HERO_STACK_SUPPORT,
@@ -19,8 +19,6 @@ import {
   NAV_CTA,
   OFFERINGS,
   QUOTE_CTA,
-  QUOTE_CTA_NOTE,
-  QUOTE_FOLLOW,
   QUOTE_HEADLINE,
   VALUES,
   VISION,
@@ -34,9 +32,12 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
+/* Vertical rhythm tightened site-hero through CTA band per Corbin
+   2026-08-16: the kit's 96px+ section paddings read too airy — bands now
+   run 64px, the hero 80/64. */
 function Hero() {
   return (
-    <section style={{ padding: "112px 24px 96px", position: "relative", overflow: "hidden" }}>
+    <section style={{ padding: "80px 24px 64px", position: "relative", overflow: "hidden" }}>
       {/* The one exception to flat solids: the shader motion field.
           HeroMotionLayer paints the CSS stand-in instantly, then fades in
           the real ShaderGradient; reduced motion keeps the still CSS. */}
@@ -90,8 +91,8 @@ function MissionVision() {
     </div>
   )
   return (
-    <section style={{ padding: "96px 24px", borderTop: "1px solid var(--border-hairline)" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "72px" }}>
+    <section style={{ padding: "64px 24px", borderTop: "1px solid var(--border-hairline)" }}>
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "48px" }}>
         {block("Mission", MISSION)}
         {block("Vision", VISION)}
       </div>
@@ -101,7 +102,7 @@ function MissionVision() {
 
 function Values() {
   return (
-    <section style={{ padding: "0 24px 96px" }}>
+    <section style={{ padding: "0 24px 64px" }}>
       <div style={{ maxWidth: "760px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "28px" }}>
           <Eyebrow>Values</Eyebrow>
@@ -118,8 +119,8 @@ function Values() {
 
 function Build() {
   return (
-    <section id="quote" style={{ padding: "96px 24px", borderTop: "1px solid var(--border-hairline)" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "40px" }}>
+    <section id="quote" style={{ padding: "64px 24px", borderTop: "1px solid var(--border-hairline)" }}>
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "36px" }}>
         <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", alignItems: "stretch" }}>
           {OFFERINGS.map((o) => (
@@ -131,9 +132,11 @@ function Build() {
   )
 }
 
+/* Headline and button only, per Corbin 2026-08-16 — the supporting
+   sentence and the two-minute note moved off; /quote still carries both. */
 function QuoteBand() {
   return (
-    <section style={{ background: "var(--surface-inverse)", padding: "96px 24px" }}>
+    <section style={{ background: "var(--surface-inverse)", padding: "64px 24px" }}>
       <div
         style={{
           maxWidth: "var(--container)",
@@ -141,7 +144,7 @@ function QuoteBand() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "18px",
+          gap: "24px",
           textAlign: "center",
         }}
       >
@@ -158,17 +161,9 @@ function QuoteBand() {
         >
           {QUOTE_HEADLINE}
         </h2>
-        <p className="on-dark" style={{ fontSize: "var(--size-body)", color: "var(--text-on-dark-soft)", maxWidth: "56ch", margin: 0 }}>
-          {QUOTE_FOLLOW}
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", marginTop: "14px" }}>
-          <Button variant="inverse" size="lg" href={QUOTE_CTA.href}>
-            {QUOTE_CTA.label}
-          </Button>
-          <span className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300 }}>
-            {QUOTE_CTA_NOTE}
-          </span>
-        </div>
+        <Button variant="inverse" size="lg" href={QUOTE_CTA.href}>
+          {QUOTE_CTA.label}
+        </Button>
       </div>
     </section>
   )
@@ -180,7 +175,7 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
-        <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} names={BUILDERS_NAMES} />
+        <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} />
         <MissionVision />
         <Values />
         <Build />

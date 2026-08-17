@@ -27,11 +27,16 @@ export function HeroMotionLayer() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    setShader(true)
-    // Fade the canvas in a beat after mount, giving the WebGL context and
-    // shader compile a moment so the reveal is a fade, not a pop.
+    // Both flips ride timeouts: mounting on the next tick keeps setState
+    // out of the effect body (react-hooks/set-state-in-effect), and the
+    // fade lands a beat later so the WebGL context and shader compile
+    // have a moment — a fade, not a pop.
+    const mount = setTimeout(() => setShader(true), 0)
     const fade = setTimeout(() => setShaderOn(true), 700)
-    return () => clearTimeout(fade)
+    return () => {
+      clearTimeout(mount)
+      clearTimeout(fade)
+    }
   }, [])
 
   return (

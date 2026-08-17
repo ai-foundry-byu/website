@@ -158,6 +158,32 @@ export const BUILDERS_NAMES = [
 /** The strip's leading label. Reads as the start of the headline sentence. */
 export const BUILDERS_STRIP_EYEBROW = "Our builders have shipped at"
 
+/**
+ * OVERRIDE OF THE NO-LOGOS RULE, by Corbin (Director of Marketing),
+ * 2026-08-16: the shipped-at strip renders company logos. The rule above
+ * ("No logos, ever — a logo reads as endorsement") still stands as the
+ * recorded team position; this is a deliberate exception pending team
+ * review, kept one change away from reverting (render BUILDERS_NAMES as
+ * text again by dropping the logo fields).
+ *
+ * Files in public/logos/, sourced 2026-08-16 from Wikimedia Commons or
+ * the company's own live site assets — current official wordmarks, all
+ * validated (no scripts, no external refs). Leland and Redo use
+ * currentColor and render black in an <img>; the strip grayscales
+ * everything anyway. Same order as BUILDERS_NAMES.
+ */
+export const BUILDERS_LOGOS: { name: string; logo?: string }[] = [
+  { name: "Google", logo: "/logos/google.svg" },
+  { name: "Deloitte", logo: "/logos/deloitte.svg" },
+  { name: "National Grid", logo: "/logos/national-grid.svg" },
+  { name: "Ford", logo: "/logos/ford.svg" },
+  { name: "BambooHR", logo: "/logos/bamboohr.svg" },
+  { name: "Leland", logo: "/logos/leland.svg" },
+  { name: "Cicero", logo: "/logos/cicero.svg" },
+  { name: "Redo", logo: "/logos/redo.svg" },
+  { name: "Yatta Golf", logo: "/logos/yatta-golf.png" },
+]
+
 export const BUILDERS_HEADLINE =
   BUILDERS_STRIP_EYEBROW +
   " " +
@@ -745,9 +771,12 @@ export const NAV: NavLink[] = [
  * hero button and the top bar both land on the offerings; the only route to
  * the form is through them.
  */
-export const NAV_CTA: NavLink = { label: "Request a proposal", href: "/#quote" }
+/** Both CTAs read "Work with us" per Corbin, 2026-08-16 (was "Request a
+ *  proposal"). The two-destination scheme above is unchanged — only the
+ *  words on the buttons. */
+export const NAV_CTA: NavLink = { label: "Work with us", href: "/#quote" }
 
-export const QUOTE_CTA: NavLink = { label: "Request a proposal", href: "/quote" }
+export const QUOTE_CTA: NavLink = { label: "Work with us", href: "/quote" }
 
 /* ────────────────────────────────────────────────────────────
    Roadmap

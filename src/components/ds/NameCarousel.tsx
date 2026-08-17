@@ -1,27 +1,59 @@
 import { Fragment } from "react"
 import { Eyebrow } from "../ds/Eyebrow"
 
-/* Auto-scrolling strip of employer names. Names as text, never logos —
-   "shipped at" is a resume claim, and a logo would read as endorsement.
-   Port of design_handoff .../content/NameCarousel.jsx; the nc-scroll
-   keyframes live in globals.css. */
+/* Auto-scrolling strip of employer names. Port of design_handoff
+   .../content/NameCarousel.jsx; the nc-scroll keyframes live in
+   globals.css.
+
+   LOGO MODE (Corbin's override, 2026-08-16): items with a `logo` path
+   render the company's artwork instead of text, grayscaled to keep the
+   strip monochrome; items without one fall back to the name as text.
+   THIS OVERRIDES RECORDED BRAND LAW — content.ts ("No logos, ever… a
+   logo reads as endorsement") and DESIGN_SYSTEM.md say the strip is
+   names-as-text only, precisely because no agreement exists with these
+   companies. Reverting is one change: stop passing `logo` values. */
+export type CarouselItem = { name: string; logo?: string }
+
 export function NameCarousel({
   eyebrow = "Our builders have shipped at",
-  names = [],
+  items = [],
   duration = 28,
 }: {
   eyebrow?: string
-  names: string[]
+  items: CarouselItem[]
   duration?: number
 }) {
-  const row = names.map((n, i) => (
+  const anyLogos = items.some((i) => i.logo)
+  const row = items.map((item, i) => (
     <Fragment key={i}>
-      <span style={{ fontFamily: "var(--font-body)", fontWeight: 400, fontSize: "15px", color: "var(--navy)", whiteSpace: "nowrap" }}>
-        {n}
-      </span>
-      <span aria-hidden="true" style={{ color: "var(--text-meta)", fontSize: "15px" }}>
-        ·
-      </span>
+      {item.logo ? (
+        /* Plain <img> on purpose: tiny local static assets, heights vary
+           by intrinsic ratio, and next/image buys nothing here. */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.logo}
+          alt={item.name}
+          style={{
+            height: "22px",
+            width: "auto",
+            display: "block",
+            flex: "none",
+            filter: "grayscale(1)",
+            opacity: 0.75,
+          }}
+        />
+      ) : (
+        <span style={{ fontFamily: "var(--font-body)", fontWeight: 400, fontSize: "15px", color: "var(--navy)", whiteSpace: "nowrap" }}>
+          {item.name}
+        </span>
+      )}
+      {/* The · separator belongs to the text treatment; logo strips
+          separate with space alone. */}
+      {!anyLogos && (
+        <span aria-hidden="true" style={{ color: "var(--text-meta)", fontSize: "15px" }}>
+          ·
+        </span>
+      )}
     </Fragment>
   ))
   return (
@@ -48,8 +80,8 @@ export function NameCarousel({
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: "20px",
-            paddingRight: "20px",
+            gap: anyLogos ? "44px" : "20px",
+            paddingRight: anyLogos ? "44px" : "20px",
             animation: `nc-scroll ${duration}s linear infinite`,
             willChange: "transform",
           }}
