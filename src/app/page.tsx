@@ -32,6 +32,12 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
+/** Subtle white halo for the hero text over the shader field. A knowing
+ *  exception to "shadows: none" — that rule is about elevation; this is
+ *  legibility against a moving ground. */
+const HERO_TEXT_GLOW =
+  "0 0 6px rgba(255,255,255,0.45), 0 0 22px rgba(255,255,255,0.55)"
+
 /* Vertical rhythm tightened site-hero through CTA band per Corbin
    2026-08-16: the kit's 96px+ section paddings read too airy — bands now
    run 64px, the hero 80/64. */
@@ -43,10 +49,19 @@ function Hero() {
           the real ShaderGradient; reduced motion keeps the still CSS. */}
       <HeroMotionLayer />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <Eyebrow>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
+        {/* A whisper of white outer glow lifts the text off the shader
+            field where it runs dark (Corbin, 2026-08-16). Text only —
+            the buttons carry their own grounds. */}
+        <Eyebrow style={{ textShadow: HERO_TEXT_GLOW }}>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
         <h1
           className="hero"
-          style={{ fontSize: "clamp(48px, 5.6vw, 80px)", textTransform: "uppercase", margin: "18px 0 0", color: "var(--navy)" }}
+          style={{
+            fontSize: "clamp(48px, 5.6vw, 80px)",
+            textTransform: "uppercase",
+            margin: "18px 0 0",
+            color: "var(--navy)",
+            textShadow: HERO_TEXT_GLOW,
+          }}
         >
           {HERO_STACK[0]}
           <br />
@@ -54,7 +69,16 @@ function Hero() {
           <br />
           <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
         </h1>
-        <p style={{ fontSize: "var(--size-body)", color: "var(--text-meta)", maxWidth: "52ch", margin: "24px 0 0", textWrap: "balance" }}>
+        <p
+          style={{
+            fontSize: "var(--size-body)",
+            color: "var(--text-meta)",
+            maxWidth: "52ch",
+            margin: "24px 0 0",
+            textWrap: "balance",
+            textShadow: HERO_TEXT_GLOW,
+          }}
+        >
           {HERO_STACK_SUPPORT}
         </p>
         <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
