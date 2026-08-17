@@ -589,6 +589,11 @@ export const FACULTY = {
     "Associate Teaching Professor of Strategy at the " +
     SCHOOL_FULL +
     ", and former consultant at McKinsey & Company.",
+  /** Verification links — the credibility claim, clickable (2026-08-16). */
+  links: [
+    { href: "https://marriott.byu.edu/directory/details?id=14373", label: "BYU Marriott directory" },
+    { href: "https://www.linkedin.com/in/scottdmurff/", label: "LinkedIn" },
+  ],
 }
 
 /* ────────────────────────────────────────────────────────────

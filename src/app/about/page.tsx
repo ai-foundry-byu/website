@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { Eyebrow } from "@/components/ds/Eyebrow"
+import { Icon } from "@/components/ds/Icon"
 import { TeamCard } from "@/components/ds/TeamCard"
 import { ValueRow } from "@/components/ds/ValueRow"
 import {
@@ -96,6 +97,26 @@ export default function AboutPage() {
               <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", lineHeight: 1.55, margin: 0, maxWidth: "66ch" }}>
                 {FACULTY.detail}
               </p>
+              <div style={{ display: "flex", gap: "18px", flexWrap: "wrap", marginTop: "10px" }}>
+                {FACULTY.links.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontFamily: "var(--font-body)",
+                      fontWeight: 500,
+                      fontSize: "13px",
+                      color: "var(--royal)",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {l.label} <Icon name="launch" size={14} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </section>
