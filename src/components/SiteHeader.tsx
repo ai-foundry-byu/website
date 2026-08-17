@@ -50,13 +50,14 @@ export function SiteHeader() {
           </span>
         </CurtainNavLink>
 
-        {/* desktop nav */}
+        {/* desktop nav — the tabs carry the link-draw underline (motion
+            plan #2) so header hover speaks the same hairline language. */}
         <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
           {NAV.map((link) => (
             <CurtainNavLink
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap no-underline"
+              className="link-draw whitespace-nowrap no-underline"
               style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
             >
               {link.label}
