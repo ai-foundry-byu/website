@@ -6,6 +6,10 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-17
 
+- 00:58 — (corbin-curtain-design-system branch) Implemented Tier 1 of the Measured Color proposal — the six audit defects, all inside the locked palette. (1) Focus rings on navy grounds are now WHITE ([data-ground="navy"] sections: landing CTA band, footer, network hero) — the royal ring was 1.43:1 there, invisible to keyboard users; Carbon precedent. (2) Input borders navy/40 → navy/50 (2.35:1 → 3.05:1, WCAG 1.4.11). (3) Secondary text token --text-meta moved from slate to navy-at-70% (3.68:1 → 5.4:1) — slate keeps strokes, grayscale logos, and genuinely large metadata; badge labels were already navy. (4) On-dark text stops baked as solids with a new body stop: soft #BFCBD7 (white/75) for metadata, --text-on-dark-body #D1D9E2 (white/82) for sentence-length text on navy (APCA body bar); SectionHeader onDark leads use it. (5) Inverse ::selection (white/navy) inside navy regions so selecting there never puts royal on navy. (6) Persistent underlines on links inside running copy (main p a) per WCAG G183. Contrast contract comment updated; check-contrast.mjs now asserts the navy/70 pair — 14 pairings hold; tsc/lint/build green.
+
+## 2026-08-17
+
 - 00:24 — (corbin-curtain-design-system branch) Prototyped the "How the Foundry works" scroll-scrub from the Machined Motion proposal at /lab/process-scrub (unlinked, noindexed, same convention as the other lab pages): a flat panel pins for ~260vh while scroll drives four steps — giant Archivo cast numeral and copy crossfading, a royal hairline rail filling, four mono step markers lighting in sequence — then releases. Restrained form on purpose: no zoom, no 3D. Step copy is placeholder (in the component, deliberately NOT content.ts) pending team sign-off. Reduced motion renders a plain stacked list. One real bug found and fixed during QA: motion promotes direct scroll→style chains to native ScrollTimeline WAAPI animations, which misresolved against the sticky-inside-track geometry (layers froze mid-fade); the fix relays scroll progress through an imperatively-set motion value so every binding stays JS-driven.
 
 ## 2026-08-16

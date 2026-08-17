@@ -48,7 +48,7 @@ export function SectionHeader({
             fontWeight: onDark ? 300 : 400,
             fontSize: "var(--size-body)",
             lineHeight: onDark ? 1.6 : 1.55,
-            color: onDark ? "var(--text-on-dark-soft)" : "var(--text-meta)",
+            color: onDark ? "var(--text-on-dark-body)" : "var(--text-meta)",
             margin: 0,
             maxWidth: "56ch",
           }}

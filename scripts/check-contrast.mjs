@@ -28,6 +28,7 @@ const AA_LARGE = 3
 const CONTRACT = {
   normal: [
     ["text-primary", "surface-default"],
+    ["text-meta", "surface-default"],
     ["text-primary", "surface-subtle"],
     ["text-accent", "surface-default"],
     ["text-on-inverse", "surface-inverse"],

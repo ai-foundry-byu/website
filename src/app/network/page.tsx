@@ -46,7 +46,7 @@ export default function NetworkPage() {
             part of the band would sit off to one side of the headline. This class
             is a straight top-to-bottom tonal gradient, so it stays symmetrical
             about the same axis as the content. */}
-        <section className="surface-iron text-text-on-inverse">
+        <section data-ground="navy" className="surface-iron text-text-on-inverse">
           {/*
             py-16 md:py-20, down from py-20 md:py-28.
 

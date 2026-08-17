@@ -11,7 +11,7 @@ const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK]
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
+    <footer data-ground="navy" className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         <div className="flex flex-wrap items-center justify-between gap-6">
           <span className="nameplate" style={{ fontSize: "24px" }}>

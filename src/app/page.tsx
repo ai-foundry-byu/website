@@ -158,7 +158,7 @@ function Build() {
    sentence and the two-minute note moved off; /quote still carries both. */
 function QuoteBand() {
   return (
-    <section style={{ background: "var(--surface-inverse)", padding: "64px 24px" }}>
+    <section data-ground="navy" style={{ background: "var(--surface-inverse)", padding: "64px 24px" }}>
       <Reveal
         style={{
           maxWidth: "var(--container)",
