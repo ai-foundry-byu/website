@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import { CurtainRouteProvider } from "@/components/CurtainRoute";
 import "./globals.css";
 
 const inter = Inter({
@@ -77,7 +78,13 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/* CurtainRouteProvider is the corbin-curtain-site preview experiment:
+          header-nav route changes run behind a curtain. Pages stay server-
+          rendered — children cross the boundary as a ReactNode prop. Remove
+          this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
+      <body className="min-h-full flex flex-col">
+        <CurtainRouteProvider>{children}</CurtainRouteProvider>
+      </body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 import Image from "next/image"
-import Link from "next/link"
+import { CurtainNavLink } from "@/components/CurtainRoute"
 import { MotionCta } from "@/components/MotionCta"
 import { NAV, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
@@ -9,6 +9,10 @@ import { NAV, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  *
  * Still a server component. The mobile menu is a native <details>, so the
  * disclosure needs no script.
+ *
+ * corbin-curtain-site preview: nav links render through CurtainNavLink (a
+ * client leaf wrapping next/link) so route changes run behind the curtain —
+ * see CurtainRoute.tsx. The /#quote CTA is deliberately not curtained.
  *
  * The Get a quote button is the exception: it is a MotionCta, which is a client
  * component, so that one leaf hydrates. It used to be true that this header
@@ -23,7 +27,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-surface-inverse">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center">
+        <CurtainNavLink href="/" className="flex items-center">
           <Image
             src="/byu-marriott-ai-foundry-light.png"
             alt={`${SCHOOL_FULL}, ${PROGRAM}`}
@@ -32,19 +36,19 @@ export function SiteHeader() {
             priority
             className="h-6 w-auto md:h-9"
           />
-        </Link>
+        </CurtainNavLink>
 
         {/* desktop nav */}
         <nav aria-label="Main" className="hidden md:block">
           <ul className="flex items-center gap-2">
             {NAV.map((link) => (
               <li key={link.href}>
-                <Link
+                <CurtainNavLink
                   href={link.href}
                   className="block px-4 py-2 text-base font-semibold text-text-on-inverse transition-opacity hover:opacity-70"
                 >
                   {link.label}
-                </Link>
+                </CurtainNavLink>
               </li>
             ))}
             <li className="ml-3">
@@ -70,12 +74,12 @@ export function SiteHeader() {
             <ul>
               {NAV.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <CurtainNavLink
                     href={link.href}
                     className="block px-4 py-3 text-base font-semibold text-text-on-inverse transition-colors hover:bg-surface-inverse-soft"
                   >
                     {link.label}
-                  </Link>
+                  </CurtainNavLink>
                 </li>
               ))}
               <li className="px-4 pb-2 pt-3">

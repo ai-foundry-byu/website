@@ -42,7 +42,7 @@ export type CurtainEffect = "fade" | "wipe" | "doors" | "iris"
 export type CurtainDirection = 1 | -1
 type CurtainPhase = "idle" | "closing" | "opening"
 
-const EASE = [0.76, 0, 0.24, 1] as const
+export const EASE = [0.76, 0, 0.24, 1] as const
 
 export interface PageCurtainOptions<T extends string> {
   /** Ordered list of page keys; order determines transition direction. */
@@ -145,7 +145,7 @@ export function usePageCurtain<T extends string>(
   }
 }
 
-interface PanelSpec {
+export interface PanelSpec {
   key: string
   style: CSSProperties
   initial: TargetAndTransition
@@ -153,7 +153,7 @@ interface PanelSpec {
   open: TargetAndTransition
 }
 
-function curtainPanels(effect: CurtainEffect, direction: CurtainDirection): PanelSpec[] {
+export function curtainPanels(effect: CurtainEffect, direction: CurtainDirection): PanelSpec[] {
   switch (effect) {
     case "fade":
       return [
