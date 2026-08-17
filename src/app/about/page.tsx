@@ -52,7 +52,7 @@ export default function AboutPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "88px 24px 56px" }}>
+        <section style={{ padding: "64px 24px 40px" }}>
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <Eyebrow>{ABOUT_EYEBROW}</Eyebrow>
             <h1
@@ -75,7 +75,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section style={{ padding: "0 24px 56px" }}>
+        <section style={{ padding: "0 24px 40px" }}>
           <div
             style={{
               maxWidth: "var(--container)",
@@ -121,7 +121,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section style={{ padding: "0 24px 96px" }}>
+        <section style={{ padding: "0 24px 64px" }}>
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <div style={{ marginBottom: "20px" }}>
               <Eyebrow>{BUILDERS_EYEBROW}</Eyebrow>
@@ -134,7 +134,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "72px 24px 96px" }}>
+        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "56px 24px 64px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: "14px" }}>
               <Eyebrow>{CULTURE_EYEBROW}</Eyebrow>

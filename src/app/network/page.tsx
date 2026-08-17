@@ -61,7 +61,7 @@ export default function NetworkPage() {
             four stacked elements and is the first thing on the site; this is an
             interior page whose job is to hand you to the form quickly.
           */}
-          <div className="mx-auto flex max-w-3xl flex-col items-center px-6 py-16 text-center md:py-20">
+          <div className="mx-auto flex max-w-3xl flex-col items-center px-6 py-12 text-center md:py-14">
             {/* The anvil glyph that used to sit above this headline was removed
                 2026-08-01, same day and same reason as the landing hero's: the
                 header lockup already identifies the program. */}
@@ -96,7 +96,7 @@ export default function NetworkPage() {
             place where it is actually load-bearing.
             ──────────────────────────────────────────────────── */}
         <section className="surface-paper">
-          <div className="mx-auto max-w-3xl px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-3xl px-6 py-14 md:py-16">
             <h2 className="text-center font-serif text-2xl font-semibold tracking-[-0.01em] text-text-primary md:text-3xl">
               What you can opt into
             </h2>

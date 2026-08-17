@@ -6,6 +6,8 @@ The public AI Foundry site at https://aifoundry.byu.edu.
 
 ## 2026-08-16
 
+- 23:20 — (corbin-curtain-design-system branch) All subpages tightened to the landing's rhythm, per Corbin: /quote, /work, /about, /roadmap intros 88→64px, follow gaps 48/56→40, section tails 96→64, mid-sections 72/56→56/40, roadmap phase gap 56→44; /network (still old-style classes) py-16/20→py-12/14 and py-20/24→py-14/16.
+
 - 23:06 — (corbin-curtain-design-system branch) Removed the hero support line ("MBA and undergraduate builders shipping production AI systems for real clients.") per Corbin — the hero is now eyebrow, the cast stack, and the two buttons. The copy stays in content.ts (HERO_STACK_SUPPORT), marked unrendered, in case it returns.
 
 - 22:58 — (corbin-curtain-design-system branch) Hero text (eyebrow, headline stack, support line) now carries a very subtle white outer glow (6px at 45% + 22px at 55%) so it holds against the shader field where it runs dark, per Corbin. Text only — buttons carry their own grounds. A knowing exception to the "shadows: none" rule, noted in place: that rule is about elevation, this is legibility against a moving ground.

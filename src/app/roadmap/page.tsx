@@ -53,7 +53,7 @@ export default async function RoadmapPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "88px 24px 0" }}>
+        <section style={{ padding: "64px 24px 0" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <Eyebrow>{ROADMAP_EYEBROW}</Eyebrow>
             <h1
@@ -75,8 +75,8 @@ export default async function RoadmapPage() {
             </p>
           </div>
         </section>
-        <section style={{ padding: "56px 24px 96px" }}>
-          <div style={{ maxWidth: "760px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "56px" }}>
+        <section style={{ padding: "40px 24px 64px" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "44px" }}>
             {ROADMAP.map((ph) => (
               <div key={ph.n}>
                 <div

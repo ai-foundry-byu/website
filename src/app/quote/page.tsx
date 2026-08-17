@@ -24,7 +24,7 @@ export default function QuotePage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "88px 24px 0" }}>
+        <section style={{ padding: "64px 24px 0" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             {/* The page eyebrow keeps naming the action; only BUTTONS
                 changed to "Work with us" (Corbin, 2026-08-16). */}
@@ -48,12 +48,12 @@ export default function QuotePage() {
             </p>
           </div>
         </section>
-        <section id="form" style={{ padding: "48px 24px 96px" }}>
+        <section id="form" style={{ padding: "40px 24px 64px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <QuoteForm />
           </div>
         </section>
-        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "72px 24px 96px" }}>
+        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "56px 24px 64px" }}>
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: "36px" }}>
               <Eyebrow>What happens next</Eyebrow>

@@ -25,7 +25,7 @@ export default function WorkPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "88px 24px 0" }}>
+        <section style={{ padding: "64px 24px 0" }}>
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <Eyebrow>{SHOWCASE_EYEBROW}</Eyebrow>
             <h1
@@ -47,7 +47,7 @@ export default function WorkPage() {
             </p>
           </div>
         </section>
-        <section style={{ padding: "48px 24px 96px" }}>
+        <section style={{ padding: "40px 24px 64px" }}>
           <div
             style={{
               maxWidth: "var(--container)",
