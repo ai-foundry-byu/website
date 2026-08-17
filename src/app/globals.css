@@ -30,30 +30,68 @@
   --royal: #003da5; /* PMS 293C */
   --slate: #7c878e; /* PMS 430C */
 
-  /* Semantic.
-     Measured Color audit, 2026-08-17: secondary text is NAVY AT 70%
-     (5.4:1, AA at any size) — slate at 3.68:1 is legal only for large
-     text (>=24px regular / >=18.66px bold) and for strokes, which is
-     what it keeps: badge outlines, grayscaled logos, large metadata.
-     The on-dark stops are baked as SOLIDS (Refactoring UI: alpha text
-     shimmers over imagery or motion): soft = white/75 composited on
-     navy, body = white/82 for sentence-length text on navy. Pure white
-     on navy is for headings, buttons, and short labels only. */
+  /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
+     One navy, frozen into a fixed ramp. Refactoring UI's rule:
+     define every shade up front, never mint one on the fly —
+     any color not on this ladder is a code-review flag.
+     Strokes and text-inks stay TRUE ALPHA (they must work over
+     any ground); surfaces and on-dark text are BAKED SOLIDS
+     (alpha text shimmers over imagery/motion, and stacked
+     alpha surfaces compound).
+
+     Ledger — WCAG ratio | APCA Lc (apca-w3, asserted in CI by
+     scripts/check-contrast.mjs; body text wants |Lc| >= 75,
+     fluent non-body >= 60, large display >= 45):
+
+       navy    on white      13.56:1 |  99.6   any text
+       royal   on white       9.50:1 |  91.0   any text (clears APCA body)
+       navy/70 on white        5.4:1 |  76.8   secondary text, any size
+       slate   on white       3.68:1 |  64.4   >=24px reg / 18.66px bold + strokes
+       white     on navy     13.56:1 | -102.8  headings, buttons, labels
+       white/82  on navy       9.5:1 |  -77.8  body-length text on navy
+       white/75  on navy      8.22:1 |  -69.0  metadata / nav links on navy
+       navy  on recessed     12.63:1 |  94.6   text on the navy/4 surface
+       royal on recessed      8.85:1 |  86.0   links on the navy/4 surface
+       white on royal         9.50:1 | -95.4   button ink
+       royal on navy          1.43:1 |   0.0   NEVER — APCA scores it zero */
+
+  /* text inks (true alpha) */
   --text-primary: var(--navy);
-  --text-meta: rgba(0, 46, 93, 0.7);
-  --text-on-dark: var(--white);
-  --text-on-dark-soft: #bfcbd7;
-  --text-on-dark-body: #d1d9e2;
+  --text-meta: rgba(0, 46, 93, 0.7); /* navy/70 — secondary text, AA any size */
+
+  /* on-dark text (baked solids) */
+  --text-on-dark: var(--white); /* headings, buttons, short labels only */
+  --text-on-dark-body: #d1d9e2; /* white/82 — sentence-length text on navy */
+  --text-on-dark-soft: #bfcbd7; /* white/75 — metadata, footer nav */
+
+  /* surfaces (baked solids) */
   --surface-page: var(--white);
   --surface-inverse: var(--navy);
+  /* navy/4 = color-mix(in srgb, navy 4%, white). Defined so the value is
+     frozen, but NOT YET USED as a section ground — that amendment to
+     "all-white subpages" is a Tier 3 team vote. House rule for any
+     future derived opaque value: color-mix must specify `in srgb`
+     (the default oklab space shifts flat tints off their approved hex). */
+  --surface-recessed: #f5f7f9;
+
+  /* accent + fills */
   --accent: var(--royal);
   --accent-ink: var(--white);
+  /* royal/8 — the ultra-light accent fill for selected states and the
+     bordered error block (Refactoring UI's tinted-alert move). */
+  --fill-selected: rgba(0, 61, 165, 0.08);
+  /* Royal's states stay the two-step ladder the site ships: royal at
+     rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
+     a new hue). If the jump ever feels abrupt, the sanctioned mid-step
+     is #003181 (Lc 96 on white) — recorded here, deliberately unused. */
+
+  /* strokes (true alpha) */
   --border-hairline: rgba(0, 46, 93, 0.15);
   /* 50%, not the handoff's 40%: a border that IS the input needs WCAG
      1.4.11's 3:1, and navy/40 composites to 2.35:1. navy/50 = 3.05:1. */
   --border-input: rgba(0, 46, 93, 0.5);
   --border-strong: var(--navy);
-  --focus-ring: var(--royal);
+  --focus-ring: var(--royal); /* on navy grounds focus is WHITE — see [data-ground="navy"] */
 
   /* ── TYPE ───────────────────────────────────────────────
      Three families, no others. Archivo (variable, width axis)
@@ -210,6 +248,13 @@
   --color-navy: var(--navy);
   --color-royal: var(--royal);
   --color-slate: var(--slate);
+
+  /* the ladder */
+  --color-text-meta: var(--text-meta);
+  --color-text-on-dark-body: var(--text-on-dark-body);
+  --color-text-on-dark-soft: var(--text-on-dark-soft);
+  --color-surface-recessed: var(--surface-recessed);
+  --color-fill-selected: var(--fill-selected);
 
   /* legacy, still generated so existing markup keeps working */
   --color-navy-deep: var(--navy-deep);

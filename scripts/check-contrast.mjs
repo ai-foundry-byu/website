@@ -13,6 +13,7 @@
 import { readFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 import { dirname, join } from "node:path"
+import { APCAcontrast, sRGBtoY } from "apca-w3"
 
 const here = dirname(fileURLToPath(import.meta.url))
 const cssPath = join(here, "..", "src", "app", "globals.css")
@@ -20,6 +21,27 @@ const cssPath = join(here, "..", "src", "app", "globals.css")
 // WCAG 2.1 AA
 const AA_NORMAL = 4.5
 const AA_LARGE = 3
+
+/**
+ * APCA regression ledger (Measured Color Tier 2). These are the frozen
+ * Lc values of the ladder, computed with apca-w3 — a future token tweak
+ * that shifts a pair by more than the tolerance fails the build. Keep in
+ * step with the LADDER comment in globals.css.
+ */
+const APCA_LEDGER = [
+  ["text-primary", "surface-default", 99.6],
+  ["text-accent", "surface-default", 91.0],
+  ["text-meta", "surface-default", 76.8],
+  ["text-muted", "surface-default", 64.4],
+  ["text-on-inverse", "surface-inverse", -102.8],
+  ["text-on-dark-body", "surface-inverse", -77.8],
+  ["text-on-dark-soft", "surface-inverse", -69.0],
+  ["text-primary", "surface-recessed", 94.6],
+  ["text-accent", "surface-recessed", 86.0],
+  ["text-on-accent", "surface-accent", -95.4],
+  ["text-accent", "surface-inverse", 0.0],
+]
+const APCA_TOLERANCE = 1.5
 
 /**
  * Pairings the design system promises are safe, and the ones it forbids.
@@ -139,6 +161,24 @@ for (const [fg, bg] of CONTRACT.normal) check(fg, bg, AA_NORMAL, "needs 4.5 (nor
 for (const [fg, bg] of CONTRACT.large) check(fg, bg, AA_LARGE, "needs 3.0 (large only)")
 for (const [fg, bg] of CONTRACT.prohibited)
   check(fg, bg, AA_LARGE, "must stay prohibited", true)
+
+// APCA ledger: assert the frozen Lc of every ladder pair.
+for (const [fgName, bgName, expected] of APCA_LEDGER) {
+  let fg = tokens[fgName]
+  const bg = tokens[bgName]
+  if (!fg || !bg) {
+    failures.push(`missing token (APCA): ${!fg ? fgName : bgName}`)
+    continue
+  }
+  fg = flatten(fg, bg)
+  const lc = Number(APCAcontrast(sRGBtoY(toRgb(fg)), sRGBtoY(toRgb(bg))))
+  const ok = Math.abs(lc - expected) <= APCA_TOLERANCE
+  if (!ok) failures.push(`${fgName} on ${bgName}: Lc ${lc.toFixed(1)}, ledger says ${expected}`)
+  lines.push(
+    `  ${ok ? "ok  " : "FAIL"}  ${fgName} on ${bgName}`.padEnd(58) +
+      `Lc ${lc.toFixed(1).padStart(7)}  (ledger ${expected})`
+  )
+}
 
 console.log(lines.join("\n"))
 

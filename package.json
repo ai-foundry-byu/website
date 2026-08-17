@@ -16,6 +16,7 @@
     "@carbon/icons-react": "^11.86.0",
     "@react-three/fiber": "^9.7.0",
     "@supabase/supabase-js": "^2.111.0",
+    "apca-w3": "^0.1.9",
     "lucide-react": "^1.28.0",
     "motion": "^12.43.0",
     "next": "16.2.3",
