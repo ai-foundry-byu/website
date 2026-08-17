@@ -54,14 +54,14 @@ function Hero() {
           <br />
           <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
         </h1>
-        <p style={{ fontSize: "var(--size-body)", color: "var(--text-meta)", maxWidth: "52ch", margin: "24px 0 0" }}>
+        <p style={{ fontSize: "var(--size-body)", color: "var(--text-meta)", maxWidth: "52ch", margin: "24px 0 0", textWrap: "balance" }}>
           {HERO_STACK_SUPPORT}
         </p>
         <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
           <Button variant="primary" size="lg" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
-          <Button variant="secondary" size="lg" href="/network">
+          <Button variant="secondary" size="lg" ring="white" href="/network">
             Join the network
           </Button>
         </div>
@@ -74,6 +74,8 @@ function MissionVision() {
   const block = (eyebrow: string, text: string) => (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px", textAlign: "center" }}>
       <Eyebrow>{eyebrow}</Eyebrow>
+      {/* Two lines, not three (Corbin, 2026-08-16): the measure widened
+          from 34ch, and text-wrap balance evens the pair. */}
       <h2
         style={{
           fontFamily: "var(--font-display)",
@@ -82,7 +84,7 @@ function MissionVision() {
           fontSize: "34px",
           lineHeight: 1.2,
           margin: 0,
-          maxWidth: "34ch",
+          maxWidth: "58ch",
           color: "var(--navy)",
         }}
       >
@@ -161,7 +163,7 @@ function QuoteBand() {
         >
           {QUOTE_HEADLINE}
         </h2>
-        <Button variant="inverse" size="lg" href={QUOTE_CTA.href}>
+        <Button variant="inverse" size="lg" ring="white" href={QUOTE_CTA.href}>
           {QUOTE_CTA.label}
         </Button>
       </div>

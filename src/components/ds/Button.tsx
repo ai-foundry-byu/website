@@ -30,6 +30,7 @@ const PALETTES: Record<string, React.CSSProperties> = {
 export function Button({
   variant = "primary",
   size = "md",
+  ring,
   href,
   children,
   onClick,
@@ -40,6 +41,10 @@ export function Button({
 }: {
   variant?: Variant
   size?: "md" | "lg"
+  /** Splash ring color. Defaults: royal on primary, none elsewhere.
+   *  "white" is for white buttons (hero secondary, the navy band's
+   *  inverse) — same mechanics, white-derived ring. */
+  ring?: "royal" | "white" | "none"
   href?: string
   children: React.ReactNode
   onClick?: () => void
@@ -84,9 +89,16 @@ export function Button({
     onMouseUp: () => setPress(false),
     onClick: off ? undefined : onClick,
   }
-  // Splash ring on the royal primary only: on navy grounds (inverse) a
-  // royal ring would put royal on navy, which the palette prohibits.
-  const className = variant === "primary" ? styles.splash : undefined
+  // Ring defaults: royal on the primary, none elsewhere. A royal ring
+  // never goes on navy grounds (prohibited pair) — white is the ring for
+  // buttons that live there.
+  const ringTone = ring ?? (variant === "primary" ? "royal" : "none")
+  const className =
+    ringTone === "none"
+      ? undefined
+      : ringTone === "royal"
+        ? styles.splash
+        : `${styles.splash} ${styles.splashWhite}`
   const inner = (
     <>
       {loading ? (

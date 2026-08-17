@@ -26,6 +26,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* White mechanics, same logic — for the white buttons (hero secondary,
+   the inverse CTA on the navy band). The ring derives from white instead
+   of royal; melt/splash behavior is identical. */
+.splashWhite {
+  --splash-color: #fff;
+}
+
 /* The ring lives on a pseudo-element offset outside the button, so the
    gap stays transparent over any page background. */
 .splash::after {

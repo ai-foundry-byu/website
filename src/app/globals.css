@@ -235,6 +235,19 @@ html {
     color: var(--navy);
   }
 
+  /* No hanging lines: balance evens multi-line headings so no line is
+     left dangling a word; pretty keeps paragraph orphans in check. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
   h1 {
     font-family: var(--font-display);
     font-weight: 700;
