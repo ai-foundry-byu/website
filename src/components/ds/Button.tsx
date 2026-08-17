@@ -5,21 +5,19 @@ import Link from "next/link"
 import styles from "./Button.module.css"
 
 /**
- * Primary action. Royal splash fill (tonal gradient + offset ring that
- * melts on hover, from /lab/splash-button — see Button.module.css for the
- * recorded deviations), hover to navy, press stamps down 1px. Otherwise a
- * port of design_handoff .../forms/Button.jsx, values preserved; internal
- * hrefs render through next/link so client navigation keeps working.
- *
- * The primary palette deliberately has NO background at idle: the splash
- * class paints the gradient, and an inline background would override it.
- * Its border is transparent (not royal) so the gradient shows through
- * while the geometry stays identical to the other variants.
+ * Primary action. Flat royal fill with the splash ring (offset outline
+ * that melts on hover, from /lab/splash-button — see Button.module.css
+ * for the recorded deviation), hover to navy, press stamps down 1px.
+ * Both fills are the designated blues and both are inline, so the swap
+ * animates solid-to-solid — the earlier gradient fill could not
+ * transition to navy and flashed. Otherwise a port of design_handoff
+ * .../forms/Button.jsx, values preserved; internal hrefs render through
+ * next/link so client navigation keeps working.
  */
 type Variant = "primary" | "secondary" | "inverse" | "ghost"
 
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { color: "var(--accent-ink)", border: "1px solid transparent" },
+  primary: { background: "var(--accent)", color: "var(--accent-ink)", border: "1px solid var(--accent)" },
   primaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },

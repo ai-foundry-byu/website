@@ -3,12 +3,15 @@
    Graduated from /lab/splash-button by Corbin's decision (2026-08-16),
    recolored to the royal palette.
 
-   Two knowing deviations from the handoff spec, on the record:
-   - the fill is a TONAL royal gradient (single hue, color-mix derived),
-     bending "flat solids only";
-   - the ring melt/splash is a larger gesture than the 150/300ms
-     fade-and-translate motion rules.
-   Everything else holds: the ring is royal on WHITE grounds only — the
+   The fill is NOT painted here. The lab component's color-mix gradient is
+   gone (2026-08-16, Corbin): a gradient cannot transition to the solid
+   navy hover fill, so the swap flashed. The Button's inline styles paint
+   flat royal → flat navy — the two designated blues — and animate
+   smoothly; this class only adds the ring.
+
+   One knowing deviation from the handoff motion spec stays on the record:
+   the ring melt/splash is a larger gesture than the 150/300ms
+   fade-and-translate rules. The ring is royal on WHITE grounds only — the
    inverse (navy-band) variant never gets it, royal never sits on navy.
 
    Geometry rides the system radius token, not the lab component's 8px. */
@@ -20,7 +23,6 @@
   --splash-gap: 3px;
 
   position: relative;
-  background: var(--splash-color); /* solid fallback if color-mix is unsupported */
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -37,15 +39,9 @@
   pointer-events: none;
 }
 
-@supports (color: color-mix(in oklab, red 50%, white)) {
-  .splash {
-    background: linear-gradient(
-      135deg,
-      color-mix(in oklab, var(--splash-color) 85%, white) 0%,
-      var(--splash-color) 48%,
-      color-mix(in oklab, var(--splash-color) 90%, black) 100%
-    );
-  }
+/* Royal at half strength for the ring — an alpha of a designated blue,
+   same move as the navy-alpha hairlines. Solid royal is the fallback. */
+@supports (color: color-mix(in srgb, red 50%, transparent)) {
   .splash::after {
     border-color: var(
       --splash-ring-color,
