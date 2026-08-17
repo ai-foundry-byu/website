@@ -5,7 +5,11 @@ import { Icon } from "./Icon"
 /* Reference build. Image is a 16:10 crop of the live product; without one a
    typographic plate stands in. Honesty rules: state where the build actually
    is, claim no client.
-   Port of design_handoff .../content/ShowcaseCard.jsx. */
+   Port of design_handoff .../content/ShowcaseCard.jsx, plus the approved
+   motion-plan #7 treatment: hover swaps the border to royal, slides four
+   registration ticks in at the corners, and raises a caption bar over the
+   image's bottom edge. All CSS (globals: .reg-card/.reg-tick/.reg-bar);
+   devices without hover keep the bar visible. */
 export function ShowcaseCard({
   name,
   blurb,
@@ -21,6 +25,7 @@ export function ShowcaseCard({
 }) {
   return (
     <div
+      className="reg-card"
       style={{
         border: "1px solid var(--border-hairline)",
         background: "#fff",
@@ -28,8 +33,13 @@ export function ShowcaseCard({
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
       }}
     >
+      <span aria-hidden="true" className="reg-tick tl" />
+      <span aria-hidden="true" className="reg-tick tr" />
+      <span aria-hidden="true" className="reg-tick bl" />
+      <span aria-hidden="true" className="reg-tick br" />
       <div
         style={{
           aspectRatio: "16 / 10",
@@ -59,6 +69,9 @@ export function ShowcaseCard({
             {name}
           </span>
         )}
+        <span aria-hidden="true" className="reg-bar">
+          {name} <span style={{ color: "var(--royal)" }}>→</span>
+        </span>
       </div>
       <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
@@ -76,6 +89,7 @@ export function ShowcaseCard({
               <a
                 key={l.href}
                 href={l.href}
+                className="link-draw"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -87,7 +101,10 @@ export function ShowcaseCard({
                   textDecoration: "none",
                 }}
               >
-                {l.label} <Icon name="arrow--up-right" size={13} />
+                {l.label}{" "}
+                <span className="arr">
+                  <Icon name="arrow--up-right" size={13} />
+                </span>
               </a>
             ))}
           </div>

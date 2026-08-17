@@ -107,6 +107,7 @@ export function TeamCard({
         {linkedin ? (
           <a
             href={linkedin}
+            className="link-draw"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -117,9 +118,13 @@ export function TeamCard({
               color: "var(--royal)",
               textDecoration: "none",
               marginTop: "8px",
+              alignSelf: "flex-start",
             }}
           >
-            LinkedIn <Icon name="launch" size={14} />
+            LinkedIn{" "}
+            <span className="arr">
+              <Icon name="launch" size={14} />
+            </span>
           </a>
         ) : null}
       </div>

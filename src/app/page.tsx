@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/SiteHeader"
+import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
 import { HeroMotionLayer } from "@/components/HeroMotionLayer"
 import { Button } from "@/components/ds/Button"
@@ -104,10 +105,11 @@ function MissionVision() {
     </div>
   )
   return (
-    <section style={{ padding: "64px 24px", borderTop: "1px solid var(--border-hairline)" }}>
+    <section style={{ padding: "64px 24px", position: "relative" }}>
+      <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "48px" }}>
-        {block("Mission", MISSION)}
-        {block("Vision", VISION)}
+        <Reveal>{block("Mission", MISSION)}</Reveal>
+        <Reveal>{block("Vision", VISION)}</Reveal>
       </div>
     </section>
   )
@@ -117,14 +119,16 @@ function Values() {
   return (
     <section style={{ padding: "0 24px 64px" }}>
       <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "28px" }}>
-          <Eyebrow>Values</Eyebrow>
-        </div>
-        <div style={{ borderBottom: "1px solid var(--border-strong)" }}>
-          {VALUES.map((v) => (
-            <ValueRow key={v.name} name={v.name} body={v.body} />
-          ))}
-        </div>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: "28px" }}>
+            <Eyebrow>Values</Eyebrow>
+          </div>
+          <div style={{ borderBottom: "1px solid var(--border-strong)" }}>
+            {VALUES.map((v) => (
+              <ValueRow key={v.name} name={v.name} body={v.body} />
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -132,14 +136,19 @@ function Values() {
 
 function Build() {
   return (
-    <section id="quote" style={{ padding: "64px 24px", borderTop: "1px solid var(--border-hairline)" }}>
+    <section id="quote" style={{ padding: "64px 24px", position: "relative" }}>
+      <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "36px" }}>
-        <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", alignItems: "stretch" }}>
+        <Reveal>
+          <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
+        </Reveal>
+        <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", alignItems: "stretch" }}>
           {OFFERINGS.map((o) => (
-            <Card key={o.name} title={o.name} blurb={o.blurb} points={o.points} />
+            <StaggerItem key={o.name}>
+              <Card title={o.name} blurb={o.blurb} points={o.points} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   )
@@ -150,7 +159,7 @@ function Build() {
 function QuoteBand() {
   return (
     <section style={{ background: "var(--surface-inverse)", padding: "64px 24px" }}>
-      <div
+      <Reveal
         style={{
           maxWidth: "var(--container)",
           margin: "0 auto",
@@ -177,7 +186,7 @@ function QuoteBand() {
         <Button variant="inverse" size="lg" ring="white" href={QUOTE_CTA.href}>
           {QUOTE_CTA.label}
         </Button>
-      </div>
+      </Reveal>
     </section>
   )
 }

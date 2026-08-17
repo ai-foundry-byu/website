@@ -373,6 +373,89 @@ html {
   outline-offset: 2px;
 }
 
+/* ── Link draw + arrow nudge (motion plan #2) ──────────────
+   A 1px underline draws in from the left on hover and exits through the
+   right on leave — the line travels through the word. Arrow glyphs
+   (.arr) nudge 4px. Pure CSS, currentColor, brand timing. */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-base) var(--ease-stamp);
+}
+.link-draw:hover::after,
+.link-draw:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.arr {
+  display: inline-flex;
+  transition: transform var(--dur-fast) var(--ease-stamp);
+}
+.link-draw:hover .arr,
+.link-draw:focus-visible .arr {
+  transform: translateX(4px);
+}
+
+/* ── Card hover: registration marks + caption bar (motion plan #7) ──
+   Hovering a .reg-card swaps its hairline border to royal and slides
+   four 1px corner ticks in at a 2px offset — print registration marks;
+   the card reads as indexed for machining. .reg-bar (inside the image
+   well of a showcase card) slides up from the bottom edge behind its
+   hairline. Devices without hover keep the bar visible. */
+.reg-card {
+  transition: border-color var(--dur-fast) var(--ease-stamp);
+}
+.reg-tick {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-stamp), transform var(--dur-fast) var(--ease-stamp);
+  z-index: 2;
+}
+.reg-tick.tl { top: 5px; left: 5px; border-top: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, 2px); }
+.reg-tick.tr { top: 5px; right: 5px; border-top: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, 2px); }
+.reg-tick.bl { bottom: 5px; left: 5px; border-bottom: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, -2px); }
+.reg-tick.br { bottom: 5px; right: 5px; border-bottom: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, -2px); }
+.reg-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid var(--border-hairline);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--navy);
+  z-index: 1;
+}
+@media (hover: hover) {
+  .reg-bar {
+    transform: translateY(100%);
+    transition: transform var(--dur-fast) var(--ease-stamp);
+  }
+  .reg-card:hover { border-color: var(--royal); }
+  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
+  .reg-card:hover .reg-bar { transform: translateY(0); }
+}
+
 ::selection {
   background: var(--royal);
   color: var(--white);

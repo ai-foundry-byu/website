@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { Eyebrow } from "@/components/ds/Eyebrow"
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { ShowcaseCard } from "@/components/ds/ShowcaseCard"
 import { SCHOOL_FULL, SHOWCASE, SHOWCASE_EYEBROW, WORK_HEADING, WORK_LEAD } from "@/lib/content"
 
@@ -26,7 +27,7 @@ export default function WorkPage() {
       <SiteHeader />
       <main>
         <section style={{ padding: "64px 24px 0" }}>
-          <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <Eyebrow>{SHOWCASE_EYEBROW}</Eyebrow>
             <h1
               style={{
@@ -45,10 +46,10 @@ export default function WorkPage() {
             <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "56ch", margin: "16px 0 0" }}>
               {WORK_LEAD}
             </p>
-          </div>
+          </Reveal>
         </section>
         <section style={{ padding: "40px 24px 64px" }}>
-          <div
+          <Stagger
             style={{
               maxWidth: "var(--container)",
               margin: "0 auto",
@@ -59,9 +60,11 @@ export default function WorkPage() {
             }}
           >
             {SHOWCASE.map((s) => (
-              <ShowcaseCard key={s.name} name={s.name} blurb={s.blurb} tags={s.tags} links={s.links} image={s.image} />
+              <StaggerItem key={s.name}>
+                <ShowcaseCard name={s.name} blurb={s.blurb} tags={s.tags} links={s.links} image={s.image} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </section>
       </main>
       <SiteFooter />

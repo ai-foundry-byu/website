@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter"
 import { Badge } from "@/components/ds/Badge"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { Progress } from "@/components/ds/Progress"
+import { Reveal } from "@/components/motion/MotionPrimitives"
 import { getRoadmapStats, type RoadmapStats } from "@/lib/roadmap-stats"
 import {
   CERT_GOAL,
@@ -78,7 +79,7 @@ export default async function RoadmapPage() {
         <section style={{ padding: "40px 24px 64px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "44px" }}>
             {ROADMAP.map((ph) => (
-              <div key={ph.n}>
+              <Reveal key={ph.n}>
                 <div
                   style={{
                     display: "flex",
@@ -146,7 +147,7 @@ export default async function RoadmapPage() {
                     </div>
                   )
                 })}
-              </div>
+              </Reveal>
             ))}
             <p className="caption" style={{ color: "var(--text-meta)", margin: 0 }}>
               {ROADMAP_STATS_NOTE}

@@ -1,6 +1,7 @@
 /* Offering card: hairline border, sharp corners, no shadow.
    Points render as hairline rows, not bullets.
-   Port of design_handoff .../display/Card.jsx. */
+   Port of design_handoff .../display/Card.jsx, plus motion-plan #7:
+   hover swaps the border to royal and slides registration ticks in. */
 export function Card({
   title,
   blurb,
@@ -14,6 +15,7 @@ export function Card({
 }) {
   return (
     <div
+      className="reg-card"
       style={{
         border: "1px solid var(--border-hairline)",
         background: "#fff",
@@ -22,8 +24,13 @@ export function Card({
         display: "flex",
         flexDirection: "column",
         gap: "10px",
+        position: "relative",
       }}
     >
+      <span aria-hidden="true" className="reg-tick tl" />
+      <span aria-hidden="true" className="reg-tick tr" />
+      <span aria-hidden="true" className="reg-tick bl" />
+      <span aria-hidden="true" className="reg-tick br" />
       <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h3)", lineHeight: 1.3, margin: 0 }}>
         {title}
       </h3>

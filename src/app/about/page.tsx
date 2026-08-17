@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { Icon } from "@/components/ds/Icon"
+import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { TeamCard } from "@/components/ds/TeamCard"
 import { ValueRow } from "@/components/ds/ValueRow"
 import {
@@ -53,7 +54,7 @@ export default function AboutPage() {
       <SiteHeader />
       <main>
         <section style={{ padding: "64px 24px 40px" }}>
-          <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
             <Eyebrow>{ABOUT_EYEBROW}</Eyebrow>
             <h1
               style={{
@@ -72,11 +73,11 @@ export default function AboutPage() {
             <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "60ch", margin: "16px 0 0" }}>
               {BUILDERS_DETAIL}
             </p>
-          </div>
+          </Reveal>
         </section>
 
         <section style={{ padding: "0 24px 40px" }}>
-          <div
+          <Reveal
             style={{
               maxWidth: "var(--container)",
               margin: "0 auto",
@@ -102,6 +103,7 @@ export default function AboutPage() {
                   <a
                     key={l.href}
                     href={l.href}
+                    className="link-draw"
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -113,12 +115,15 @@ export default function AboutPage() {
                       textDecoration: "none",
                     }}
                   >
-                    {l.label} <Icon name="launch" size={14} />
+                    {l.label}{" "}
+                    <span className="arr">
+                      <Icon name="launch" size={14} />
+                    </span>
                   </a>
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section style={{ padding: "0 24px 64px" }}>
@@ -126,16 +131,19 @@ export default function AboutPage() {
             <div style={{ marginBottom: "20px" }}>
               <Eyebrow>{BUILDERS_EYEBROW}</Eyebrow>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
+            <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
               {ROSTER.map((m) => (
-                <TeamCard key={m.name} name={m.name} role={m.role} photo={m.photo} />
+                <StaggerItem key={m.name}>
+                  <TeamCard name={m.name} role={m.role} photo={m.photo} />
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
 
-        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "56px 24px 64px" }}>
-          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+        <section style={{ padding: "56px 24px 64px", position: "relative" }}>
+          <DrawRule bleed />
+          <Reveal style={{ maxWidth: "760px", margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: "14px" }}>
               <Eyebrow>{CULTURE_EYEBROW}</Eyebrow>
             </div>
@@ -150,7 +158,7 @@ export default function AboutPage() {
                 <ValueRow key={p.title} name={p.title} body={`${p.blurb} (${p.credit})`} />
               ))}
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
       <SiteFooter />

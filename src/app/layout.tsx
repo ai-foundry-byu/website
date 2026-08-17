@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { CurtainRouteProvider } from "@/components/CurtainRoute";
+import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
 
 /**
@@ -103,7 +104,11 @@ export default function RootLayout({
           rendered — children cross the boundary as a ReactNode prop. Remove
           this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
       <body className="min-h-full flex flex-col">
-        <CurtainRouteProvider effect="fade">{children}</CurtainRouteProvider>
+        {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
+            system; the curtain handles reduced motion itself, outside it. */}
+        <CurtainRouteProvider effect="fade">
+          <MotionRoot>{children}</MotionRoot>
+        </CurtainRouteProvider>
       </body>
     </html>
   );

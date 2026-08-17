@@ -22,7 +22,7 @@ export function SiteFooter() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="no-underline"
+                className="no-underline link-draw"
                 style={{ fontFamily: "var(--font-body)", fontWeight: 300, fontSize: "var(--size-ui)", color: "var(--text-on-dark-soft)" }}
               >
                 {l.label}

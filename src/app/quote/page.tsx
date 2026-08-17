@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { QuoteForm } from "@/components/QuoteForm"
 import { Eyebrow } from "@/components/ds/Eyebrow"
+import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { QUOTE_FOLLOW, QUOTE_HEADLINE, QUOTE_STEPS, SCHOOL_FULL } from "@/lib/content"
 
 export const metadata: Metadata = {
@@ -53,14 +54,17 @@ export default function QuotePage() {
             <QuoteForm />
           </div>
         </section>
-        <section style={{ borderTop: "1px solid var(--border-hairline)", padding: "56px 24px 64px" }}>
+        <section style={{ padding: "56px 24px 64px", position: "relative" }}>
+          <DrawRule bleed />
           <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "36px" }}>
-              <Eyebrow>What happens next</Eyebrow>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "32px" }}>
+            <Reveal>
+              <div style={{ textAlign: "center", marginBottom: "36px" }}>
+                <Eyebrow>What happens next</Eyebrow>
+              </div>
+            </Reveal>
+            <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "32px" }}>
               {QUOTE_STEPS.map((s) => (
-                <div key={s.n} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <StaggerItem key={s.n} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                   <span
                     style={{
                       fontFamily: "var(--font-display)",
@@ -78,9 +82,9 @@ export default function QuotePage() {
                   <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", lineHeight: 1.55, color: "var(--text-primary)", margin: 0, maxWidth: "40ch" }}>
                     {s.detail}
                   </p>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
       </main>
