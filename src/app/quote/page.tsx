@@ -49,7 +49,11 @@ export default function QuotePage() {
             </p>
           </div>
         </section>
-        <section id="form" style={{ padding: "40px 24px 64px" }}>
+        {/* The one recessed surface per page (Measured Color Tier 3,
+            sanctioned by Corbin 2026-08-17): navy/4 behind the form, so
+            the white inputs read raised with zero shadows — Stripe's
+            #F6F9FC move, Carbon's layer step. */}
+        <section id="form" style={{ background: "var(--surface-recessed)", padding: "48px 24px 56px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <QuoteForm />
           </div>

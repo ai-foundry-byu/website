@@ -221,6 +221,17 @@
    The palette has no red: error states are a 2px royal border
    plus a message that says "Error:" in words, so color is
    never the only signal.
+
+   THE ROYAL BUDGET (Measured Color Tier 3). Royal means
+   INTERACTIVE — buttons, links, focus — plus exactly two named
+   exceptions: eyebrows (wayfinding) and the live-status badge
+   outline. Aim for <= 3 royal marks per viewport; if a section
+   needs interest, spend from the navy ladder, never widen
+   royal. BYU's own guidance backs this: navy is dominant,
+   royal must never read as an equal. The review question for
+   any colored element (after Yale, whose navy is the same
+   Pantone as ours): "what does this differentiate?" —
+   no answer means it reverts to navy.
    ───────────────────────────────────────────────────────── */
 
 @theme inline {

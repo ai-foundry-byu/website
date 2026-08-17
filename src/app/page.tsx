@@ -155,10 +155,16 @@ function Build() {
 }
 
 /* Headline and button only, per Corbin 2026-08-16 — the supporting
-   sentence and the two-minute note moved off; /quote still carries both. */
+   sentence and the two-minute note moved off; /quote still carries both.
+   Measured Color Tier 3: the band and the footer below it are ONE
+   composed navy terminal (Stripe never stacks two dark regions) — the
+   white/15 hairline is the internal seam. */
 function QuoteBand() {
   return (
-    <section data-ground="navy" style={{ background: "var(--surface-inverse)", padding: "64px 24px" }}>
+    <section
+      data-ground="navy"
+      style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+    >
       <Reveal
         style={{
           maxWidth: "var(--container)",

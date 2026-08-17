@@ -40,6 +40,25 @@ export function ShowcaseCard({
       <span aria-hidden="true" className="reg-tick tr" />
       <span aria-hidden="true" className="reg-tick bl" />
       <span aria-hidden="true" className="reg-tick br" />
+      {/* Linear's rule (Measured Color Tier 3): the screenshot is the only
+          saturated object, presented in one monochrome frame — a flat
+          browser-chrome bar with three navy-alpha dots, hairlines, no
+          shadow — so its color reads intentional. */}
+      <div
+        aria-hidden="true"
+        style={{
+          display: "flex",
+          gap: "5px",
+          alignItems: "center",
+          padding: "8px 12px",
+          background: "#fff",
+          borderBottom: "1px solid var(--border-hairline)",
+        }}
+      >
+        {[0, 1, 2].map((i) => (
+          <span key={i} style={{ width: "7px", height: "7px", borderRadius: "50%", background: "rgba(0,46,93,.25)" }} />
+        ))}
+      </div>
       <div
         style={{
           aspectRatio: "16 / 10",
