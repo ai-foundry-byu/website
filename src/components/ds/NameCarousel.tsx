@@ -60,16 +60,11 @@ export function NameCarousel({
     </Fragment>
   ))
   return (
-    <div
-      style={{
-        borderTop: "1px solid var(--border-hairline)",
-        borderBottom: "1px solid var(--border-hairline)",
-        padding: "14px 0",
-        display: "flex",
-        alignItems: "center",
-        gap: "24px",
-      }}
-    >
+    /* Layout lives in .nc-strip rather than inline because it has to CHANGE
+       at the mobile breakpoint, and an inline style cannot be overridden by
+       a media query without !important. Colors and spacing that do not vary
+       stay inline, as everywhere else in this kit. */
+    <div className="nc-strip">
       <Eyebrow style={{ flex: "none", paddingLeft: "var(--container-pad)" }}>{eyebrow}</Eyebrow>
       <div
         style={{
