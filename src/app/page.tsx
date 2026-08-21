@@ -157,7 +157,12 @@ function Build() {
         <Reveal>
           <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
         </Reveal>
-        <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", alignItems: "stretch" }}>
+        {/* minmax(min(300px, 100%), …) rather than a bare minmax(300px, …):
+            a hard 300px track cannot shrink, so on a 320px viewport the
+            card sat 24px in and ran 4px past the right edge and the whole
+            document scrolled sideways. Same guard WorkShowcaseGrid already
+            uses on its 420px tracks. */}
+        <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "16px", alignItems: "stretch" }}>
           {OFFERINGS.map((o) => (
             <StaggerItem key={o.name}>
               <Card title={o.name} blurb={o.blurb} points={o.points} />
