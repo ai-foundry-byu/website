@@ -1,0 +1,2 @@
+export interface SectionHeaderProps { eyebrow?: string; title: string; lead?: string; align?: 'center' | 'left'; onDark?: boolean; }
+export declare function SectionHeader(props: SectionHeaderProps): JSX.Element;

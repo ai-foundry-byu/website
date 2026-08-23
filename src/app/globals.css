@@ -2,141 +2,236 @@
 
 /* ═══════════════════════════════════════════════════════════
    AI FOUNDRY — DESIGN TOKENS
+   Source of truth: design_handoff_ai_foundry_website/
+   (DESIGN_SYSTEM.md + tokens/*.css), merged here per the
+   handoff integration map. The comments carry the rules;
+   keep them with the values.
+
    An experiential learning program of the BYU Marriott School
    of Business. As an endorsed BYU sub-brand, the palette is
-   set by BYU, not by us. See brand.byu.edu and
-   marriott.byu.edu/brand.
-
-   Three layers. Components read layer 2, never layer 1.
-
-     1. PRIMITIVES  raw BYU colours, named for what they ARE
-     2. SEMANTIC    named for the JOB they do. Use these.
-     3. LEGACY      old names kept alive so nothing breaks
-
-   Editorial / industrial. Navy and white carry ~80% of every
-   surface; orange is an accent only (<=10%). No gradients
-   between brand colours, no glassmorphism, no glow. Flat
-   blocks divided by clean rules. The vertical accent bar is
-   the motif.
+   set by BYU, not by us. A workshop, not a lab and not a
+   startup: everything should feel made, industrial, durable.
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── LAYER 1: PRIMITIVES ────────────────────────────────
-     The raw BYU palette. Named for what the colour IS, never
-     for where it is used. Do not reference these in
-     components: if you find yourself writing byu-navy in a
-     component, you want a semantic token instead. */
-  --byu-navy: #002e5d; /* BYU Navy, primary */
+  /* ── COLOR ──────────────────────────────────────────────
+     Official BYU palette only — these four are the entire
+     universe of color. No tints, no new hues. Alpha values of
+     navy are permitted for hairlines and soft text on dark
+     grounds.
+     Rules:
+     - Royal never sits directly on navy (1.43:1).
+     - Slate is for metadata and large text only, never
+       body-critical copy.
+     - Orange/ember and light blue from earlier explorations
+       are retired. */
+  --navy: #002e5d; /* PMS 648C */
+  --white: #ffffff;
+  --royal: #003da5; /* PMS 293C */
+  --slate: #7c878e; /* PMS 430C */
+
+  /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
+     One navy, frozen into a fixed ramp. Refactoring UI's rule:
+     define every shade up front, never mint one on the fly —
+     any color not on this ladder is a code-review flag.
+     Strokes and text-inks stay TRUE ALPHA (they must work over
+     any ground); surfaces and on-dark text are BAKED SOLIDS
+     (alpha text shimmers over imagery/motion, and stacked
+     alpha surfaces compound).
+
+     Ledger — WCAG ratio | APCA Lc (apca-w3, asserted in CI by
+     scripts/check-contrast.mjs; body text wants |Lc| >= 75,
+     fluent non-body >= 60, large display >= 45):
+
+       navy    on white      13.56:1 |  99.6   any text
+       royal   on white       9.50:1 |  91.0   any text (clears APCA body)
+       navy/70 on white        5.4:1 |  76.8   secondary text, any size
+       slate   on white       3.68:1 |  64.4   >=24px reg / 18.66px bold + strokes
+       white     on navy     13.56:1 | -102.8  headings, buttons, labels
+       white/82  on navy       9.5:1 |  -77.8  body-length text on navy
+       white/75  on navy      8.22:1 |  -69.0  metadata / nav links on navy
+       navy  on recessed     12.63:1 |  94.6   text on the navy/4 surface
+       royal on recessed      8.85:1 |  86.0   links on the navy/4 surface
+       white on royal         9.50:1 | -95.4   button ink
+       royal on navy          1.43:1 |   0.0   NEVER — APCA scores it zero */
+
+  /* text inks (true alpha) */
+  --text-primary: var(--navy);
+  --text-meta: rgba(0, 46, 93, 0.7); /* navy/70 — secondary text, AA any size */
+
+  /* on-dark text (baked solids) */
+  --text-on-dark: var(--white); /* headings, buttons, short labels only */
+  --text-on-dark-body: #d1d9e2; /* white/82 — sentence-length text on navy */
+  --text-on-dark-soft: #bfcbd7; /* white/75 — metadata, footer nav */
+
+  /* surfaces (baked solids) */
+  --surface-page: var(--white);
+  --surface-inverse: var(--navy);
+  /* navy/4 = color-mix(in srgb, navy 4%, white). Defined so the value is
+     frozen, but NOT YET USED as a section ground — that amendment to
+     "all-white subpages" is a Tier 3 team vote. House rule for any
+     future derived opaque value: color-mix must specify `in srgb`
+     (the default oklab space shifts flat tints off their approved hex). */
+  --surface-recessed: #f5f7f9;
+
+  /* accent + fills */
+  --accent: var(--royal);
+  --accent-ink: var(--white);
+  /* royal/8 — the ultra-light accent fill for selected states and the
+     bordered error block (Refactoring UI's tinted-alert move). */
+  --fill-selected: rgba(0, 61, 165, 0.08);
+  /* Royal's states stay the two-step ladder the site ships: royal at
+     rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
+     a new hue). If the jump ever feels abrupt, the sanctioned mid-step
+     is #003181 (Lc 96 on white) — recorded here, deliberately unused. */
+
+  /* strokes (true alpha) */
+  --border-hairline: rgba(0, 46, 93, 0.15);
+  /* 50%, not the handoff's 40%: a border that IS the input needs WCAG
+     1.4.11's 3:1, and navy/40 composites to 2.35:1. navy/50 = 3.05:1. */
+  --border-input: rgba(0, 46, 93, 0.5);
+  --border-strong: var(--navy);
+  --focus-ring: var(--royal); /* on navy grounds focus is WHITE — see [data-ground="navy"] */
+
+  /* ── TYPE ───────────────────────────────────────────────
+     Three families, no others. Archivo (variable, width axis)
+     is display only, above 24px. IBM Plex Sans is body/UI,
+     24px and below. IBM Plex Mono is code.
+     Width stops: 125 Cast, 100 Plate, 62 Rail. Nothing in
+     between. Max two stops per composition.
+     Weight split: Plex never above 600. Archivo never below
+     600. If something is weight 700 it is Archivo and it is a
+     title.
+     The families arrive via next/font in layout.tsx; the
+     --font-archivo / --font-plex-* variables it defines
+     already carry fallback stacks. */
+  --font-display: var(--font-archivo), "Archivo", sans-serif;
+  --font-body: var(--font-plex-sans), "IBM Plex Sans", sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
+
+  --w-cast: 125%;
+  --w-plate: 100%;
+  --w-rail: 62%;
+
+  --size-hero: 64px;
+  --size-h1: 40px;
+  --size-h2: 30px;
+  --size-h3: 20px;
+  --size-h4: 17px;
+  --size-body: 17px;
+  --size-ui: 14px;
+  --size-caption: 13px;
+  --size-eyebrow: 12px;
+
+  /* ── SPACING, SURFACES, MOTION ──────────────────────────
+     Industrial and flat: hairline rules instead of shadows,
+     presses that feel stamped. Boxes (buttons, inputs, cards,
+     badges, dialogs) round at the 5px system radius;
+     full-bleed bands and hairline rules stay square. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --container: 1200px;
+  --container-pad: 24px;
+  --measure: 66ch; /* body measure: 60-75 characters */
+
+  --radius: 5px; /* boxes round at 4-6px; 5px is the system value */
+  --shadow: none; /* elevation is drawn with hairlines, never shadows */
+
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --ease-stamp: cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  /* ── LEGACY ALIASES ─────────────────────────────────────
+     Kept so the pages outside the redesign (/network, /ops,
+     /lab/*) keep rendering. The ember accent is retired, so
+     the old ember names now hold ROYAL: those pages pick up
+     the new accent without being rebuilt. Migrate to the
+     semantic names above when touching them. */
+  --byu-navy: var(--navy);
   --byu-navy-deep: #001f3f; /* pressed / deepest surface */
   --byu-navy-soft: #00396f; /* raised navy, rules and hover on dark */
-  --byu-white: #ffffff; /* BYU White, primary */
+  --byu-white: var(--white);
   --byu-off-white: #f2f5f7; /* navy-tinted alternating surface */
-  --byu-royal: #003da5; /* BYU Marriott Royal, secondary */
-  --byu-slate-gray: #7c878e; /* BYU Marriott Slate Gray, secondary */
-  --byu-light-blue: #bdd6e6; /* marketing palette, PMS 544 C */
-  --byu-orange: #d14124; /* marketing palette, PMS 7597 C */
-  --byu-orange-deep: #a7341d; /* orange pressed */
+  --byu-royal: var(--royal);
+  --byu-slate-gray: var(--slate);
 
-  /* ── LAYER 2: SEMANTIC ──────────────────────────────────
-     Named for the job. This is the layer components consume.
-     Re-theming happens here, so a value change can never
-     again leave a token whose name contradicts its contents. */
+  --surface-default: var(--white);
+  --surface-subtle: var(--byu-off-white);
+  --surface-inverse-soft: var(--byu-navy-soft);
+  --surface-inverse-deep: var(--byu-navy-deep);
+  --surface-accent: var(--royal); /* was orange; the curtain + old CTAs now stamp royal */
+  --surface-accent-hover: var(--navy);
+  --text-muted: var(--slate);
+  --text-accent: var(--royal);
+  --text-on-inverse: var(--white);
+  --text-on-inverse-muted: var(--text-on-dark-soft);
+  --text-accent-on-inverse: var(--text-on-dark-soft);
+  --text-on-accent: var(--white);
+  --border-subtle: var(--border-hairline);
+  --border-on-inverse: rgba(255, 255, 255, 0.2);
+  --border-accent: var(--royal);
 
-  /* surfaces */
-  --surface-default: var(--byu-white); /* page background */
-  --surface-subtle: var(--byu-off-white); /* alternating band, cards on white */
-  --surface-inverse: var(--byu-navy); /* dark section background */
-  --surface-inverse-soft: var(--byu-navy-soft); /* raised block on navy */
-  --surface-inverse-deep: var(--byu-navy-deep); /* deepest navy, pressed states */
-  --surface-accent: var(--byu-orange); /* accent FILL only, never a text colour */
-  --surface-accent-hover: var(--byu-orange-deep);
-
-  /* text on light surfaces */
-  --text-primary: var(--byu-navy); /* body and headings. 13.56:1 on white */
-  --text-muted: var(--byu-slate-gray); /* captions and metadata. 3.68:1, LARGE TEXT ONLY */
-  --text-accent: var(--byu-orange); /* accent text on light only. 4.67:1 on white */
-
-  /* text on dark surfaces */
-  --text-on-inverse: var(--byu-white); /* body on navy. 13.56:1 */
-  --text-on-inverse-muted: var(--byu-light-blue); /* secondary on navy. 8.99:1 */
-  --text-accent-on-inverse: var(--byu-light-blue); /* accent text on navy. 8.99:1
-      NOT orange: --byu-orange on --byu-navy is 2.90:1 and fails AA and AA-large.
-      Orange on navy is permitted as a FILL behind white text, or as a
-      non-text rule or bar, but never as text itself. */
-
-  /* text on the accent fill */
-  --text-on-accent: var(--byu-white); /* white on orange. 4.67:1 */
-
-  /* borders */
-  --border-subtle: color-mix(in srgb, var(--byu-navy) 15%, transparent);
-  --border-strong: var(--byu-navy);
-  --border-on-inverse: color-mix(in srgb, var(--byu-white) 18%, transparent);
-  --border-accent: var(--byu-orange); /* decorative rules and the accent bar */
-
-  /* ── LAYER 3: LEGACY ALIASES ────────────────────────────
-     The original Iron/Ember names, kept so the existing 541
-     class usages keep working. Prefer the semantic names
-     above in new code; these will be migrated file by file.
-
-     Two of these are why this layer exists at all:
-       --iron  reads as charcoal but holds NAVY
-       --slate is an exact duplicate of navy, so the distinct
-               secondary grey it used to name silently vanished.
-               Use --text-muted for a real muted grey. */
-  --iron: var(--byu-navy); /* DEPRECATED name, correct value. Use --text-primary / --surface-inverse */
-  --iron-soft: var(--byu-navy-soft); /* DEPRECATED. Use --surface-inverse-soft */
-  --paper: var(--byu-white); /* DEPRECATED. Use --surface-default / --text-on-inverse */
-  --paper-dim: var(--byu-off-white); /* DEPRECATED. Use --surface-subtle */
-  --navy: var(--byu-navy); /* DEPRECATED duplicate of --iron */
-  --navy-deep: var(--byu-navy-deep); /* DEPRECATED. Use --surface-inverse-deep */
-  --ember: var(--byu-orange); /* DEPRECATED. Use --surface-accent or --text-accent */
-  --ember-deep: var(--byu-orange-deep); /* DEPRECATED. Use --surface-accent-hover */
-  --slate: var(--byu-navy); /* DEPRECATED, and a duplicate of navy. Use --text-primary */
-  --patina: var(--byu-slate-gray); /* DEPRECATED. Use --text-muted */
-  --on-iron: var(--byu-white); /* DEPRECATED. Use --text-on-inverse */
-  --on-iron-dim: var(--byu-light-blue); /* DEPRECATED. Use --text-on-inverse-muted */
+  --iron: var(--navy);
+  --iron-soft: var(--byu-navy-soft);
+  --paper: var(--white);
+  --paper-dim: var(--byu-off-white);
+  --navy-deep: var(--byu-navy-deep);
+  --ember: var(--royal); /* retired name, royal value */
+  --ember-deep: var(--navy); /* hover swaps royal → navy */
+  --patina: var(--slate);
+  --on-iron: var(--white);
+  --on-iron-dim: var(--text-on-dark-soft);
 }
 
 /* ── CONTRAST CONTRACT ────────────────────────────────────
-   Measured, not estimated. WCAG 2.1 AA needs 4.5:1 for normal
-   text and 3:1 for large text (>=24px, or >=18.66px bold).
+   Measured, not estimated (scripts/check-contrast.mjs).
+   WCAG 2.1 AA needs 4.5:1 for normal text and 3:1 for large
+   text (>=24px, or >=18.66px bold).
 
    ALLOWED anywhere
-     text-primary           on surface-default     13.56:1
-     text-primary           on surface-subtle      12.38:1
-     text-accent            on surface-default      4.67:1
-     text-on-inverse        on surface-inverse     13.56:1
-     text-on-inverse-muted  on surface-inverse      8.99:1
-     text-accent-on-inverse on surface-inverse      8.99:1
-     text-on-accent         on surface-accent       4.67:1
+     navy  on white   13.56:1   body, headings
+     royal on white    9.50:1   accent text, links, buttons
+     white on navy    13.56:1   body on the inverse ground
+     white on royal    9.50:1   button ink
+     white 75% on navy 8.22:1   soft text on dark
 
    LARGE TEXT ONLY (>=24px, or >=18.66px bold)
-     text-muted             on surface-default      3.68:1
-     text-muted             on surface-subtle       3.36:1
-     text-muted             on surface-inverse      3.69:1
-     text-accent            on surface-subtle       4.27:1
+     slate on white    3.68:1   metadata at size
+
+   ALLOWED anywhere (Measured Color additions)
+     navy 70% on white  5.4:1   secondary text at any size
+     white 82% on navy  9.5:1   body-length text on navy
 
    PROHIBITED, these fail and must not ship
-     text-accent (orange)   on surface-inverse      2.90:1
-     byu-royal              on surface-inverse      1.43:1
-     text-primary           on surface-inverse      1.00:1
+     royal on navy     1.43:1   royal never sits directly on navy
+     slate TEXT below 24px regular / 18.66px bold (3.68:1) — slate
+       strokes (badge outlines etc.) are fine anywhere (non-text 3:1)
+     royal FOCUS RINGS on navy grounds — on navy, focus is WHITE
+       (the royal ring scores 1.43:1 there; see [data-ground="navy"])
 
-   Two traps worth naming, both found in the live DOM:
+   The palette has no red: error states are a 2px royal border
+   plus a message that says "Error:" in words, so color is
+   never the only signal.
 
-   1. The accent clears AA on pure white at 4.67:1 but drops
-      to 4.27:1 on surface-subtle, so it FAILS there for
-      normal text. A near-miss like this is exactly what eyes
-      do not catch. Small orange eyebrows belong on
-      surface-default, not on the tinted band.
-
-   2. text-muted is a soft grey that fails normal-size text on
-      every surface we have. It is a large-text and
-      metadata-at-size colour, not a body colour. For small
-      secondary text on navy use text-on-inverse-muted, which
-      is nearly three times the contrast.
-
-   The rule that matters: the accent is a FILL on dark, never
-   a text colour. Put white on it, do not write in it.
+   THE ROYAL BUDGET (Measured Color Tier 3). Royal means
+   INTERACTIVE — buttons, links, focus — plus exactly two named
+   exceptions: eyebrows (wayfinding) and the live-status badge
+   outline. Aim for <= 3 royal marks per viewport; if a section
+   needs interest, spend from the navy ladder, never widen
+   royal. BYU's own guidance backs this: navy is dominant,
+   royal must never read as an equal. The review question for
+   any colored element (after Yale, whose navy is the same
+   Pantone as ours): "what does this differentiate?" —
+   no answer means it reverts to navy.
    ───────────────────────────────────────────────────────── */
 
 @theme inline {
@@ -160,8 +255,19 @@
   --color-border-on-inverse: var(--border-on-inverse);
   --color-border-accent: var(--border-accent);
 
-  /* legacy, still generated so existing markup keeps working */
+  /* primitives */
   --color-navy: var(--navy);
+  --color-royal: var(--royal);
+  --color-slate: var(--slate);
+
+  /* the ladder */
+  --color-text-meta: var(--text-meta);
+  --color-text-on-dark-body: var(--text-on-dark-body);
+  --color-text-on-dark-soft: var(--text-on-dark-soft);
+  --color-surface-recessed: var(--surface-recessed);
+  --color-fill-selected: var(--fill-selected);
+
+  /* legacy, still generated so existing markup keeps working */
   --color-navy-deep: var(--navy-deep);
   --color-iron: var(--iron);
   --color-iron-soft: var(--iron-soft);
@@ -169,197 +275,565 @@
   --color-paper-dim: var(--paper-dim);
   --color-ember: var(--ember);
   --color-ember-deep: var(--ember-deep);
-  --color-slate: var(--slate);
   --color-patina: var(--patina);
   --color-on-iron: var(--on-iron);
   --color-on-iron-dim: var(--on-iron-dim);
 
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display); /* the old serif slot now speaks Archivo */
+  --font-mono: var(--font-mono);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  background: var(--paper);
-  color: var(--iron);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+/* Element defaults live in the base layer so Tailwind utilities on the
+   un-redesigned pages can still override them. */
+@layer base {
+  body {
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--size-body);
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: var(--royal);
+  }
+  a:hover {
+    color: var(--navy);
+  }
+
+  /* Links inside running copy carry a persistent underline: royal vs
+     navy is 1.43:1, so color alone cannot mark them (WCAG G183).
+     Standalone links (nav, cards, footer) are exempt — position and
+     treatment are the cue there. */
+  main p a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* No hanging lines: balance evens multi-line headings so no line is
+     left dangling a word; pretty keeps paragraph orphans in check. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: var(--w-plate);
+    font-size: var(--size-h1);
+    letter-spacing: -0.005em;
+    line-height: 1.05;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: var(--w-plate);
+    font-size: var(--size-h2);
+    line-height: 1.15;
+  }
+
+  /* The cast line: Archivo above 24px, Plex at 24px and below.
+     h3 is the first heading below the line, split from h4 by size,
+     and from body by weight. */
+  h3 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-h3);
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-h4);
+    line-height: 1.35;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  table {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--size-ui);
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-/* ── Editorial serif headline ── */
+/* ── System classes ─────────────────────────────────────── */
+
+/* Rail-62 all-caps label. Condensed at small sizes clots, so it
+   carries +10% tracking. One half of the compression pair. */
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: var(--w-rail);
+  font-size: var(--size-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+}
+
+/* Cast-125 display. Wide + bold + large runs loose, so tracking
+   tightens. The other half of the compression pair. */
+.hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  font-size: var(--size-hero);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--size-caption);
+  line-height: 1.4;
+}
+
+/* Credibility number. Cast 125, tight tracking, numerals not words. */
+.stat {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Optical fix on any dark ground: light text gains weight, so body drops. */
+.on-dark {
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* The wordmark treatment (signature device: stamped nameplate).
+   Never recreate the BYU Marriott co-branded lockup — it ships locked. */
+.nameplate {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-cast);
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+}
+
+.hairline {
+  border-top: 1px solid var(--border-hairline);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+[data-ground="navy"] {
+  --focus-ring: var(--white);
+}
+
+/* ── Link draw + arrow nudge (motion plan #2) ──────────────
+   A 1px underline draws in from the left on hover and exits through the
+   right on leave — the line travels through the word. Arrow glyphs
+   (.arr) nudge 4px. Pure CSS, currentColor, brand timing. */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-base) var(--ease-stamp);
+}
+.link-draw:hover::after,
+.link-draw:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.arr {
+  display: inline-flex;
+  transition: transform var(--dur-fast) var(--ease-stamp);
+}
+.link-draw:hover .arr,
+.link-draw:focus-visible .arr {
+  transform: translateX(4px);
+}
+
+/* ── Card hover: registration marks + caption bar (motion plan #7) ──
+   Hovering a .reg-card swaps its hairline border to royal and slides
+   four 1px corner ticks in at a 2px offset — print registration marks;
+   the card reads as indexed for machining. .reg-bar (inside the image
+   well of a showcase card) slides up from the bottom edge behind its
+   hairline. Devices without hover keep the bar visible. */
+.reg-card {
+  transition: border-color var(--dur-fast) var(--ease-stamp);
+}
+.reg-tick {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-stamp), transform var(--dur-fast) var(--ease-stamp);
+  z-index: 2;
+}
+.reg-tick.tl { top: 5px; left: 5px; border-top: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, 2px); }
+.reg-tick.tr { top: 5px; right: 5px; border-top: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, 2px); }
+.reg-tick.bl { bottom: 5px; left: 5px; border-bottom: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, -2px); }
+.reg-tick.br { bottom: 5px; right: 5px; border-bottom: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, -2px); }
+.reg-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid var(--border-hairline);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--navy);
+  z-index: 1;
+}
+@media (hover: hover) {
+  .reg-bar {
+    transform: translateY(100%);
+    transition: transform var(--dur-fast) var(--ease-stamp);
+  }
+  .reg-card:hover { border-color: var(--royal); }
+  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
+  .reg-card:hover .reg-bar { transform: translateY(0); }
+}
+
+::selection {
+  background: var(--royal);
+  color: var(--white);
+}
+
+[data-ground="navy"] ::selection,
+[data-ground="navy"]::selection {
+  background: var(--white);
+  color: var(--navy);
+}
+
+/* ── Hero motion layer ──────────────────────────────────────
+   The ONE exception to flat solids: a slow shader-style field
+   behind the landing hero. CSS stand-in for the team's
+   ShaderGradient reference (plane, uSpeed 0.1, grain on,
+   colors navy/white/royal; #0047BA normalized to official
+   royal #003DA5). White scrim keeps the text column readable. */
+.ml-field {
+  position: absolute;
+  inset: -25%;
+  transform: rotate(50deg);
+}
+.ml-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+.ml-b1 {
+  width: 58%;
+  height: 52%;
+  right: -6%;
+  top: -4%;
+  background: #002e5d;
+  opacity: 0.5;
+  animation: ml-d1 52s ease-in-out infinite alternate;
+}
+.ml-b2 {
+  width: 52%;
+  height: 48%;
+  right: 6%;
+  top: 30%;
+  background: #003da5;
+  opacity: 0.42;
+  animation: ml-d2 64s ease-in-out infinite alternate;
+}
+.ml-b3 {
+  width: 60%;
+  height: 55%;
+  right: -12%;
+  top: 16%;
+  background: #fff;
+  opacity: 0.85;
+  animation: ml-d3 57s ease-in-out infinite alternate;
+}
+@keyframes ml-d1 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-7%, 9%) scale(1.12);
+  }
+}
+@keyframes ml-d2 {
+  from {
+    transform: translate(0, 0) scale(1.08);
+  }
+  to {
+    transform: translate(9%, -7%) scale(0.94);
+  }
+}
+@keyframes ml-d3 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-10%, 6%) scale(1.15);
+  }
+}
+.ml-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+/* The scrim is what makes navy headline text legible over the shader, and
+   it has to carry as far as the TEXT does, not as far as the text column.
+   The field's navy floor plate (HeroMotionLayer) clamps the darkest pixel
+   to #002E5D — the headline's own color — so anywhere the scrim has faded
+   out, navy-on-navy is 1.00:1 and the glyphs are simply gone.
+
+   Measured on the deployed preview at 1440x900, text hidden, sampling the
+   field underneath the headline band: 12.8:1 at 10% across, 6.4:1 at 50%,
+   then 2.23:1 at 75%, 1.22:1 at 90% and 1.00:1 at 98%. "PRODUCTION-GRADE."
+   runs to ~86% of the viewport at 1440 and ~91% at 1280 (the container is
+   capped at 1200px and centered, so the narrower the desktop the further
+   right the text reaches). The old 0.4-at-62%-to-0-at-88% ramp had
+   essentially no white left under the last third of the longest line.
+
+   These stops hold >=0.44 alpha through 88% and >=~0.36 through 91%, which
+   puts the worst case at ~3.1:1 and the typical case above 4:1 — clear of
+   the 3:1 AA bar for large text. The last stretch still falls to a clean 0
+   so the field's dark right edge, which carries the whole composition, is
+   untouched where no text sits on it. */
+.ml-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    rgba(255, 255, 255, 0.93) 40%,
+    rgba(255, 255, 255, 0.72) 66%,
+    rgba(255, 255, 255, 0.46) 86%,
+    rgba(255, 255, 255, 0.3) 94%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+/* On small screens the text column spans nearly the full width, so the
+   scrim has to carry much further — the field's dark right side otherwise
+   swallows the headline tail and support copy. A hint of field keeps the
+   right edge alive. */
+@media (max-width: 768px) {
+  .ml-scrim {
+    background: linear-gradient(
+      90deg,
+      #fff 0%,
+      rgba(255, 255, 255, 0.95) 55%,
+      rgba(255, 255, 255, 0.7) 80%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+  }
+}
+
+/* ── Name carousel ──────────────────────────────────────────
+   CSS marquee for the shipped-at strip: the row renders twice
+   and slides half its own width, so the loop is seamless.
+   Names as text, never logos. */
+/* The shipped-at strip. One row on desktop: label, marquee, pause button.
+
+   On a phone that row does not fit — "OUR BUILDERS HAVE SHIPPED AT" plus the
+   pause button consume nearly the whole 390px viewport, so the marquee's
+   flex:1 collapsed to about a hundred pixels and the mask cropped it to a
+   sliver of one wordmark. It read as a broken image rather than a scroller.
+   Below the breakpoint the label and button share the top line and the
+   marquee gets the full width underneath.
+
+   Placed by nth-child because Eyebrow takes a style prop but no className,
+   and adding one to reach three children here is not worth widening its API:
+   1 = the eyebrow label, 2 = the marquee track, 3 = the pause button. */
+.nc-strip {
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .nc-strip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px 16px;
+  }
+  .nc-strip > *:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .nc-strip > *:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .nc-strip > *:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+}
+
+@keyframes nc-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Square royal spinner in a loading button; the label stays. */
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══ LEGACY CLASSES ════════════════════════════════════════
+   Used by /network, /ops, and /lab/* only. The redesigned
+   routes do not use these. Values read the new tokens (the
+   ember names hold royal now), so these pages inherit the new
+   palette without a rebuild. Remove when those pages are
+   redesigned. */
+
 .font-serif,
 .serif {
-  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  font-optical-sizing: auto;
+  font-family: var(--font-display);
 }
 
-/* ── Wonk: Fraunces' hand-set irregular letterforms.
-   Hero headline only. SOFT rounds the terminals, WONK swaps
-   in off-baseline alternates. ── */
+/* Fraunces' WONK axis is gone with Fraunces. Kept as a no-op so
+   old markup does not break. */
 .wonk {
-  font-variation-settings:
-    "SOFT" 70,
-    "WONK" 1;
 }
 
-/* ── Eyebrow / label: all-caps Inter, letter-spaced ── */
-.eyebrow {
-  font-family: var(--font-inter), sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  /* All-caps needs more tracking than lowercase to stay legible, and this is
-     a label rather than a heading, so it carries the wider value. */
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* ── The signature: a vertical Ember bar ── */
-.ember-bar {
-  background: var(--ember);
-}
-
-/* ═══ Forge surfaces: grain + tonal depth ═══
-   Texture lives in the background-image stack, never as an
-   overlay, so it always sits beneath content. Gradients are
-   tonal only (within one color), per brand rules. */
-
-/* fractal-noise grain, tiled. Tuned per surface via opacity in the SVG. */
 .surface-paper {
   background-color: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
 }
 .surface-paper-dim {
   background-color: var(--paper-dim);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
 }
-/* navy: faint speckle + tonal depth (lighter at top, settling darker).
-   Stays within the navy family — not a multi-brand-colour gradient. */
 .surface-iron {
   background-color: var(--iron);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.11'/%3E%3C/svg%3E"),
-    linear-gradient(180deg, #00396f 0%, #002e5d 38%, #00203f 100%);
 }
-/* deeper variant for the hero: a slow radial pool of depth, like
-   light falling on a workbench. Still tonal navy only. */
 .surface-iron-deep {
   background-color: var(--iron);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.11'/%3E%3C/svg%3E"),
-    radial-gradient(120% 90% at 28% 0%, #004380 0%, #002e5d 52%, #001a35 100%);
-}
-
-/* ── Ember heat: a slow pulse within the ember family.
-   Tonal (ember → ember-deep), no glow, no blur. ── */
-@keyframes ember-heat {
-  0%,
-  100% {
-    background-position: 50% 0%;
-  }
-  50% {
-    background-position: 50% 100%;
-  }
-}
-.ember-bar-heat {
-  background-image: linear-gradient(
-    180deg,
-    var(--ember) 0%,
-    var(--ember-deep) 45%,
-    var(--ember) 100%
+  background-image: radial-gradient(
+    120% 90% at 28% 0%,
+    #004380 0%,
+    #002e5d 52%,
+    #001a35 100%
   );
-  background-size: 100% 280%;
-  animation: ember-heat 6s ease-in-out infinite;
 }
 
-/* ── Hero sparks: tiny crisp motes rising off the forge.
-   Sparse, low opacity, never blurred. ── */
-@keyframes spark-rise {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  12% {
-    opacity: var(--spark-peak, 0.65);
-  }
-  85% {
-    opacity: 0.08;
-  }
-  100% {
-    transform: translate3d(var(--spark-drift, -24px), -420px, 0);
-    opacity: 0;
-  }
-}
-.spark {
-  position: absolute;
-  bottom: -6px;
-  border-radius: 9999px;
-  background: var(--ember);
-  pointer-events: none;
-  animation: spark-rise var(--spark-dur, 9s) linear infinite;
-  animation-delay: var(--spark-delay, 0s);
-  will-change: transform, opacity;
+.ember-bar {
+  background: var(--royal);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ember-bar-heat {
-    animation: none;
-    background-image: none;
-    background-color: var(--ember);
-  }
-  .spark {
-    display: none;
-  }
-}
-
-/* ── Primary CTA button ── */
 .btn-ember {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--ember);
-  color: var(--paper);
-  font-weight: 600;
+  background: var(--royal);
+  color: var(--white);
+  font-weight: 500;
   letter-spacing: 0.01em;
-  transition: background 0.2s ease;
+  border-radius: var(--radius);
+  transition: background var(--dur-fast);
   cursor: pointer;
 }
 .btn-ember:hover {
-  background: var(--ember-deep);
+  background: var(--navy);
 }
 .btn-ember:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* ── Links: ember underline that grows on hover ── */
 .link-ember {
-  color: var(--ember);
+  color: var(--royal);
   text-decoration: none;
-  background-image: linear-gradient(var(--ember), var(--ember));
+  background-image: linear-gradient(var(--royal), var(--royal));
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 100% 1px;
-  transition: background-size 0.2s ease;
+  transition: background-size var(--dur-fast);
 }
 .link-ember:hover {
   background-size: 100% 2px;
 }
 
-/* ── Duotone portrait: warm grayscale, full color on hover ── */
 .photo-duotone {
-  filter: grayscale(1) sepia(0.24) saturate(0.85) brightness(1.03);
-  transition: filter 0.35s ease;
+  filter: grayscale(1);
+  transition: filter var(--dur-base) var(--ease-stamp);
 }
 .group:hover .photo-duotone,
 .photo-duotone:hover {
   filter: none;
 }
 
-/* ── Typographic marquee ── */
 @keyframes marquee-scroll {
   to {
     transform: translateX(-50%);
@@ -370,73 +844,21 @@ body {
   width: max-content;
   animation: marquee-scroll 38s linear infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
-
-/* ── Heat-reactive borders: metal warming near the cursor.
-   --heat is set per element by a pointermove listener (0 → 1).
-   Tonal shift toward ember, no glow. ── */
-.heat-border {
-  border-color: color-mix(
-    in srgb,
-    rgba(255, 255, 255, 0.1),
-    rgba(209, 65, 36, 0.65) calc(var(--heat, 0) * 100%)
-  );
-}
-
-/* ── Hero sparks: tiny crisp motes rising off the forge.
-   Carried over from the original site. Sparse, low opacity, never
-   blurred; tuned by per-spark CSS variables set in Sparks.tsx. ── */
-@keyframes spark-rise {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  12% {
-    opacity: var(--spark-peak, 0.65);
-  }
-  85% {
-    opacity: 0.08;
-  }
-  100% {
-    transform: translate3d(var(--spark-drift, -24px), -420px, 0);
-    opacity: 0;
-  }
-}
-.spark {
-  position: absolute;
-  bottom: -6px;
-  border-radius: 9999px;
-  background: var(--ember);
-  pointer-events: none;
-  animation: spark-rise var(--spark-dur, 9s) linear infinite;
-  animation-delay: var(--spark-delay, 0s);
-  will-change: transform, opacity;
-}
-@media (prefers-reduced-motion: reduce) {
-  .spark {
-    display: none;
-  }
-}
-
-/* ── Selection ── */
-::selection {
-  background: var(--ember);
-  color: var(--paper);
-}
 
 /* ── Reduced-motion safety ── */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  .ml-blob,
+  .marquee-track {
+    animation: none;
+  }
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }

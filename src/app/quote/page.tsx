@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
 import { QuoteForm } from "@/components/QuoteForm"
-import { QUOTE_LEAD, QUOTE_STEPS, SCHOOL_FULL } from "@/lib/content"
+import { Eyebrow } from "@/components/ds/Eyebrow"
+import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
+import { QUOTE_FOLLOW, QUOTE_HEADLINE, QUOTE_STEPS, SCHOOL_FULL } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Request a proposal",
@@ -15,69 +16,81 @@ export const metadata: Metadata = {
 }
 
 /**
- * This page exists to hold the form and nothing else.
- *
- * That is the whole design constraint. Someone arrives here having already
- * read the offerings on the landing page and decided to act, so anything else
- * competing for attention is a reason to stop before submitting. No offerings
- * repeated, no nav bait, one column, one thing to do.
+ * The form, and nothing else. Rebuilt to design_handoff .../ui_kits/quote:
+ * plate H1 over the lead, the eight-field form, then the three
+ * "what happens next" steps with royal cast numerals.
  */
 export default function QuotePage() {
   return (
     <>
       <SiteHeader />
-      <main className="surface-iron text-text-on-inverse">
-        <div className="mx-auto max-w-3xl px-6 py-20 md:py-28">
-          <div className="text-center">
-            <h1 className="font-serif text-4xl font-semibold tracking-[-0.02em] md:text-5xl">
-              Request a proposal
+      <main>
+        <section style={{ padding: "64px 24px 0" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+            {/* The page eyebrow keeps naming the action; only BUTTONS
+                changed to "Work with us" (Corbin, 2026-08-16). */}
+            <Eyebrow>Request a proposal</Eyebrow>
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontStretch: "var(--w-plate)",
+                fontSize: "var(--size-h1)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.005em",
+                margin: "14px 0 0",
+                color: "var(--navy)",
+              }}
+            >
+              {QUOTE_HEADLINE}
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-on-inverse-muted">
-              {QUOTE_LEAD}
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "56ch", margin: "16px 0 0" }}>
+              {QUOTE_FOLLOW}
             </p>
           </div>
-
-          <div className="mt-14">
-            {/* Native form posting to /api/quote, which writes to Supabase.
-                On this navy band it renders as a white plate, exactly as the
-                embedded form it replaced did. */}
+        </section>
+        {/* The one recessed surface per page (Measured Color Tier 3,
+            sanctioned by Corbin 2026-08-17): navy/4 behind the form, so
+            the white inputs read raised with zero shadows — Stripe's
+            #F6F9FC move, Carbon's layer step. */}
+        <section id="form" style={{ background: "var(--surface-recessed)", padding: "48px 24px 56px" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <QuoteForm />
           </div>
-
-          {/* After the form, not before it. Someone who is ready to fill it in
-              should meet the fields first; this is for the ones who scroll
-              past looking for what it commits them to. */}
-          <div className="mt-16 border-t border-border-on-inverse pt-12">
-            <h2 className="eyebrow text-center text-text-on-inverse-muted">
-              What happens next
-            </h2>
-            <ol className="mt-8 grid gap-8 sm:grid-cols-3">
-              {QUOTE_STEPS.map((step) => (
-                <li key={step.n}>
-                  {/* On navy the muted token is BYU Light Blue at 8.99:1, so
-                      unlike the tinted band this needs no opacity juggling. */}
-                  <span className="eyebrow block text-text-on-inverse-muted">
-                    {String(step.n).padStart(2, "0")}
+        </section>
+        <section style={{ padding: "56px 24px 64px", position: "relative" }}>
+          <DrawRule bleed />
+          <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+            <Reveal>
+              <div style={{ textAlign: "center", marginBottom: "36px" }}>
+                <Eyebrow>What happens next</Eyebrow>
+              </div>
+            </Reveal>
+            <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "32px" }}>
+              {QUOTE_STEPS.map((s) => (
+                <StaggerItem key={s.n} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 700,
+                      fontStretch: "var(--w-cast)",
+                      fontSize: "40px",
+                      lineHeight: 1,
+                      letterSpacing: "-0.02em",
+                      color: "var(--royal)",
+                    }}
+                  >
+                    {s.n}
                   </span>
-                  <span className="mt-2 block text-base font-semibold text-text-on-inverse">
-                    {step.title}
-                  </span>
-                  <span className="mt-1.5 block text-base leading-relaxed text-text-on-inverse-muted">
-                    {step.detail}
-                  </span>
-                </li>
+                  <h2 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "18px", margin: 0 }}>{s.title}</h2>
+                  <p style={{ fontFamily: "var(--font-body)", fontSize: "14px", lineHeight: 1.55, color: "var(--text-primary)", margin: 0, maxWidth: "40ch" }}>
+                    {s.detail}
+                  </p>
+                </StaggerItem>
               ))}
-            </ol>
+            </Stagger>
           </div>
-
-          <p className="mt-14 text-center text-base text-text-on-inverse-muted">
-            Not ready yet?{" "}
-            <Link href="/#quote" className="font-semibold text-text-on-inverse underline underline-offset-4">
-              Read what we build
-            </Link>
-            .
-          </p>
-        </div>
+        </section>
       </main>
       <SiteFooter />
     </>

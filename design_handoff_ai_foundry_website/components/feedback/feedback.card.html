@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Feedback" subtitle="Dialog, EmptyState, Progress" -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>Babel.registerPreset("react-classic",{presets:[[Babel.availablePresets["react"],{runtime:"classic"}]]});</script>
+<script src="../../ds-fallback-loader.js"></script>
+<style>body{margin:0;padding:18px;background:#fff}</style>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+const {Dialog,EmptyState,Progress,Button}=NS;
+function Demo(){
+  const [open,setOpen]=React.useState(false);
+  return <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:18,alignItems:'start'}}>
+    <div style={{display:'flex',flexDirection:'column',gap:18}}>
+      <Progress value={4} max={10} label="Claude Architect certification" caption="Leadership first, then the wider roster." />
+      <Button variant="secondary" onClick={()=>setOpen(true)}>Open dialog</Button>
+    </div>
+    <EmptyState eyebrow="No projects yet" title="Nothing is being scoped right now." detail="Submit a project and it lands here." />
+    <Dialog open={open} onClose={()=>setOpen(false)} title="Withdraw this proposal?" actions={[{label:'Withdraw',onClick:()=>setOpen(false)},{label:'Keep it',variant:'secondary',onClick:()=>setOpen(false)}]}>This removes the request from scoping. One plain sentence, nothing dramatic.</Dialog>
+  </div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>

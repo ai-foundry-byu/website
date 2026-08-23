@@ -1,0 +1,73 @@
+/* SplashButton — offset outline ring that melts away on hover and
+   splashes back in on mouse-leave.
+
+   One knob: --splash-color. The gradient and ring are derived from it
+   with color-mix(), so recoloring a button is a single override
+   (style={{ "--splash-color": "#..." }} or the color prop). */
+
+.button {
+  --splash-color: #1f63f4;
+  --splash-radius: 8px;
+  --splash-ring: 4px;
+  --splash-gap: 3px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 34px;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #fff;
+  background: var(--splash-color); /* solid fallback if color-mix is unsupported */
+  border: none;
+  border-radius: var(--splash-radius);
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The ring lives on a pseudo-element offset outside the button, so the
+   gap stays transparent over any page background. */
+.button::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * (var(--splash-gap) + var(--splash-ring)));
+  border: var(--splash-ring) solid var(--splash-ring-color, var(--splash-color));
+  border-radius: calc(var(--splash-radius) + var(--splash-gap) + var(--splash-ring));
+  opacity: 1;
+  transition: opacity 250ms ease-out; /* splash back in on leave */
+  pointer-events: none;
+}
+
+@supports (color: color-mix(in oklab, red 50%, white)) {
+  .button {
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--splash-color) 85%, white) 0%,
+      var(--splash-color) 48%,
+      color-mix(in oklab, var(--splash-color) 90%, black) 100%
+    );
+  }
+  .button::after {
+    border-color: var(
+      --splash-ring-color,
+      color-mix(in srgb, var(--splash-color) 50%, transparent)
+    );
+  }
+}
+
+.button:hover::after {
+  opacity: 0;
+  transition-duration: 100ms; /* melt away fast on hover */
+}
+
+/* Keyboard users keep the ring as a focus indicator, even while hovered */
+.button:focus-visible::after {
+  opacity: 1;
+}
+
+.button:active {
+  transform: translateY(1px);
+}

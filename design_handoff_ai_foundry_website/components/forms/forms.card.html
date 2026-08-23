@@ -1,0 +1,37 @@
+<!-- @dsCard group="Components" viewport="700x460" name="Forms" subtitle="Buttons, states, Input, Select, Textarea" -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>Babel.registerPreset("react-classic",{presets:[[Babel.availablePresets["react"],{runtime:"classic"}]]});</script>
+<script src="../../ds-fallback-loader.js"></script>
+<style>body{margin:0;padding:18px;background:#fff}</style>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+const {Button,Input,Select,Textarea}=NS;
+function Demo(){return <div style={{display:'flex',flexDirection:'column',gap:18}}>
+  <div style={{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}}>
+    <Button variant="primary">Work with us</Button>
+    <Button variant="secondary">Join the network</Button>
+    <Button variant="ghost">See all our work</Button>
+    <Button variant="primary" loading>Sending</Button>
+    <Button variant="primary" disabled>Disabled</Button>
+    <span style={{background:'var(--navy)',padding:'10px',display:'inline-flex'}}><Button variant="inverse">On navy</Button></span>
+  </div>
+  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+    <Input label="Email" type="email" required placeholder="you@company.com" />
+    <Input label="Company" required error="Company is required." defaultValue="" />
+    <Select label="When do you need it" options={["As soon as possible","Within a semester","Within the year","Exploring, no date yet"]} placeholder="Choose one" />
+    <Textarea label="What do you want built" required rows={2} hint="A few sentences is plenty." />
+  </div>
+</div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>

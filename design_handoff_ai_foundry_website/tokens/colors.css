@@ -1,0 +1,28 @@
+/* AI Foundry color system. Official BYU palette only — these four are the
+   entire universe of color. No tints, no new hues. Alpha values of navy are
+   permitted for hairlines and soft text on dark grounds.
+   Rules:
+   - Royal never sits directly on navy (1.4:1).
+   - Slate is for metadata and large text only, never body-critical copy.
+   - Orange/ember and light blue from earlier explorations are retired. */
+:root {
+  /* Base */
+  --navy: #002E5D;   /* PMS 648C */
+  --white: #FFFFFF;
+  --royal: #003DA5;  /* PMS 293C */
+  --slate: #7C878E;  /* PMS 430C */
+
+  /* Semantic */
+  --text-primary: var(--navy);
+  --text-meta: var(--slate);
+  --text-on-dark: var(--white);
+  --text-on-dark-soft: rgba(255, 255, 255, 0.75);
+  --surface-page: var(--white);
+  --surface-inverse: var(--navy);
+  --accent: var(--royal);
+  --accent-ink: var(--white);
+  --border-hairline: rgba(0, 46, 93, 0.15);
+  --border-input: rgba(0, 46, 93, 0.4);
+  --border-strong: var(--navy);
+  --focus-ring: var(--royal);
+}

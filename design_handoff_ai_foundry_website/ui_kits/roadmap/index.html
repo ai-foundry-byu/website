@@ -1,0 +1,89 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Roadmap page" subtitle="Three phases, status badges, live-count pattern" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap — AI Foundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../ds-fallback-loader.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+
+const {NavBar,Footer,Eyebrow,Badge,Progress}=NS;
+const PHASES=[
+ {n:"1",title:"Foundation",subtitle:"Identity, leadership, and credentials",items:[
+  {name:"Mission, brand, and website",detail:"Mission and vision decided and proofed. This site is live on the BYU domain, with the proposal and network forms writing to our own database.",status:"live"},
+  {name:"Claude Architect certification",detail:"The cohort certifies on the frontier agent tooling we build with. Leadership first, then out to the wider roster.",status:"active",cert:true},
+  {name:"Advisory board",detail:"Senior advisors across AI, venture, and industry, recruited to advise the program rather than to decorate a page.",status:"active"},
+  {name:"Founding partners",detail:"Organizations committing project work, mentorship, and access to the cohort.",status:"active"}
+ ]},
+ {n:"2",title:"Community",subtitle:"Reach, presence, and the first events",items:[
+  {name:"Reaching the BYU Marriott cohort directly",detail:"Meeting MBAs where they already are, in the channels the school already runs, rather than waiting for them to find the program.",status:"active"},
+  {name:"The network",detail:"Alumni, faculty, founders, and builders who want the digest, the events, or first access to the cohort when they are hiring.",status:"active"},
+  {name:"Marketing and LinkedIn",detail:"Building the program's presence across BYU Marriott and the wider AI and venture community.",status:"active"},
+  {name:"Client project pipeline",detail:"Scoping inbound work from this site and matching each project to a velocity pod. First engagements are being scoped now.",status:"active"},
+  {name:"Launch party",detail:"The public launch, bringing the network, the advisory board, and the founding partners into one room.",status:"planned"},
+  {name:"MBA case competition",detail:"A low-stakes AI case competition for BYU MBAs. It builds the culture and surfaces the builders worth recruiting.",status:"planned"}
+ ]},
+ {n:"3",title:"Programs",subtitle:"Competition, conference, and scale",items:[
+  {name:"Competitive product competition",detail:"A high-stakes AI product competition with a real judging panel and partner sponsors.",status:"planned"},
+  {name:"School-wide hackathon",detail:"BYU-wide and cross-disciplinary. Mixed teams shipping something that runs, in a weekend.",status:"planned"},
+  {name:"Conference",detail:"Speakers, demos, and a recruiting showcase. Whether it runs in the fall alone or in both semesters is still open.",status:"planned"}
+ ]}
+];
+const tone=(s)=>s==="live"?"accent":"default";
+function Page(){
+ return <div>
+  <NavBar sticky links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"}]} ctaLabel="Work with us" ctaHref="../quote/index.html"/>
+  <section data-screen-label="Roadmap intro" style={{padding:"88px 24px 0"}}>
+   <div style={{maxWidth:"760px",margin:"0 auto"}}>
+    <Eyebrow>Roadmap</Eyebrow>
+    <h1 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"var(--size-h1)",lineHeight:1.05,letterSpacing:"-0.005em",margin:"14px 0 0",color:"var(--navy)"}}>What we are building, and where it stands.</h1>
+    <p style={{fontSize:"var(--size-body)",lineHeight:1.55,color:"var(--text-meta)",maxWidth:"60ch",margin:"16px 0 0"}}>Three phases, in order. The counts on this page are read from our own systems each time it loads, so what you see is the current number and not a figure from the last time somebody updated a slide.</p>
+   </div>
+  </section>
+  <section data-screen-label="Phases" style={{padding:"56px 24px 96px"}}>
+   <div style={{maxWidth:"760px",margin:"0 auto",display:"flex",flexDirection:"column",gap:"56px"}}>
+    {PHASES.map(ph=>(
+     <div key={ph.n}>
+      <div style={{display:"flex",alignItems:"baseline",gap:"16px",borderBottom:"1px solid var(--border-strong)",paddingBottom:"12px"}}>
+       <span style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-cast)",fontSize:"34px",lineHeight:1,letterSpacing:"-0.02em",color:"var(--royal)"}}>{ph.n}</span>
+       <h2 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"24px",lineHeight:1.15,margin:0}}>{ph.title}</h2>
+       <span className="caption" style={{color:"var(--text-meta)"}}>{ph.subtitle}</span>
+      </div>
+      {ph.items.map(it=>(
+       <div key={it.name} style={{borderBottom:"1px solid var(--border-hairline)",padding:"16px 0",display:"flex",gap:"20px",alignItems:"flex-start",justifyContent:"space-between"}}>
+        <div style={{flex:1}}>
+         <h4 style={{fontFamily:"var(--font-body)",fontWeight:600,fontSize:"var(--size-h4)",margin:"0 0 4px"}}>{it.name}</h4>
+         <p style={{fontFamily:"var(--font-body)",fontSize:"14px",lineHeight:1.55,color:"var(--text-primary)",margin:0,maxWidth:"66ch"}}>{it.detail}</p>
+         {it.cert ? <div style={{marginTop:"12px",maxWidth:"420px"}}><Progress value={4} max={10} label="Certified" caption="Sample value. Production reads from our own systems when the page loads."/></div> : null}
+        </div>
+        <Badge tone={tone(it.status)}>{it.status}</Badge>
+       </div>
+      ))}
+     </div>
+    ))}
+    <p className="caption" style={{color:"var(--text-meta)",margin:0}}>Read from our own systems when this page loaded.</p>
+   </div>
+  </section>
+  <Footer links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"../landing/index.html#network"},{label:"Roadmap",href:"../roadmap/index.html"}]}/>
+ </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+/* AI Foundry spacing, surfaces, and motion. Industrial and flat: sharp
+   corners everywhere, hairline rules instead of shadows, presses that feel
+   stamped. */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  --container: 1200px;
+  --container-pad: 24px;
+  --measure: 66ch; /* body measure: 60-75 characters */
+
+  --radius: 5px; /* boxes round at 4-6px; 5px is the system value */
+  --shadow: none; /* elevation is drawn with hairlines, never shadows */
+
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --ease-stamp: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+}
+
+.hairline { border-top: 1px solid var(--border-hairline); }
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}

@@ -1,170 +1,152 @@
 "use client"
 
 import { useState } from "react"
+import { Button } from "@/components/ds/Button"
+import { EmptyState } from "@/components/ds/EmptyState"
+import { Input } from "@/components/ds/Input"
+import { Select } from "@/components/ds/Select"
+import { Textarea } from "@/components/ds/Textarea"
+import { QUOTE_CONFIRM, QUOTE_CTA, QUOTE_CTA_NOTE, QUOTE_FIELDS } from "@/lib/content"
+import styles from "./QuoteForm.module.css"
 
 /**
- * The quote request form. Eight fields, per FORMS.md form 1, posting to
- * /api/quote which writes to Supabase (project_proposals).
+ * The quote request form, rebuilt to design_handoff .../ui_kits/quote:
+ * eight fields in a two-column grid (textarea and select span both),
+ * required-field validation with royal borders and "Error:" in words,
+ * a loading spinner on submit, and a quiet confirmation state.
  *
- * This replaced the embedded Google Form on 2026-08-01 when the site was
- * wired to the existing Supabase backend. Same fields, same order, same
- * help text; what changed is where a submission lands.
- *
- * It sits on the navy band of /quote, so like the old embed it renders as
- * a white plate. Field styling is shared with NetworkForm by convention,
- * not by abstraction: two forms is not enough duplication to earn a
- * field-component layer.
+ * Field set and copy are QUOTE_FIELDS (FORMS.md form 1). Submissions post
+ * to /api/quote, which writes to Supabase (project_proposals) — same
+ * payload contract as before the redesign.
  */
 
-const TIMELINES = [
-  "As soon as possible",
-  "Within a semester",
-  "Within the year",
-  "Exploring, no date yet",
-]
+/** Copy lookup: the label is the key into QUOTE_FIELDS. */
+const field = (label: string) => {
+  const f = QUOTE_FIELDS.find((x) => x.label === label)
+  if (!f) throw new Error(`QUOTE_FIELDS is missing "${label}"`)
+  return f
+}
 
-const inputClass =
-  "w-full border border-border-subtle bg-surface-default px-4 py-3 text-base text-text-primary outline-none transition-colors focus:border-border-strong"
+const REQUIRED: Record<string, string> = {
+  first: "First name",
+  last: "Last name",
+  email: "Email",
+  phone: "Phone number",
+  company: "Company",
+  brief: "This field",
+}
 
-const labelClass = "block text-sm font-semibold text-text-primary"
-
-type Status = "idle" | "submitting" | "success" | "error"
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function QuoteForm() {
-  const [status, setStatus] = useState<Status>("idle")
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (status === "submitting") return
-    setStatus("submitting")
-    setErrorMsg(null)
-
-    const form = e.currentTarget
-    const data = new FormData(form)
-    const payload = {
-      first_name: data.get("first_name"),
-      last_name: data.get("last_name"),
-      email: data.get("email"),
-      phone: data.get("phone"),
-      company: data.get("company"),
-      website: data.get("website"),
-      project_description: data.get("project_description"),
-      desired_timeline: data.get("desired_timeline"),
+    if (sending) return
+    const f = new FormData(e.currentTarget)
+    const errs: Record<string, string> = {}
+    for (const k in REQUIRED) {
+      if (!String(f.get(k) || "").trim()) errs[k] = REQUIRED[k] + " is required."
     }
-
+    const email = String(f.get("email") || "").trim()
+    if (email && !EMAIL.test(email)) errs.email = "Enter a valid email address."
+    const website = String(f.get("website") || "").trim()
+    if (website && (/\s/.test(website) || !website.includes("."))) {
+      errs.website = "Enter a valid website address."
+    }
+    setErrors(errs)
+    if (Object.keys(errs).length) return
+    setSending(true)
+    setServerError(null)
     try {
       const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          first_name: f.get("first"),
+          last_name: f.get("last"),
+          email: f.get("email"),
+          phone: f.get("phone"),
+          company: f.get("company"),
+          website: f.get("website"),
+          project_description: f.get("brief"),
+          desired_timeline: f.get("timeline"),
+        }),
       })
-      const body = await res.json()
       if (!res.ok) {
-        setErrorMsg(body.error ?? "Could not submit right now. Please try again.")
-        setStatus("error")
+        const body = await res.json().catch(() => null)
+        setServerError(body?.error ?? "Could not submit right now. Please try again.")
         return
       }
-      setStatus("success")
+      setSent(true)
     } catch {
-      setErrorMsg("Could not submit right now. Please try again.")
-      setStatus("error")
+      setServerError("Could not submit right now. Please try again.")
+    } finally {
+      setSending(false)
     }
   }
 
-  if (status === "success") {
+  if (sent) {
     return (
-      <div className="bg-surface-default p-10 text-center">
-        <p className="eyebrow text-text-primary opacity-80">Received</p>
-        <p className="mt-3 font-serif text-xl text-text-primary">
-          Thank you. We have your request.
-        </p>
-        <p className="mx-auto mt-2 max-w-md text-base leading-relaxed text-text-primary">
-          We will reach out within a few business days with next steps.
-        </p>
-      </div>
+      <EmptyState eyebrow={QUOTE_CONFIRM.eyebrow} title={QUOTE_CONFIRM.title} detail={QUOTE_CONFIRM.detail}>
+        <div style={{ marginTop: "8px" }}>
+          <Button variant="secondary" onClick={() => setSent(false)}>
+            Back to the form
+          </Button>
+        </div>
+      </EmptyState>
     )
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate={false} className="bg-surface-default p-6 md:p-10">
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div>
-          <label htmlFor="q-first" className={labelClass}>
-            First name
-          </label>
-          <input id="q-first" name="first_name" required autoComplete="given-name" className={`mt-2 ${inputClass}`} />
-        </div>
-        <div>
-          <label htmlFor="q-last" className={labelClass}>
-            Last name
-          </label>
-          <input id="q-last" name="last_name" required autoComplete="family-name" className={`mt-2 ${inputClass}`} />
-        </div>
-        <div>
-          <label htmlFor="q-email" className={labelClass}>
-            Email
-          </label>
-          <input id="q-email" name="email" type="email" required autoComplete="email" className={`mt-2 ${inputClass}`} />
-        </div>
-        <div>
-          <label htmlFor="q-phone" className={labelClass}>
-            Phone number
-          </label>
-          <input id="q-phone" name="phone" type="tel" required autoComplete="tel" className={`mt-2 ${inputClass}`} />
-        </div>
-        <div>
-          <label htmlFor="q-company" className={labelClass}>
-            Company
-          </label>
-          <input id="q-company" name="company" required autoComplete="organization" className={`mt-2 ${inputClass}`} />
-        </div>
-        <div>
-          <label htmlFor="q-website" className={labelClass}>
-            Website <span className="font-normal opacity-60">(optional)</span>
-          </label>
-          <input id="q-website" name="website" type="url" autoComplete="url" placeholder="https://" className={`mt-2 ${inputClass}`} />
-        </div>
+    <form onSubmit={submit} noValidate className={styles.grid}>
+      <Input label="First name" name="first" required autoComplete="given-name" error={errors.first} />
+      <Input label="Last name" name="last" required autoComplete="family-name" error={errors.last} />
+      <Input label="Email" name="email" type="email" required autoComplete="email" error={errors.email} />
+      <Input label="Phone number" name="phone" type="tel" required autoComplete="tel" error={errors.phone} />
+      <Input label="Company" name="company" required autoComplete="organization" error={errors.company} />
+      <Input label="Website" name="website" type="url" autoComplete="url" error={errors.website} />
+      <div style={{ gridColumn: "1 / -1" }}>
+        <Textarea
+          label="What do you want built"
+          name="brief"
+          required
+          rows={5}
+          error={errors.brief}
+          hint={field("What do you want built").help}
+        />
       </div>
-
-      <div className="mt-6">
-        <label htmlFor="q-desc" className={labelClass}>
-          What do you want built
-        </label>
-        <p className="mt-1 text-sm leading-relaxed text-text-primary opacity-70">
-          A few sentences is plenty. If you are not sure yet, say so, that is a
-          normal place to start.
-        </p>
-        <textarea id="q-desc" name="project_description" required rows={5} className={`mt-2 ${inputClass} resize-y`} />
+      <div style={{ gridColumn: "1 / -1" }}>
+        <Select label="When do you need it" name="timeline" options={field("When do you need it").options} placeholder="Choose one" />
       </div>
-
-      <fieldset className="mt-6">
-        <legend className={labelClass}>
-          When do you need it <span className="font-normal opacity-60">(optional)</span>
-        </legend>
-        <div className="mt-3 space-y-2">
-          {TIMELINES.map((t) => (
-            <label key={t} className="flex cursor-pointer items-center gap-3 text-base text-text-primary">
-              <input type="radio" name="desired_timeline" value={t} className="h-4 w-4 accent-(--color-ember)" />
-              {t}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      {status === "error" && errorMsg ? (
-        <p role="alert" className="mt-6 border border-border-accent bg-surface-subtle px-4 py-3 text-base text-text-primary">
-          {errorMsg}
-        </p>
-      ) : null}
-
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="btn-ember mt-8 w-full px-6 py-3 text-base disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Submitting..." : "Request a proposal"}
-      </button>
+      <div style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: "14px", marginTop: "6px", flexWrap: "wrap" }}>
+        <Button variant="primary" size="lg" type="submit" loading={sending}>
+          {sending ? "Sending" : QUOTE_CTA.label}
+        </Button>
+        <span className="caption" style={{ color: "var(--text-meta)" }}>
+          {QUOTE_CTA_NOTE}
+        </span>
+        {serverError ? (
+          <p
+            role="alert"
+            style={{
+              fontFamily: "var(--font-body)",
+              fontWeight: 600,
+              fontSize: "var(--size-caption)",
+              lineHeight: 1.4,
+              color: "var(--royal)",
+              margin: 0,
+              flexBasis: "100%",
+            }}
+          >
+            Error: {serverError}
+          </p>
+        ) : null}
+      </div>
     </form>
   )
 }

@@ -1,19 +1,41 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { CurtainRouteProvider } from "@/components/CurtainRoute";
+import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+/**
+ * The three families of the design system, and no others. Spec:
+ * design_handoff_ai_foundry_website/DESIGN_SYSTEM.md.
+ *
+ * Archivo MUST load with the wdth axis or every width stop (125 Cast /
+ * 100 Plate / 62 Rail) silently renders at 100 and the whole display
+ * voice collapses. Width is controlled with font-stretch, never
+ * font-variation-settings, because the latter overrides font-weight and
+ * breaks fallback behavior.
+ */
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
   display: "swap",
+  axes: ["wdth"],
 });
 
-// Transitional / editorial serif for headlines — the Lyon/Tiempos free analog.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Not a variable family on Google Fonts, so the weights are enumerated.
+// 300 exists solely for body text on navy grounds (the optical fix).
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 const TITLE = "AI Foundry | BYU Marriott School of Business";
@@ -75,9 +97,20 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/* CurtainRouteProvider is the corbin-curtain-site preview experiment:
+          header-nav route changes run behind a curtain. Pages stay server-
+          rendered — children cross the boundary as a ReactNode prop. Remove
+          this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
+      <body className="min-h-full flex flex-col">
+        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important}'}</style></noscript>
+        {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
+            system; the curtain handles reduced motion itself, outside it. */}
+        <CurtainRouteProvider effect="fade">
+          <MotionRoot>{children}</MotionRoot>
+        </CurtainRouteProvider>
+      </body>
     </html>
   );
 }

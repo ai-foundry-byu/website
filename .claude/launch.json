@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "design-refs",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "design_handoff_ai_foundry_website", "-l", "8807"],
+      "port": 8807
+    }
+  ]
+}

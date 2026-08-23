@@ -1,0 +1,140 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Landing page" subtitle="Direction 4b on structure 1b — hi-fi, interactive" --><!-- @startingPoint section="Website" subtitle="Landing page — direction 4b" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Foundry — An AI-native product studio and consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>Babel.registerPreset("react-classic",{presets:[[Babel.availablePresets["react"],{runtime:"classic"}]]});</script>
+<script src="../../ds-fallback-loader.js"></script>
+<style>html{scroll-behavior:smooth}
+/* Hero motion layer — CSS stand-in for the team's ShaderGradient reference
+   (plane, uSpeed 0.1, grain on, colors navy/white/royal; #0047BA normalized
+   to official royal #003DA5). */
+.ml-field{position:absolute;inset:-25%;transform:rotate(50deg)}
+.ml-blob{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform}
+.ml-b1{width:58%;height:52%;right:-6%;top:-4%;background:#002E5D;opacity:.5;animation:ml-d1 52s ease-in-out infinite alternate}
+.ml-b2{width:52%;height:48%;right:6%;top:30%;background:#003DA5;opacity:.42;animation:ml-d2 64s ease-in-out infinite alternate}
+.ml-b3{width:60%;height:55%;right:-12%;top:16%;background:#fff;opacity:.85;animation:ml-d3 57s ease-in-out infinite alternate}
+@keyframes ml-d1{from{transform:translate(0,0) scale(1)}to{transform:translate(-7%,9%) scale(1.12)}}
+@keyframes ml-d2{from{transform:translate(0,0) scale(1.08)}to{transform:translate(9%,-7%) scale(.94)}}
+@keyframes ml-d3{from{transform:translate(0,0) scale(1)}to{transform:translate(-10%,6%) scale(1.15)}}
+.ml-grain{position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+.ml-scrim{position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.92) 36%,rgba(255,255,255,.4) 62%,rgba(255,255,255,0) 88%)}
+@media (prefers-reduced-motion: reduce){.ml-blob{animation:none}}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" data-jsx-src>
+window.loadAIF("../../").then((NS)=>{
+const {Button,NavBar,Footer,Eyebrow,SectionHeader,Card,ValueRow,NameCarousel}=NS;
+
+const NAMES=["Google","Deloitte","National Grid","Ford","BambooHR","Leland","Cicero","Redo","Yatta Golf"];
+const VALUES=[
+ {name:"Technical Excellence",body:"We are judged by what we ship: whether it works, and whether someone would pay for it. We compete on output, not pedigree. Credentials, whitepapers, and good intentions don't count as evidence; working systems in production do. Every Foundry builder is expected to master the frontier and prove that mastery through shipped work."},
+ {name:"Moral Conviction",body:"We hold ourselves to a higher standard than any rule will ever require. The real test of character is what you build when no one is auditing you. Access to people's data, attention, and labor is a trust freely given, never a lever to pull. We build only what people would consent to if they fully understood it. Our faith and integrity are not a compliance layer; they are the reason we build at all."},
+ {name:"Relentless Urgency",body:"We don't wait for permission to act on what we already know is right. Free, responsible people don't wait for institutional consensus. Urgency is a choice, the only thing that turns belief into shipped work instead of another meeting. It is how we stay at the frontier, and how we bring the frontier back to BYU."}
+];
+const OFFERINGS=[
+ {title:"Full-stack applications",blurb:"Net-new web and mobile applications.",points:["Customer-facing products","Products you sell to other businesses","Internal tools your own team uses every day"]},
+ {title:"AI integration and orchestration",blurb:"AI wired into the systems you already run today.",points:["Agents and copilots that work with your data","Automations across Slack, Notion, and other tools in your existing stack","Document processing, extraction, routing, and summarization"]},
+ {title:"AI enablement and training",blurb:"We train your own team to build this way, with the same tools we use.",points:["Claude Code, Codex, and frontier agent tooling","Agentic workflow and automation setup","Co-working alongside your staff, then handoff"]}
+];
+
+function Hero(){
+ return <section data-screen-label="Hero" style={{padding:"112px 24px 96px",position:"relative",overflow:"hidden"}}>
+  <div aria-hidden="true" style={{position:"absolute",inset:0,pointerEvents:"none"}}>
+   <div className="ml-field"><div className="ml-blob ml-b3"></div><div className="ml-blob ml-b1"></div><div className="ml-blob ml-b2"></div></div>
+   <div className="ml-grain"></div>
+   <div className="ml-scrim"></div>
+  </div>
+  <div style={{maxWidth:"var(--container)",margin:"0 auto",position:"relative",zIndex:1}}>
+   <Eyebrow>An experiential learning program of the BYU Marriott School of Business</Eyebrow>
+   <h1 className="hero" style={{fontSize:"clamp(48px, 5.6vw, 80px)",textTransform:"uppercase",margin:"18px 0 0",color:"var(--navy)"}}>
+    Student-built.<br/>Production-grade.<br/><span style={{color:"var(--royal)"}}>AI-native.</span>
+   </h1>
+   <p style={{fontSize:"var(--size-body)",color:"var(--text-meta)",maxWidth:"52ch",margin:"24px 0 0"}}>MBA and undergraduate builders shipping production AI systems for real clients.</p>
+   <div style={{display:"flex",gap:"12px",marginTop:"36px",flexWrap:"wrap"}}>
+    <Button variant="primary" size="lg" href="#quote">Work with us</Button>
+    <Button variant="secondary" size="lg" href="#network">Join the network</Button>
+   </div>
+  </div>
+ </section>;
+}
+
+function MissionVision(){
+ const block=(eyebrow,text)=>(
+  <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"14px",textAlign:"center"}}>
+   <Eyebrow>{eyebrow}</Eyebrow>
+   <h2 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"34px",lineHeight:1.2,margin:0,maxWidth:"34ch",color:"var(--navy)"}}>{text}</h2>
+  </div>);
+ return <section data-screen-label="Mission and vision" style={{padding:"96px 24px",borderTop:"1px solid var(--border-hairline)"}}>
+  <div style={{maxWidth:"var(--container)",margin:"0 auto",display:"flex",flexDirection:"column",gap:"72px"}}>
+   {block("Mission","We develop AI builders of faith, skill, and integrity who amplify opportunity and increase abundance worldwide.")}
+   {block("Vision","A world where expertise is abundant, and human flourishing is never limited by access, only by ambition.")}
+  </div>
+ </section>;
+}
+
+function Values(){
+ return <section data-screen-label="Values" style={{padding:"0 24px 96px"}}>
+  <div style={{maxWidth:"760px",margin:"0 auto"}}>
+   <div style={{textAlign:"center",marginBottom:"28px"}}><Eyebrow>Values</Eyebrow></div>
+   <div style={{borderBottom:"1px solid var(--border-strong)"}}>
+    {VALUES.map(v=><ValueRow key={v.name} name={v.name} body={v.body}/>)}
+   </div>
+  </div>
+ </section>;
+}
+
+function Build(){
+ return <section id="quote" data-screen-label="What we build" style={{padding:"96px 24px",borderTop:"1px solid var(--border-hairline)"}}>
+  <div style={{maxWidth:"var(--container)",margin:"0 auto",display:"flex",flexDirection:"column",gap:"40px"}}>
+   <SectionHeader eyebrow="What we build" title="What we build" lead="Every engagement combines what your project needs. You get a written scope, a cost estimate, and a delivery timeline."/>
+   <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(300px, 1fr))",gap:"16px",alignItems:"stretch"}}>
+    {OFFERINGS.map(o=><Card key={o.title} title={o.title} blurb={o.blurb} points={o.points}/>)}
+   </div>
+  </div>
+ </section>;
+}
+
+function QuoteBand(){
+ return <section id="network" data-screen-label="Call to action" style={{background:"var(--surface-inverse)",padding:"96px 24px"}}>
+  <div style={{maxWidth:"var(--container)",margin:"0 auto",display:"flex",flexDirection:"column",alignItems:"center",gap:"18px",textAlign:"center"}}>
+   <h2 style={{fontFamily:"var(--font-display)",fontWeight:700,fontStretch:"var(--w-plate)",fontSize:"40px",lineHeight:1.1,margin:0,color:"#fff"}}>Tell us what you want built.</h2>
+   <p className="on-dark" style={{fontSize:"var(--size-body)",color:"var(--text-on-dark-soft)",maxWidth:"56ch",margin:0}}>We come back with a scope of work, a cost estimate, and a delivery timeline. All information is treated as confidential.</p>
+   <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"10px",marginTop:"14px"}}>
+    <Button variant="inverse" size="lg">Work with us</Button>
+    <span className="caption" style={{color:"var(--text-on-dark-soft)",fontWeight:300}}>(Approximately two minutes)</span>
+   </div>
+  </div>
+ </section>;
+}
+
+function Page(){
+ return <div>
+  <NavBar sticky links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"#network"}]} ctaLabel="Work with us" ctaHref="../quote/index.html"/>
+  <Hero/>
+  <NameCarousel eyebrow="Our builders have shipped at" names={NAMES}/>
+  <MissionVision/>
+  <Values/>
+  <Build/>
+  <QuoteBand/>
+  <Footer links={[{label:"Our work",href:"../work/index.html"},{label:"The team",href:"../about/index.html"},{label:"Join the network",href:"#network"},{label:"Roadmap",href:"../roadmap/index.html"}]}/>
+ </div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page/>);
+});
+</script>
+<script>
+(function(){var el=document.querySelector('script[data-jsx-src]');var out=Babel.transform(el.textContent,{presets:[[Babel.availablePresets.react,{runtime:"classic"}]]}).code;(0,eval)(out);})();
+</script>
+</body>
+</html>

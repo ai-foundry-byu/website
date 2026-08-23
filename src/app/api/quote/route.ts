@@ -10,6 +10,8 @@ import { createClient } from "@supabase/supabase-js"
  * The client is created lazily at request time so `next build` succeeds
  * on machines without the env vars.
  */
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function getSupabase() {
   return createClient(
     process.env.SUPABASE_URL!,
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
     const company = str(body.company)
     const description = str(body.project_description)
 
-    if (!first || !last || !email || !email.includes("@") || !phone || !company || !description) {
+    if (!first || !last || !email || !phone || !company || !description) {
       return NextResponse.json(
         {
           error:
@@ -37,6 +39,15 @@ export async function POST(req: NextRequest) {
         },
         { status: 400 }
       )
+    }
+
+    if (!EMAIL.test(email)) {
+      return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 })
+    }
+
+    const website = str(body.website)
+    if (website && (/\s/.test(website) || !website.includes("."))) {
+      return NextResponse.json({ error: "Enter a valid website address." }, { status: 400 })
     }
 
     // The table requires a title; the form deliberately does not ask for one
@@ -50,7 +61,7 @@ export async function POST(req: NextRequest) {
       email,
       phone,
       organization: company,
-      website: str(body.website),
+      website,
       project_title,
       project_description: description,
       desired_timeline: str(body.desired_timeline),

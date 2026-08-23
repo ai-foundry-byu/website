@@ -1,0 +1,2 @@
+export interface IconProps { /** Carbon icon name, e.g. "arrow--right", "close", "launch" */ name: string; size?: number; title?: string; style?: React.CSSProperties; }
+export declare function Icon(props: IconProps): JSX.Element;

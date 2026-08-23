@@ -35,6 +35,20 @@ export const HERO_STATEMENT = "An AI-native product studio and consultancy."
 export const HERO_SUPPORT =
   "An experiential learning program of the " + SCHOOL_FULL + "."
 
+/**
+ * The 2026-08 redesign hero (design_handoff_ai_foundry_website, direction 4b).
+ * A three-line cast-125 stack with the last line in royal, over one support
+ * sentence. HERO_SUPPORT becomes the eyebrow above the stack, so the naming
+ * rule still holds; HERO_STATEMENT no longer renders on the landing page but
+ * stays the decided one-line description used elsewhere.
+ */
+export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
+
+/** Not currently rendered — removed from the hero by Corbin 2026-08-16;
+ *  kept as the decided support line should it come back. */
+export const HERO_STACK_SUPPORT =
+  "MBA and undergraduate builders shipping production AI systems for real clients."
+
 /* ────────────────────────────────────────────────────────────
    Mission, vision, values. VERBATIM. Do not edit without Brandon.
    ──────────────────────────────────────────────────────────── */
@@ -125,8 +139,60 @@ export const ERA_NARRATIVE =
  */
 export const BUILDERS_EYEBROW = "The builders"
 
+/**
+ * The employer list as data, because the redesign renders it as an
+ * auto-scrolling text strip (NameCarousel) as well as a sentence. Names as
+ * text, never logos, per the rules above. BUILDERS_HEADLINE is derived so
+ * the sentence and the strip can never drift apart.
+ */
+export const BUILDERS_NAMES = [
+  "Google",
+  "Deloitte",
+  "National Grid",
+  "Ford",
+  "BambooHR",
+  "Leland",
+  "Cicero",
+  "Redo",
+  "Yatta Golf",
+]
+
+/** The strip's leading label. Reads as the start of the headline sentence. */
+export const BUILDERS_STRIP_EYEBROW = "Our builders have shipped at"
+
+/**
+ * OVERRIDE OF THE NO-LOGOS RULE, by Corbin (Director of Marketing),
+ * 2026-08-16: the shipped-at strip renders company logos. The rule above
+ * ("No logos, ever — a logo reads as endorsement") still stands as the
+ * recorded team position; this is a deliberate exception pending team
+ * review, kept one change away from reverting (render BUILDERS_NAMES as
+ * text again by dropping the logo fields).
+ *
+ * Files in public/logos/, sourced 2026-08-16 from Wikimedia Commons or
+ * the company's own live site assets — current official wordmarks, all
+ * validated (no scripts, no external refs). Leland and Redo use
+ * currentColor and render black in an <img>; the strip grayscales
+ * everything anyway. Same order as BUILDERS_NAMES.
+ */
+export const BUILDERS_LOGOS: { name: string; logo?: string }[] = [
+  { name: "Google", logo: "/logos/google.svg" },
+  { name: "Deloitte", logo: "/logos/deloitte.svg" },
+  { name: "National Grid", logo: "/logos/national-grid.svg" },
+  { name: "Ford", logo: "/logos/ford.svg" },
+  { name: "BambooHR", logo: "/logos/bamboohr.svg" },
+  { name: "Leland", logo: "/logos/leland.svg" },
+  { name: "Cicero", logo: "/logos/cicero.svg" },
+  { name: "Redo", logo: "/logos/redo.svg" },
+  { name: "Yatta Golf", logo: "/logos/yatta-golf.png" },
+]
+
 export const BUILDERS_HEADLINE =
-  "Our builders have shipped at Google, Deloitte, National Grid, Ford, BambooHR, Leland, Cicero, Redo, and Yatta Golf."
+  BUILDERS_STRIP_EYEBROW +
+  " " +
+  BUILDERS_NAMES.slice(0, -1).join(", ") +
+  ", and " +
+  BUILDERS_NAMES[BUILDERS_NAMES.length - 1] +
+  "."
 
 /* ────────────────────────────────────────────────────────────
    Showcase: reference builds
@@ -276,6 +342,10 @@ export const PARTNER_DETAIL =
 
 export const BUILD_HEADING = "What we build"
 
+/** Under the BUILD_HEADING compression pair, from the redesign. */
+export const BUILD_LEAD =
+  "Every engagement combines what your project needs. You get a written scope, a cost estimate, and a delivery timeline."
+
 /**
  * The three things we sell.
  *
@@ -326,6 +396,22 @@ export const QUOTE_CTA_NOTE = "(Approximately two minutes)"
 
 export const QUOTE_LEAD =
   "Tell us what you want built. We come back with a scope of work, a cost estimate, and a delivery timeline. All information is treated as confidential."
+
+/**
+ * The redesign splits QUOTE_LEAD into a headline sentence and the rest, on
+ * both the landing CTA band and the /quote intro. Derived, not retyped, so
+ * an edit to QUOTE_LEAD flows through.
+ */
+export const QUOTE_HEADLINE = QUOTE_LEAD.slice(0, QUOTE_LEAD.indexOf(". ") + 1)
+
+export const QUOTE_FOLLOW = QUOTE_LEAD.slice(QUOTE_LEAD.indexOf(". ") + 2)
+
+/** The confirmation state after a successful submission, from the redesign. */
+export const QUOTE_CONFIRM = {
+  eyebrow: "Request received",
+  title: "We will follow up within a few days.",
+  detail: "A conversation first, then a written scope of work with cost and schedule.",
+}
 
 /**
  * The eight fields that go on the page.
@@ -452,6 +538,11 @@ export const NETWORK_INTERESTS: Interest[] = [
    recorded there and are pending Brandon's confirmation.
    ──────────────────────────────────────────────────────────── */
 
+/** The /about page opener, from the redesign. BUILDERS_DETAIL is its lead. */
+export const ABOUT_EYEBROW = "About us"
+
+export const ABOUT_HEADING = "The people who build."
+
 export type Member = {
   name: string
   role: string
@@ -500,6 +591,11 @@ export const FACULTY = {
     "Associate Teaching Professor of Strategy at the " +
     SCHOOL_FULL +
     ", and former consultant at McKinsey & Company.",
+  /** Verification links — the credibility claim, clickable (2026-08-16). */
+  links: [
+    { href: "https://marriott.byu.edu/directory/details?id=14373", label: "BYU Marriott directory" },
+    { href: "https://www.linkedin.com/in/scottdmurff/", label: "LinkedIn" },
+  ],
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -682,9 +778,12 @@ export const NAV: NavLink[] = [
  * hero button and the top bar both land on the offerings; the only route to
  * the form is through them.
  */
-export const NAV_CTA: NavLink = { label: "Request a proposal", href: "/#quote" }
+/** Both CTAs read "Work with us" per Corbin, 2026-08-16 (was "Request a
+ *  proposal"). The two-destination scheme above is unchanged — only the
+ *  words on the buttons. */
+export const NAV_CTA: NavLink = { label: "Work with us", href: "/#quote" }
 
-export const QUOTE_CTA: NavLink = { label: "Request a proposal", href: "/quote" }
+export const QUOTE_CTA: NavLink = { label: "Work with us", href: "/quote" }
 
 /* ────────────────────────────────────────────────────────────
    Roadmap
