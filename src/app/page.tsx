@@ -56,7 +56,22 @@ function Hero() {
         <h1
           className="hero"
           style={{
-            fontSize: "clamp(48px, 5.6vw, 80px)",
+            /* The clamp's 48px FLOOR was clipping the headline on every
+               phone: "PRODUCTION-GRADE." needs 436px at 48px, and a 390px
+               viewport only offers 342px of line box. The section's
+               overflow:hidden then swallowed the tail, so it read as a
+               design choice rather than a bug — measured 2026-08-20 at
+               +164px over at 320px, +94px at 390px, +54px at 430px, clean
+               from 480px up.
+
+               The min() caps the existing curve by what actually fits:
+               "PRODUCTION-GRADE." occupies 436px of width per 48px of
+               font-size, i.e. 0.110 px of font per px of line box, and the
+               line box is the viewport less this section's 24px gutters.
+               0.105 leaves a little slack for font loading. At every width
+               where the old value already fit (>=480px) min() returns the
+               old value unchanged, so desktop is untouched. */
+            fontSize: "min(clamp(48px, 5.6vw, 80px), calc((100vw - 48px) * 0.105))",
             textTransform: "uppercase",
             margin: "18px 0 0",
             color: "var(--navy)",
@@ -142,7 +157,12 @@ function Build() {
         <Reveal>
           <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
         </Reveal>
-        <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", alignItems: "stretch" }}>
+        {/* minmax(min(300px, 100%), …) rather than a bare minmax(300px, …):
+            a hard 300px track cannot shrink, so on a 320px viewport the
+            card sat 24px in and ran 4px past the right edge and the whole
+            document scrolled sideways. Same guard WorkShowcaseGrid already
+            uses on its 420px tracks. */}
+        <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "16px", alignItems: "stretch" }}>
           {OFFERINGS.map((o) => (
             <StaggerItem key={o.name}>
               <Card title={o.name} blurb={o.blurb} points={o.points} />

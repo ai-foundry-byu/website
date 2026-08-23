@@ -641,15 +641,36 @@ html {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
+/* The scrim is what makes navy headline text legible over the shader, and
+   it has to carry as far as the TEXT does, not as far as the text column.
+   The field's navy floor plate (HeroMotionLayer) clamps the darkest pixel
+   to #002E5D — the headline's own color — so anywhere the scrim has faded
+   out, navy-on-navy is 1.00:1 and the glyphs are simply gone.
+
+   Measured on the deployed preview at 1440x900, text hidden, sampling the
+   field underneath the headline band: 12.8:1 at 10% across, 6.4:1 at 50%,
+   then 2.23:1 at 75%, 1.22:1 at 90% and 1.00:1 at 98%. "PRODUCTION-GRADE."
+   runs to ~86% of the viewport at 1440 and ~91% at 1280 (the container is
+   capped at 1200px and centered, so the narrower the desktop the further
+   right the text reaches). The old 0.4-at-62%-to-0-at-88% ramp had
+   essentially no white left under the last third of the longest line.
+
+   These stops hold >=0.44 alpha through 88% and >=~0.36 through 91%, which
+   puts the worst case at ~3.1:1 and the typical case above 4:1 — clear of
+   the 3:1 AA bar for large text. The last stretch still falls to a clean 0
+   so the field's dark right edge, which carries the whole composition, is
+   untouched where no text sits on it. */
 .ml-scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
     #fff 0%,
-    rgba(255, 255, 255, 0.92) 36%,
-    rgba(255, 255, 255, 0.4) 62%,
-    rgba(255, 255, 255, 0) 88%
+    rgba(255, 255, 255, 0.93) 40%,
+    rgba(255, 255, 255, 0.72) 66%,
+    rgba(255, 255, 255, 0.46) 86%,
+    rgba(255, 255, 255, 0.3) 94%,
+    rgba(255, 255, 255, 0) 100%
   );
 }
 /* On small screens the text column spans nearly the full width, so the
@@ -672,6 +693,49 @@ html {
    CSS marquee for the shipped-at strip: the row renders twice
    and slides half its own width, so the loop is seamless.
    Names as text, never logos. */
+/* The shipped-at strip. One row on desktop: label, marquee, pause button.
+
+   On a phone that row does not fit — "OUR BUILDERS HAVE SHIPPED AT" plus the
+   pause button consume nearly the whole 390px viewport, so the marquee's
+   flex:1 collapsed to about a hundred pixels and the mask cropped it to a
+   sliver of one wordmark. It read as a broken image rather than a scroller.
+   Below the breakpoint the label and button share the top line and the
+   marquee gets the full width underneath.
+
+   Placed by nth-child because Eyebrow takes a style prop but no className,
+   and adding one to reach three children here is not worth widening its API:
+   1 = the eyebrow label, 2 = the marquee track, 3 = the pause button. */
+.nc-strip {
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .nc-strip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px 16px;
+  }
+  .nc-strip > *:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .nc-strip > *:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .nc-strip > *:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+}
+
 @keyframes nc-scroll {
   from {
     transform: translateX(0);
