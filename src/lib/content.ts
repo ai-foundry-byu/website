@@ -970,3 +970,108 @@ export const ROADMAP_STATS_NOTE =
  * first-time visitor's attention.
  */
 export const ROADMAP_LINK: NavLink = { label: "Roadmap", href: "/roadmap" }
+
+/* ────────────────────────────────────────────────────────────
+   Donors, at /donors
+
+   A thank-you page, not a solicitation. Modeled on real honor rolls
+   (MIT Chemical Engineering's FY25 donor list, UGA's Honor Roll of
+   Donors, BYU Marriott's own giving page): state the criteria, name
+   the fund, stop.
+
+   TWO STANDING RULES, both deliberate:
+
+   1. No gift amounts, and no figures an amount can be computed from
+      (seat counts, headcounts, per-unit quantities). A derivable proxy
+      is not a policy. The reason is donor two, not donor one: once a
+      much larger gift is listed, implicit magnitudes turn the roll into
+      a public ranking and the founding donor sits at the bottom of a
+      list they started.
+   2. Nobody is listed without written permission. Ken Palmer's consent
+      for both the naming and the listing is on file, 2026-08-25.
+
+   Say what the gift is FOR. The purpose is what makes the page worth
+   reading; the arithmetic is what makes it awkward.
+   ──────────────────────────────────────────────────────────── */
+
+export type Donor = {
+  /** Year of the gift, as displayed. */
+  year: string
+  /** Exactly as the donor asked to be named. Never reformat this. */
+  name: string
+  /** The named fund the gift established. */
+  fund: string
+  /** Founding donor: the first gift to the program. A status, not a tier. */
+  founding?: boolean
+}
+
+export const DONORS_EYEBROW = "Giving"
+export const DONORS_HEADING = "Donors"
+export const DONORS_LEAD =
+  "The AI Foundry exists because of the generous support of alumni and friends of the " +
+  SCHOOL_FULL +
+  ". Thank you for making this experiential learning program possible."
+
+/** The founding entry, given its own plate above the list. */
+export const FOUNDING_DONOR = {
+  eyebrow: "Founding donor",
+  name: "Tiffany and Ken Palmer",
+  fund: "The Tiffany and Ken Palmer Frontier Cohort",
+  detail:
+    "The first gift to the AI Foundry. It funds enterprise AI tooling for the student " +
+    "builders of the Tiffany and Ken Palmer Frontier Cohort, who use it to ship " +
+    "production software for Foundry clients.",
+  /** Established, not Given: the name carries forward to the next cohort. */
+  established: "August 2026",
+  supports: "Enterprise AI tooling for student builders",
+}
+
+export const DONORS: Donor[] = [
+  {
+    year: "2026",
+    name: "Tiffany and Ken Palmer",
+    fund: "The Tiffany and Ken Palmer Frontier Cohort",
+    founding: true,
+  },
+]
+
+export const GIVE_HEADING = "Make a gift"
+export const GIVE_LEAD =
+  "Gifts are designated to the AI Foundry at the " +
+  SCHOOL_FULL +
+  " and are tax deductible as allowed by law. Donors choose what the gift funds and " +
+  "receive a report on the work it supported."
+
+/**
+ * The giving link routes through Philanthropies. The designation is titled
+ * the Strategy Student Support Fund because the AI Foundry is administered
+ * by the Strategy program — a donor who clicks through sees a word they did
+ * not expect, so the page says so before they can wonder.
+ */
+export const GIVE_URL =
+  "https://give.churchofjesuschrist.org/campaigns/81183/donations/new?designation_id=30124393"
+
+export const GIVE_ONLINE = {
+  heading: "Give online",
+  detail:
+    "Any amount, processed by the Philanthropies Department of The Church of Jesus " +
+    "Christ of Latter-day Saints. The AI Foundry is administered by the Strategy " +
+    "program, so the gift is designated to the Strategy Student Support Fund and " +
+    "reaches the Foundry. Donor statements are available through the giving portal.",
+  cta: "Give to the AI Foundry",
+}
+
+export const GIVE_CONTACT = {
+  heading: "Talk with someone",
+  detail: "To discuss what a gift could support, please reach out.",
+  name: "Scott Murff, Director, AI Foundry",
+  email: "scott.murff@byu.edu",
+}
+
+/**
+ * Donors, linked from the footer only — the same call as ROADMAP_LINK
+ * above, and for the same reason: the top bar is two tabs plus the
+ * action, and a thank-you page is one a visitor goes looking for rather
+ * than one that should compete for a first-timer's attention.
+ */
+export const DONORS_LINK: NavLink = { label: "Donors", href: "/donors" }
