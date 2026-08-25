@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
+import { DONORS_LINK, HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
 
 /**
  * Footer. Port of design_handoff .../navigation/Footer.jsx onto the repo's
@@ -8,7 +8,7 @@ import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from
  * fix) and soft text is white at 75%. Royal never appears as text here.
  * The roadmap link stays footer-only; see the note on ROADMAP_LINK.
  */
-const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK]
+const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK, DONORS_LINK]
 
 export function SiteFooter() {
   return (
