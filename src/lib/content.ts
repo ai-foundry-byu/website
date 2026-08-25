@@ -765,6 +765,12 @@ export const NAV: NavLink[] = [
   { label: "Our work", href: "/work" },
   { label: "Join the network", href: "/network" },
   { label: "About us", href: "/about" },
+  /* Donors is in the top bar, not the footer, by Scott's call 2026-08-25.
+     It first shipped footer-only on the ROADMAP_LINK precedent below, and
+     that was wrong for this page: a thank-you page nobody can find thanks
+     nobody. Donors are told their names are on the site, so the site has
+     to make them reachable without a URL. */
+  { label: "Donors", href: "/donors" },
 ]
 
 /**
@@ -1068,10 +1074,5 @@ export const GIVE_CONTACT = {
   email: "scott.murff@byu.edu",
 }
 
-/**
- * Donors, linked from the footer only — the same call as ROADMAP_LINK
- * above, and for the same reason: the top bar is two tabs plus the
- * action, and a thank-you page is one a visitor goes looking for rather
- * than one that should compete for a first-timer's attention.
- */
-export const DONORS_LINK: NavLink = { label: "Donors", href: "/donors" }
+/* Donors lives in NAV (see the top of this file), so the footer picks it
+   up through the NAV spread rather than a separate link. */
