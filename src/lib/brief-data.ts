@@ -1,227 +1,176 @@
 /**
- * The board brief's non-database numbers.
+ * The AI Foundry standing report — a one-page executive view.
  *
- * Everything the Supabase tables can answer is read live by `getRoadmapStats`.
- * What lives here is the set of figures whose source of truth is a Google Sheet
- * in the Foundry Drive, plus the gate targets we committed to in July. Those
- * cannot be queried from this deploy, so they are transcribed with the date
- * they were read on and the sheet they came from.
+ * Built to be read in under a minute by someone who will not scroll twice: the
+ * numbers, the growth curve behind them, the gift that funded the year, what
+ * the year ahead costs, and the one thing still open.
  *
- * The rule for this file: every number carries `asOf`. A stale figure that
- * announces its own age is a fact the reader can discount. A stale figure
- * presented as live is a lie with a timestamp on it.
- *
- * When a number here starts disagreeing with a live one, the live one wins and
- * the constant gets deleted — do not "reconcile" them into a third number.
+ * Sourcing rules:
+ *  1. Anything the database can answer is read live or charted from real rows.
+ *  2. Every constant carries a source. A stale figure that announces its age is
+ *     a fact the reader can discount; a stale figure presented as live is a lie
+ *     with a timestamp on it.
+ *  3. No number is invented. Where a figure is not yet scoped, it says so —
+ *     see NEEDS, where two of three lines are deliberately uncosted.
  */
 
-/** Fall semester opens. Every gate below was set against this date. */
-export const SEMESTER_START = "2026-09-01"
+/* ────────────────────────────────────────────────────────────
+   HEADLINE
+   ──────────────────────────────────────────────────────────── */
 
-/** The SkillJar course deadline, set independently of the semester date. */
-export const CERT_DEADLINE = "2026-09-03"
+export type Win = { value: string; label: string }
 
 /**
- * Prospective Clients Pipeline, Foundry Drive → 02 Deals & Clients.
- * Sheet id 1Kl2e9zRiy6HRj29JjY8KVuLLsn7EHVKnHV3rLnL3VI4.
- *
- * `evaluating` is the whole quoted column and it is one deal — Breckenridge at
- * $22,000. Stating it as a portfolio figure would imply a spread that does not
- * exist, so the copy names the client.
+ * Cohort, clients and projects are JD's count as of 2026-08-26 and are ahead of
+ * the pipeline sheet in the Foundry Drive, which still reads 18 prospects and 0
+ * accepted from 13 August. Followers from the LinkedIn export (below); network
+ * from our own database.
  */
-export const PIPELINE = {
-  asOf: "2026-08-13",
-  prospects: 18,
-  accepted: 0,
-  evaluatingUsd: 22_000,
-  collectedUsd: 0,
-} as const
+export const WINS: Win[] = [
+  { value: "31", label: "builders in Cohort One" },
+  { value: "3", label: "paying clients" },
+  { value: "12", label: "projects booked" },
+  { value: "197", label: "LinkedIn followers" },
+  { value: "150", label: "in the network" },
+]
+
+/* ────────────────────────────────────────────────────────────
+   THE GROWTH CURVE
+   ──────────────────────────────────────────────────────────── */
+
+export type Point = { week: string; value: number }
 
 /**
- * Certified Claude Architect Tracker, Foundry Drive.
- * Sheet id 1RfFbYEXYb4f-bk9tg2wJVnjEUNcYjB1S1H2Xiq9oRY4.
+ * Cumulative LinkedIn followers, weekly, from the LinkedIn Analytics export
+ * `ai-foundry-byu_followers` covering 2026-05-27 to 2026-08-24. The export gives
+ * daily NEW followers; these are the running totals.
  *
- * `complete` counts only 4-of-4. `started` counts anyone with at least one
- * course but not all four — currently one person on one course. The gap
- * between `complete + started` and `slots` is the number that matters, and it
- * is seven people who have not opened anything.
+ * The June step is the launch announcement. What matters is the right-hand
+ * third: the curve steepens through August rather than flattening after the
+ * launch spike, which is the opposite of what a page that has run out of things
+ * to say looks like.
  */
-export const CERTS = {
-  asOf: "2026-08-17",
-  slots: 13,
-  complete: 5,
-  started: 1,
-} as const
-
-/**
- * The advisory board.
- *
- * The HEADCOUNT is NOT stored here. It is read live from `af_people`, the same
- * source the public roadmap uses, so the two can never drift apart. An earlier
- * draft of this page hardcoded ten from a domain state file and was wrong: that
- * file counted Tom Peterson as a seat, and the roster records him as an
- * institutional champion, which is a different and also valuable thing. Nine
- * people hold advisory seats.
- *
- * `charters` is zero and is stated every time the headcount is. Nine people who
- * said yes are nine commitments we owe, not nine credentials we hold — the same
- * standard the roadmap applies to a verbal yes.
- */
-export const BOARD = {
-  charters: 0,
-  /** Unpaid since JD's 2026-08-03 call, which removed the modelled seat fees. */
-  paid: false,
-} as const
-
-export type Member = { name: string; org: string }
-
-/**
- * Ordered by confirmation date, so the reader sees how it was built.
- * Nine seats — matches `af_people` tier advisory_t1/t2 with status confirmed.
- */
-export const MEMBERS: Member[] = [
-  { name: "Johny Wudel", org: "MBA Product, BYU Marriott" },
-  { name: "Brian Murphy", org: "Venture capital" },
-  { name: "Mark Keith", org: "Information Systems, BYU Marriott" },
-  { name: "Aaron Arnoldsen", org: "BCG X" },
-  { name: "Spencer Rogers", org: "iHub Utah" },
-  { name: "Mike Hendron", org: "Rollins Center, BYU" },
-  { name: "Chris Cooper", org: "Pelion Venture Partners" },
-  { name: "Jason Alleger", org: "QuantXM" },
-  { name: "Adjetey “AJ” Wilson", org: "AI Square · Trust & Safety Institute" },
+export const LINKEDIN_GROWTH: Point[] = [
+  { week: "2026-05-25", value: 0 },
+  { week: "2026-06-01", value: 53 },
+  { week: "2026-06-08", value: 72 },
+  { week: "2026-06-15", value: 74 },
+  { week: "2026-06-22", value: 85 },
+  { week: "2026-06-29", value: 94 },
+  { week: "2026-07-06", value: 97 },
+  { week: "2026-07-13", value: 108 },
+  { week: "2026-07-20", value: 119 },
+  { week: "2026-07-27", value: 135 },
+  { week: "2026-08-03", value: 160 },
+  { week: "2026-08-10", value: 173 },
+  { week: "2026-08-17", value: 191 },
+  { week: "2026-08-24", value: 192 },
 ]
 
 /**
- * The five gates set on 2026-07-11 as the bar to clear before fall semester.
- *
- * `state` is deliberately three values and not a colour. A board reading this
- * on a phone should be able to tell met from missed by the shape of the mark,
- * and the palette has no red in it to spend anyway.
+ * The headline the chart exists to make. Both halves computed from the same
+ * export: 75 new followers in the trailing 30 days against 33 in the 30 before
+ * it. Not a rounded "more than doubled" — the actual multiple.
  */
-export type GateState = "met" | "partial" | "none"
+export const UPTICK = {
+  last30: 75,
+  prior30: 33,
+  /** Followers today, ahead of the export's 2026-08-24 cutoff. */
+  today: 197,
+} as const
 
-export type Gate = {
-  name: string
-  detail: string
-  target: number
-  actual: number
-  /** Display override — used where a raw ratio would misread as progress. */
-  pct?: number
-  state: GateState
-  standing: string
+/* ────────────────────────────────────────────────────────────
+   MILESTONES
+   ──────────────────────────────────────────────────────────── */
+
+export const MILESTONES = [
+  {
+    title: "Two product case competitions booked",
+    detail: "One national, one at BYU.",
+  },
+  {
+    title: "Official program status",
+    detail: "Formal approval from Dan Snow, 2 July. No longer a pilot.",
+  },
+  {
+    title: "Nine-person advisory board",
+    detail: "Venture, consulting, faculty, AI governance. Target was five.",
+  },
+  {
+    title: "Public site live on the BYU domain",
+    detail: "Rebuilt on the official brand, shipped 23 August.",
+  },
+  {
+    title: "Deals committee running",
+    detail: "First working session 19 August.",
+  },
+]
+
+/* ────────────────────────────────────────────────────────────
+   GIVING
+   ──────────────────────────────────────────────────────────── */
+
+/**
+ * NO GIFT AMOUNTS. Standing rule from /donors: once a larger second gift is
+ * listed, implicit magnitudes turn a thank-you into a public ranking with the
+ * founding donor at the bottom of the list they started. Say what it is FOR.
+ */
+export const FOUNDING_DONOR = {
+  name: "Tiffany and Ken Palmer",
+  fund: "The Tiffany and Ken Palmer Frontier Cohort",
+  established: "August 2026",
+  detail:
+    "The first gift to the AI Foundry, and the reason the cohort has the tooling to ship production software for real clients.",
 }
 
-export const GATES: Gate[] = [
+/* ────────────────────────────────────────────────────────────
+   WHAT THE YEAR COSTS
+   ──────────────────────────────────────────────────────────── */
+
+export type Need = {
+  item: string
+  /** Formatted amount, or null where the figure is not yet scoped. */
+  amount: string | null
+  /** The arithmetic, so a reader can check it rather than trust it. */
+  basis: string
+}
+
+/**
+ * The seat line is fully costed and the arithmetic is shown: 31 builders on
+ * Claude Max at the $100/seat/month tier, twelve months. That per-seat price was
+ * read off claude.com/pricing on 2026-08-26; the 20x tier costs more, so treat
+ * $37,200 as the floor rather than the estimate.
+ *
+ * The two competition lines are deliberately NOT costed. Nobody has scoped them
+ * yet, and a number invented for a page that gets forwarded becomes the anchor
+ * for every later conversation whether or not it was ever real. "To be scoped"
+ * with the components named is more useful to a donor than a confident guess.
+ */
+export const NEEDS: Need[] = [
   {
-    name: "Advisory board",
-    detail:
-      "Nine confirmed against a bar of five. Every seat now has a working email on file, three of which were only tracked down this week.",
-    target: 5,
-    actual: 9,
-    pct: 100,
-    state: "met",
-    standing: "Cleared",
+    item: "Claude Max seats for the cohort, one year",
+    amount: "$37,200",
+    basis: "31 builders × $100/seat/month × 12 months, at the Max 5x tier.",
   },
   {
-    name: "Certified Claude Architects",
-    detail:
-      "Four SkillJar courses per member. Five are done, one is a quarter through, and seven have not opened a course.",
-    target: CERTS.slots,
-    actual: CERTS.complete,
-    state: "partial",
-    standing: `Hard deadline ${CERT_DEADLINE}`,
+    item: "National product case competition",
+    amount: null,
+    basis: "Prize pool, team travel, registration. Not yet scoped.",
   },
   {
-    name: "Foundry network",
-    detail:
-      "Twenty-one joined in the last four weeks, so it is moving — but sixty-three of the names arrived through a jobs-board gate rather than through the Foundry, which is a softer list than the number suggests.",
-    target: 200,
-    actual: 150,
-    state: "partial",
-    standing: "+21 in four weeks",
-  },
-  {
-    name: "Signed project contracts",
-    detail:
-      "Eighteen named prospects and one live inbound request. No scope call is currently booked with any of them.",
-    target: 20,
-    actual: 0,
-    state: "none",
-    standing: "Not started",
-  },
-  {
-    name: "Founding partner",
-    detail:
-      "The only gate with no owner other than JD and no candidate in a live conversation.",
-    target: 1,
-    actual: 0,
-    state: "none",
-    standing: "Not started",
+    item: "BYU product case competition",
+    amount: null,
+    basis: "Prize pool, venue and production. Not yet scoped.",
   },
 ]
 
-export const MOVED = [
-  {
-    title: "The first gift landed.",
-    detail:
-      "Tiffany and Ken Palmer are the AI Foundry's founding donor, established August 2026. The Tiffany and Ken Palmer Frontier Cohort funds enterprise AI tooling for the student builders who ship client work. Their consent to be named is on file.",
-  },
-  {
-    title: "The public site is live and rebuilt.",
-    detail:
-      "The new design system shipped on 23 August, a donors page went up on the 25th, and the bot challenge that briefly blocked the domain has cleared.",
-  },
-  {
-    title: "Official program status.",
-    detail: "Dan Snow gave formal approval on 2 July. The pilot is no longer a pilot.",
-  },
-  {
-    title: "The board went from three to ten.",
-    detail:
-      "Five seats added on 2 August, spanning venture, consulting, faculty and AI governance.",
-  },
-  {
-    title: "A deals committee now exists.",
-    detail:
-      "First working session 19 August. Alex owns the scoping and discovery process, Brandon owns training the team to pitch.",
-  },
-]
+/* ────────────────────────────────────────────────────────────
+   THE OPEN ASK
+   ──────────────────────────────────────────────────────────── */
 
-export const STUCK = [
-  {
-    title: "A paying lead has been waiting a month.",
-    detail:
-      "Cyrus Health asked for clinical decision-support work on 25 July through this site. Nobody has opened it.",
-  },
-  {
-    title: "Cohort applications are untriaged.",
-    detail:
-      "Mostly BYU students, arriving steadily through July, with Cohort Two recruiting about to stack on top of them.",
-  },
-  {
-    title: "Nine advisors, zero charters.",
-    detail:
-      "No signed agreement and no agreed terms for any seat — including one member who said yes in June and has still never received a written invitation.",
-  },
-]
-
-export const DECISIONS = [
-  {
-    title: "Answer Cyrus Health, and set the rule for next time.",
-    owner: "Deals committee",
-    body:
-      "One real inbound request has sat untouched for a month. Replying is a ten-minute job. The durable fix is deciding who owns that inbox and what the response clock is, because today the answer to both is nobody.",
-  },
-  {
-    title: "Decide whether the certification deadline is real.",
-    owner: "JD",
-    body:
-      "Seven of thirteen have not started and the deadline is 3 September. Either it holds and those seven are told plainly this week, or it moves and we say so. Letting it lapse quietly is the one option that costs us credibility with the board that vouched for this.",
-  },
-  {
-    title: "Convert three prospects into booked scope calls.",
-    owner: "Alex, Corbin, Brandon",
-    body:
-      "Eighteen names, twenty needed, zero calls booked. Scenthound, DVL Group and New Frontier Capital are already warm and each has a Foundry member attached. Booking them is what turns a list into a funnel.",
-  },
-]
+export const ENDOWMENT = {
+  heading: "We need a founding partner for the endowment.",
+  body:
+    "One year, one founding gift, and everything above. An endowment is what makes it permanent — funding the seats, the competitions and the lab on an ongoing basis instead of a semester at a time.",
+  ask: "We are looking for one founding partner to anchor it. That conversation has not started, and it is the most valuable introduction anyone reading this page can make.",
+}
