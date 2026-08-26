@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getRoadmapStats } from "@/lib/roadmap-stats"
 import {
-  BOARD,
   CERTS,
   DECISIONS,
   GATES,
@@ -66,6 +65,9 @@ export default async function BriefPage({
   if (!expected || k !== expected) notFound()
 
   const stats = await getRoadmapStats()
+  // Live, not hardcoded — see BOARD in brief-data. Falls back to the roster we
+  // actually print, so the sentence and the list can never disagree.
+  const advisors = stats.advisoryBoard ?? MEMBERS.length
   const toSemester = dayjs(SEMESTER_START, stats.readAt)
   const toCerts = dayjs(CERT_DEADLINE, stats.readAt)
 
@@ -98,7 +100,7 @@ export default async function BriefPage({
         {/* ── The four numbers a board member should leave with. ───── */}
         <div className="grid grid-cols-2 border-b border-border-subtle lg:grid-cols-4">
           <Figure
-            v={String(BOARD.confirmed)}
+            v={String(advisors)}
             label="advisors confirmed"
             note="against a target of five"
           />
@@ -216,15 +218,17 @@ export default async function BriefPage({
         {/* ── Roster. Names and employers only, per the gate note. ── */}
         <section className="pt-14">
           <p className="eyebrow text-text-meta">
-            Advisory board · {BOARD.confirmed} founding members
+            Advisory board · {advisors} founding members
           </p>
           <h2 className="mt-2 font-serif text-2xl font-semibold tracking-[-0.01em] text-text-primary">
             Who is in the room.
           </h2>
           <p className="mt-3 max-w-[46rem] text-base leading-relaxed text-text-meta">
-            All {BOARD.confirmed} confirmed. None have signed a charter and terms
-            are unset for every seat — board service became unpaid on 3 August,
-            so what remains is the written agreement itself.
+            All {advisors} confirmed. None have signed a charter and terms are
+            unset for every seat — board service became unpaid on 3 August, so
+            what remains is the written agreement itself. Tom Peterson supports
+            the program as an institutional champion rather than from a seat,
+            which is why he is not on this list.
           </p>
           <div className="mt-8 grid gap-x-12 border-t border-border-strong md:grid-cols-2">
             {MEMBERS.map((m) => (
@@ -249,22 +253,19 @@ export default async function BriefPage({
             {CERTS.slots} complete, {CERTS.started} partway). Network,
             application and inbound-request counts read live at{" "}
             {stats.readAt.toISOString()}. Gate targets as set 11 July. Board
-            roster from JD&rsquo;s confirmation record of {BOARD.asOf}.
+            headcount read live from the same roster table the public roadmap
+            uses, so this page and that one cannot drift apart.
           </p>
           <p className="mt-3 max-w-[52rem]">
             <strong className="font-semibold text-text-primary">
               Two things this brief does not claim.
             </strong>{" "}
-            The network figure counts everyone on the list, including sixty who
-            arrived through the jobs board rather than through the Foundry. And
-            the board headcount here is cited from the confirmation record, not
-            from the live table behind the public roadmap — that table still
-            carries the pre-August roster and returns{" "}
-            {stats.advisoryBoard == null ? "a lower number" : stats.advisoryBoard}
-            . It needs correcting, and correcting it changes a public claim, so
-            it waits on JD. No gift amounts appear anywhere on this page, per
-            the standing rule on /donors: once a larger gift is listed,
-            implicit magnitudes turn a thank-you into a ranking.
+            The network figure counts everyone on the list, including sixty-three
+            who arrived through a jobs-board gate rather than through the
+            Foundry; it is a softer list than the number suggests. And no gift
+            amounts appear anywhere on this page, per the standing rule on
+            /donors — once a larger gift is listed, implicit magnitudes turn a
+            thank-you into a ranking.
           </p>
           <p className="mt-3">
             Not linked from the site, excluded from search indexing, and gated on

@@ -54,23 +54,20 @@ export const CERTS = {
 } as const
 
 /**
- * The advisory board, from state/board-payments.yaml — JD's own confirmation
- * record, last corrected by him on 2026-08-02.
+ * The advisory board.
  *
- * This deliberately does NOT read the live `advisoryBoard` stat. That count
- * comes from `af_people`, which still carries the pre-August roster and returns
- * three. The live number is wrong and undercounts us; correcting a table that
- * also feeds the public roadmap is a call for JD, not for this page. So the
- * brief cites its source explicitly and the discrepancy is written into the
- * footer rather than papered over.
+ * The HEADCOUNT is NOT stored here. It is read live from `af_people`, the same
+ * source the public roadmap uses, so the two can never drift apart. An earlier
+ * draft of this page hardcoded ten from a domain state file and was wrong: that
+ * file counted Tom Peterson as a seat, and the roster records him as an
+ * institutional champion, which is a different and also valuable thing. Nine
+ * people hold advisory seats.
  *
- * `charters` is zero and is stated every time the headcount is. Ten people who
- * said yes are ten commitments we owe, not ten credentials we hold — the same
+ * `charters` is zero and is stated every time the headcount is. Nine people who
+ * said yes are nine commitments we owe, not nine credentials we hold — the same
  * standard the roadmap applies to a verbal yes.
  */
 export const BOARD = {
-  asOf: "2026-08-02",
-  confirmed: 10,
   charters: 0,
   /** Unpaid since JD's 2026-08-03 call, which removed the modelled seat fees. */
   paid: false,
@@ -78,7 +75,10 @@ export const BOARD = {
 
 export type Member = { name: string; org: string }
 
-/** Ordered by confirmation date, so the reader sees how it was built. */
+/**
+ * Ordered by confirmation date, so the reader sees how it was built.
+ * Nine seats — matches `af_people` tier advisory_t1/t2 with status confirmed.
+ */
 export const MEMBERS: Member[] = [
   { name: "Johny Wudel", org: "MBA Product, BYU Marriott" },
   { name: "Brian Murphy", org: "Venture capital" },
@@ -87,7 +87,6 @@ export const MEMBERS: Member[] = [
   { name: "Spencer Rogers", org: "iHub Utah" },
   { name: "Mike Hendron", org: "Rollins Center, BYU" },
   { name: "Chris Cooper", org: "Pelion Venture Partners" },
-  { name: "Tom Peterson", org: "BYU Marriott" },
   { name: "Jason Alleger", org: "QuantXM" },
   { name: "Adjetey “AJ” Wilson", org: "AI Square · Trust & Safety Institute" },
 ]
@@ -116,9 +115,9 @@ export const GATES: Gate[] = [
   {
     name: "Advisory board",
     detail:
-      "Ten confirmed against a bar of five. Every seat now has a working email on file, three of which were only tracked down this week.",
+      "Nine confirmed against a bar of five. Every seat now has a working email on file, three of which were only tracked down this week.",
     target: 5,
-    actual: 10,
+    actual: 9,
     pct: 100,
     state: "met",
     standing: "Cleared",
@@ -135,11 +134,11 @@ export const GATES: Gate[] = [
   {
     name: "Foundry network",
     detail:
-      "The list is real but it stopped growing on 28 July, and sixty of the names arrived through the jobs-board gate rather than through the Foundry.",
+      "Twenty-one joined in the last four weeks, so it is moving — but sixty-three of the names arrived through a jobs-board gate rather than through the Foundry, which is a softer list than the number suggests.",
     target: 200,
-    actual: 132,
+    actual: 150,
     state: "partial",
-    standing: "Flat for four weeks",
+    standing: "+21 in four weeks",
   },
   {
     name: "Signed project contracts",
@@ -200,13 +199,9 @@ export const STUCK = [
       "Mostly BYU students, arriving steadily through July, with Cohort Two recruiting about to stack on top of them.",
   },
   {
-    title: "Ten advisors, zero charters.",
+    title: "Nine advisors, zero charters.",
     detail:
       "No signed agreement and no agreed terms for any seat — including one member who said yes in June and has still never received a written invitation.",
-  },
-  {
-    title: "The network stopped growing.",
-    detail: "No new members since 28 July. Nothing is currently feeding it.",
   },
 ]
 
