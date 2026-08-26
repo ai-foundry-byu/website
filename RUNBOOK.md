@@ -63,3 +63,58 @@ A rewrite, not a redirect, so the host stays `aifoundry.byu.edu` — the board's
 sign-in cookie is set with no `Domain` attribute, so it binds to the serving host.
 
 Rollback for the whole board integration is deleting the `rewrites()` block.
+
+## `npm run build` fails locally but passes in CI — check `NODE_ENV` first
+
+**Symptom.** `next build` compiles fine, then dies during static export:
+
+```
+✓ Compiled successfully
+Error occurred prerendering page "/_not-found"
+TypeError: Cannot read properties of null (reading 'useContext')
+Export encountered an error on /_not-found/page, exiting the build.
+```
+
+**Cause.** `NODE_ENV=development` is exported in the shell. Next says so, one line
+into the output, and it is easy to scroll past:
+
+```
+⚠ You are using a non-standard "NODE_ENV" value in your environment.
+```
+
+React then resolves a development copy inside a production export and the
+prerender of the framework's own `/_not-found` boundary blows up on a null
+dispatcher. Nothing is wrong with the page — it is Next's built-in one.
+
+**Fix.** Build with the value the deploy actually uses:
+
+```bash
+env NODE_ENV=production npm run build
+```
+
+Verified 2026-08-26: identical tree, `NODE_ENV=development` exits 1,
+`NODE_ENV=production` exits 0 with 15/15 static pages.
+
+**Do not** chase this into the Node version. It has been blamed on Node 26
+before and that was wrong — Node 26.0.0 builds this repo clean. It is the
+environment variable, and CI passes precisely because CI does not set it.
+
+## Internal pages and their tokens
+
+Two routes are deliberately unlisted, `noindex`, and fail **closed** — if the
+token env var is unset, every request 404s, so a misconfigured deploy hides the
+page rather than exposing it.
+
+| Route | Env var | Audience |
+|---|---|---|
+| `/ops?k=…` | `OPS_TOKEN` | JD + leadership. The wall metric and the shortfalls. |
+| `/brief?k=…` | `BRIEF_TOKEN`, falling back to `OPS_TOKEN` | The advisory board standing report. |
+
+The fallback exists so a deploy without `BRIEF_TOKEN` still works for whoever
+holds the internal link. Set `BRIEF_TOKEN` separately when the brief goes to
+people who should not also get `/ops`.
+
+A token in a query string is obscurity, not security — it leaks through
+referrers, history, and any log that keeps full URLs. That is acceptable for
+numbers that are embarrassing rather than sensitive. **Do not put anything
+private about a person on either page.**

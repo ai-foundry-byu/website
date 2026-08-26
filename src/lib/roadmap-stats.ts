@@ -16,7 +16,10 @@ import { createClient } from "@supabase/supabase-js"
 
 export type RoadmapStats = {
   network: number | null
+  /** Genuine applicants. Seeded test rows are excluded; BYU addresses are not. */
   applications: number | null
+  /** Genuine applicants nobody has screened yet. Null when the read failed. */
+  applicationsUntriaged: number | null
   /** Genuine inbound only. Test and self-submitted rows are excluded. */
   proposals: number | null
   /** Rows excluded as test data, so the filter itself stays auditable. */
@@ -46,7 +49,19 @@ const SIGNED = new Set(["signed", "contracted", "won", "active"])
  * board, and it fails the same way: quietly, and in our favour. The filter is
  * therefore deliberately blunt and is applied before any number is published.
  */
-const TEST_EMAIL = /(^|@)(test|smoke)|test-smoke|smoketest|@example\.(com|org)|@clawd\.ai/i
+/**
+ * Seeded rows, by address.
+ *
+ * The `[-._+]` branch was added on 2026-08-26: the original pattern anchored
+ * `test` to the start of the local part or straight after the `@`, so
+ * `resume-test-2026-06-30@byu.edu` — a row this project seeded itself while
+ * checking the resume upload — was counted as a genuine applicant. One row is
+ * not a scandal, but it is the same class of mistake the filter exists to
+ * prevent, and a seeded row that looks like a student is worse than one that
+ * looks like a robot. The separator is required on both sides so a real
+ * surname (Testa, Smoker) cannot trip it.
+ */
+const TEST_EMAIL = /(^|@|[-._+])(test|smoke)([-._+]|@|$)|smoketest|@example\.(com|org)|@clawd\.ai/i
 const OWN_EMAIL = /jddavenport|@byu\.edu$|aifoundry/i
 
 function isTestRow(email: unknown): boolean {
@@ -60,6 +75,7 @@ function emptyStats(): RoadmapStats {
   return {
     network: null,
     applications: null,
+    applicationsUntriaged: null,
     proposals: null,
     proposalsExcluded: null,
     contractsSigned: null,
@@ -154,6 +170,37 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
   }
 
   /**
+   * Cohort applications, split into genuine and not-yet-screened.
+   *
+   * This deliberately does NOT use `isTestRow`. That filter also drops
+   * `@byu.edu`, which is correct for a *client* proposal — a BYU address on an
+   * inbound project request is us talking to ourselves — and exactly wrong
+   * here, where a BYU student is the entire target audience. Reusing it would
+   * have silently deleted most real applicants.
+   *
+   * So the applications filter is the seeded-test pattern only. The raw table
+   * count was published as fifty when six of those rows were smoke tests, the
+   * same overcounting failure the proposals filter exists to prevent.
+   *
+   * `untriaged` is the number that actually matters. An application that has
+   * arrived and never been looked at is not pipeline, it is a person waiting.
+   */
+  async function applications() {
+    const { data, error } = await supabase
+      .from("foundry_applications")
+      .select("email,status")
+    if (error) {
+      console.error("roadmap stats: foundry_applications:", error.message)
+      return null
+    }
+    const real = data.filter((r) => !TEST_EMAIL.test(String(r.email ?? "").trim().toLowerCase()))
+    return {
+      real: real.length,
+      untriaged: real.filter((r) => String(r.status).toLowerCase() === "new").length,
+    }
+  }
+
+  /**
    * Proposals, split into genuine inbound, excluded test rows, and signed work.
    * Read as rows rather than a head count because the split needs the columns.
    */
@@ -173,9 +220,9 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
     }
   }
 
-  const [network, applications, deals, people, metrics] = await Promise.all([
+  const [network, apps, deals, people, metrics] = await Promise.all([
     count("network_members"),
-    count("foundry_applications"),
+    applications(),
     proposals(),
     tiers(),
     weekly(),
@@ -183,7 +230,8 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
 
   return {
     network,
-    applications,
+    applications: apps ? apps.real : null,
+    applicationsUntriaged: apps ? apps.untriaged : null,
     proposals: deals ? deals.real : null,
     proposalsExcluded: deals ? deals.excluded : null,
     contractsSigned: deals ? deals.signed : null,
