@@ -27,42 +27,25 @@
 export type Win = { value: string; label: string }
 
 /**
- * ⚠️ THE CLIENT AND PROJECT COUNTS ARE JD'S, AND THE RECORDS DISAGREE.
+ * SOURCING NOTE — THIS REPO IS PUBLIC. Read this before adding a comment here.
  *
- * JD ruled on 2026-08-27, with the conflict in front of him, that his count is
- * the one that ships. Recording both halves per rule 4, so the next person to
- * open this file does not have to re-derive it — and so that if a board member
- * ever asks, the answer is already written down.
+ * The client and project counts are JD's, carried forward from 2026-08-26 and
+ * ruled on by him on 2026-08-27. The org's own trackers report a lower figure.
+ * The full reconciliation — which records, which numbers, which client, and the
+ * reasoning behind the ruling — lives in the PRIVATE domain state, at
+ * `~/clawd/domains/ai-foundry/state/board-update-emails-2026-08-27.md`.
  *
- * JD's count (2026-08-26, carried forward): 3 paying clients, 12 projects booked.
+ * It is deliberately NOT written out here, and neither is any client name,
+ * Drive document id, or contract status. Everything in this file is world
+ * readable at raw.githubusercontent.com. A provenance comment that is candid
+ * about a disputed number is exactly right in a private state file and exactly
+ * wrong in a public repository.
  *
- * What every record the org keeps says instead:
- *   · Pipeline sheet 1Kl2e9zRiy6HRj29JjY8KVuLLsn7EHVKnHV3rLnL3VI4 (13 Aug) —
- *     18 prospects, 0 accepted, $22,000 in evaluation (all of it Breckenridge),
- *     `Payment Collected` FALSE on all 18 rows, $0 collected.
- *   · Project Tracker 1da-At3gzF0FF7tvo5e1Zjm4DyxaiyuTSIRVLXTW7QNw (21 Aug) —
- *     ONE active project, noted "Working through NDA details before signing".
- *   · Supabase `project_proposals`, queried live 2026-08-27 — 0 rows in any
- *     signed state.
- *   · domain state/goals.yaml, pre-semester gate 5 "Signed project contracts": 0.
- *
- * Exactly ONE client is named anywhere: Breckenridge Pharmaceutical, "the
- * Foundry's first won project" (Drive 02 Deals & Clients/CapSource/_ABOUT.md),
- * rerouted from BYU Engineering Capstone via CapSource, staffed 7 August,
- * engagement letter still DRAFT v2 on 25 August. The other two have no name in
- * any record. Deliberately NOT rendered: that NDA is still being negotiated and
- * this page gets forwarded.
- *
- * The exposure, stated plainly: this page goes to two venture investors and a
- * BCG partner. If one of them asks "which three?", the defensible answer today
- * is one named engagement whose contract is a draft. That is a conversation to
- * be ready for, not a reason the number is wrong.
- *
- * Advisors: 11, from domain state/board-payments.yaml as of 2026-08-27. NOTE
- * that the PUBLIC /roadmap will say 4, not 11, because roadmap-stats.ts counts
- * only `af_people` rows with a written confirmation on file. Both numbers are
- * defensible and they measure different things. Do not "fix" one to match the
- * other without deciding which standard the org actually uses.
+ * Advisors: 11, from the private board roster as of 2026-08-27. NOTE that the
+ * public /roadmap will say fewer, because roadmap-stats.ts counts only rows
+ * carrying a written confirmation. Both numbers are defensible and they measure
+ * different things. Do not "fix" one to match the other without deciding which
+ * standard the org actually uses.
  */
 export const WINS: Win[] = [
   { value: "31", label: "builders in Cohort One" },
@@ -114,11 +97,9 @@ export type Milestone = { title: string; detail: string }
  * Every line here is receipted. The two that are NOT on this list, and why:
  *
  *  · "Two case competitions booked, one national." Removed from /brief on
- *    2026-08-26 after a hunt came back empty. The org's own dossier (Drive
- *    1Cc7uloXA3DjXENlianPvkmX79A4RyjAnrLDtSnjQNm8) enumerates ONE competition
- *    plus a hackathon, "planned, owner UNASSIGNED, dates TBD, funding offered
- *    but not closed". No national competition exists in Drive, Gmail, the
- *    domain state, or the calendar. It goes back the day it has a name.
+ *    2026-08-26 after a hunt came back empty: the org's own planning dossier
+ *    describes one competition plus a hackathon, not two competitions. It goes
+ *    back the day the second one has a name.
  *  · Claude Certified Architect cohort certification. Zero of ten have passed,
  *    so it is a gap below, not a win here. voice.md's standing rule is that
  *    students "pursue" the certification and it becomes a claim only once
@@ -308,15 +289,10 @@ export type Advisor = { name: string; org: string; brings: string }
  * members "listing on the AI Foundry website and annual program materials",
  * which is exactly this and nothing more.
  *
- * Two entries carry a caveat that is NOT rendered, because it is ours to fix
- * rather than theirs to read:
- *   · Aaron Arnoldsen said yes verbally on 2026-06-15 and reconfirmed twice
- *     (2026-07-27, 2026-07-31). His formal written invitation has still never
- *     been sent. If this page reaches him first, he learns he is on the board
- *     from a roster rather than from an invitation.
- *   · Mike Hawkins was confirmed by JD on 2026-08-27 after a phone call. The
- *     written record only ever shows him "considering" a seat.
- * Send both an invitation before this page goes out.
+ * Two seats still need their paperwork closed before this page circulates.
+ * Which two, and why, is tracked in the private domain state rather than here:
+ * this repo is public, and a note about where a named person's paperwork stands
+ * is not something to publish about them.
  *
  * Affiliations are what the records support and nothing more. Brian Murphy's
  * firm is not named in any record we hold, so his line says "Venture capital"
