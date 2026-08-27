@@ -11,7 +11,10 @@
  *     a fact the reader can discount; a stale figure presented as live is a lie
  *     with a timestamp on it.
  *  3. No number is invented. Where a figure is not yet scoped, it says so —
- *     see NEEDS, where two of three lines are deliberately uncosted.
+ *     see NEEDS, where the competition line is deliberately uncosted.
+ *  4. Nothing goes on this page that the org's own records cannot back. Where a
+ *     claim and the records disagree, the comment above it names both and cites
+ *     the file. Rules 3 and 4 are why this page can be forwarded.
  */
 
 /* ────────────────────────────────────────────────────────────
@@ -21,10 +24,25 @@
 export type Win = { value: string; label: string }
 
 /**
- * Cohort, clients and projects are JD's count as of 2026-08-26 and are ahead of
- * the pipeline sheet in the Foundry Drive, which still reads 18 prospects and 0
- * accepted from 13 August. Followers from the LinkedIn export (below); network
- * from our own database.
+ * Cohort, clients and projects are JD's count as of 2026-08-26. Followers from
+ * the LinkedIn export (below); network from our own database.
+ *
+ * The client and project counts are ahead of every record the org keeps. Hunted
+ * 2026-08-26 across the official Foundry Drive, the live Supabase and the domain
+ * state, so nobody has to re-derive it:
+ *   · Pipeline sheet 1Kl2e9zRiy6HRj29JjY8KVuLLsn7EHVKnHV3rLnL3VI4 (13 Aug) —
+ *     18 prospects, 0 accepted, $22,000 in evaluation (all of it Breckenridge),
+ *     `Payment Collected` FALSE on all 18 rows, $0 collected.
+ *   · Project Tracker 1da-At3gzF0FF7tvo5e1Zjm4DyxaiyuTSIRVLXTW7QNw (21 Aug) —
+ *     ONE active project, noted "Working through NDA details before signing".
+ *   · domain state/goals.yaml, pre-semester gate 5 "Signed project contracts": 0.
+ *
+ * Exactly ONE client is named anywhere: Breckenridge Pharmaceutical — "the
+ * Foundry's first won project" (Drive 02 Deals & Clients/CapSource/_ABOUT.md),
+ * rerouted from BYU Engineering Capstone via CapSource, staffed 7 August,
+ * engagement letter still DRAFT v2 on 25 August. The other two have no name in
+ * any record. Deliberately NOT rendered — that NDA is still being negotiated,
+ * and this page gets forwarded.
  */
 export const WINS: Win[] = [
   { value: "31", label: "builders in Cohort One" },
@@ -83,10 +101,30 @@ export const UPTICK = {
    MILESTONES
    ──────────────────────────────────────────────────────────── */
 
+/**
+ * The competition line was "Two product case competitions booked — one national,
+ * one at BYU" until 2026-08-26, when a hunt for the two names came back empty and
+ * turned up the opposite. The org's own consolidated dossier, "AI Foundry —
+ * Product Case Competition" (Drive 1Cc7uloXA3DjXENlianPvkmX79A4RyjAnrLDtSnjQNm8,
+ * 17 Aug), enumerates the whole Sep–Oct slate as ONE case competition plus a
+ * separate hackathon, and opens: "planned, owner UNASSIGNED, dates TBD, funding
+ * offered but not closed." No national competition appears in the Drive, in
+ * Gmail, in the domain state, or on the calendar — nothing is booked anywhere.
+ *
+ * What IS receipted is below: Rachel Moulton took the case competition on 18 Aug
+ * (state/tasks.yaml AF-008, closing an ownership gap open since 20 Jul), and
+ * Christine Roundy put JD, Rachel and Dan Snow in the MBA Office at 3pm on 20 Aug
+ * to create it (invite "JD/Prof Snow: Creating Product Case Competition"). The
+ * Sep 30 – Oct 15 window is AF-008's. Names are in this comment, not on the page.
+ *
+ * If JD has a second competition the records have never seen, this is one line to
+ * put back — but it needs a name before it goes in front of a donor.
+ */
 export const MILESTONES = [
   {
-    title: "Two product case competitions booked",
-    detail: "One national, one at BYU.",
+    title: "Product case competition under way with the MBA office",
+    detail:
+      "Owner named 18 August, scoped with Dan Snow on the 20th. Targeting Sep 30 – Oct 15.",
   },
   {
     title: "Official program status",
@@ -141,10 +179,22 @@ export type Need = {
  * read off claude.com/pricing on 2026-08-26; the 20x tier costs more, so treat
  * $37,200 as the floor rather than the estimate.
  *
- * The two competition lines are deliberately NOT costed. Nobody has scoped them
- * yet, and a number invented for a page that gets forwarded becomes the anchor
+ * The competition line stays NOT costed after a 2026-08-26 hunt for a real
+ * figure. The only number in any record is $8.4K–$14.8K, and it fails on three
+ * counts: it covers the case competition AND the hackathon together, it is an
+ * internal planning target built from component guesses ("target $3–5K" for
+ * prizes) in state/AF-008-EVENTS-STRATEGY-2026-07-14.md, and nobody has approved
+ * it. The one funding offer on record — AJ Wilson / TSI, Plaud 2026-07-22 — is
+ * logged in the org's own dossier as "UNCLOSED. No agreement, no amount, no terms
+ * on record." A number invented for a page that gets forwarded becomes the anchor
  * for every later conversation whether or not it was ever real. "To be scoped"
  * with the components named is more useful to a donor than a confident guess.
+ *
+ * This was two competition lines until 2026-08-26. The second, "National product
+ * case competition", was removed for the reason given above MILESTONES: no
+ * national competition exists in the Drive, in Gmail, in the domain state or on
+ * the calendar, and an ask a donor cannot have explained to them is worse than a
+ * missing row. Restoring it takes one line and a name.
  */
 export const NEEDS: Need[] = [
   {
@@ -153,12 +203,7 @@ export const NEEDS: Need[] = [
     basis: "31 builders × $100/seat/month × 12 months, at the Max 5x tier.",
   },
   {
-    item: "National product case competition",
-    amount: null,
-    basis: "Prize pool, team travel, registration. Not yet scoped.",
-  },
-  {
-    item: "BYU product case competition",
+    item: "Product case competition",
     amount: null,
     basis: "Prize pool, venue and production. Not yet scoped.",
   },
