@@ -45,7 +45,7 @@ export type Win = { value: string; label: string }
  * and this page gets forwarded.
  */
 export const WINS: Win[] = [
-  { value: "31", label: "builders in Cohort One" },
+  { value: "30", label: "builders in Cohort One" },
   { value: "3", label: "paying clients" },
   { value: "12", label: "projects booked" },
   { value: "197", label: "LinkedIn followers" },
@@ -174,10 +174,14 @@ export type Need = {
 }
 
 /**
- * The seat line is fully costed and the arithmetic is shown: 31 builders on
+ * The seat line is fully costed and the arithmetic is shown: 30 builders on
  * Claude Max at the $100/seat/month tier, twelve months. That per-seat price was
  * read off claude.com/pricing on 2026-08-26; the 20x tier costs more, so treat
- * $37,200 as the floor rather than the estimate.
+ * $36,000 as the floor rather than the estimate.
+ *
+ * Headcount is 30, matching /about ("30 students from a range of disciplines").
+ * An earlier draft said 31 and disagreed with the public page; JD set it to 30 on
+ * 2026-09-18 so the two cannot be cross-checked against each other and differ.
  *
  * The competition line stays NOT costed after a 2026-08-26 hunt for a real
  * figure. The only number in any record is $8.4K–$14.8K, and it fails on three
@@ -199,8 +203,8 @@ export type Need = {
 export const NEEDS: Need[] = [
   {
     item: "Claude Max seats for the cohort, one year",
-    amount: "$37,200",
-    basis: "31 builders × $100/seat/month × 12 months, at the Max 5x tier.",
+    amount: "$36,000",
+    basis: "30 builders × $100/seat/month × 12 months, at the Max 5x tier.",
   },
   {
     item: "Product case competition",

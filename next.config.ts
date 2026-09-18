@@ -47,6 +47,28 @@ const nextConfig: NextConfig = {
    * nothing. That exact failure took the previous board down for weeks, so it
    * is worth being explicit: both rules ship together or neither does.
    */
+  /**
+   * /terms and /privacy land on /legal.
+   *
+   * There is one legal page, and external verification flows do not agree on
+   * where to look for it: some ask for a terms URL, some for a privacy URL,
+   * some just want "a public page linking the domain to your organization".
+   * Redirecting both to the anchors on /legal means whichever one a reviewer
+   * tries resolves, instead of 404ing and looking like the site has no notice
+   * at all.
+   *
+   * 308 (permanent) so the canonical URL is unambiguous to crawlers; /legal
+   * sets `alternates.canonical` to match.
+   */
+  async redirects() {
+    return [
+      { source: "/terms", destination: "/legal#site-use", permanent: true },
+      { source: "/terms-of-service", destination: "/legal#site-use", permanent: true },
+      { source: "/privacy", destination: "/legal#privacy", permanent: true },
+      { source: "/privacy-policy", destination: "/legal#privacy", permanent: true },
+    ]
+  },
+
   async rewrites() {
     const board = "https://ai-foundry-jobs.vercel.app"
     return [
