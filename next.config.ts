@@ -82,13 +82,22 @@ const nextConfig: NextConfig = {
      * Plan: docs/PLATFORM-PLAN.md and docs/CUTOVER.md in the Strategy repo.
      */
     const cockpit = "https://ai-foundry-app.vercel.app"
-    return [
-      { source: "/jobs", destination: `${board}/jobs` },
-      { source: "/jobs/:path*", destination: `${board}/jobs/:path*` },
-      { source: "/api/jobs/:path*", destination: `${board}/api/jobs/:path*` },
-      { source: "/app", destination: `${cockpit}/app` },
-      { source: "/app/:path*", destination: `${cockpit}/app/:path*` },
-    ]
+    return {
+      // /app runs before this site's own routing. Next 16 turns a page's
+      // segment-prefetch requests (header Next-Router-Segment-Prefetch) into
+      // internal .segment.rsc paths, which 404 here before an afterFiles rule
+      // sees them; forwarding first hands them to the app untouched.
+      beforeFiles: [
+        { source: "/app", destination: `${cockpit}/app` },
+        { source: "/app/:path*", destination: `${cockpit}/app/:path*` },
+      ],
+      afterFiles: [
+        { source: "/jobs", destination: `${board}/jobs` },
+        { source: "/jobs/:path*", destination: `${board}/jobs/:path*` },
+        { source: "/api/jobs/:path*", destination: `${board}/api/jobs/:path*` },
+      ],
+      fallback: [],
+    }
   },
 }
 
