@@ -8,7 +8,16 @@ import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from
  * fix) and soft text is white at 75%. Royal never appears as text here.
  * The roadmap link stays footer-only; see the note on ROADMAP_LINK.
  */
-const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK]
+/**
+ * Legal sits last, after the roadmap. It is the only footer entry that is not a
+ * destination anyone browses to on purpose: it is there because a privacy
+ * notice nobody can find is not a notice, and because external verification
+ * flows look for exactly this link in exactly this place. BYU's own footers
+ * (byu.edu, marriott.byu.edu) carry the same one link and nothing else.
+ */
+const LEGAL_LINK = { label: "Legal", href: "/legal" }
+
+const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK, LEGAL_LINK]
 
 export function SiteFooter() {
   return (
