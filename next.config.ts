@@ -49,10 +49,20 @@ const nextConfig: NextConfig = {
    */
   async rewrites() {
     const board = "https://ai-foundry-jobs.vercel.app"
+    /**
+     * Serve the AI Foundry Cockpit at aifoundry.byu.edu/app, the same way as the
+     * jobs board. The Cockpit is built with basePath "/app", so its pages, assets
+     * (/app/_next/...) and API routes all sit under /app and these two rules carry
+     * everything. Its sign-in cookie binds to aifoundry.byu.edu for the same reason
+     * the board's does. Plan: docs/PLATFORM-PLAN.md in the Strategy repo.
+     */
+    const cockpit = "https://ai-foundry-cockpit.vercel.app"
     return [
       { source: "/jobs", destination: `${board}/jobs` },
       { source: "/jobs/:path*", destination: `${board}/jobs/:path*` },
       { source: "/api/jobs/:path*", destination: `${board}/api/jobs/:path*` },
+      { source: "/app", destination: `${cockpit}/app` },
+      { source: "/app/:path*", destination: `${cockpit}/app/:path*` },
     ]
   },
 }
