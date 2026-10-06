@@ -977,6 +977,56 @@ export const ROADMAP_STATS_NOTE =
  */
 export const ROADMAP_LINK: NavLink = { label: "Roadmap", href: "/roadmap" }
 
+/**
+ * The monthly update one-pager, at /update. Footer only, on the roadmap
+ * precedent: it exists so an advisor email can link to it, not to compete
+ * with the top bar for a first-time visitor.
+ */
+export const UPDATE_LINK: NavLink = { label: "Latest update", href: "/update" }
+
+/* ────────────────────────────────────────────────────────────
+   The update, at /update
+
+   PUBLIC and indexable, unlike /board and /brief. It carries the same
+   one-pager the advisors get by email, so nothing on it may be more
+   private than that email: program-level counts only, no names beyond
+   the faculty director the image already credits, no contact details.
+
+   The image and PDF are built outside this repo (ai-foundry domain state,
+   infographic/build.py) and copied into public/update/ with the month in
+   the filename, so an old email's PDF link keeps resolving after the page
+   moves on to the next month. To publish a new month: drop the new pair
+   in public/update/, then change UPDATE below. Every number in the text
+   here must already appear in the image.
+   ──────────────────────────────────────────────────────────── */
+
+export const UPDATE = {
+  month: "October 2026",
+  title: "AI Foundry update, October 2026",
+  lead:
+    "The one-page update we send our advisory board: where the program stands this month, what is coming up, and where an introduction would help most.",
+  image: {
+    src: "/update/ai-foundry-update-2026-10.png",
+    width: 1632,
+    height: 2112,
+    alt:
+      "AI Foundry advisory board report, October 2026. 166 network members, 315 LinkedIn followers, 30 students this fall (15 MBAs and 15 undergraduates), 20 clients (8 paying and 12 pro bono), and $50K in revenue. 14 advisory board members, ranging from Anthropic and Pelion Venture Partners to BCG X. AI Foundry is a member of Anthropic's Claude Partner Network. The page also charts network and follower growth, shows progress against the roadmap, lists what is coming up, and names the ways advisors can help.",
+  },
+  pdf: {
+    href: "/update/ai-foundry-update-2026-10.pdf",
+    filename: "ai-foundry-update-2026-10.pdf",
+  },
+  stats: [
+    { value: "166", label: "Network members" },
+    { value: "315", label: "LinkedIn followers" },
+    { value: "30", label: "Students: 15 MBAs, 15 undergrads" },
+    { value: "20", label: "Clients: 8 paying, 12 pro bono" },
+    { value: "$50K", label: "Revenue" },
+    { value: "14", label: "Advisory board members" },
+  ],
+  board: "Our advisors range from Anthropic and Pelion Venture Partners to BCG X, and AI Foundry is a member of Anthropic's Claude Partner Network.",
+} as const
+
 /* ────────────────────────────────────────────────────────────
    Donors, at /donors
 

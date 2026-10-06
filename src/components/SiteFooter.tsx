@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from "@/lib/content"
+import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, UPDATE_LINK } from "@/lib/content"
 
 /**
  * Footer. Port of design_handoff .../navigation/Footer.jsx onto the repo's
@@ -17,7 +17,7 @@ import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL } from
  */
 const LEGAL_LINK = { label: "Legal", href: "/legal" }
 
-const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK, LEGAL_LINK]
+const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LINK]
 
 export function SiteFooter() {
   return (
