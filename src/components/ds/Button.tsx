@@ -38,6 +38,7 @@ export function Button({
   disabled,
   loading,
   style,
+  download,
 }: {
   variant?: Variant
   size?: "md" | "lg"
@@ -52,6 +53,9 @@ export function Button({
   disabled?: boolean
   loading?: boolean
   style?: React.CSSProperties
+  /** A file, not a page: renders a plain <a download> so next/link never
+   *  tries to prefetch or client-route to it. The value is the saved name. */
+  download?: string
 }) {
   const [hover, setHover] = useState(false)
   const [press, setPress] = useState(false)
@@ -118,12 +122,12 @@ export function Button({
     </>
   )
   if (href) {
-    return href.startsWith("/") ? (
+    return href.startsWith("/") && !download ? (
       <Link href={href} className={className} style={s} {...handlers}>
         {inner}
       </Link>
     ) : (
-      <a href={href} className={className} style={s} {...handlers}>
+      <a href={href} download={download} className={className} style={s} {...handlers}>
         {inner}
       </a>
     )
