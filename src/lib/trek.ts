@@ -11,6 +11,13 @@
  *
  * Company names are plain text. No logos (see the rule in content.ts).
  *
+ * Only companies that have agreed or are actively in talks are named here
+ * (Confirmed, Likely, Potential). A visit we are still asking for, or
+ * holding as a backup, shows as "Company visit — being arranged" with no
+ * company name, address, identifying note or path, here or in the timeline:
+ * this file and the page are public, and naming a company before it has said
+ * yes reads as a claim. Name it when it moves to Likely or better.
+ *
  * To update the trip, edit the values below and bump TRIP.updated.
  */
 
@@ -73,7 +80,7 @@ export const DAYS: TrekDay[] = [
     area: "Peninsula + San Jose",
     items: [
       { time: "7:45 AM", end: "8:30 AM", what: "Team breakfast + briefing", where: "Hotel", address: "", status: "Planned", note: "Quick review of the day's companies. Each attendee owns the one-page brief for one company." },
-      { time: "9:00 AM", end: "10:30 AM", what: "Intuit", where: "Mountain View", address: "2700 Coast Ave, Mountain View, CA 94043", status: "Proposed", note: "Intuit hires MBAs into product through its Rotational Product Manager program, so it is a strong PM fit. Backup for this slot: Google (Mountain View)." },
+      { time: "9:00 AM", end: "10:30 AM", what: "Company visit — being arranged", where: "Mountain View", address: "", status: "Proposed", note: "" },
       { time: "12:00 PM", end: "2:00 PM", what: "Meta", where: "Menlo Park", address: "1 Hacker Way, Menlo Park, CA 94025", status: "Confirmed", note: "Confirm the building and visitor lobby with the host the week before." },
       { time: "3:00 PM", end: "5:00 PM", what: "Adobe", where: "San Jose", address: "345 Park Ave, San Jose, CA 95110", status: "Confirmed", note: "Downtown San Jose. Use the visitor garage." },
       { time: "6:30 PM", end: "", what: "Group dinner", where: "Downtown San Jose", address: "", status: "Planned", note: "" },
@@ -95,8 +102,8 @@ export const DAYS: TrekDay[] = [
     date: "Fri Nov 6",
     area: "San Francisco: AI day",
     items: [
-      { time: "9:00 AM", end: "10:30 AM", what: "Anthropic", where: "SoMa, San Francisco", address: "500 Howard St, San Francisco, CA 94105", status: "Proposed", note: "If a full visit is not possible, the fallback is a coffee with BYU alumni who work there." },
-      { time: "11:00 AM", end: "12:30 PM", what: "OpenAI", where: "Mission Bay, San Francisco", address: "1455 3rd St, San Francisco, CA 94158", status: "Proposed", note: "Ten minutes from Anthropic. Same alumni-coffee fallback." },
+      { time: "9:00 AM", end: "10:30 AM", what: "Company visit — being arranged", where: "SoMa, San Francisco", address: "", status: "Proposed", note: "If a full visit is not possible, the fallback is a coffee with BYU alumni who work there." },
+      { time: "11:00 AM", end: "12:30 PM", what: "Company visit — being arranged", where: "Mission Bay, San Francisco", address: "", status: "Proposed", note: "Same alumni-coffee fallback." },
       { time: "1:00 PM", end: "2:00 PM", what: "Waymo", where: "Location TBD", address: "", status: "Potential", note: "The current contact is in operations. Asking for a product manager to join. If the visit is in SF, ride Waymos between stops." },
       { time: "2:30 PM", end: "4:00 PM", what: "Health-tech startup (Chief Product Officer)", where: "Location TBD", address: "", status: "Potential", note: "Was 9-11 AM. Can move back to the morning if that is the CPO's only window." },
       { time: "4:15 PM", end: "5:00 PM", what: "Debrief", where: "San Francisco", address: "", status: "Planned", note: "Ten minutes per person: who you met, what you promised, when you will follow up." },
@@ -113,18 +120,18 @@ export const PIPELINE: TrekLead[] = [
   { company: "NVIDIA", slot: "Thu 4:30-6", status: "Potential", owner: "Trip host / Career Services", path: "Career Services connection", next: "Lock it, or free the slot by Oct 14" },
   { company: "Health-tech startup", slot: "Fri", status: "Potential", owner: "Trip host", path: "Chief Product Officer", next: "Get time and location" },
   { company: "Waymo", slot: "Fri 1-2", status: "Potential", owner: "Trip host", path: "Operations contact", next: "Ask for a PM in the room; SF location if possible" },
-  { company: "Anthropic", slot: "Fri 9-10:30", status: "Proposed", owner: "AI Foundry", path: "BYU alumni in Applied AI; AI Foundry is a Claude Partner Network member", next: "Warm ask by Oct 8" },
-  { company: "OpenAI", slot: "Fri 11-12:30", status: "Proposed", owner: "AI Foundry", path: "Find BYU alumni there; warm intro", next: "Map alumni by Oct 8, ask by Oct 9" },
-  { company: "Intuit", slot: "Wed 9-10:30", status: "Proposed", owner: "AI Foundry", path: "Contact met at NBMBAA 2026", next: "Ask by Oct 8" },
-  { company: "Google", slot: "Wed 9-10:30 (backup)", status: "Backup", owner: "Trip host / Career Services", path: "BYU alumni who hosted the Jan 2026 trip", next: "Hold as the backup for Intuit" },
+  { company: "Company visit — being arranged", slot: "Fri 9-10:30", status: "Proposed", owner: "AI Foundry", path: "In the private leads list", next: "Warm ask by Oct 8" },
+  { company: "Company visit — being arranged", slot: "Fri 11-12:30", status: "Proposed", owner: "AI Foundry", path: "In the private leads list", next: "Map alumni by Oct 8, ask by Oct 9" },
+  { company: "Company visit — being arranged", slot: "Wed 9-10:30", status: "Proposed", owner: "AI Foundry", path: "In the private leads list", next: "Ask by Oct 8" },
+  { company: "Company visit — being arranged", slot: "Wed 9-10:30 (backup)", status: "Proposed", owner: "Trip host / Career Services", path: "In the private leads list", next: "Hold as the backup for the Wed 9-10:30 slot" },
   { company: "BYU alumni night", slot: "Thu 7-9 PM", status: "Proposed", owner: "AI Foundry + Career Services", path: "BYU Management Society (Silicon Valley) and Bay Area MBA alumni", next: "Venue and invites by Oct 16" },
 ]
 
 export const TIMELINE: TrekTask[] = [
   { due: "Oct 7", task: "Send the trip host the master company + contacts list and this draft plan", owner: "AI Foundry" },
   { due: "Oct 8", task: "Lock the AI Foundry lead's spot: resume to the trip host, check in with the sign-up contact (sign-ups close Fri Oct 9)", owner: "AI Foundry" },
-  { due: "Oct 8", task: "Warm asks: Anthropic, Intuit", owner: "AI Foundry" },
-  { due: "Oct 9", task: "OpenAI alumni map + ask; Google backup ask", owner: "AI Foundry / Trip host" },
+  { due: "Oct 8", task: "Warm asks for open slots", owner: "AI Foundry" },
+  { due: "Oct 9", task: "Warm asks for open slots", owner: "AI Foundry / Trip host" },
   { due: "Oct 14", task: "LinkedIn + NVIDIA locked or released", owner: "Trip host" },
   { due: "Oct 16", task: "Every slot confirmed or its fallback chosen; alumni night venue set", owner: "Trip host + AI Foundry" },
   { due: "Oct 20", task: "Lodging (both bases) and rental cars booked", owner: "Attendees" },

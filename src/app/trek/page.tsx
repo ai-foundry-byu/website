@@ -177,7 +177,7 @@ export default function TrekPage() {
                           href={mapsUrl(stop.address)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={`Open ${stop.what} in Google Maps: ${stop.address}`}
+                          aria-label={`Open ${stop.what} in Maps: ${stop.address}`}
                           className="mt-0.5 inline-flex min-h-11 items-center gap-1.5 text-[0.9rem] font-medium underline underline-offset-2"
                         >
                           {stop.address}
@@ -233,7 +233,7 @@ export default function TrekPage() {
           {/* Phone: one card per company. */}
           <ul className="mt-3 list-none border-t border-border-strong p-0 md:hidden">
             {PIPELINE.map((p) => (
-              <li key={p.company} className="border-b border-border-subtle py-4">
+              <li key={`${p.company}-${p.slot}`} className="border-b border-border-subtle py-4">
                 <div className="flex items-start justify-between gap-3">
                   <p className="text-[1rem] font-semibold leading-snug text-text-primary">{p.company}</p>
                   <Chip status={p.status} />
@@ -269,7 +269,7 @@ export default function TrekPage() {
             </thead>
             <tbody>
               {PIPELINE.map((p) => (
-                <tr key={p.company} className="border-b border-border-subtle align-top">
+                <tr key={`${p.company}-${p.slot}`} className="border-b border-border-subtle align-top">
                   <th scope="row" className="py-3 pr-4 text-left font-semibold text-text-primary">
                     {p.company}
                   </th>
