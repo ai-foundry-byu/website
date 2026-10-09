@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
-import { NetworkForm } from "@/components/NetworkForm"
-import { NETWORK_INTERESTS, SCHOOL_FULL } from "@/lib/content"
+import { APP_JOIN, APP_SIGN_IN, NETWORK_INTERESTS, SCHOOL_FULL } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Join the network",
@@ -83,17 +82,16 @@ export default function NetworkPage() {
         </section>
 
         {/* ────────────────────────────────────────────────────
-            2. What you can opt into, then the form.
+            2. What you can opt into, then the way in.
 
-            Same band, in that order. The four items are the reason to fill the
-            form in, so they come before it, not after it as /quote puts its
+            Same band, in that order. The items are the reason to join, so they
+            come before the Join button, not after it as /quote puts its
             "what happens next" steps. That page's steps are reassurance for
             someone already committed; these are the offer itself.
 
             The lead paragraph that used to introduce all of this is gone from
-            the page and from content.ts. It is not lost: it is NetworkForm's
-            own intro line, so it renders inside the plate below, once, in the
-            place where it is actually load-bearing.
+            the page and from content.ts. It is not lost: a version of it opens
+            the Join plate below, once, in the place where it is load-bearing.
             ──────────────────────────────────────────────────── */}
         <section className="surface-paper">
           <div className="mx-auto max-w-3xl px-6 py-14 md:py-16">
@@ -164,33 +162,41 @@ export default function NetworkPage() {
             </ul>
 
             {/*
-              The form, on the same 768px column, so its edges land on the
-              ledger's edges above it.
-
-              tone stays "light": this sits on the white surface, so the plate
-              needs the hairline border to have an edge at all. tone="inverse"
-              is for a navy band, which is why /quote uses it and this does not.
-
-              height 1440, up from 780. Measured: the form's own content is
-              1421px tall once its card hits its 640px cap, which it does at any
-              plate width over about 724px. At 780 the reader met a 780px window
-              onto a 1421px form, so the page had a nested scroll region that
-              swallowed trackpad scrolling and hid the submit button behind a
-              scrollbar most people never noticed. At 1440 the whole form is on
-              the page and the only scrollbar is the browser's.
-
-              It cannot be right at every width: below about 640px the form's
-              labels wrap and its content grows past 1440 again, so narrow
-              screens still scroll inside the frame. One fixed number cannot fix
-              both, and the desktop case is the one that was broken.
+              Joining happens in the app (docs/LOGIN-DOOR.md in the Strategy repo),
+              not in a form here. Retired 2026-10-08: the six-field NetworkForm,
+              which wrote to the old site's database. The Join button opens the
+              app's one join page (email and a chosen password), and someone not
+              already on a roster, engagement or invite lands on "Almost in",
+              which asks these same opt-ins and waits for faculty or a leader.
+              The plate keeps the old form's 768px column and hairline edge.
             */}
-            <div className="mt-16">
-              {/* Native form posting to /api/network, which upserts into
-                  Supabase keyed on email. Its height is its content's height,
-                  so the measured-iframe bookkeeping the embed needed is gone. */}
-              <NetworkForm />
-              <p className="mt-6 text-center text-base text-text-primary opacity-80">
-                No spam. Leave at any time.
+            <div className="mt-16 border border-border-subtle bg-surface-default p-6 text-center md:p-10">
+              <p className="mx-auto max-w-[52ch] text-base leading-relaxed text-text-primary opacity-80">
+                Alumni, friends, and builders. Join with your email and a password, then tell us what you want in on. A
+                faculty member or student leader opens your account, usually within a week.
+              </p>
+              {/* A plain link: /app is the other app, served here by a rewrite. */}
+              <a
+                href={APP_JOIN}
+                className="mt-6 inline-flex items-center no-underline"
+                style={{
+                  background: "var(--accent)",
+                  color: "var(--accent-ink, #fff)",
+                  border: "1px solid var(--accent)",
+                  borderRadius: "var(--radius)",
+                  padding: "14px 26px",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 500,
+                  fontSize: 17,
+                }}
+              >
+                Join the network &rarr;
+              </a>
+              <p className="mt-4 text-base text-text-primary">
+                Already a member?{" "}
+                <a href={APP_SIGN_IN} className="underline">
+                  Sign in
+                </a>
               </p>
             </div>
           </div>

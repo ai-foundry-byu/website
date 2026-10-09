@@ -740,9 +740,11 @@ export const CULTURE_PRACTICES: Principle[] = [
 /* ────────────────────────────────────────────────────────────
    Forms
 
-   As of 2026-08-01 the forms are native components (QuoteForm, NetworkForm)
-   posting to /api/quote and /api/network, which write to the same Supabase
-   project the previous site used. The embedded Google Forms era, including
+   As of 2026-08-01 the forms are native components posting to the same
+   Supabase project the previous site used: QuoteForm to /api/quote.
+   NetworkForm and /api/network were retired 2026-10-08: joining the network
+   is now a Join button into the app (APP_JOIN), where requests wait for
+   faculty or a leader. The embedded Google Forms era, including
    the FORMS url map that lived here, is recorded in FORMS.md; the Google
    Forms themselves still exist under aifoundry.byu@gmail.com but nothing on
    the site renders them.
@@ -789,6 +791,18 @@ export const NAV: NavLink[] = [
  *  proposal"). The two-destination scheme above is unchanged — only the
  *  words on the buttons. */
 export const NAV_CTA: NavLink = { label: "Work with us", href: "/#quote" }
+
+/**
+ * The app at aifoundry.byu.edu/app (the Strategy repo, served here by the /app
+ * rewrite in next.config.ts). The header's door, AccountMenu, and the network
+ * page's Join button go here. One join for everyone: the address someone joins
+ * with decides where they land (Strategy repo, docs/LOGIN-DOOR.md).
+ */
+export const APP_SIGN_IN = "/app/login"
+export const APP_JOIN = "/app/join"
+export const APP_HOME = "/app"
+export const APP_PROFILE = "/app/profile"
+export const APP_SIGN_OUT = "/app/auth/signout"
 
 export const QUOTE_CTA: NavLink = { label: "Work with us", href: "/quote" }
 

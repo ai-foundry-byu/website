@@ -1,10 +1,12 @@
 import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
+import { AccountMenu } from "@/components/AccountMenu"
 import { Button } from "@/components/ds/Button"
 import { NAV, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * Top bar: co-brand lockup left, links + one action right. Port of
+ * Top bar: co-brand lockup left, links, the door into the app (AccountMenu),
+ * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
  * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
@@ -52,6 +54,9 @@ export function SiteHeader() {
               {link.label}
             </CurtainNavLink>
           ))}
+          {/* The door into the app, set off from the site's own pages by a hairline. */}
+          <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--border-hairline)", margin: "0 -6px" }} />
+          <AccountMenu variant="bar" />
           <Button variant="primary" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
@@ -82,6 +87,9 @@ export function SiteHeader() {
                   </CurtainNavLink>
                 </li>
               ))}
+              <li style={{ borderTop: "1px solid var(--border-hairline)", marginTop: 4 }}>
+                <AccountMenu variant="menu" />
+              </li>
               <li className="px-4 pb-2 pt-3">
                 <Button variant="primary" href={NAV_CTA.href} style={{ width: "100%" }}>
                   {NAV_CTA.label}
