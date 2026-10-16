@@ -28,7 +28,7 @@ export default function QuotePage() {
         <section style={{ padding: "64px 24px 0" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             {/* The page eyebrow keeps naming the action; only BUTTONS
-                changed to "Work with us" (Corbin, 2026-08-16). */}
+                read "Start a project" (Scott, 2026-10-15). */}
             <Eyebrow>Request a proposal</Eyebrow>
             <h1
               style={{

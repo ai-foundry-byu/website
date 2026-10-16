@@ -763,18 +763,35 @@ export const CULTURE_PRACTICES: Principle[] = [
 
 export type NavLink = { label: string; href: string }
 
-/** Two tabs. Click either one and it takes you straight there. */
+/**
+ * The top bar, by Scott's call 2026-10-15: what everyone wants (Our work, Our
+ * approach), the student door (For students), and About as the one menu. Clients
+ * have no tab of their own: the Start a project button is their door, so a
+ * "For clients" tab would be a second door to the same place.
+ */
 export const NAV: NavLink[] = [
   { label: "Our work", href: "/work" },
-  { label: "Join the network", href: "/network" },
-  { label: "About us", href: "/about" },
-  /* Donors is in the top bar, not the footer, by Scott's call 2026-08-25.
-     It first shipped footer-only on the ROADMAP_LINK precedent below, and
-     that was wrong for this page: a thank-you page nobody can find thanks
-     nobody. Donors are told their names are on the site, so the site has
-     to make them reachable without a URL. */
-  { label: "Donors", href: "/donors" },
+  { label: "Our approach", href: "/approach" },
+  { label: "For students", href: "/students" },
 ]
+
+/**
+ * About is a menu because its pages serve different readers (the curious, the
+ * network, donors). Donors moved here from the top bar on 2026-10-15. It went
+ * into the top bar on 2026-08-25 because a thank-you page nobody can find thanks
+ * nobody; one click under About keeps it findable without a URL.
+ */
+export const NAV_ABOUT: { label: string; items: NavLink[] } = {
+  label: "About",
+  items: [
+    { label: "About us", href: "/about" },
+    { label: "Join the network", href: "/network" },
+    { label: "Donors", href: "/donors" },
+  ],
+}
+
+/** Every page in the top bar, flat, for the footer. */
+export const NAV_ALL: NavLink[] = [...NAV, ...NAV_ABOUT.items]
 
 /**
  * Two steps, two destinations, and they do not overlap.
@@ -787,10 +804,11 @@ export const NAV: NavLink[] = [
  * hero button and the top bar both land on the offerings; the only route to
  * the form is through them.
  */
-/** Both CTAs read "Work with us" per Corbin, 2026-08-16 (was "Request a
- *  proposal"). The two-destination scheme above is unchanged — only the
- *  words on the buttons. */
-export const NAV_CTA: NavLink = { label: "Work with us", href: "/#quote" }
+/** Both CTAs read "Start a project" per Scott, 2026-10-15 (was "Work with us"
+ *  per Corbin 2026-08-16, which a student could read as "join us"; before that
+ *  "Request a proposal"). The two-destination scheme above is unchanged, only
+ *  the words on the buttons. */
+export const NAV_CTA: NavLink = { label: "Start a project", href: "/#quote" }
 
 /**
  * The app at aifoundry.byu.edu/app (the Strategy repo, served here by the /app
@@ -804,7 +822,7 @@ export const APP_HOME = "/app"
 export const APP_PROFILE = "/app/profile"
 export const APP_SIGN_OUT = "/app/auth/signout"
 
-export const QUOTE_CTA: NavLink = { label: "Work with us", href: "/quote" }
+export const QUOTE_CTA: NavLink = { label: "Start a project", href: "/quote" }
 
 /* ────────────────────────────────────────────────────────────
    Roadmap
@@ -1139,5 +1157,235 @@ export const GIVE_CONTACT = {
   email: "scott.murff@byu.edu",
 }
 
-/* Donors lives in NAV (see the top of this file), so the footer picks it
-   up through the NAV spread rather than a separate link. */
+/* Donors lives in NAV_ABOUT (see Navigation above), so the footer picks it
+   up through NAV_ALL rather than a separate link. */
+
+/* ────────────────────────────────────────────────────────────
+   Our approach (/approach) and For students (/students)
+
+   Added 2026-10-15. The source of truth for the curriculum is the course
+   books, and this copy follows them: the Builder axes and their one-line
+   definitions from the MSB 341 book (byu-strategy/product-management,
+   index.qmd), the Consultant axes from the Foundry book's Developmentship
+   page, and the classes, pathways, commitment and what students receive from
+   the Foundry book's "The Builder and the Consultant"
+   (byu-strategy/ai-foundry, students/06-builder-and-consultant.qmd). When an
+   axis is renamed there, rename it here.
+   ──────────────────────────────────────────────────────────── */
+
+export type Axis = { name: string; detail: string }
+
+export const APPROACH_EYEBROW = "Our approach"
+
+export const APPROACH_HEADING = "We train AI builder consultants."
+
+export const APPROACH_LEAD =
+  "An AI builder can build things for themselves. An AI builder consultant builds " +
+  "something for someone else, which adds judgment, ownership of the outcome, " +
+  "communication, and collaboration to the work. Two toolkits describe that person."
+
+export const TOOLKITS_EYEBROW = "Two toolkits"
+
+export const TOOLKITS_HEADING = "The Builder and the Consultant"
+
+/** Listed in the order the Build course teaches them. The diagram places
+ *  them around the hexagon by BUILDER_RING, below. */
+export const BUILDER_AXES: Axis[] = [
+  { name: "Discovery", detail: "What to build, for whom, and whether you should." },
+  { name: "Design", detail: "The surface and the flow." },
+  { name: "Application Architecture", detail: "How it is structured, shipped, and kept safe." },
+  { name: "AI Systems", detail: "How the models work, and why they behave the way they do." },
+  { name: "Agentic Workflow", detail: "Putting AI to work, as the way you build and inside the product you build." },
+  { name: "Launch and Learn", detail: "How people find it, and whether it worked." },
+]
+
+/** Clockwise from the right-hand corner, matching the course books' figure. */
+export const BUILDER_RING = [
+  "Design",
+  "Launch and Learn",
+  "AI Systems",
+  "Application Architecture",
+  "Agentic Workflow",
+  "Discovery",
+]
+
+export const BUILDER_SUMMARY = "What you can make."
+
+export const BUILDER_MEASURE =
+  "Students rate themselves on all six at the start of the fall semester and again in " +
+  "December, and get their own profile back both times."
+
+export const CONSULTANT_AXES: Axis[] = [
+  { name: "Judgment", detail: "Solving the right problem, and saying what the facts support." },
+  { name: "Ownership", detail: "Driving the work forward." },
+  { name: "Communication", detail: "Whether people understand the work: the updates, decks, and memos written for a reader." },
+  { name: "Collaboration", detail: "Whether teammates and clients trust you, and want you on the next engagement." },
+]
+
+/** Clockwise from the top corner. */
+export const CONSULTANT_RING = ["Judgment", "Communication", "Ownership", "Collaboration"]
+
+export const CONSULTANT_SUMMARY = "What changes when the work belongs to someone else."
+
+export const CONSULTANT_MEASURE =
+  "Two axes are about the work and two are about people. Students do not rate " +
+  "themselves here: the faculty advisor, teammates, and clients rate observed behavior " +
+  "at midterm and at the end of each term."
+
+export const PEDAGOGY_EYEBROW = "Our pedagogy"
+
+export const PEDAGOGY_HEADING = "Two classes, then real clients."
+
+export const PEDAGOGY_STEPS: { title: string; blurb: string; points: string[] }[] = [
+  {
+    title: "1. Build",
+    blurb:
+      "You are the customer. Students learn the six Builder skills by building their own " +
+      "product with AI coding agents, two weeks per skill. Each week we teach a move and " +
+      "students apply it to their project.",
+    points: ["MSB 341 · IS 693R · CS 498R", "Mondays, fall and winter"],
+  },
+  {
+    title: "2. The Foundry Lab",
+    blurb:
+      "You are the vendor. Class time is delivery: problem solving and collaboration on " +
+      "live client engagements. The Lab teaches the Consultant toolkit and tests the " +
+      "Builder toolkit.",
+    points: ["MBA 693R · STRAT 490R", "Fridays, 8:00 to 11:50 AM"],
+  },
+  {
+    title: "3. Client engagements",
+    blurb:
+      "Organizations hire the Foundry for five-week engagements staffed by one or two " +
+      "builders. The software runs in the client's hands and ships under the students' names.",
+    points: ["Five weeks, extendable", "Faculty oversight on every engagement"],
+  },
+]
+
+export const PEDAGOGY_PRINCIPLES: { title: string; body: string }[] = [
+  {
+    title: "Teams cover the toolkit together",
+    body:
+      "Nobody arrives strong on all ten axes. Teams are staffed so the team covers every " +
+      "Builder axis, even when no single member does.",
+  },
+  {
+    title: "Responsibility follows what you have shipped",
+    body:
+      "A student's record decides what they own on a team: shadowing a project, " +
+      "contributing a piece with a backstop, or owning a workstream the client sees their " +
+      "name on.",
+  },
+  {
+    title: "First principles over tools",
+    body:
+      "We teach the building blocks of AI software and how they combine. The tools change " +
+      "every few months; the building blocks change slowly.",
+  },
+  {
+    title: "Other people rate the consultant",
+    body:
+      "Students assess their own Builder skills. Judgment, ownership, communication, and " +
+      "collaboration are rated by the people who worked with them, including the client.",
+  },
+]
+
+export const APPROACH_CULTURE_LINK: NavLink = { label: "How we operate", href: "/about" }
+
+export const APPROACH_CLIENT_HEADING = "What this means for your project."
+
+export const APPROACH_CLIENT_LEAD =
+  "Your team is rated on judgment, ownership, communication, and collaboration, and part " +
+  "of that rating comes from you."
+
+/* For students ─────────────────────────────────────────────── */
+
+/** The Foundry course book, published to GitHub Pages from byu-strategy/ai-foundry. */
+export const HANDBOOK_URL = "https://byu-strategy.github.io/ai-foundry/"
+
+/** The Builder self-assessment (Google Form under aifoundry.byu@gmail.com),
+ *  the same link the course book publishes. */
+export const SELF_ASSESSMENT_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeQoRRuXASRW2GOi5EOUdnP5-YDpFpkUu48AmqyiRoGbUn8Vw/viewform"
+
+export const STUDENTS_EYEBROW = "For students"
+
+export const STUDENTS_HEADING = "Build production software for real organizations, for credit."
+
+export const STUDENTS_LEAD =
+  "The AI Foundry is a BYU Marriott studio where students build AI software for real " +
+  "organizations. Here is how to join, what it asks of you, and what you get."
+
+export const JOIN_EYEBROW = "How to join"
+
+export const JOIN_HEADING = "Take Build, then join the Lab."
+
+export const JOIN_CLASSES: { title: string; numbers: string; meets: string; detail: string }[] = [
+  {
+    title: "Build",
+    numbers: "MSB 341 · IS 693R · CS 498R",
+    meets: "Mondays, 3:30 PM. Every fall and winter.",
+    detail: "The prerequisite. You leave with the Builder toolkit.",
+  },
+  {
+    title: "The Foundry Lab",
+    numbers: "MBA 693R-011 · STRAT 490R-001",
+    meets: "Fridays, 8:00 to 11:50 AM.",
+    detail: "Live client work. You develop the Consultant toolkit.",
+  },
+]
+
+export const PATHWAYS_NOTE =
+  "2026-2027 is the Foundry's first year, so nobody has taken the prerequisite yet. For " +
+  "this year only, there are three ways in. Whichever you choose, you are a full member " +
+  "of the Foundry."
+
+export const PATHWAYS: { title: string; fall: string; winter: string; bestFor: string }[] = [
+  { title: "Option 1", fall: "Build only", winter: "Foundry Lab", bestFor: "You want the Builder toolkit first, with no client work in fall." },
+  { title: "Option 2", fall: "Build and Foundry Lab", winter: "Foundry Lab", bestFor: "You want to build the toolkit while staffed on a project. Plan for the extra time." },
+  { title: "Option 3", fall: "Foundry Lab only", winter: "Foundry Lab", bestFor: "You already have a strong builder foundation." },
+]
+
+export const EXPECT_HEADING = "What we expect"
+
+export const EXPECT: string[] = [
+  "About 10 hours a week, including the Friday studio block.",
+  "Typically another 10 hours in weeks when client demand calls for it.",
+  "A written update every week.",
+]
+
+export const RECEIVE_HEADING = "What you receive"
+
+export const RECEIVE: string[] = [
+  "Three credit hours per semester, six across the year.",
+  "A Claude plan for Foundry work, provided or reimbursed. The plan is set each term.",
+  "Production software in an organization's hands, shipped under your name.",
+  "A client who will take your call.",
+  "Your Builder profile, at the start of the year and again in December.",
+]
+
+export const STANDING_EYEBROW = "Where you stand"
+
+export const STANDING_LEAD =
+  "Two profiles track your growth. The self-assessment takes about seven minutes, does " +
+  "not affect your grade, and helps us staff teams so every team covers every skill. A " +
+  "2 is more useful to us than an inflated 4."
+
+export const HANDBOOK_EYEBROW = "The handbook"
+
+export const HANDBOOK_LEAD =
+  "Everything a Foundry student needs to know lives in the course book."
+
+/** Only chapters that are published; each path was checked live 2026-10-15. */
+export const HANDBOOK_LINKS: NavLink[] = [
+  { label: "The Constitution", href: HANDBOOK_URL + "students/00-constitution.html" },
+  { label: "Syllabus", href: HANDBOOK_URL + "students/01-syllabus.html" },
+  { label: "Getting started", href: HANDBOOK_URL + "students/02-getting-started.html" },
+  { label: "Weekly updates", href: HANDBOOK_URL + "students/03-weekly-updates.html" },
+  { label: "Build standards", href: HANDBOOK_URL + "students/04-build-standards.html" },
+  { label: "How teams are staffed", href: HANDBOOK_URL + "students/05-how-teams-are-staffed.html" },
+  { label: "The Builder and the Consultant", href: HANDBOOK_URL + "students/06-builder-and-consultant.html" },
+  { label: "Resources by skill", href: HANDBOOK_URL + "students/07-resources.html" },
+]
+
+export const ALUMNI_LINE = "Graduated, or mentoring builders?"
