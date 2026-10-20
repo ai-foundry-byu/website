@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
-import { APP_JOIN, APP_SIGN_IN, NETWORK_INTERESTS, SCHOOL_FULL } from "@/lib/content"
+import { StayInTouchForm } from "@/components/StayInTouchForm"
+import { APP_JOIN, APP_SIGN_IN, SCHOOL_FULL } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Join the network",
@@ -95,110 +96,37 @@ export default function NetworkPage() {
             ──────────────────────────────────────────────────── */}
         <section className="surface-paper">
           <div className="mx-auto max-w-3xl px-6 py-14 md:py-16">
-            <h2 className="text-center font-serif text-2xl font-semibold tracking-[-0.01em] text-text-primary md:text-3xl">
-              What you can opt into
-            </h2>
+            {/* The "What you can opt into" ledger that stood here was removed
+                2026-10-20: the form's checkboxes now carry the same choices, and
+                people arriving from a QR code should reach the form first. */}
 
             {/*
-              A hairline-divided ledger, one row per interest, not a 2x2 grid and
-              not four bordered cards.
-
-              Rejected, in order:
-
-                - Four cards in a 2x2 grid. It introduces a second vertical
-                  alignment at the column's midpoint, which is exactly the
-                  competing-axis problem the two-column layout had, just smaller.
-                - Four across in one row. Even at the max-w-6xl the rest of the
-                  site uses, each cell gets about 228px of text, and the longest
-                  title needs 253px with its bullet. Two of the four would wrap
-                  and two would not. Ragged.
-                - Keeping the orange left-border rule per item. Four left rules
-                  inside a centred page read as four little left-aligned blocks
-                  rather than one block, and the accent has a job at the top of
-                  each row instead.
-
-              Single-line rows per Corbin 2026-08-16 (was a two-column
-              title/blurb grid): "Title – blurb" runs as one sentence per
-              row at 18px, wrapping only when the viewport forces it.
+              Two ways in. The form is the main one: email only, no account,
+              made for a QR code on a slide (/network?from=aipm). It writes to
+              the Strategy database's mailing list through the app (see
+              StayInTouchForm). An account in the app (email and a password,
+              docs/LOGIN-DOOR.md in the Strategy repo) stays below for people
+              who want to sign in, and goes through "Almost in" approval.
             */}
-            {/*
-              One spacing ladder governs this band, biggest gap outermost, the
-              same rule the landing page's mission/values section runs on:
-
-                 6px  title to blurb inside a row when it stacks (gap-y-1.5)
-                40px  between rows (py-5, two adjacent rows each give 20px)
-                48px  heading to the top of the list (this mt)
-                64px  list to the form, because that is a change of task
-                96px  band padding, 80px below md
-
-              mt-12 rather than mt-10: at 40px the heading-to-list gap tied the
-              between-rows gap and the heading stopped reading as the parent of
-              the list. Each step has to beat the one nested inside it.
-            */}
-            {/* The list breaks out of the 3xl column (lg:-mx-24 = 720+192
-                = 912px): the longest row is ~104 characters, which needs
-                ~900px at 18px to hold a single line. lg, not md — at md
-                the viewport can be as narrow as 768px, so a 912px row
-                would overflow it; at lg the centred column has 128px free
-                per side, which holds the 96px bleed. */}
-            <ul className="mt-12 border-t border-border-subtle lg:-mx-24">
-              {NETWORK_INTERESTS.map((interest) => (
-                <li key={interest.title} className="border-b border-border-subtle py-5">
-                  <div className="flex gap-3">
-                    {/* The accent as a fill, never as type — the same bullet
-                        the offering cards use, centred on the cap height of
-                        18px text at leading-relaxed. */}
-                    <span
-                      aria-hidden
-                      className="ember-bar mt-[0.55rem] h-1.5 w-1.5 shrink-0"
-                    />
-                    <p className="text-lg leading-relaxed text-text-primary">
-                      <span className="font-semibold">{interest.title}</span>
-                      <span className="opacity-80"> – {interest.blurb}</span>
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/*
-              Joining happens in the app (docs/LOGIN-DOOR.md in the Strategy repo),
-              not in a form here. Retired 2026-10-08: the six-field NetworkForm,
-              which wrote to the old site's database. The Join button opens the
-              app's one join page (email and a chosen password), and someone not
-              already on a roster, engagement or invite lands on "Almost in",
-              which asks these same opt-ins and waits for faculty or a leader.
-              The plate keeps the old form's 768px column and hairline edge.
-            */}
-            <div className="mt-16 border border-border-subtle bg-surface-default p-6 text-center md:p-10">
-              <p className="mx-auto max-w-[52ch] text-base leading-relaxed text-text-primary opacity-80">
-                Alumni, friends, and builders. Join with your email and a password, then choose what you want to opt into. A
-                faculty member or student leader approves your account, usually within a week.
+            <div className="border border-border-subtle bg-surface-default p-6 md:p-10">
+              <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h3)", margin: "0 0 6px", color: "var(--navy)" }}>
+                Stay in touch
+              </h2>
+              <p className="text-base leading-relaxed text-text-primary opacity-80" style={{ margin: "0 0 24px" }}>
+                Alumni, friends, clients and students. Leave your email and check what you want to hear about.
               </p>
-              {/* A plain link: /app is the other app, served here by a rewrite. */}
-              <a
-                href={APP_JOIN}
-                className="mt-6 inline-flex items-center no-underline"
-                style={{
-                  background: "var(--accent)",
-                  color: "var(--accent-ink, #fff)",
-                  border: "1px solid var(--accent)",
-                  borderRadius: "var(--radius)",
-                  padding: "14px 26px",
-                  fontFamily: "var(--font-body)",
-                  fontWeight: 500,
-                  fontSize: 17,
-                }}
-              >
-                Join the network &rarr;
-              </a>
-              <p className="mt-4 text-base text-text-primary">
-                Already a member?{" "}
-                <a href={APP_SIGN_IN} className="underline">
-                  Sign in
-                </a>
-              </p>
+              <StayInTouchForm />
             </div>
+            <p className="mt-6 text-center text-base text-text-primary">
+              Want an account in the app?{" "}
+              <a href={APP_JOIN} className="underline">
+                Join with a password
+              </a>
+              {" · "}Already a member?{" "}
+              <a href={APP_SIGN_IN} className="underline">
+                Sign in
+              </a>
+            </p>
           </div>
         </section>
       </main>

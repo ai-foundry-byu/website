@@ -498,39 +498,21 @@ export const SURVEY_SECTIONS: IntakeSection[] = [
    Join the network
    ──────────────────────────────────────────────────────────── */
 
-/**
- * There was a NETWORK_LEAD here: "Alumni, friends, and builders. Tell us what
- * you want in on: events, the weekly digest, the talent network, or a project of
- * your own."
- *
- * It is deleted rather than left orphaned, because that sentence is already the
- * Google Form's own description and renders inside the embedded form on
- * /network. Keeping it on the page above the form printed it twice, roughly a
- * screen apart. If you want it back on the page, take it off the form first.
- */
-
-export type Interest = { title: string; blurb: string }
-
-/**
- * The four things a visitor can opt into, and the same four options as the
- * checkbox field in the embedded form. They must stay in step: /network renders
- * these ABOVE the form as the legend for that checkbox group, so a title that
- * drifts from its checkbox turns the legend into a contradiction.
- *
- * FORMS.md, form 3, is the record of the form side. It still says these render
- * "beside the form", which was true of the old two-column layout.
- *
- * Known drift, left alone because it is a copy call, not a layout one: the
- * Resolved 2026-07-29: this list now matches the live form exactly, including
- * "Submitting a project proposal". The form is the source of truth, because it
- * is the thing a visitor actually answers.
- */
-export const NETWORK_INTERESTS: Interest[] = [
-  { title: "Live BYU-sponsored AI events", blurb: "In-person sessions on new AI technologies as they are released." },
-  { title: "Periodic AI digest", blurb: "A short summary of recent developments in AI, curated for the BYU network." },
-  { title: "Access to the cohort for talent", blurb: "An introduction to the cohort when you are hiring builders." },
-  { title: "Submitting a project proposal", blurb: "Something you want built. This routes to the project intake brief." },
+/** The "Stay in touch" form on /network. Keys are what the app's
+ *  /api/network/signup turns into list tags (ai_foundry_<key>). */
+export const STAY_INTERESTS: { key: string; label: string }[] = [
+  { key: "project", label: "I may have a project for the Foundry" },
+  { key: "talent", label: "Hiring builders from the cohort" },
+  { key: "events", label: "Live BYU-sponsored AI events" },
+  { key: "digest", label: "The periodic AI digest" },
+  { key: "student", label: "I'm a student interested in joining" },
 ]
+
+export const STAY_CONFIRM = {
+  eyebrow: "Thank you",
+  title: "You're on the list.",
+  detail: "We'll be in touch about what you checked.",
+}
 
 /* ────────────────────────────────────────────────────────────
    People
