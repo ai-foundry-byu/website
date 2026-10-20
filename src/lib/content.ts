@@ -500,7 +500,12 @@ export const SURVEY_SECTIONS: IntakeSection[] = [
 
 /** The "Stay in touch" form on /network. Keys are what the app's
  *  /api/network/signup turns into list tags (ai_foundry_<key>). */
-export const STAY_INTERESTS: { key: string; label: string }[] = [
+export const STAY_INTERESTS: { key: string; label: string; detail?: string }[] = [
+  {
+    key: "interns",
+    label: "Hosting an intern",
+    detail: "We match employers with students in STRAT 477R, our product internship course.",
+  },
   { key: "project", label: "I may have a project for the Foundry" },
   { key: "talent", label: "Hiring builders from the cohort" },
   { key: "events", label: "Live BYU-sponsored AI events" },

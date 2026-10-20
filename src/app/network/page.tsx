@@ -113,7 +113,7 @@ export default function NetworkPage() {
                 Stay in touch
               </h2>
               <p className="text-base leading-relaxed text-text-primary opacity-80" style={{ margin: "0 0 24px" }}>
-                Alumni, friends, clients and students. Leave your email and check what you want to hear about.
+                Employers, alumni, clients and students. Leave your email and check what you want to hear about, including whether you could host an intern.
               </p>
               <StayInTouchForm />
             </div>
