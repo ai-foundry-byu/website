@@ -7,6 +7,7 @@ import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { Icon } from "@/components/ds/Icon"
 import { SectionHeader } from "@/components/ds/SectionHeader"
+import { PathwayMap } from "@/components/PathwayMap"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import {
   ALUMNI_LINE,
@@ -16,7 +17,7 @@ import {
   HANDBOOK_LEAD,
   HANDBOOK_LINKS,
   HANDBOOK_URL,
-  JOIN_CLASSES,
+  PATH_NOTE,
   JOIN_EYEBROW,
   JOIN_HEADING,
   NAV_ABOUT,
@@ -124,15 +125,12 @@ export default function StudentsPage() {
             <Reveal>
               <SectionHeader eyebrow={JOIN_EYEBROW} title={JOIN_HEADING} align="left" />
             </Reveal>
-            <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: "16px" }}>
-              {JOIN_CLASSES.map((c) => (
-                <StaggerItem key={c.title}>
-                  <Card title={c.title} blurb={c.detail} points={[c.numbers, c.meets]} />
-                </StaggerItem>
-              ))}
-            </Stagger>
             <Reveal>
-              <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h3)", margin: "8px 0 8px", color: "var(--navy)" }}>Three pathways, 2026-2027</h3>
+              <PathwayMap />
+              <p className="caption" style={{ color: "var(--text-meta)", margin: "16px 0 0", maxWidth: "80ch" }}>{PATH_NOTE}</p>
+            </Reveal>
+            <Reveal>
+              <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-h3)", margin: "8px 0 8px", color: "var(--navy)" }}>This year only: three ways in, 2026-2027</h3>
               <p style={{ ...BODY, maxWidth: "66ch" }}>{PATHWAYS_NOTE}</p>
             </Reveal>
             <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "16px", alignItems: "stretch" }}>

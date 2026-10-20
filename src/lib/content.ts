@@ -1319,25 +1319,66 @@ export const STUDENTS_LEAD =
 
 export const JOIN_EYEBROW = "How to join"
 
-export const JOIN_HEADING = "Take Build, then join the Lab."
+export const JOIN_HEADING = "Take the foundation, pass the entrance exam, then join the studio."
 
-export const JOIN_CLASSES: { title: string; numbers: string; meets: string; detail: string }[] = [
-  {
-    title: "Build",
-    numbers: "MSB 341 · IS 693R · CS 498R",
-    meets: "Mondays, 3:30 PM. Every fall and winter.",
-    detail: "The prerequisite. You leave with the Builder toolkit.",
-  },
-  {
-    title: "The Foundry Lab",
-    numbers: "MBA 693R-011 · STRAT 490R-001",
-    meets: "Fridays, 8:00 to 11:50 AM.",
-    detail: "Live client work. You develop the Consultant toolkit.",
-  },
-]
+/**
+ * The product pathway as Scott sent it to prospective students (2026-10-14),
+ * plus the entrance exam between the foundation and the studio. The final
+ * exam of the foundation course is the entrance exam. Numbers change in
+ * Fall 2027; `today` is the number a student registers for now.
+ */
+export type PathStep = { step: string; number: string; title: string; today: string; detail: string; when: string }
+
+export const PATH_FOUNDATION: PathStep = {
+  step: "1. Foundation",
+  number: "STRAT 435",
+  title: "Product Management with AI",
+  today: "Today: MSB 341 (also IS 693R, CS 498R)",
+  detail: "Build, test, and launch a real digital product using AI coding agents. Prerequisite: IS 201 or equivalent.",
+  when: "Fall or winter, sophomore or junior year",
+}
+
+export const PATH_GATE = {
+  label: "Entrance exam",
+  detail: "The foundation course's final is the Foundry entrance exam. Pass it to enroll in the studio and the practicum.",
+}
+
+export const PATH_LECTURES: PathStep = {
+  step: "Alongside",
+  number: "STRAT 437",
+  title: "Product and AI Lecture Series",
+  today: "Today: MSB 342",
+  detail: "Product and AI leaders on the work and the careers. No prerequisite.",
+  when: "Winter",
+}
+
+export const PATH_STUDIO: PathStep = {
+  step: "2. Studio",
+  number: "STRAT 475R",
+  title: "AI Product Studio",
+  today: "Today: AI Foundry Lab, STRAT 490R / MBA 693R",
+  detail: "AI-native product methods, learned by building from customer discovery through launch.",
+  when: "Fall and winter, alongside the practicum",
+}
+
+export const PATH_PRACTICUM: PathStep = {
+  step: "3. Practicum",
+  number: "STRAT 477R",
+  title: "AI Product Practicum",
+  today: "Today: STRAT 477R APM Lab",
+  detail: "Real product work for a client, an employer, or your own venture.",
+  when: "Fall and winter, alongside the studio",
+}
+
+export const PATH_SEMESTERS = ["Fall, year 1", "Winter, year 1", "Fall, year 2", "Winter, year 2"]
+
+export const PATH_NOTE =
+  "The foundation course runs every fall and winter. Start it in winter and you take the " +
+  "entrance exam at the end of winter, then join the studio and the practicum that fall. " +
+  "Course numbers change in Fall 2027; the number to register for today is under each course."
 
 export const PATHWAYS_NOTE =
-  "2026-2027 is the Foundry's first year, so nobody has taken the prerequisite yet. For " +
+  "2026-2027 is the Foundry's first year, so nobody has taken the prerequisite or the entrance exam yet. For " +
   "this year only, there are three ways in. Whichever you choose, you are a full member " +
   "of the Foundry."
 
