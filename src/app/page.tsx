@@ -164,7 +164,7 @@ function Build() {
       <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "36px" }}>
         <Reveal>
-          <SectionHeader eyebrow={BUILD_HEADING} title={BUILD_HEADING} lead={BUILD_LEAD} />
+          <SectionHeader title={BUILD_HEADING} lead={BUILD_LEAD} />
         </Reveal>
         {/* minmax(min(300px, 100%), …) rather than a bare minmax(300px, …):
             a hard 300px track cannot shrink, so on a 320px viewport the

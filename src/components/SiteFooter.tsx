@@ -22,8 +22,11 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
-        <div className="flex flex-wrap items-center justify-between gap-6">
+      <div style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
+        {/* Top row: the Foundry's lockup, and opposite it who the Foundry
+            belongs to (each sponsor's own logo, white on navy; a second
+            sponsor joins the same row). */}
+        <div className="flex flex-wrap items-end justify-between gap-8">
           <Image
             src="/byu-marriott-ai-foundry-light.png"
             alt={`${SCHOOL_FULL}, ${PROGRAM}`}
@@ -31,37 +34,33 @@ export function SiteFooter() {
             height={360}
             className="h-8 w-auto"
           />
-          <nav aria-label="Footer" className="flex flex-wrap gap-6">
-            {FOOTER_LINKS.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="no-underline link-draw"
-                style={{ fontFamily: "var(--font-body)", fontWeight: 300, fontSize: "var(--size-ui)", color: "var(--text-on-dark-soft)" }}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "32px", paddingTop: "20px" }}>
-          {/* Who the Foundry belongs to. One row of links, so a second
-              sponsor joins without a layout change. */}
-          <p style={{ margin: 0, fontFamily: "var(--font-body)", fontSize: "var(--size-ui)", color: "#fff" }}>
-            <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "4px" }}>
+          <div>
+            <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
               {SPONSOR_LABEL}
             </span>
-            {SPONSORS.map((sp, i) => (
-              <span key={sp.href}>
-                {i > 0 && <span style={{ color: "var(--text-on-dark-soft)" }}> and </span>}
-                <a href={sp.href} className="no-underline link-draw" style={{ color: "#fff", fontWeight: 500 }}>
-                  {sp.name}
+            <div className="flex flex-wrap items-center gap-8">
+              {SPONSORS.map((sp) => (
+                <a key={sp.href} href={sp.href} aria-label={sp.name}>
+                  <Image src={sp.logoWhite} alt={sp.name} width={sp.width} height={sp.height} className="h-8 w-auto" />
                 </a>
-              </span>
-            ))}
-            <span style={{ color: "var(--text-on-dark-soft)", fontWeight: 300 }}> at the {SCHOOL_FULL}</span>
-          </p>
-          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: "16px 0 0" }}>
+              ))}
+            </div>
+          </div>
+        </div>
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3" style={{ marginTop: "32px" }}>
+          {FOOTER_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="no-underline link-draw"
+              style={{ fontFamily: "var(--font-body)", fontWeight: 300, fontSize: "var(--size-ui)", color: "var(--text-on-dark-soft)" }}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "28px", paddingTop: "20px" }}>
+          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: 0 }}>
             © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
           </p>
         </div>

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
@@ -153,19 +154,14 @@ export default function AboutPage() {
           <DrawRule bleed />
           <Reveal style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center" }}>
             <Eyebrow>{SPONSOR_LABEL}</Eyebrow>
-            <h2
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontStretch: "var(--w-plate)",
-                fontSize: "var(--size-h2)",
-                lineHeight: 1.15,
-                margin: "14px 0 0",
-                color: "var(--navy)",
-              }}
-            >
-              {SPONSOR_NAMES}
-            </h2>
+            <h2 className="sr-only">{SPONSOR_NAMES}</h2>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "40px", margin: "20px 0 0" }}>
+              {SPONSORS.map((sp) => (
+                <a key={sp.href} href={sp.href} aria-label={sp.name}>
+                  <Image src={sp.logo} alt={sp.name} width={sp.width} height={sp.height} style={{ height: "56px", width: "auto" }} />
+                </a>
+              ))}
+            </div>
             {SPONSORS.map((sp) => (
               <p key={sp.href} style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "60ch", margin: "16px auto 0" }}>
                 {sp.blurb}{" "}
