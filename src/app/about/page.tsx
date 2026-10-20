@@ -18,13 +18,18 @@ import {
   CULTURE_PRINCIPLES,
   FACULTY,
   SCHOOL_FULL,
+  SPONSOR_LABEL,
+  SPONSOR_NAMES,
+  SPONSORS,
   TEAM,
 } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "About us",
   description:
-    "The people behind AI Foundry, an experiential learning program of the " +
+    "The people behind AI Foundry, an experiential learning program of " +
+    SPONSOR_NAMES +
+    " at the " +
     SCHOOL_FULL +
     ".",
   alternates: { canonical: "/about" },
@@ -142,6 +147,34 @@ export default function AboutPage() {
               ))}
             </Stagger>
           </div>
+        </section>
+
+        <section style={{ padding: "56px 24px 40px", position: "relative" }}>
+          <DrawRule bleed />
+          <Reveal style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center" }}>
+            <Eyebrow>{SPONSOR_LABEL}</Eyebrow>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontStretch: "var(--w-plate)",
+                fontSize: "var(--size-h2)",
+                lineHeight: 1.15,
+                margin: "14px 0 0",
+                color: "var(--navy)",
+              }}
+            >
+              {SPONSOR_NAMES}
+            </h2>
+            {SPONSORS.map((sp) => (
+              <p key={sp.href} style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "60ch", margin: "16px auto 0" }}>
+                {sp.blurb}{" "}
+                <a href={sp.href} className="link-draw" style={{ color: "var(--royal)", whiteSpace: "nowrap" }}>
+                  {sp.href.replace(/^https:\/\//, "")}
+                </a>
+              </p>
+            ))}
+          </Reveal>
         </section>
 
         <section style={{ padding: "56px 24px 64px", position: "relative" }}>

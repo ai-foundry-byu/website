@@ -23,6 +23,27 @@ export const PROGRAM = "AI Foundry"
 export const SCHOOL_FULL = "BYU Marriott School of Business"
 export const SCHOOL_SHORT = "BYU Marriott"
 
+/**
+ * Who the Foundry belongs to inside BYU Marriott (Scott, 2026-10-19). Shown as
+ * "A program of" in the hero eyebrow, the footer, and on /about. BYU
+ * Information Systems is expected to join as a second entry; adding it here
+ * updates every place at once ("BYU Strategy and BYU Information Systems").
+ */
+export const SPONSOR_LABEL = "A program of"
+
+export type Sponsor = { name: string; href: string; blurb: string }
+
+export const SPONSORS: Sponsor[] = [
+  {
+    name: "BYU Strategy",
+    href: "https://strategy.byu.edu",
+    blurb:
+      "BYU Strategy is the Strategic Management Program at the BYU Marriott School of Business. Its faculty advise the Foundry, and the Foundry Lab is offered as STRAT 490R and MBA 693R.",
+  },
+]
+
+export const SPONSOR_NAMES = SPONSORS.map((s) => s.name).join(" and ")
+
 /* ────────────────────────────────────────────────────────────
    Hero
    ──────────────────────────────────────────────────────────── */
@@ -33,7 +54,7 @@ export const HERO_STATEMENT = "An AI-native product studio and consultancy."
  *  is, on first reference and in full, per the naming rule above. Anything about
  *  who builds and what ships belongs further down the page, not here. */
 export const HERO_SUPPORT =
-  "An experiential learning program of the " + SCHOOL_FULL + "."
+  "An experiential learning program of " + SPONSOR_NAMES + " at the " + SCHOOL_FULL + "."
 
 /**
  * The 2026-08 redesign hero (design_handoff_ai_foundry_website, direction 4b).
@@ -602,7 +623,7 @@ export const CULTURE_EYEBROW = "Our culture"
 export const CULTURE_HEADING = "Who we are"
 
 export const CULTURE_LEAD =
-  "AI Foundry is a program of the BYU Marriott School of Business and completely aligned to its mission, vision, and values."
+  "AI Foundry shares the mission, vision, and values of the BYU Marriott School of Business."
 
 /**
  * The top of the pyramid: BYU Marriott's own vision, mission, values, and
