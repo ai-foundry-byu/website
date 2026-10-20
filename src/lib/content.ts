@@ -628,6 +628,13 @@ export const CULTURE_EYEBROW = "Our culture"
 
 export const CULTURE_HEADING = "Who we are"
 
+/** The Foundry's own purpose, verbatim from the course book's Client Service
+ *  Selection Policy (students/00-client-selection.qmd). It is the one statement
+ *  the Foundry keeps; mission, vision and values are BYU Marriott's.
+ *  \u2011 is a non-breaking hyphen so "disciple-leaders" never splits. */
+export const PURPOSE =
+  "The purpose of the AI Foundry is to develop disciple\u2011leaders who use AI to enhance human flourishing."
+
 export const CULTURE_LEAD =
   "AI Foundry shares the mission, vision, and values of the BYU Marriott School of Business."
 

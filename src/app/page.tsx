@@ -23,13 +23,15 @@ import {
   NAV_CTA,
   OFFERINGS,
   QUOTE_CTA,
+  PURPOSE,
   QUOTE_HEADLINE,
 } from "@/lib/content"
 
 /**
  * The landing page, rebuilt to design_handoff_ai_foundry_website/ui_kits/
  * landing (direction 4b on structure 1b). Section order is the design's:
- * hero over the motion layer, the shipped-at strip, BYU Marriott's vision
+ * hero over the motion layer, the shipped-at strip, the Foundry's purpose,
+ * then BYU Marriott's vision
  * then mission in their own bands, its values as expanding rows, the offerings, the navy CTA
  * band. All copy comes from src/lib/content.ts.
  */
@@ -125,8 +127,9 @@ function MissionVision() {
     <section style={{ padding: "64px 24px", position: "relative" }}>
       <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "48px" }}>
-        {/* The Foundry has no mission, vision or values of its own; it
-            inherits BYU Marriott's, verbatim (Scott, 2026-10-19). */}
+        {/* The Foundry keeps one statement of its own, its purpose. Mission,
+            vision and values are BYU Marriott's, verbatim (Scott, 2026-10-19). */}
+        <Reveal>{block("Our purpose", PURPOSE)}</Reveal>
         <Reveal>
           <p style={{ margin: "0 auto", maxWidth: "58ch", textAlign: "center", fontSize: "18px", lineHeight: 1.5, color: "var(--text-meta)" }}>
             {CULTURE_LEAD}
