@@ -21,6 +21,8 @@ export function Card({
         background: "#fff",
         borderRadius: "var(--radius)",
         padding: "28px",
+        height: "100%",
+        boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         gap: "10px",

@@ -31,12 +31,18 @@ export const SCHOOL_SHORT = "BYU Marriott"
  */
 export const SPONSOR_LABEL = "A program of"
 
-export type Sponsor = { name: string; href: string; blurb: string }
+/** logo: full color for light grounds; logoWhite: one-color white reversal for
+ *  navy grounds. Files from the Strategy app (public/images/strat-logo.png). */
+export type Sponsor = { name: string; href: string; blurb: string; logo: string; logoWhite: string; width: number; height: number }
 
 export const SPONSORS: Sponsor[] = [
   {
     name: "BYU Strategy",
     href: "https://strategy.byu.edu",
+    logo: "/brand/byu-strategy.png",
+    logoWhite: "/brand/byu-strategy-white.png",
+    width: 1983,
+    height: 316,
     blurb:
       "BYU Strategy is the Strategic Management Program at the BYU Marriott School of Business. Its faculty advise the Foundry, and the Foundry Lab is offered as STRAT 490R and MBA 693R.",
   },
@@ -306,7 +312,7 @@ export const SHOWCASE: ShowcaseItem[] = [
  * normalise it everywhere at once.
  */
 export const BUILDERS_DETAIL =
-  "30 students from a range of disciplines and backgrounds, working in velocity pods matched to the expertise your project needs."
+  "30 students from a range of disciplines and backgrounds, working in teams of one or two matched to the expertise your project needs."
 
 /**
  * The section heading on the landing page.

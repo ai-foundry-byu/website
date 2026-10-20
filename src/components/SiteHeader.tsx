@@ -29,7 +29,7 @@ export function SiteHeader() {
     >
       <div
         className="mx-auto flex items-center justify-between gap-6"
-        style={{ maxWidth: "var(--container)", padding: "0 var(--container-pad)", height: "72px" }}
+        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex items-center no-underline">
           <Image

@@ -55,7 +55,8 @@ function Toolkit({ title, summary, ring, start, axes, measure }: { title: string
       <div style={{ display: "flex", justifyContent: "center" }}>
         <ToolkitDiagram axes={ring} start={start} title={title} />
       </div>
-      <div>
+      {/* Centered under its diagram so each column reads as one unit. */}
+      <div style={{ textAlign: "center" }}>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--size-h3)", textTransform: "uppercase", letterSpacing: "0.02em", margin: 0, color: "var(--navy)" }}>
           {title}
         </h3>
@@ -141,7 +142,7 @@ export default function ApproachPage() {
                 </div>
               ))}
             </Reveal>
-            <p style={{ margin: 0, fontSize: "var(--size-ui)" }}>
+            <p style={{ margin: 0, fontSize: "var(--size-ui)", textAlign: "center" }}>
               <Link href={APPROACH_CULTURE_LINK.href} className="link-draw" style={{ color: "var(--royal)", fontWeight: 500, textDecoration: "none" }}>
                 {APPROACH_CULTURE_LINK.label} →
               </Link>
