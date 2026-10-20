@@ -63,7 +63,7 @@ export default async function OpsPage({
         {/* The wall metric. One number, stated at the size of its importance. */}
         <section className="mt-10 border-2 border-border-accent p-8">
           <p className="eyebrow text-text-primary opacity-70">
-            The number on the wall
+            The main target
           </p>
           <div className="mt-4 flex flex-wrap items-end gap-x-6 gap-y-3">
             <span className="font-serif text-7xl font-semibold leading-none tabular-nums text-text-accent">
@@ -99,7 +99,7 @@ export default async function OpsPage({
           <p className="mt-5 max-w-[44rem] text-base leading-relaxed text-text-primary opacity-75">
             Advisory board seats stopped being a paid product on 2026-08-03, which
             removed roughly $33,000 of modelled 2026 revenue. Signed project work is
-            no longer the main path to revenue. It is the only one.
+            now the only path to revenue.
           </p>
         </section>
 
@@ -163,7 +163,7 @@ export default async function OpsPage({
         {/* Credential counts, restated so the gap to the public page is visible. */}
         <section className="mt-12">
           <h2 className="font-serif text-xl font-semibold text-text-primary">
-            Committed, not pipeline
+            Confirmed commitments
           </h2>
           <div className="mt-5 grid gap-px border border-border-subtle bg-border-subtle sm:grid-cols-3">
             <Cell

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, UPDATE_LINK } from "@/lib/content"
+import { NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
 
 /**
  * Footer. Port of design_handoff .../navigation/Footer.jsx onto the repo's
@@ -17,7 +17,7 @@ import { HERO_SUPPORT, NAV, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, UPDAT
  */
 const LEGAL_LINK = { label: "Legal", href: "/legal" }
 
-const FOOTER_LINKS = [...NAV, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LINK]
+const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LINK]
 
 export function SiteFooter() {
   return (
@@ -45,10 +45,23 @@ export function SiteFooter() {
           </nav>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "32px", paddingTop: "20px" }}>
-          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: 0 }}>
-            {HERO_SUPPORT}
+          {/* Who the Foundry belongs to. One row of links, so a second
+              sponsor joins without a layout change. */}
+          <p style={{ margin: 0, fontFamily: "var(--font-body)", fontSize: "var(--size-ui)", color: "#fff" }}>
+            <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "4px" }}>
+              {SPONSOR_LABEL}
+            </span>
+            {SPONSORS.map((sp, i) => (
+              <span key={sp.href}>
+                {i > 0 && <span style={{ color: "var(--text-on-dark-soft)" }}> and </span>}
+                <a href={sp.href} className="no-underline link-draw" style={{ color: "#fff", fontWeight: 500 }}>
+                  {sp.name}
+                </a>
+              </span>
+            ))}
+            <span style={{ color: "var(--text-on-dark-soft)", fontWeight: 300 }}> at the {SCHOOL_FULL}</span>
           </p>
-          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: "6px 0 0" }}>
+          <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: "16px 0 0" }}>
             © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
           </p>
         </div>

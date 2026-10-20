@@ -76,7 +76,7 @@ export default function NetworkPage() {
               further down.
             */}
             <h1 className="font-serif text-4xl font-semibold leading-[1.08] tracking-[-0.02em] md:text-6xl">
-              Forge intelligence with us.
+              Join the AI Foundry network.
             </h1>
           </div>
         </section>
@@ -172,8 +172,8 @@ export default function NetworkPage() {
             */}
             <div className="mt-16 border border-border-subtle bg-surface-default p-6 text-center md:p-10">
               <p className="mx-auto max-w-[52ch] text-base leading-relaxed text-text-primary opacity-80">
-                Alumni, friends, and builders. Join with your email and a password, then tell us what you want in on. A
-                faculty member or student leader opens your account, usually within a week.
+                Alumni, friends, and builders. Join with your email and a password, then choose what you want to opt into. A
+                faculty member or student leader approves your account, usually within a week.
               </p>
               {/* A plain link: /app is the other app, served here by a rewrite. */}
               <a

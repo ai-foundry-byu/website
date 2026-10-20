@@ -220,6 +220,6 @@ export const NEEDS: Need[] = [
 export const ENDOWMENT = {
   heading: "We need a founding partner for the endowment.",
   body:
-    "One year, one founding gift, and everything above. An endowment is what makes it permanent — funding the seats, the competitions and the lab on an ongoing basis instead of a semester at a time.",
-  ask: "We are looking for one founding partner to anchor it. That conversation has not started, and it is the most valuable introduction anyone reading this page can make.",
+    "The program did everything above in one year, with one founding gift. An endowment would make it permanent, funding the seats, the competitions and the lab on an ongoing basis instead of a semester at a time.",
+  ask: "We are looking for one founding partner to fund it. That conversation has not started, and it is the introduction we need most.",
 }

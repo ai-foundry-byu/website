@@ -91,7 +91,7 @@ export default async function BoardPage({
           <div>
             <p className="eyebrow text-text-meta">LinkedIn · audience growth</p>
             <h2 className="mt-2 font-serif text-[1.35rem] font-semibold leading-snug tracking-[-0.01em] text-text-primary">
-              The curve is steepening, not flattening.
+              Follower growth is accelerating.
             </h2>
             <p className="mt-2.5 max-w-[42rem] text-[0.95rem] leading-relaxed text-text-meta">
               <strong className="font-semibold text-text-primary">
@@ -134,9 +134,8 @@ export default async function BoardPage({
             learning business.
           </h2>
           <p className="mt-3 max-w-[46rem] text-[0.95rem] leading-relaxed text-text-meta">
-            Five pillars carry it. None of them has an invented date, because a
-            roadmap that schedules things nobody has committed to is the same
-            failure as a budget nobody has costed.
+            The work falls into five areas. None of them has a date, because
+            nobody has committed to one yet.
           </p>
 
           <ol className="mt-7 grid list-none gap-x-10 gap-y-0 p-0 md:grid-cols-2">
@@ -182,7 +181,7 @@ export default async function BoardPage({
         <section className="pt-14">
           <p className="eyebrow text-text-meta">The gaps</p>
           <h2 className="mt-2 max-w-[30ch] font-serif text-[1.6rem] font-semibold leading-tight tracking-[-0.01em] text-text-primary md:text-[1.9rem]">
-            What we are missing, and which half of it is yours.
+            What we are missing, and where the board can help.
           </h2>
 
           <div className="mt-7 grid gap-x-12 gap-y-10 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
@@ -217,8 +216,8 @@ export default async function BoardPage({
                 ))}
               </ul>
               <p className="mt-3 text-[0.78rem] leading-snug text-text-meta">
-                This column is here on purpose. A board update that shows only
-                the asks is a fundraising letter.
+                This column lists our own unfinished work, so the update reports
+                more than the asks.
               </p>
             </div>
           </div>

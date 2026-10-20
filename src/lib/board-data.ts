@@ -178,7 +178,7 @@ export const PHASES: Phase[] = [
     name: "A self-sustaining project pipeline",
     goal: "~225 projects a year",
     detail:
-      "The volume an official learning business has to sustain to justify itself. Today the constraint is conversion, not interest.",
+      "The volume an official learning business has to sustain to justify itself. Today the constraint is converting interest into signed work.",
   },
   {
     name: "A talent destination",
@@ -190,7 +190,7 @@ export const PHASES: Phase[] = [
     name: "A yearly BYU AI conference",
     goal: "First edition in 2027",
     detail:
-      "Run by the Foundry, not attended by it. This is what makes us an educational institution inside BYU rather than a project shop.",
+      "The Foundry organizes and runs it. Running it is what makes us an educational institution inside BYU.",
   },
   {
     name: "A founding partner",
@@ -226,22 +226,22 @@ export const ASKS: Gap[] = [
   {
     title: "Client introductions",
     detail:
-      "Eighteen prospects in the pipeline and the constraint is converting interest into signed work, not generating interest. One warm introduction to a company with real AI work is worth more to us right now than any amount of marketing.",
+      "Eighteen prospects are in the pipeline, and the constraint is converting their interest into signed work. An introduction to a company with real AI work helps us more right now than marketing does.",
   },
   {
     title: "A founding partner for the endowment",
     detail:
-      "One founding gift makes the program permanent. That conversation has not started, and it is the single most valuable introduction anyone reading this page can make.",
+      "One founding gift makes the program permanent. That conversation has not started, and it is the introduction we need most.",
   },
   {
     title: "Case competition sponsorship",
     detail:
-      "The competition is scoped with the MBA office for late September. Funding was offered and never closed, and the prize pool, venue and production are genuinely uncosted rather than quietly assumed.",
+      "The competition is scoped with the MBA office for late September. Funding was offered and never closed, and the prize pool, venue and production have not been costed.",
   },
   {
     title: "Judgment on what we teach",
     detail:
-      "One to two curriculum pivots a year, driven by what you are seeing in the market rather than what we guess from inside a university. If agents are table stakes by December, we would rather hear it from you in October.",
+      "One to two curriculum pivots a year, driven by what you are seeing in the market rather than what we guess from inside a university. If agents are a basic expectation by December, we would rather hear it from you in October.",
   },
 ]
 
@@ -257,9 +257,9 @@ export const EXECUTION: Gap[] = [
       "Real applications have arrived faster than we have screened them. Every one of those is a student waiting on a reply, and clearing the queue is the first week's work.",
   },
   {
-    title: "Contracts, not conversations",
+    title: "Converting prospects into contracts",
     detail:
-      "The pipeline is healthy and the signature rate is not. We are treating the engagement letter and the intake-to-signature path as an operating problem, not a sales one.",
+      "Many prospects are interested and few have signed. We are treating the engagement letter and the intake-to-signature path as a problem in our own operations.",
   },
 ]
 
@@ -271,7 +271,7 @@ export const CLOSE = {
   heading: "You are the first board this program has ever had.",
   body:
     "Everything above happened in one summer, and most of it happened because somebody on this list made an introduction or told us we were wrong about something. The program is real now: official status, a first gift, a public site, a cohort that ships.",
-  ask: "What we need from you this year is not time in meetings. It is the introduction you can make that we cannot, and the correction you can make early enough to matter.",
+  ask: "What we need from you this year is introductions we cannot make ourselves, and corrections early enough for us to act on them.",
 } as const
 
 /* ────────────────────────────────────────────────────────────

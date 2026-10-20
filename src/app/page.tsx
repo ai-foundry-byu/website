@@ -15,20 +15,22 @@ import {
   BUILDERS_STRIP_EYEBROW,
   HERO_STACK,
   HERO_SUPPORT,
-  MISSION,
+  CULTURE_LEAD,
+  MARRIOTT_GUIDING,
+  MARRIOTT_MISSION,
+  MARRIOTT_VALUES,
+  MARRIOTT_VISION,
   NAV_CTA,
   OFFERINGS,
   QUOTE_CTA,
   QUOTE_HEADLINE,
-  VALUES,
-  VISION,
 } from "@/lib/content"
 
 /**
  * The landing page, rebuilt to design_handoff_ai_foundry_website/ui_kits/
  * landing (direction 4b on structure 1b). Section order is the design's:
- * hero over the motion layer, the shipped-at strip, mission then vision in
- * their own bands, values as expanding rows, the offerings, the navy CTA
+ * hero over the motion layer, the shipped-at strip, BYU Marriott's vision
+ * then mission in their own bands, its values as expanding rows, the offerings, the navy CTA
  * band. All copy comes from src/lib/content.ts.
  */
 
@@ -123,8 +125,15 @@ function MissionVision() {
     <section style={{ padding: "64px 24px", position: "relative" }}>
       <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "48px" }}>
-        <Reveal>{block("Mission", MISSION)}</Reveal>
-        <Reveal>{block("Vision", VISION)}</Reveal>
+        {/* The Foundry has no mission, vision or values of its own; it
+            inherits BYU Marriott's, verbatim (Scott, 2026-10-19). */}
+        <Reveal>
+          <p style={{ margin: "0 auto", maxWidth: "58ch", textAlign: "center", fontSize: "18px", lineHeight: 1.5, color: "var(--text-meta)" }}>
+            {CULTURE_LEAD}
+          </p>
+        </Reveal>
+        <Reveal>{block("Vision", MARRIOTT_VISION)}</Reveal>
+        <Reveal>{block("Mission", MARRIOTT_MISSION)}</Reveal>
       </div>
     </section>
   )
@@ -139,8 +148,8 @@ function Values() {
             <Eyebrow>Values</Eyebrow>
           </div>
           <div style={{ borderBottom: "1px solid var(--border-strong)" }}>
-            {VALUES.map((v) => (
-              <ValueRow key={v.name} name={v.name} body={v.body} />
+            {[...MARRIOTT_VALUES, MARRIOTT_GUIDING].map((v) => (
+              <ValueRow key={v.title} name={v.title} body={v.blurb} />
             ))}
           </div>
         </Reveal>

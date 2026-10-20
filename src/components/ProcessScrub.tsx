@@ -39,7 +39,7 @@ const STEPS = [
     n: "2",
     label: "Scope",
     title: "We scope it in writing.",
-    detail: "Deliverables, cost, and schedule — from a velocity pod matched to the expertise your project needs.",
+    detail: "Deliverables, cost, and schedule, from a small student team matched to the expertise your project needs.",
   },
   {
     n: "3",
@@ -223,7 +223,7 @@ export function ProcessScrub() {
           </div>
 
           <p className="caption" style={{ color: "var(--text-meta)" }}>
-            Scroll to run the sequence — the panel releases after step 4.
+            Scroll to run the sequence. The panel releases after step 4.
           </p>
         </div>
       </div>
