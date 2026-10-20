@@ -26,26 +26,22 @@ const nextConfig: NextConfig = {
   },
 
   /**
-   * Serve the VC jobs board at aifoundry.byu.edu/jobs.
+   * The VC jobs board is RETIRED (2026-10-20).
    *
-   * The board is a separate Next app (repo: ai-foundry-jobs) with its own
-   * ingest pipeline, its own Supabase project, and a twice-daily refresh. It
-   * is rewritten in rather than ported so this repo takes on no jobs code, no
-   * extra environment variables, and no build-time dependency on that data.
-   * If the board is ever retired, deleting this block is the whole rollback.
+   * Until then /jobs, /jobs/:path* and /api/jobs/:path* were rewritten in from
+   * a separate Next app (repo ai-foundry-jobs, Vercel project ai-foundry-jobs).
+   * It had about two real users a month and more than 99% of its traffic was
+   * crawlers, which made it the bulk of the hosting bill. The Vercel project is
+   * paused, not deleted, and all of its data is kept.
    *
-   * A rewrite rather than a redirect, so the URL the member sees stays on
-   * aifoundry.byu.edu. That matters for more than cosmetics: the board's
-   * sign-in cookie is deliberately set with no Domain attribute, so it binds
-   * to whichever host served the request. Under this rewrite that host is
-   * aifoundry.byu.edu and the cookie is scoped correctly with no further
-   * configuration.
+   * Now /jobs and every /jobs/* URL send people to the home page with a
+   * TEMPORARY redirect (307), so search engines do not treat the move as final
+   * and the board can come back at the same URLs. /api/jobs/* answers 410 Gone
+   * from src/app/api/jobs/[[...path]]/route.ts.
    *
-   * The /api/jobs/* rule is required, not optional. The board's sign-in and
-   * save calls are same-origin fetches; without it they would resolve against
-   * this app, 404, and the gate would appear to accept an email and then do
-   * nothing. That exact failure took the previous board down for weeks, so it
-   * is worth being explicit: both rules ship together or neither does.
+   * Rollback: restore the three afterFiles rewrites from commit 3192635 (and
+   * src/app/robots.ts from the same commit), drop the two /jobs redirects
+   * below and the 410 route, then unpause the ai-foundry-jobs project.
    */
   /**
    * /terms and /privacy land on /legal.
@@ -66,14 +62,16 @@ const nextConfig: NextConfig = {
       { source: "/terms-of-service", destination: "/legal#site-use", permanent: true },
       { source: "/privacy", destination: "/legal#privacy", permanent: true },
       { source: "/privacy-policy", destination: "/legal#privacy", permanent: true },
+      // Jobs board retired 2026-10-20 (see the note above). Temporary on purpose.
+      { source: "/jobs", destination: "/", permanent: false },
+      { source: "/jobs/:path*", destination: "/", permanent: false },
     ]
   },
 
   async rewrites() {
-    const board = "https://ai-foundry-jobs.vercel.app"
     /**
-     * Serve the AI Foundry app at aifoundry.byu.edu/app, the same way as the jobs
-     * board. Since the 2026 cutover this is the app shared with BYU Strategy
+     * Serve the AI Foundry app at aifoundry.byu.edu/app, the same way the jobs
+     * board used to be served. Since the 2026 cutover this is the app shared with BYU Strategy
      * (Vercel project strategy-program), reached at its Foundry address
      * ai-foundry-app.vercel.app; that host is how the app knows to show the
      * Foundry. It keeps every page, asset and API call under /app, so these two
@@ -91,11 +89,7 @@ const nextConfig: NextConfig = {
         { source: "/app", destination: `${cockpit}/app` },
         { source: "/app/:path*", destination: `${cockpit}/app/:path*` },
       ],
-      afterFiles: [
-        { source: "/jobs", destination: `${board}/jobs` },
-        { source: "/jobs/:path*", destination: `${board}/jobs/:path*` },
-        { source: "/api/jobs/:path*", destination: `${board}/api/jobs/:path*` },
-      ],
+      afterFiles: [],
       fallback: [],
     }
   },
