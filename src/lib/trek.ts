@@ -94,7 +94,7 @@ export const DAYS: TrekDay[] = [
       { time: "11:30 AM", end: "12:30 PM", what: "Lunch", where: "Sunnyvale", address: "", status: "Planned", note: "" },
       { time: "1:00 PM", end: "3:00 PM", what: "LinkedIn", where: "Sunnyvale", address: "1000 W Maude Ave, Sunnyvale, CA 94085", status: "Likely", note: "" },
       { time: "4:30 PM", end: "6:00 PM", what: "NVIDIA", where: "Santa Clara", address: "2788 San Tomas Expy, Santa Clara, CA 95051", status: "Potential", note: "" },
-      { time: "7:00 PM", end: "9:00 PM", what: "BYU alumni night", where: "South Bay (venue TBD)", address: "", status: "Proposed", note: "Dinner with Bay Area BYU alumni in product and AI roles. The best networking hour of the trip." },
+      { time: "7:00 PM", end: "9:00 PM", what: "BYU alumni night", where: "South Bay (venue TBD)", address: "", status: "Proposed", note: "Dinner with Bay Area BYU alumni in product and AI roles. The main networking event of the trip." },
       { time: "9:30 PM", end: "", what: "Drive to San Francisco hotel", where: "SoMa, San Francisco", address: "", status: "Planned", note: "About 1 hour at night." },
     ],
   },

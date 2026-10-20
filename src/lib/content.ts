@@ -242,7 +242,7 @@ export const SHOWCASE_LEAD =
   "Built by the people on the About page. Real products, shipped and running."
 
 /** /work page copy. The landing band highlights; /work holds everything. */
-export const WORK_HEADING = "Built here. Running now."
+export const WORK_HEADING = "Everything we have shipped."
 
 export const WORK_LEAD =
   "Every entry is a real product, shipped and running, built by the people on the About page."
@@ -253,7 +253,7 @@ export const SHOWCASE: ShowcaseItem[] = [
   {
     name: "App Feedback Loop",
     blurb:
-      "Open-source build spec for an AI-native feedback widget: one click captures a screenshot and the machine context around it, Claude Code fixes with that context loaded, and the fix commit closes the loop back to the reporter. Built into every app we ship.",
+      "Open-source build spec for an AI-native feedback widget: one click captures a screenshot and the machine context around it, Claude Code fixes with that context loaded, and the fix commit is reported back to the person who filed it. Built into every app we ship.",
     tags: ["Open source", "AI-native dev"],
     links: [
       { href: "https://github.com/ai-foundry-byu/app-feedback-loop", label: "GitHub" },
@@ -273,7 +273,7 @@ export const SHOWCASE: ShowcaseItem[] = [
   {
     name: "French 80/20",
     blurb:
-      "An AI-native French learning app for web and iPhone, built around the words you actually use and a measured climb to 80% of everyday French.",
+      "An AI-native French learning app for web and iPhone, built around the words you actually use and measured progress toward 80% of everyday French.",
     tags: ["Web", "iOS app"],
     links: [{ href: "https://french8020.com", label: "french8020.com" }],
     image: "/showcase/french8020.jpg",
@@ -281,7 +281,7 @@ export const SHOWCASE: ShowcaseItem[] = [
   {
     name: "LawGrader / WriteGrader",
     blurb:
-      "Agentic grading for legal and academic writing. It drafts the scores and the margin comments; the instructor keeps the final say on every grade.",
+      "Agentic grading for legal and academic writing. It drafts the scores and the margin comments; the instructor decides every final grade.",
     tags: ["Web", "AI grading"],
     links: [
       { href: "https://lawgrader.ai", label: "lawgrader.ai" },
@@ -372,7 +372,7 @@ export const OFFERINGS: Offering[] = [
   },
   {
     name: "AI integration and orchestration",
-    blurb: "AI wired into the systems you already run today.",
+    blurb: "AI built into the systems you already run today.",
     points: [
       // "with your data", not "against your data". Against sounds adversarial.
       "Agents and copilots that work with your data",
@@ -525,8 +525,8 @@ export type Interest = { title: string; blurb: string }
  * is the thing a visitor actually answers.
  */
 export const NETWORK_INTERESTS: Interest[] = [
-  { title: "Live BYU-sponsored AI events", blurb: "In-person sessions on the most cutting-edge technologies as they land." },
-  { title: "Periodic AI digest", blurb: "A tight read on what is moving in AI, curated for the BYU network." },
+  { title: "Live BYU-sponsored AI events", blurb: "In-person sessions on new AI technologies as they are released." },
+  { title: "Periodic AI digest", blurb: "A short summary of recent developments in AI, curated for the BYU network." },
   { title: "Access to the cohort for talent", blurb: "An introduction to the cohort when you are hiring builders." },
   { title: "Submitting a project proposal", blurb: "Something you want built. This routes to the project intake brief." },
 ]
@@ -705,7 +705,7 @@ export const CULTURE_PRINCIPLES: Principle[] = [
   {
     title: "Learn relentlessly",
     blurb:
-      "We stay curious, dive deep, and treat mistakes as tuition for the lessons they carry.",
+      "We stay curious, dive deep, and learn from our mistakes.",
     credit: "After Amazon and Bridgewater",
   },
   {
@@ -912,7 +912,7 @@ export const ROADMAP: RoadmapPhase[] = [
       {
         name: "Advisory board",
         detail:
-          "Senior advisors across AI, venture, and industry, recruited to advise the program rather than to decorate a page.",
+          "Senior advisors across AI, venture, and industry, recruited to advise the program.",
         status: "active",
         stat: { field: "advisoryBoard", caption: "confirmed" },
       },
@@ -932,7 +932,7 @@ export const ROADMAP: RoadmapPhase[] = [
       {
         name: "Reaching the BYU Marriott cohort directly",
         detail:
-          "Meeting MBAs where they already are, in the channels the school already runs, rather than waiting for them to find the program.",
+          "Reaching MBAs through the channels the school already runs, rather than waiting for them to find the program.",
         status: "active",
       },
       {
@@ -964,7 +964,7 @@ export const ROADMAP: RoadmapPhase[] = [
       {
         name: "MBA case competition",
         detail:
-          "A low-stakes AI case competition for BYU MBAs. It builds the culture and surfaces the builders worth recruiting.",
+          "A low-stakes AI case competition for BYU MBAs. It builds the culture and identifies the builders worth recruiting.",
         status: "planned",
       },
     ],
@@ -1241,7 +1241,7 @@ export const PEDAGOGY_STEPS: { title: string; blurb: string; points: string[] }[
     title: "1. Build",
     blurb:
       "You are the customer. Students learn the six Builder skills by building their own " +
-      "product with AI coding agents, two weeks per skill. Each week we teach a move and " +
+      "product with AI coding agents, two weeks per skill. Each week we teach a technique and " +
       "students apply it to their project.",
     points: ["MSB 341 · IS 693R · CS 498R", "Mondays, fall and winter"],
   },
@@ -1257,7 +1257,7 @@ export const PEDAGOGY_STEPS: { title: string; blurb: string; points: string[] }[
     title: "3. Client engagements",
     blurb:
       "Organizations hire the Foundry for five-week engagements staffed by one or two " +
-      "builders. The software runs in the client's hands and ships under the students' names.",
+      "builders. The client runs the software, and it ships under the students' names.",
     points: ["Five weeks, extendable", "Faculty oversight on every engagement"],
   },
 ]
@@ -1273,7 +1273,7 @@ export const PEDAGOGY_PRINCIPLES: { title: string; body: string }[] = [
     title: "Responsibility follows what you have shipped",
     body:
       "A student's record decides what they own on a team: shadowing a project, " +
-      "contributing a piece with a backstop, or owning a workstream the client sees their " +
+      "contributing a piece under supervision, or owning a workstream the client sees their " +
       "name on.",
   },
   {
@@ -1343,7 +1343,7 @@ export const PATHWAYS_NOTE =
 export const PATHWAYS: { title: string; fall: string; winter: string; bestFor: string }[] = [
   { title: "Option 1", fall: "Build only", winter: "Foundry Lab", bestFor: "You want the Builder toolkit first, with no client work in fall." },
   { title: "Option 2", fall: "Build and Foundry Lab", winter: "Foundry Lab", bestFor: "You want to build the toolkit while staffed on a project. Plan for the extra time." },
-  { title: "Option 3", fall: "Foundry Lab only", winter: "Foundry Lab", bestFor: "You already have a strong builder foundation." },
+  { title: "Option 3", fall: "Foundry Lab only", winter: "Foundry Lab", bestFor: "You already have strong Builder skills." },
 ]
 
 export const EXPECT_HEADING = "What we expect"
@@ -1359,8 +1359,8 @@ export const RECEIVE_HEADING = "What you receive"
 export const RECEIVE: string[] = [
   "Three credit hours per semester, six across the year.",
   "A Claude plan for Foundry work, provided or reimbursed. The plan is set each term.",
-  "Production software in an organization's hands, shipped under your name.",
-  "A client who will take your call.",
+  "Production software in use at an organization, shipped under your name.",
+  "A client contact who can speak to your work.",
   "Your Builder profile, at the start of the year and again in December.",
 ]
 
@@ -1374,7 +1374,7 @@ export const STANDING_LEAD =
 export const HANDBOOK_EYEBROW = "The handbook"
 
 export const HANDBOOK_LEAD =
-  "Everything a Foundry student needs to know lives in the course book."
+  "Everything a Foundry student needs to know is in the course book."
 
 /** Only chapters that are published; each path was checked live 2026-10-15. */
 export const HANDBOOK_LINKS: NavLink[] = [

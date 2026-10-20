@@ -85,7 +85,7 @@ export default async function BriefPage({
           <div>
             <p className="eyebrow text-text-meta">LinkedIn · audience growth</p>
             <h2 className="mt-2 font-serif text-[1.35rem] font-semibold leading-snug tracking-[-0.01em] text-text-primary">
-              The curve is steepening, not flattening.
+              Follower growth is accelerating.
             </h2>
             <p className="mt-2.5 max-w-[42rem] text-[0.95rem] leading-relaxed text-text-meta">
               <strong className="font-semibold text-text-primary">
@@ -104,7 +104,7 @@ export default async function BriefPage({
           </div>
 
           <div className="md:pt-8">
-            <p className="eyebrow text-text-meta">Also landed</p>
+            <p className="eyebrow text-text-meta">Other milestones</p>
             <ul className="mt-3 list-none border-t border-border-strong p-0">
               {MILESTONES.map((m) => (
                 <li key={m.title} className="border-b border-border-subtle py-3">
