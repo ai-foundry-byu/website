@@ -49,34 +49,8 @@ export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
 export const HERO_STACK_SUPPORT =
   "MBA and undergraduate builders shipping production AI systems for real clients."
 
-/* ────────────────────────────────────────────────────────────
-   Mission, vision, values. VERBATIM. Do not edit without Brandon.
-   ──────────────────────────────────────────────────────────── */
-
-export const MISSION =
-  "We develop AI builders of faith, skill, and integrity who amplify opportunity and increase abundance worldwide."
-
-export const VISION =
-  "A world where expertise is abundant, and human flourishing is never limited by access, only by ambition."
-
-export type Value = { name: string; body: string }
-
-export const VALUES: Value[] = [
-  {
-    name: "Technical Excellence",
-    body: "We are judged by what we ship: whether it works, and whether someone would pay for it. We compete on output, not pedigree. Credentials, whitepapers, and good intentions don't count as evidence; working systems in production do. Every Foundry builder is expected to master the frontier and prove that mastery through shipped work.",
-  },
-  {
-    name: "Moral Conviction",
-    body: "We hold ourselves to a higher standard than any rule will ever require. The real test of character is what you build when no one is auditing you. Access to people's data, attention, and labor is a trust freely given, never a lever to pull. We build only what people would consent to if they fully understood it. Our faith and integrity are not a compliance layer; they are the reason we build at all.",
-  },
-  {
-    name: "Relentless Urgency",
-    body: "We don't wait for permission to act on what we already know is right. Free, responsible people don't wait for institutional consensus. Urgency is a choice, the only thing that turns belief into shipped work instead of another meeting. It is how we stay at the frontier, and how we bring the frontier back to BYU.",
-  },
-]
-
-/** Pairs with the vision on the About page. From voice.md. */
+/** Not rendered. From voice.md; it paired with the Foundry's own vision,
+ *  retired 2026-10-19 in favor of BYU Marriott's. */
 export const ERA_NARRATIVE =
   "Every general-purpose technology broke a constraint humanity assumed was permanent. Steam freed strength. The internet freed information. AI frees intelligence itself. Each time, an era of abundance followed. The Foundry exists to make sure this one reaches everyone."
 
