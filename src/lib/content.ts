@@ -445,7 +445,7 @@ export const QUOTE_FIELDS: QuoteField[] = [
   { label: "First name", type: "text", required: true },
   { label: "Last name", type: "text", required: true },
   { label: "Email", type: "email", required: true },
-  { label: "Phone number", type: "tel", required: true },
+  { label: "Phone number", type: "tel", required: false },
   { label: "Company", type: "text", required: true },
   { label: "Website", type: "url", required: false },
   {

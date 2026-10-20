@@ -31,11 +31,11 @@ export async function POST(req: NextRequest) {
     const company = str(body.company)
     const description = str(body.project_description)
 
-    if (!first || !last || !email || !phone || !company || !description) {
+    if (!first || !last || !email || !company || !description) {
       return NextResponse.json(
         {
           error:
-            "First name, last name, email, phone, company, and a project description are required.",
+            "First name, last name, email, company, and a project description are required.",
         },
         { status: 400 }
       )

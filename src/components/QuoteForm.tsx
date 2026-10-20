@@ -31,7 +31,6 @@ const REQUIRED: Record<string, string> = {
   first: "First name",
   last: "Last name",
   email: "Email",
-  phone: "Phone number",
   company: "Company",
   brief: "This field",
 }
@@ -107,7 +106,7 @@ export function QuoteForm() {
       <Input label="First name" name="first" required autoComplete="given-name" error={errors.first} />
       <Input label="Last name" name="last" required autoComplete="family-name" error={errors.last} />
       <Input label="Email" name="email" type="email" required autoComplete="email" error={errors.email} />
-      <Input label="Phone number" name="phone" type="tel" required autoComplete="tel" error={errors.phone} />
+      <Input label="Phone number" name="phone" type="tel" autoComplete="tel" />
       <Input label="Company" name="company" required autoComplete="organization" error={errors.company} />
       <Input label="Website" name="website" type="url" autoComplete="url" error={errors.website} />
       <div style={{ gridColumn: "1 / -1" }}>
