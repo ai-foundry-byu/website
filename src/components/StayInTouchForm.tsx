@@ -98,14 +98,14 @@ export function StayInTouchForm() {
       </div>
       <fieldset style={{ gridColumn: "1 / -1", border: 0, padding: 0, margin: 0 }}>
         <legend style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", marginBottom: "10px" }}>
-          I&apos;m interested in
+          Check any that apply
         </legend>
         <div style={{ display: "grid", gap: "10px" }}>
           {STAY_INTERESTS.map((i) => (
             <label key={i.key} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", lineHeight: 1.4, color: "var(--text-primary)", cursor: "pointer" }}>
               <input type="checkbox" name={i.key} style={{ width: 18, height: 18, marginTop: 1, flexShrink: 0, accentColor: "var(--royal)" }} />
               <span>
-                <span style={i.detail ? { fontWeight: 600 } : undefined}>{i.label}</span>
+                <span style={i.strong ? { fontWeight: 600 } : undefined}>{i.label}</span>
                 {i.detail ? (
                   <span style={{ display: "block", fontSize: "13.5px", color: "var(--text-meta)", marginTop: 2 }}>{i.detail}</span>
                 ) : null}

@@ -499,17 +499,20 @@ export const SURVEY_SECTIONS: IntakeSection[] = [
    ──────────────────────────────────────────────────────────── */
 
 /** The "Stay in touch" form on /network. Keys are what the app's
- *  /api/network/signup turns into list tags (ai_foundry_<key>). */
-export const STAY_INTERESTS: { key: string; label: string; detail?: string }[] = [
+ *  /api/network/signup turns into list tags (interns -> intern_host, the rest
+ *  ai_foundry_<key>). The two hiring boxes come first and in bold: they are
+ *  what Scott asks employers about. */
+export const STAY_INTERESTS: { key: string; label: string; detail?: string; strong?: boolean }[] = [
   {
     key: "interns",
-    label: "Hosting an intern",
-    detail: "We match employers with students in STRAT 477R, our product internship course.",
+    label: "I'd consider hiring AI Foundry builder consultants for an internship",
+    detail: "Through STRAT 477R, for credit.",
+    strong: true,
   },
-  { key: "project", label: "I may have a project for the Foundry" },
-  { key: "talent", label: "Hiring builders from the cohort" },
-  { key: "events", label: "Live BYU-sponsored AI events" },
-  { key: "digest", label: "The periodic AI digest" },
+  { key: "project", label: "I'd consider hiring AI Foundry builder consultants for a specific project", strong: true },
+  { key: "advisor", label: "I'd be interested in serving on the AI Foundry Board of Advisors" },
+  { key: "events", label: "I'd like invitations to AI events at BYU" },
+  { key: "digest", label: "I'd like the newsletter" },
   { key: "student", label: "I'm a student interested in joining" },
 ]
 
