@@ -1015,6 +1015,12 @@ export const ROADMAP_LINK: NavLink = { label: "Roadmap", href: "/roadmap" }
  */
 export const UPDATE_LINK: NavLink = { label: "Latest update", href: "/update" }
 
+/**
+ * The Foundry's LinkedIn company page. Footer only, as a text link (the
+ * no-logos rule covers social marks too). External, so it opens in a new tab.
+ */
+export const LINKEDIN_LINK: NavLink = { label: "LinkedIn", href: "https://www.linkedin.com/company/ai-foundry-byu/" }
+
 /* ────────────────────────────────────────────────────────────
    The update, at /update
 

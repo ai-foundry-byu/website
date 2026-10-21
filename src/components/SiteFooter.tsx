@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
+import { LINKEDIN_LINK, NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
 
 /**
  * Footer. Port of design_handoff .../navigation/Footer.jsx onto the repo's
@@ -59,10 +59,19 @@ export function SiteFooter() {
             </Link>
           ))}
         </nav>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "28px", paddingTop: "20px" }}>
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3" style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "28px", paddingTop: "20px" }}>
           <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: 0 }}>
             © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
           </p>
+          <a
+            href={LINKEDIN_LINK.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="no-underline link-draw"
+            style={{ fontFamily: "var(--font-body)", fontWeight: 300, fontSize: "var(--size-ui)", color: "var(--text-on-dark-soft)" }}
+          >
+            {LINKEDIN_LINK.label}
+          </a>
         </div>
       </div>
     </footer>
