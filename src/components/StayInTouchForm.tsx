@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ds/Button"
 import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
@@ -21,15 +21,10 @@ import styles from "./QuoteForm.module.css"
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function StayInTouchForm() {
-  const [from, setFrom] = useState<string | null>(null)
   const [error, setError] = useState<string | undefined>()
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState<string[] | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
-
-  useEffect(() => {
-    setFrom(new URLSearchParams(window.location.search).get("from"))
-  }, [])
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -52,7 +47,7 @@ export function StayInTouchForm() {
           last_name: f.get("last"),
           company: f.get("company"),
           interests,
-          from,
+          from: new URLSearchParams(window.location.search).get("from"),
           website: f.get("website"),
         }),
       })

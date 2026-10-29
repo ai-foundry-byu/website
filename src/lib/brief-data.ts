@@ -27,22 +27,9 @@ export type Win = { value: string; label: string }
  * Cohort, clients and projects are JD's count as of 2026-08-26. Followers from
  * the LinkedIn export (below); network from our own database.
  *
- * The client and project counts are ahead of every record the org keeps. Hunted
- * 2026-08-26 across the official Foundry Drive, the live Supabase and the domain
- * state, so nobody has to re-derive it:
- *   · Pipeline sheet 1Kl2e9zRiy6HRj29JjY8KVuLLsn7EHVKnHV3rLnL3VI4 (13 Aug) —
- *     18 prospects, 0 accepted, $22,000 in evaluation (all of it Breckenridge),
- *     `Payment Collected` FALSE on all 18 rows, $0 collected.
- *   · Project Tracker 1da-At3gzF0FF7tvo5e1Zjm4DyxaiyuTSIRVLXTW7QNw (21 Aug) —
- *     ONE active project, noted "Working through NDA details before signing".
- *   · domain state/goals.yaml, pre-semester gate 5 "Signed project contracts": 0.
- *
- * Exactly ONE client is named anywhere: Breckenridge Pharmaceutical — "the
- * Foundry's first won project" (Drive 02 Deals & Clients/CapSource/_ABOUT.md),
- * rerouted from BYU Engineering Capstone via CapSource, staffed 7 August,
- * engagement letter still DRAFT v2 on 25 August. The other two have no name in
- * any record. Deliberately NOT rendered — that NDA is still being negotiated,
- * and this page gets forwarded.
+ * The client and project counts are ahead of the org's written records. The
+ * sources checked, and what each one showed, are in the Foundry's internal
+ * notes, not in this public repository (security audit 2026-10-28, F3).
  */
 export const WINS: Win[] = [
   { value: "30", label: "builders in Cohort One" },
@@ -105,7 +92,7 @@ export const UPTICK = {
  * The competition line was "Two product case competitions booked — one national,
  * one at BYU" until 2026-08-26, when a hunt for the two names came back empty and
  * turned up the opposite. The org's own consolidated dossier, "AI Foundry —
- * Product Case Competition" (Drive 1Cc7uloXA3DjXENlianPvkmX79A4RyjAnrLDtSnjQNm8,
+ * Product Case Competition" (Foundry Drive,
  * 17 Aug), enumerates the whole Sep–Oct slate as ONE case competition plus a
  * separate hackathon, and opens: "planned, owner UNASSIGNED, dates TBD, funding
  * offered but not closed." No national competition appears in the Drive, in

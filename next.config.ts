@@ -76,8 +76,14 @@ const nextConfig: NextConfig = {
      * ai-foundry-app.vercel.app; that host is how the app knows to show the
      * Foundry. It keeps every page, asset and API call under /app, so these two
      * rules carry everything, and its sign-in cookie binds to aifoundry.byu.edu.
-     * Rollback: point this back at https://ai-foundry-cockpit.vercel.app.
      * Plan: docs/PLATFORM-PLAN.md and docs/CUTOVER.md in the Strategy repo.
+     *
+     * Takeover risk (security audit 2026-10-28, F4): this target is served on
+     * our origin, with the app's sign-in cookie. If the Vercel project behind it
+     * is deleted or renamed, anyone can claim the name and run their pages here.
+     * Never delete or rename that project while this rule exists. The durable
+     * fix is a custom domain the Foundry owns on that project, used here instead.
+     * Do not roll back to any other *.vercel.app name that is not held.
      */
     const cockpit = "https://ai-foundry-app.vercel.app"
     return {

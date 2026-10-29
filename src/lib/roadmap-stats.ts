@@ -124,9 +124,8 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
    * overclaiming a credential in public, and undercounting our own board is
    * a far cheaper mistake than naming someone who never agreed.
    *
-   * A verbal yes does not count either. Aaron Arnoldsen has been a verbal
-   * commitment since 2026-06-15 with the written invite still unsent; until
-   * that is signed he is a commitment we owe, not a credential we hold.
+   * A verbal yes does not count either: until the written invite is signed,
+   * a verbal commitment is one we owe, not a credential we hold.
    */
   const COMMITTED = new Set(["confirmed", "signed", "active"])
 

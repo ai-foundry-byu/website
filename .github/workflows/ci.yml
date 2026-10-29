@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Blocks the merge if a shipped dependency has a known high or critical
+      # advisory (security audit 2026-10-28, F1: Next sat 33 advisories behind).
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Lint
         run: npm run lint
 

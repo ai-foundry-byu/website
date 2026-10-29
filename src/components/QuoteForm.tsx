@@ -74,6 +74,7 @@ export function QuoteForm() {
           website: f.get("website"),
           project_description: f.get("brief"),
           desired_timeline: f.get("timeline"),
+          hp_check: f.get("hp_check"),
         }),
       })
       if (!res.ok) {
@@ -109,6 +110,13 @@ export function QuoteForm() {
       <Input label="Phone number" name="phone" type="tel" autoComplete="tel" />
       <Input label="Company" name="company" required autoComplete="organization" error={errors.company} />
       <Input label="Website" name="website" type="url" autoComplete="url" error={errors.website} />
+      {/* Honeypot: hidden from people and screen readers; a bot fills it. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>
+          Leave this empty
+          <input name="hp_check" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
       <div style={{ gridColumn: "1 / -1" }}>
         <Textarea
           label="What do you want built"

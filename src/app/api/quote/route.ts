@@ -12,6 +12,40 @@ import { createClient } from "@supabase/supabase-js"
  */
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/**
+ * Abuse limits (security audit 2026-10-28, F2). The route is public and writes
+ * with the service key, so it caps size, drops bots that fill the hidden
+ * `hp_check` field, refuses cross-site posts, and throttles each IP (only
+ * submissions that pass validation count, so typo retries never lock anyone out). The throttle lives in
+ * this server instance's memory, so it slows a single script but is not a hard
+ * limit across instances; the hard limit is a Vercel WAF rate-limit rule.
+ */
+const MAX_BODY_BYTES = 16_000
+const MAX_SHORT = 200
+const MAX_DESCRIPTION = 5_000
+const RATE_WINDOW_MS = 10 * 60 * 1000
+const RATE_MAX = 5
+const hits = new Map<string, number[]>()
+
+function rateLimited(ip: string, now = Date.now()): boolean {
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS)
+  recent.push(now)
+  hits.set(ip, recent)
+  if (hits.size > 10_000) hits.clear()
+  return recent.length > RATE_MAX
+}
+
+function crossSite(req: NextRequest): boolean {
+  const origin = req.headers.get("origin")
+  if (!origin) return false
+  try {
+    const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
+    return new URL(origin).host !== host
+  } catch {
+    return true
+  }
+}
+
 function getSupabase() {
   return createClient(
     process.env.SUPABASE_URL!,
@@ -20,9 +54,26 @@ function getSupabase() {
 }
 
 export async function POST(req: NextRequest) {
+  if (crossSite(req)) {
+    return NextResponse.json({ error: "Forbidden." }, { status: 403 })
+  }
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Request too large." }, { status: 413 })
+  }
   const supabase = getSupabase()
   try {
-    const body = await req.json()
+    const raw = await req.text()
+    if (Buffer.byteLength(raw) > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: "Request too large." }, { status: 413 })
+    }
+    const body = JSON.parse(raw)
+
+    // Honeypot: people never see `hp_check`; a bot that fills it gets a quiet
+    // success and no row.
+    if (str(body.hp_check)) {
+      console.warn("quote honeypot hit")
+      return NextResponse.json({ success: true })
+    }
 
     const first = str(body.first_name)
     const last = str(body.last_name)
@@ -46,6 +97,20 @@ export async function POST(req: NextRequest) {
     }
 
     const website = str(body.website)
+    const timeline = str(body.desired_timeline)
+    const tooLong =
+      [first, last, email, phone, company, website, timeline].some(
+        (v) => v && v.length > MAX_SHORT
+      ) || description.length > MAX_DESCRIPTION
+    if (tooLong) {
+      return NextResponse.json(
+        {
+          error: `Keep each field under ${MAX_SHORT} characters and the description under ${MAX_DESCRIPTION}.`,
+        },
+        { status: 400 }
+      )
+    }
+
     if (website && (/\s/.test(website) || !website.includes("."))) {
       return NextResponse.json({ error: "Enter a valid website address." }, { status: 400 })
     }
@@ -56,6 +121,14 @@ export async function POST(req: NextRequest) {
     const project_title =
       description.length > 60 ? description.slice(0, 57).trimEnd() + "..." : description
 
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown"
+    if (rateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      )
+    }
+
     const row = {
       contact_name: `${first} ${last}`,
       email,
@@ -64,7 +137,7 @@ export async function POST(req: NextRequest) {
       website,
       project_title,
       project_description: description,
-      desired_timeline: str(body.desired_timeline),
+      desired_timeline: timeline,
       status: "pending",
       source: "web",
     }

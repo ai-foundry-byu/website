@@ -111,6 +111,8 @@ export function CurtainRouteProvider({
   // New route committed (or was already current): part the curtain.
   React.useEffect(() => {
     if (phase === "navigating" && target && pathname === target.split("#")[0]) {
+      // Reacting to the router committing the route is the point of this effect.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((s) => ({ ...s, phase: "opening", target: null }))
     }
   }, [phase, target, pathname])
