@@ -129,7 +129,7 @@ Headshots exist. Confirm where the files live before building the grid.
 
 Known names from prior work, verify against Scott's repo before publishing:
 JD Davenport, Rachel Moulton, Corbin Sterling, Brandon Jeppson, Alex Sisk, Abe Bedard,
-Felix Vivanco Salazar, Tulga Ganbat, Jake Healey, Sylvan Scott, Chase Clement, John Passey,
+Felix Vivanco Salazar, Jake Healey, Sylvan Scott, Chase Clement, John Passey,
 Tyler Doman, Enoch Councill, Jorge Beltran.
 
 Faculty: **Scott Murff**, Faculty Advisor, Associate Teaching Professor of Strategy, ex-McKinsey.

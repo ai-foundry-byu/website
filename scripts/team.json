@@ -84,12 +84,6 @@
   "photo": "/team/tate-stevens.jpg"
  },
  {
-  "name": "Tulga Ganbat",
-  "role": "Product Evaluation and QC",
-  "bio": "Tulga is an MBA candidate in Marketing and Product Management with a bachelor's degree in Statistics and Data Science. He is the founder of Orchuul.mn, Mongolia's first and largest AI-powered translation marketplace, which he independently built and scaled.",
-  "photo": "/team/tulga-ganbat.jpg"
- },
- {
   "name": "Dawson Broadbent",
   "role": "MISM",
   "bio": "Dawson is a Master of Information Systems Management student at BYU Marriott on the AI track. He builds Workday reports, integrations, and orchestrations for BYU's finance and HR systems, and is building BidForge, a tool that uses Claude Code and vision models to automate estimating for electricians. He coauthored published research on AI for social good (AMCIS 2025).",
