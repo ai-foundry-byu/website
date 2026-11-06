@@ -1,32 +1,24 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import {
-  ASKS,
-  BOARD,
-  CLOSE,
-  EXECUTION,
-  LINKEDIN_GROWTH,
-  MILESTONES,
-  PHASES,
-  SEMESTER,
-  UPTICK,
-  WINS,
-} from "@/lib/board-data"
+import type { BoardData } from "@/lib/board-data"
+import { getPrivatePage } from "@/lib/private-pages"
 import { GrowthChart } from "@/components/GrowthChart"
 
 /**
  * The advisory board update. NOT linked from anywhere on the site.
  *
- * Written for the eleven people who advise the program, and structured the way
+ * Written for the people who advise the program, and structured the way
  * a board reads: what happened, what is coming, what is broken, and who else is
  * in the room. The order is deliberate — the gaps sit BEFORE the roster, so a
  * member arrives at their own name having just read what we need, rather than
  * closing the page on a flattering list.
  *
  * It differs from /brief in audience and therefore in ask. /brief is written for
- * a donor and ends in an endowment request; board seats carry no fee (JD,
- * 2026-08-03), so this page never asks a reader for money. It asks for the
+ * a donor and ends in an endowment request; board seats carry no fee, so this page never asks a reader for money. It asks for the
  * introduction and the correction.
+ *
+ * The content comes from the af_private_pages table (slug "board"), not from
+ * this repo, which is public. No row, or no Supabase credentials, means 404.
  *
  * Gated the same way as /brief and /ops, and fails CLOSED: no token in the
  * environment and every request 404s, so a misconfigured deploy hides the page
@@ -35,9 +27,9 @@ import { GrowthChart } from "@/components/GrowthChart"
  *
  * On the gate, honestly: a token in a query string is obscurity, not security.
  * That is acceptable here for the same reason it is on /brief — but this page
- * carries the client count and eleven people's names and affiliations, so the
+ * carries the client count and the advisors' names and affiliations, so the
  * standing rule is stricter than /brief's: NO CONTACT DETAILS, EVER. A forwarded
- * roster with eleven email addresses on it is a list somebody else can work.
+ * roster with every email address on it is a list somebody else can work.
  */
 
 export const metadata: Metadata = {
@@ -56,6 +48,10 @@ export default async function BoardPage({
   const { k } = await searchParams
   if (!expected || k !== expected) notFound()
 
+  const data = await getPrivatePage<BoardData>("board")
+  if (!data) notFound()
+  const { WINS, LINKEDIN_GROWTH, UPTICK, MILESTONES, PHASES, SEMESTER, ASKS, EXECUTION, CLOSE, BOARD, NOTES } = data
+
   const multiple = (UPTICK.last30 / UPTICK.prior30).toFixed(1)
 
   return (
@@ -64,7 +60,7 @@ export default async function BoardPage({
       <header className="bg-surface-inverse">
         <div className="mx-auto max-w-5xl px-6 py-12 md:py-14">
           <p className="eyebrow text-text-on-dark-soft">
-            AI Foundry · BYU Marriott · Advisory board update, August 2026
+            {NOTES.eyebrow}
           </p>
           <h1 className="mt-5 max-w-[26ch] font-serif text-[1.9rem] font-semibold leading-[1.08] tracking-[-0.02em] text-text-on-inverse md:text-[2.7rem]">
             One summer took the Foundry from a pilot to a working studio.
@@ -98,14 +94,13 @@ export default async function BoardPage({
                 {UPTICK.last30} new followers in the last 30 days
               </strong>{" "}
               against {UPTICK.prior30} in the 30 before, {multiple}× the rate,
-              three months after launch, with nothing paid.
+              {NOTES.upticktail}
             </p>
             <div className="mt-6">
               <GrowthChart points={LINKEDIN_GROWTH} />
             </div>
             <p className="mt-3 text-[0.78rem] text-text-meta">
-              Cumulative followers by week, from the LinkedIn Analytics export
-              through 24 August. {UPTICK.today} as of today.
+              {NOTES.chartSource} {UPTICK.today} as of today.
             </p>
           </div>
 
@@ -134,8 +129,7 @@ export default async function BoardPage({
             learning business.
           </h2>
           <p className="mt-3 max-w-[46rem] text-[0.95rem] leading-relaxed text-text-meta">
-            The work falls into five areas. None of them has a date, because
-            nobody has committed to one yet.
+            {NOTES.phasesIntro}
           </p>
 
           <ol className="mt-7 grid list-none gap-x-10 gap-y-0 p-0 md:grid-cols-2">
@@ -227,7 +221,7 @@ export default async function BoardPage({
         <section className="pt-14">
           <p className="eyebrow text-text-meta">The board</p>
           <h2 className="mt-2 max-w-[32ch] font-serif text-[1.6rem] font-semibold leading-tight tracking-[-0.01em] text-text-primary md:text-[1.9rem]">
-            Eleven advisors. The target for the year was five.
+            {NOTES.boardHeading}
           </h2>
           <p className="mt-3 max-w-[46rem] text-[0.95rem] leading-relaxed text-text-meta">
             Venture, enterprise consulting, AI infrastructure, governance,
@@ -269,12 +263,7 @@ export default async function BoardPage({
             </div>
           </div>
           <p className="mt-5 text-[0.78rem] leading-relaxed text-text-meta">
-            Cohort, client and project counts are current as of 26 August and run
-            ahead of the pipeline tracker. Network count read from our own
-            database. Follower series from the LinkedIn Analytics export through
-            24 August. No gift amounts appear on this page, per the standing rule
-            on our donors page, and no contact details appear for any advisor.
-            Not linked from the site and excluded from search indexing.
+            {NOTES.footer}
           </p>
         </section>
       </div>

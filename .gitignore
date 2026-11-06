@@ -48,6 +48,9 @@ supabase/.temp/
 .env.local
 .env*.local
 
+# Private page content (brief, board). Lives in Supabase af_private_pages, never in git.
+/private/
+
 # Generated brand proposals. Regenerable from the sources in _brand-src plus
 # scripts/build-wordmark-proposal.py, so the outputs are not worth 1.3MB of
 # permanent repo weight. The sources and the script ARE committed.

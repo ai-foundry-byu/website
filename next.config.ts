@@ -71,21 +71,31 @@ const nextConfig: NextConfig = {
   async rewrites() {
     /**
      * Serve the AI Foundry app at aifoundry.byu.edu/app, the same way the jobs
-     * board used to be served. Since the 2026 cutover this is the app shared with BYU Strategy
-     * (Vercel project strategy-program), reached at its Foundry address
-     * ai-foundry-app.vercel.app; that host is how the app knows to show the
-     * Foundry. It keeps every page, asset and API call under /app, so these two
-     * rules carry everything, and its sign-in cookie binds to aifoundry.byu.edu.
-     * Plan: docs/PLATFORM-PLAN.md and docs/CUTOVER.md in the Strategy repo.
+     * board used to be served. The app is shared with BYU Strategy and is
+     * reached at the address in APP_ORIGIN; that host is how the app knows to
+     * show the Foundry. It keeps every page, asset and API call under /app, so
+     * these two rules carry everything, and its sign-in cookie binds to
+     * aifoundry.byu.edu. Plan: docs/PLATFORM-PLAN.md and docs/CUTOVER.md in the
+     * Strategy repo.
      *
      * Takeover risk (security audit 2026-10-28, F4): this target is served on
-     * our origin, with the app's sign-in cookie. If the Vercel project behind it
-     * is deleted or renamed, anyone can claim the name and run their pages here.
-     * Never delete or rename that project while this rule exists. The durable
-     * fix is a custom domain the Foundry owns on that project, used here instead.
-     * Do not roll back to any other *.vercel.app name that is not held.
+     * our origin, with the app's sign-in cookie. APP_ORIGIN must therefore be a
+     * domain the Foundry owns, never a *.vercel.app name: if the project behind
+     * a Vercel name is deleted or renamed, anyone can claim it and run their
+     * pages here. It is read from the environment so no host name sits in this
+     * public repo. Production fails the build when it is unset; elsewhere /app
+     * is simply not forwarded.
      */
-    const cockpit = "https://ai-foundry-app.vercel.app"
+    const cockpit = process.env.APP_ORIGIN
+    if (!cockpit) {
+      if (process.env.VERCEL_ENV === "production") {
+        throw new Error(
+          "APP_ORIGIN is not set. It must be the https origin of a domain the Foundry owns, used to serve /app.",
+        )
+      }
+      console.warn("APP_ORIGIN is not set: /app is not forwarded.")
+      return { beforeFiles: [], afterFiles: [], fallback: [] }
+    }
     return {
       // /app runs before this site's own routing. Next 16 turns a page's
       // segment-prefetch requests (header Next-Router-Segment-Prefetch) into

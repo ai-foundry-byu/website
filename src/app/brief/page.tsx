@@ -1,14 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import {
-  ENDOWMENT,
-  FOUNDING_DONOR,
-  LINKEDIN_GROWTH,
-  MILESTONES,
-  NEEDS,
-  UPTICK,
-  WINS,
-} from "@/lib/brief-data"
+import type { BriefData } from "@/lib/brief-data"
+import { getPrivatePage } from "@/lib/private-pages"
 import { GrowthChart } from "@/components/GrowthChart"
 
 /**
@@ -22,6 +15,9 @@ import { GrowthChart } from "@/components/GrowthChart"
  * Order is deliberate. The ask is last because an ask lands differently after
  * the proof than it does cold, and the money section sits directly above it so
  * the reader arrives at "founding partner" already holding the arithmetic.
+ *
+ * The content comes from the af_private_pages table (slug "brief"), not from
+ * this repo, which is public. No row, or no Supabase credentials, means 404.
  *
  * Gated because it carries client counts and a funding position. Fails CLOSED:
  * no token in the environment and every request 404s, so a misconfigured deploy
@@ -50,6 +46,10 @@ export default async function BriefPage({
   const { k } = await searchParams
   if (!expected || k !== expected) notFound()
 
+  const data = await getPrivatePage<BriefData>("brief")
+  if (!data) notFound()
+  const { WINS, LINKEDIN_GROWTH, UPTICK, MILESTONES, FOUNDING_DONOR, NEEDS, ENDOWMENT, NOTES } = data
+
   const multiple = (UPTICK.last30 / UPTICK.prior30).toFixed(1)
 
   return (
@@ -58,7 +58,7 @@ export default async function BriefPage({
       <header className="bg-surface-inverse">
         <div className="mx-auto max-w-5xl px-6 py-12 md:py-14">
           <p className="eyebrow text-text-on-dark-soft">
-            AI Foundry · BYU Marriott · Standing report, August 2026
+            {NOTES.eyebrow}
           </p>
           <h1 className="mt-5 max-w-[24ch] font-serif text-[1.9rem] font-semibold leading-[1.08] tracking-[-0.02em] text-text-on-inverse md:text-[2.7rem]">
             One year in, the Foundry is a working studio with paying clients.
@@ -92,14 +92,13 @@ export default async function BriefPage({
                 {UPTICK.last30} new followers in the last 30 days
               </strong>{" "}
               against {UPTICK.prior30} in the 30 before — {multiple}× the rate,
-              three months after launch, with nothing paid.
+              {NOTES.upticktail}
             </p>
             <div className="mt-6">
               <GrowthChart points={LINKEDIN_GROWTH} />
             </div>
             <p className="mt-3 text-[0.78rem] text-text-meta">
-              Cumulative followers by week, from the LinkedIn Analytics export
-              through 24 August. {UPTICK.today} as of today.
+              {NOTES.chartSource} {UPTICK.today} as of today.
             </p>
           </div>
 
@@ -173,9 +172,7 @@ export default async function BriefPage({
               </tbody>
             </table>
             <p className="mt-3 text-[0.78rem] leading-snug text-text-meta">
-              Seat pricing read from claude.com/pricing on 26 August. The
-              competition budgets are genuinely unscoped — a number invented here
-              would anchor every conversation that followed it.
+              {NOTES.pricingNote}
             </p>
           </div>
         </section>
@@ -197,11 +194,7 @@ export default async function BriefPage({
             </div>
           </div>
           <p className="mt-5 text-[0.78rem] leading-relaxed text-text-meta">
-            Cohort, client and project counts current as of 26 August, ahead of
-            the pipeline tracker. Network count read from our own database.
-            Follower series from the LinkedIn Analytics export. No gift amounts
-            appear on this page, per the standing rule on our donors page. Not
-            linked from the site and excluded from search indexing.
+            {NOTES.footer}
           </p>
         </section>
       </div>
