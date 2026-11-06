@@ -98,7 +98,7 @@ export default async function OpsPage({
           </div>
           <p className="mt-5 max-w-[44rem] text-base leading-relaxed text-text-primary opacity-75">
             Advisory board seats stopped being a paid product on 2026-08-03, which
-            removed roughly $33,000 of modelled 2026 revenue. Signed project work is
+            removed a material share of modelled 2026 revenue. Signed project work is
             now the only path to revenue.
           </p>
         </section>

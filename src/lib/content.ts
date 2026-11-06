@@ -201,7 +201,7 @@ export const BUILDERS_HEADLINE =
    The gallery that backs the proof band with artifacts. Same honesty rules
    as the employer list: these are products built by people on /about, stated
    as exactly that, no client claimed. When a client agrees to be named
-   (Breckenridge is the likely first), it joins the grid the same way.
+   (the first named client is likely), it joins the grid the same way.
 
    Order is alphabetical, and the landing band shows the first three. Nothing
    else about the sequence is meaningful, so a build that should be seen on
