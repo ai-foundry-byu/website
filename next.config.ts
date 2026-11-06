@@ -86,14 +86,30 @@ const nextConfig: NextConfig = {
      * public repo. Production fails the build when it is unset; elsewhere /app
      * is simply not forwarded.
      */
-    const cockpit = process.env.APP_ORIGIN
-    if (!cockpit) {
+    const rawCockpit = process.env.APP_ORIGIN
+    if (!rawCockpit) {
       if (process.env.VERCEL_ENV === "production") {
         throw new Error(
           "APP_ORIGIN is not set. It must be the https origin of a domain the Foundry owns, used to serve /app.",
         )
       }
       console.warn("APP_ORIGIN is not set: /app is not forwarded.")
+      return { beforeFiles: [], afterFiles: [], fallback: [] }
+    }
+    // Normalize to a bare https origin so a trailing slash or path cannot
+    // produce `//app` or inject a path into the rewrite destination.
+    let cockpit: string
+    try {
+      const parsed = new URL(rawCockpit)
+      if (parsed.protocol !== "https:") throw new Error("not https")
+      cockpit = parsed.origin
+    } catch {
+      if (process.env.VERCEL_ENV === "production") {
+        throw new Error(
+          "APP_ORIGIN is invalid. It must be a valid https URL; only its origin is used.",
+        )
+      }
+      console.warn("APP_ORIGIN is not a valid https URL: /app is not forwarded.")
       return { beforeFiles: [], afterFiles: [], fallback: [] }
     }
     return {

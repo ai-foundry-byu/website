@@ -114,9 +114,8 @@ export async function getRoadmapStats(): Promise<RoadmapStats> {
    *
    * The tier column is a pipeline stage, not a commitment: `advisory_t1`
    * holds prospects and warm leads alongside real board members. Counting
-   * the tier alone published eight advisory board members when three had
-   * confirmed, and it counted a person whose acceptance was later retracted
-   * as a fabricated meeting-note extraction.
+   * the tier alone overstates the board, and can count someone whose
+   * acceptance was never real or was later withdrawn.
    *
    * So the status column is the gate, and it is an allowlist rather than a
    * denylist on purpose. A status nobody has thought about yet must fail
