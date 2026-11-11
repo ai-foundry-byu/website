@@ -55,9 +55,11 @@ function Hero() {
           <h1
             className="hero af-hero-title"
             style={{
-              /* Same phone guard as before: "PRODUCTION-GRADE." must fit the
-                 line box at every width (0.105 px of font per px of line). */
-              fontSize: "min(clamp(44px, 5vw, 76px), calc((100vw - 48px) * 0.105))",
+              /* Each line is one unbroken phrase (white-space: nowrap), so the
+                 size is set by the copy column's own width through a container
+                 query: in Archivo Cast, "PRODUCTION-GRADE." measures about 14.3
+                 px of line per px of font, so 6.8cqi always fits it. */
+              fontSize: "min(60px, 6.8cqi)",
               textTransform: "uppercase",
               margin: "22px 0 0",
             }}

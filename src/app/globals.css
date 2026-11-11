@@ -143,7 +143,7 @@
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
 
   --w-cast: 125%;
-  --w-plate: 100%;
+  --w-plate: 112.5%; /* Runout: the kit's h2 width (was 100) */
   --w-rail: 62%;
 
   --size-hero: 64px;
@@ -915,6 +915,15 @@ html {
   border-bottom: 1px solid var(--af-rule-dark);
   view-transition-name: af-header;
 }
+/* The bar sits in normal flow above the hero, so at the top of the page
+   the glass would show Studio through it. The first 72px of the body are
+   painted Carbon, so the bar reads pure Carbon at rest and turns to glass
+   only once there is content scrolling under it. */
+body {
+  background:
+    linear-gradient(var(--af-carbon), var(--af-carbon)) top / 100% 72px no-repeat,
+    var(--surface-page);
+}
 .af-header .link-draw:hover {
   color: #fff !important;
 }
@@ -991,13 +1000,14 @@ html {
   max-width: var(--container);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   align-items: center;
   gap: 24px;
 }
 .af-hero-copy {
   position: relative;
   z-index: 2;
+  container-type: inline-size;
 }
 .af-hero-title {
   line-height: 1.02;
@@ -1005,6 +1015,7 @@ html {
 }
 .af-line {
   display: block;
+  white-space: nowrap;
 }
 .af-hero-ctas {
   display: flex;
@@ -1192,6 +1203,19 @@ html {
   }
   .af-hero-ctas {
     margin-top: 32px;
+  }
+  /* On a phone one-line phrases would shrink to 24px; big type that
+     breaks at its own hyphens reads stronger at this width. */
+  .af-line {
+    white-space: normal;
+  }
+  .af-hero-title {
+    font-size: 10cqi !important;
+  }
+  .af-hero-copy > span:first-child {
+    letter-spacing: 0.1em !important;
+    font-stretch: 112.5% !important;
+    font-size: 11px !important;
   }
 }
 

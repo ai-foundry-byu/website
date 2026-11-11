@@ -64,7 +64,8 @@ export function RunoutHeroMark() {
         <defs>
           <linearGradient id="af-hz" gradientUnits="userSpaceOnUse" x1="-1100" y1="0" x2="1612" y2="0">
             <stop offset="0" stopColor="#5E8BBA" stopOpacity="0" />
-            <stop offset="0.3" stopColor="#7FA6CC" stopOpacity="0.5" />
+            <stop offset="0.27" stopColor="#5E8BBA" stopOpacity="0" />
+            <stop offset="0.36" stopColor="#7FA6CC" stopOpacity="0.5" />
             <stop offset="0.43" stopColor="#FF6A13" />
             <stop offset="0.5" stopColor="#FFF4D6" />
             <stop offset="0.57" stopColor="#FF6A13" />
