@@ -1101,8 +1101,9 @@ html {
 }
 
 /* ── Proof strip on navy: closes the hero ─────────────────────
-   The builders' logos sit in the hero's own navy, knocked out to flat
-   white, so the lead surface ends in one composed band. */
+   The builders' logos sit in the hero's own navy, knocked out to light
+   grey (inverted, so a filled badge like Ford's oval keeps its script),
+   so the lead surface ends in one composed band. */
 .sx-proof {
   background: var(--navy);
   color: var(--af-light-blue);
@@ -1113,8 +1114,8 @@ html {
   padding: 18px 0;
 }
 .sx-proof .nc-logo {
-  filter: grayscale(1) brightness(0) invert(1) !important;
-  opacity: 0.72 !important;
+  filter: grayscale(1) invert(1) brightness(1.15) !important;
+  opacity: 0.7 !important;
 }
 .sx-proof .nc-pause {
   color: var(--af-light-blue) !important;
