@@ -1210,6 +1210,18 @@ html {
   }
 }
 
+/* Footer links on touch: 44 px rows, not 22 px text boxes. */
+@media (pointer: coarse) {
+  .sx-footer nav[aria-label="Footer"] {
+    row-gap: 0;
+  }
+  .sx-footer nav[aria-label="Footer"] a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 /* ── The heat button: a white-heat sheen crosses it on hover ─ */
 .sx-btn-heat {
   position: relative;
