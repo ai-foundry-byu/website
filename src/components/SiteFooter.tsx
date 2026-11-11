@@ -22,20 +22,18 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="sx-footer mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      {/* AF Stride demo: the horizon line opens the Carbon terminal, hot at
-          the centre and cooling to steel, the same line the mark rises through. */}
-      <div aria-hidden="true" className="sx-horizon-rule" />
       <div style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         {/* Top row: the Foundry's lockup, and opposite it who the Foundry
             belongs to (each sponsor's own logo, white on navy; a second
             sponsor joins the same row). */}
         <div className="flex flex-wrap items-end justify-between gap-8">
-          {/* The full horizontal lockup, digital finish for Carbon, at the
-              guide's 343 px minimum or wider (clear space is in the file). */}
+          {/* The full horizontal lockup, digital finish for navy (white,
+              Signal Orange arm), at the guide's 364 px minimum or wider
+              (clear space is in the file). */}
           <Image
             src="/brand/stride/lockup-horizontal-digital-dark.svg"
             alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={956}
+            width={1008}
             height={300}
             unoptimized
             style={{ width: "min(420px, 100%)", height: "auto", margin: "-22px 0 -22px -22px" }}

@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { HeroStride } from "@/components/HeroStride"
+import { HeroBuild } from "@/components/HeroBuild"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -38,16 +38,15 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* AF Stride demo (brand/stride-2026-11). The hero is the brand guide's
-   website spec: Carbon with one key light behind the mark, the label, one
-   Display line in the steel text gradient, the offerings line, ONE heat
-   button, three facts, and on the right the digital mark playing the rise
-   once (HeroStride). The old shader layer (HeroMotionLayer, three.js) is no
+/* AF Stride demo v2 (brand/stride-2026-11). The hero is the brand guide's
+   website spec, dark theme: flat BYU Navy, the label, one Display line in
+   flat white, the offerings line, ONE Signal Orange button, three facts,
+   and on the right the AF Stride mark built once on load by the builder
+   sequence (HeroBuild) over the soft lift and a faint 64-unit grid. The old shader layer (HeroMotionLayer, three.js) is no
    longer imported, so the landing page ships lighter. */
 function Hero() {
   return (
     <section className="sx-hero" data-ground="navy">
-      <div className="sx-hero-bg" aria-hidden="true" />
       <div className="sx-hero-grid">
         <div className="sx-hero-copy">
           {/* Two lines, broken where the sentence turns, as the guide's hero sets it. */}
@@ -73,7 +72,7 @@ function Hero() {
             <Button variant="primary" size="lg" href={NAV_CTA.href}>
               {NAV_CTA.label}
             </Button>
-            <Button variant="steel" size="lg" href="/network">
+            <Button variant="outline" size="lg" href="/network">
               Join the network
             </Button>
           </div>
@@ -86,7 +85,9 @@ function Hero() {
             ))}
           </dl>
         </div>
-        <HeroStride />
+        <div className="sx-mark">
+          <HeroBuild theme="dark" />
+        </div>
       </div>
     </section>
   )
@@ -186,8 +187,7 @@ function QuoteBand() {
   return (
     <section
       data-ground="navy"
-      className="sx-band"
-      style={{ background: "var(--surface-inverse)", padding: "88px 24px 80px", borderBottom: "1px solid rgba(255,255,255,.08)" }}
+      style={{ background: "var(--surface-inverse)", padding: "88px 24px 80px", borderBottom: "1px solid rgba(189,214,230,.16)" }}
     >
       <Reveal
         style={{
@@ -201,16 +201,14 @@ function QuoteBand() {
         }}
       >
         <h2
-          className="sx-steel-text"
           style={{
             fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontStretch: "125%",
-            textTransform: "uppercase",
-            letterSpacing: "0.01em",
-            fontSize: "clamp(28px, 4vw, 44px)",
-            lineHeight: 1.08,
+            fontWeight: 600,
+            fontStretch: "var(--w-plate)",
+            fontSize: "clamp(28px, 3.4vw, 40px)",
+            lineHeight: 1.12,
             margin: 0,
+            color: "#fff",
           }}
         >
           {QUOTE_HEADLINE}
@@ -229,8 +227,8 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
-        {/* The proof strip closes the Carbon hero instead of opening the
-            Studio page: one dark lead surface, then the document. */}
+        {/* The proof strip closes the navy hero instead of opening the
+            white page: one navy lead surface, then the document. */}
         <div className="sx-proof" data-ground="navy">
           <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} tone="on-dark" />
         </div>

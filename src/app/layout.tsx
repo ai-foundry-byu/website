@@ -42,8 +42,8 @@ const TITLE = "AI Foundry | BYU Marriott School of Business";
 const DESCRIPTION =
   "An AI-native product studio and consultancy, and an experiential learning program of the BYU Marriott School of Business. Students scope real projects and ship production systems for real clients.";
 
-/** Carbon browser chrome on phones, matching the header (AF Stride demo). */
-export const viewport: Viewport = { themeColor: "#07090C" }
+/** BYU Navy browser chrome on phones, matching the header (AF Stride demo v2). */
+export const viewport: Viewport = { themeColor: "#002E5D" }
 
 export const metadata: Metadata = {
   // byu-aifoundry.com currently serves a second live copy of this site from
@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // AF Stride demo (brand/stride-2026-11): the kit's hand-drawn one-colour
-  // favicons (navy for light browser chrome, white for dark), the app icon
-  // for iOS, and src/app/favicon.ico (16/32/48) for everything older.
+  // AF Stride demo v2 (brand/stride-2026-11): the kit's hand-drawn one-colour
+  // favicons of the round 8 master (navy for light browser chrome, white for
+  // dark), the navy app icon for iOS, and src/app/favicon.ico for the rest.
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },

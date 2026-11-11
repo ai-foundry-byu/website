@@ -27,36 +27,37 @@
        are retired. */
   --navy: #002e5d; /* PMS 648C */
   --white: #ffffff;
-  /* AF Stride, Heat and steel (brand/stride-2026-11 demo). "Royal" keeps its
-     name so every existing page re-skins without a rebuild, but it now holds
-     Blued Steel #1F4E7E: 7.45:1 on Studio, 8.57:1 on white. */
-  --royal: #1f4e7e;
-  --slate: #56606c; /* Slate: 5.56:1 on Studio */
+  /* AF Stride demo, system v2 (brand/stride-2026-11): BYU Navy and one
+     orange, flat. Royal keeps its name so every existing page re-skins
+     without a rebuild; it now holds BYU Blue #0072CE, the kit's UI blue on
+     light grounds (4.89:1 on white: links, focus, labels). It never sits
+     on navy (2.78:1). */
+  --royal: #0072ce;
+  --slate: #7c878e; /* PMS 430C */
 
-  /* The Heat and steel palette, verbatim from the kit's color/tokens.css. */
-  --af-carbon: #07090c;
-  --af-graphite: #121821;
-  --af-studio: #f1efea;
-  --af-deep-steel: #021a33;
-  --af-blued-steel: #1f4e7e;
-  --af-brushed-steel: #5a87b4;
-  --af-spot-steel: #8db0d3;
-  --af-polish: #b4cde6;
-  --af-specular: #e4eef7;
-  --af-white-heat: #fff4d6;
-  --af-amber: #ffb23e;
-  --af-forge: #ff6a13;
-  --af-ember: #c9380c;
-  --af-fog: #8e9baa;
-  --af-heat-cta: linear-gradient(180deg, #ff9a3c 0%, #ff6a13 55%, #e8530d 100%);
-  --af-heat-cta-glow: 0 0 0 1px rgba(255, 180, 90, 0.35) inset, 0 10px 36px -8px rgba(255, 106, 19, 0.55);
-  --af-heat-cta-glow-hover: 0 0 0 1px rgba(255, 210, 140, 0.5) inset, 0 14px 44px -6px rgba(255, 106, 19, 0.75);
-  --af-heat-text: linear-gradient(90deg, #ffe3a6 0%, #ff8a1f 38%, #f2560f 100%);
-  --af-steel-text: linear-gradient(176deg, #ffffff 0%, #e3ecf5 46%, #9fb9d4 100%);
-  --af-horizon-line: linear-gradient(90deg, rgba(94, 139, 186, 0) 0%, rgba(127, 166, 204, 0.55) 22%, #ff6a13 42%, #fff4d6 50%, #ff6a13 60%, rgba(127, 166, 204, 0.45) 80%, rgba(94, 139, 186, 0) 100%);
-  --af-ease-rise: cubic-bezier(0.16, 1, 0.3, 1);
-  --af-ease-cast: cubic-bezier(0.22, 1, 0.36, 1);
-  --af-ease-set: cubic-bezier(0.65, 0, 0.35, 1);
+  /* The v2 palette, verbatim from the kit's color/tokens.css. No metal,
+     no gradients on type or the mark; one soft lift behind the hero mark. */
+  --af-navy: #002e5d;
+  --af-orange: #fc4c02; /* Signal Orange: the accent on navy */
+  --af-orange-deep: #d14124; /* BYU Orange: the accent on white */
+  --af-blue: #0072ce;
+  --af-light-blue: #bdd6e6;
+  --af-navy-raised: #0b3b6c;
+  --af-night: #001a36;
+  --af-ink: #0b1b2b;
+  --af-graphite: #4a5663;
+  --af-mist: #dde4eb;
+  --af-paper: #f4f6f9;
+  --af-ground-lift: radial-gradient(70% 60% at 50% 38%, #06396b 0%, #002e5d 70%);
+  /* motion: the builder (kit motion/MOTION.md) */
+  --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1);
+  --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1);
+  --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1);
+  /* The one call to action: BYU Orange with white ink on light grounds,
+     Signal Orange with Ink on navy ([data-ground="navy"] swaps them). */
+  --cta-bg: var(--af-orange-deep);
+  --cta-bg-hover: #b8381e;
+  --cta-ink: var(--white);
 
   /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
      One navy, frozen into a fixed ramp. Refactoring UI's rule:
@@ -84,30 +85,30 @@
        royal on navy          1.43:1 |   0.0   NEVER — APCA scores it zero */
 
   /* text inks (true alpha) */
-  --text-primary: var(--af-deep-steel); /* Deep Steel body on Studio, 15.25:1 */
-  --text-meta: var(--slate); /* Slate, 5.56:1 on Studio */
+  --text-primary: var(--navy);
+  --text-meta: var(--af-graphite); /* Graphite on white, 7.49:1 */
 
   /* on-dark text (baked solids) */
   --text-on-dark: var(--white); /* headings, buttons, short labels only */
-  --text-on-dark-body: var(--af-specular); /* Specular on Carbon, 16.97:1 */
-  --text-on-dark-soft: var(--af-fog); /* Fog on Carbon, 7.04:1 */
+  --text-on-dark-body: var(--af-mist); /* Mist on navy, 11.0:1 */
+  --text-on-dark-soft: var(--af-light-blue); /* BYU Light Blue on navy, 8.99:1 */
 
   /* surfaces (baked solids) */
-  --surface-page: var(--af-studio); /* Studio: the document surface */
-  --surface-inverse: var(--af-carbon); /* Carbon: the lead surface */
+  --surface-page: var(--white);
+  --surface-inverse: var(--navy); /* BYU Navy: the lead surface, flat */
   /* navy/4 = color-mix(in srgb, navy 4%, white). Defined so the value is
      frozen, but NOT YET USED as a section ground — that amendment to
      "all-white subpages" is a Tier 3 team vote. House rule for any
      future derived opaque value: color-mix must specify `in srgb`
      (the default oklab space shifts flat tints off their approved hex). */
-  --surface-recessed: #e9e6df;
+  --surface-recessed: var(--af-paper);
 
   /* accent + fills */
   --accent: var(--royal);
   --accent-ink: var(--white);
   /* royal/8 — the ultra-light accent fill for selected states and the
      bordered error block (Refactoring UI's tinted-alert move). */
-  --fill-selected: rgba(0, 61, 165, 0.08);
+  --fill-selected: rgba(0, 114, 206, 0.08);
   /* Royal's states stay the two-step ladder the site ships: royal at
      rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
      a new hue). If the jump ever feels abrupt, the sanctioned mid-step
@@ -171,7 +172,7 @@
   --container-pad: 24px;
   --measure: 66ch; /* body measure: 60-75 characters */
 
-  --radius: 8px; /* AF Stride demo: 8px boxes beside pill buttons */
+  --radius: 4px; /* AF Stride v2: square, engineered corners (buttons 2px) */
   --shadow: none; /* elevation is drawn with hairlines, never shadows */
 
   --dur-fast: 150ms;
@@ -185,10 +186,10 @@
      the new accent without being rebuilt. Migrate to the
      semantic names above when touching them. */
   --byu-navy: var(--navy);
-  --byu-navy-deep: var(--af-carbon); /* pressed / deepest surface */
-  --byu-navy-soft: var(--af-graphite); /* raised surface on Carbon */
+  --byu-navy-deep: var(--af-night); /* pressed / deepest surface */
+  --byu-navy-soft: var(--af-navy-raised); /* raised surface on navy */
   --byu-white: var(--white);
-  --byu-off-white: #e9e6df; /* alternating surface on Studio */
+  --byu-off-white: var(--af-paper); /* alternating surface on white */
   --byu-royal: var(--royal);
   --byu-slate-gray: var(--slate);
 
@@ -210,7 +211,7 @@
 
   --iron: var(--navy);
   --iron-soft: var(--byu-navy-soft);
-  --paper: var(--af-studio);
+  --paper: var(--white);
   --paper-dim: var(--byu-off-white);
   --navy-deep: var(--byu-navy-deep);
   --ember: var(--royal); /* retired name, royal value */
@@ -498,6 +499,9 @@ html {
 
 [data-ground="navy"] {
   --focus-ring: var(--white);
+  --cta-bg: var(--af-orange);
+  --cta-bg-hover: #ff6a2b;
+  --cta-ink: var(--af-ink);
 }
 
 /* ── Link draw + arrow nudge (motion plan #2) ──────────────
@@ -584,15 +588,15 @@ html {
 }
 
 ::selection {
-  background: var(--af-polish);
-  color: var(--af-deep-steel);
+  background: var(--af-blue);
+  color: var(--white);
 }
 
-/* On Carbon, selection is the heat: Carbon on Forge is 6.95:1. */
+/* On navy, selection is Signal Orange with Ink: 5.12:1. */
 [data-ground="navy"] ::selection,
 [data-ground="navy"]::selection {
-  background: var(--af-forge);
-  color: var(--af-carbon);
+  background: var(--af-orange);
+  color: var(--af-ink);
 }
 
 /* ── Hero motion layer ──────────────────────────────────────
@@ -804,24 +808,11 @@ html {
 .surface-paper-dim {
   background-color: var(--paper-dim);
 }
-/* AF Stride demo: the legacy iron bands (the /network hero) become Carbon
-   with one key light from above and the horizon line along their foot. */
+/* AF Stride v2: the legacy iron bands (the /network hero) are flat BYU
+   Navy. No key light, no line: the lift lives behind the hero mark only. */
 .surface-iron,
 .surface-iron-deep {
-  position: relative;
-  background-color: var(--af-carbon);
-  background-image: radial-gradient(55% 120% at 50% 0%, rgba(29, 58, 94, 0.9) 0%, rgba(19, 40, 65, 0.4) 50%, rgba(7, 9, 12, 0) 85%);
-}
-.surface-iron::after,
-.surface-iron-deep::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--af-horizon-line);
-  box-shadow: 0 0 22px 1px rgba(255, 106, 19, 0.25);
+  background-color: var(--navy);
 }
 
 .ember-bar {
@@ -899,24 +890,24 @@ html {
   }
 }
 
-/* ═══ AF STRIDE: HEAT AND STEEL (demo branch brand/stride-2026-11) ═══════
-   Source: design-team/clients/ai-foundry/final-2026-11-11/stride/kit and its
-   brand guide (sections 5, 6, 7 and 9, Website). Carbon is the lead
-   surface (header, hero, CTA band, footer); Studio is the document surface
-   for everything in between. Orange is heat, about 1% of any surface: the
-   cut of the mark, the horizon line, one primary button.
+
+/* ═══ AF STRIDE v2: BYU NAVY AND ONE ORANGE (demo branch brand/stride-2026-11)
+   Source: design-team/clients/ai-foundry/final-v2-2026-11-11/stride/kit and
+   its brand guide (sections 5, 6, 7 and 9, Website). BYU Navy, flat, is the
+   lead surface (header, hero, proof strip, CTA band); white is the document
+   surface; Night closes the page in the footer. One orange per surface: the
+   mark's middle arm and the one call to action. No metal, no glow, no
+   gradient on type. The only tonal lift sits behind the hero mark.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* ── Header: Carbon glass ─────────────────────────────────── */
+/* ── Header: flat navy ────────────────────────────────────── */
 .sx-header {
-  --nav-ink: var(--af-specular);
-  --nav-rule: rgba(169, 197, 224, 0.16);
-  --nav-panel: rgba(18, 24, 33, 0.98);
-  --fill-selected: rgba(141, 176, 211, 0.12);
-  background: rgba(7, 9, 12, 0.97);
-  -webkit-backdrop-filter: saturate(150%) blur(16px);
-  backdrop-filter: saturate(150%) blur(16px);
-  border-bottom: 1px solid rgba(169, 197, 224, 0.1);
+  --nav-ink: var(--white);
+  --nav-rule: rgba(189, 214, 230, 0.18);
+  --nav-panel: var(--af-navy-raised);
+  --fill-selected: rgba(189, 214, 230, 0.12);
+  background: var(--navy);
+  border-bottom: 1px solid rgba(189, 214, 230, 0.16);
   view-transition-name: af-header;
 }
 
@@ -925,56 +916,36 @@ html {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: var(--af-carbon);
-  color: var(--af-specular);
-  padding: 64px 24px 72px;
-}
-.sx-hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(38% 58% at 76% 38%, rgba(29, 58, 94, 0.95) 0%, rgba(19, 40, 65, 0.55) 42%, rgba(7, 9, 12, 0) 82%),
-    radial-gradient(34% 26% at 76% 64%, rgba(255, 106, 19, 0.08) 0%, rgba(7, 9, 12, 0) 72%),
-    radial-gradient(70% 50% at 0% 100%, rgba(18, 24, 33, 0.9) 0%, rgba(7, 9, 12, 0) 70%),
-    var(--af-carbon);
-}
-/* Film grain: keeps the key light from banding on 8-bit panels. */
-.sx-hero-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.07;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background: var(--navy);
+  color: var(--white);
+  padding: 72px 24px 80px;
 }
 .sx-hero-grid {
   position: relative;
   max-width: var(--container);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: 40px;
   align-items: center;
 }
 .sx-hero-copy {
   position: relative;
   z-index: 2;
   min-width: 0;
-  max-width: 860px;
-  padding: 24px 0 8px;
-}
-.sx-display,
-.sx-steel-text {
-  background: var(--af-steel-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  padding: 16px 0 8px;
+  container-type: inline-size;
 }
 .sx-display {
   margin: 22px 0 0;
-  font-size: min(clamp(34px, 3.9vw, 58px), calc((100vw - 48px) / 14.6));
+  color: var(--white);
+  font-weight: 700;
+  font-stretch: 125%;
+  /* "PRODUCTION-GRADE." measures 14.25 px of line per px of type at
+     Archivo 125/700; the column (100cqi) caps the size by that. */
+  font-size: clamp(30px, calc(100cqi / 14.5), 58px);
   line-height: 1.04;
-  letter-spacing: 0.005em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 .sx-line {
@@ -986,7 +957,7 @@ html {
   max-width: 50ch;
   font-size: 19px;
   line-height: 30px;
-  color: rgba(228, 238, 247, 0.8);
+  color: var(--af-light-blue);
 }
 .sx-facts {
   display: flex;
@@ -994,7 +965,7 @@ html {
   gap: 20px 48px;
   margin: 44px 0 0;
   padding-top: 24px;
-  border-top: 1px solid rgba(169, 197, 224, 0.14);
+  border-top: 1px solid rgba(189, 214, 230, 0.2);
   max-width: 600px;
 }
 .sx-facts dt {
@@ -1003,121 +974,74 @@ html {
   font-weight: 700;
   font-size: 26px;
   line-height: 1.1;
-  color: var(--af-specular);
+  color: var(--white);
   font-variant-numeric: tabular-nums;
 }
 .sx-facts dd {
   margin: 6px 0 0;
   font-size: 14px;
   line-height: 22px;
-  color: var(--af-fog);
+  color: var(--af-light-blue);
 }
 
-/* The mark: rise.svg in a square box, the horizon through its cut. */
+/* The mark: HeroBuild (the builder sequence) in a square box. Behind it,
+   the one soft lift (Navy Raised into BYU Navy) and a very faint 64-unit
+   grid on the mark's own module: the site plan the build leaves behind. */
 .sx-mark {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  right: -7%;
-  width: min(700px, 50vw);
-  aspect-ratio: 1;
-  transform: translateY(-50%);
-}
-.sx-mark picture,
-.sx-mark-img {
-  display: block;
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  max-width: 580px;
+  aspect-ratio: 1;
+  justify-self: end;
 }
-.sx-horizon {
+.sx-mark::before,
+.sx-mark::after {
+  content: "";
   position: absolute;
-  top: 0;
-  left: -200%;
-  width: 500%;
-  height: 100%;
-  z-index: 0;
-  overflow: visible;
+  inset: -25%;
+  z-index: -1;
   pointer-events: none;
 }
-.sx-horizon path {
-  fill: none;
-  stroke: url(#sxh-grad);
-  stroke-linecap: round;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 0;
+.sx-mark::before {
+  background: radial-gradient(closest-side, #06396b 0%, rgba(0, 46, 93, 0) 100%);
 }
-.sx-horizon-core path {
-  stroke-width: 1.4;
+.sx-mark::after {
+  background-image:
+    linear-gradient(to right, rgba(189, 214, 230, 0.075) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(189, 214, 230, 0.075) 1px, transparent 1px);
+  background-size: calc(100% / 12) calc(100% / 12);
+  -webkit-mask: radial-gradient(closest-side, #000 45%, transparent 100%);
+  mask: radial-gradient(closest-side, #000 45%, transparent 100%);
 }
-.sx-horizon-glow {
-  opacity: 0.6;
-}
-.sx-horizon-glow path {
-  stroke-width: 6;
-}
-/* The specular sweep, masked to the outline of record. */
-.sx-sheen {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  -webkit-mask: url("/brand/stride/mark-mask.svg") center / 100% 100% no-repeat;
-  mask: url("/brand/stride/mark-mask.svg") center / 100% 100% no-repeat;
-  background: linear-gradient(112deg, rgba(255, 255, 255, 0) 42%, rgba(228, 238, 247, 0.14) 46.5%, rgba(255, 255, 255, 0.7) 50%, rgba(228, 238, 247, 0.14) 53.5%, rgba(255, 255, 255, 0) 58%);
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  mix-blend-mode: screen;
+.sx-mark .af-build {
+  --af-mark-ink: var(--white);
+  --af-mark-accent: var(--af-orange);
+  --af-construction: var(--af-light-blue);
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
+/* The copy sets in on the build's draw easing: a 16 px lift and a fade. */
 @media (prefers-reduced-motion: no-preference) {
-  /* Horizon beat: the line runs out from the centre, then stays. */
-  .sx-horizon path {
-    animation: sx-draw 1.15s var(--af-ease-rise) 0.05s both;
-  }
-  .sx-horizon-glow path {
-    animation-delay: 0.12s;
-  }
-  /* The copy settles in on the rise's easing, in reading order. */
   .sx-hero-copy > * {
-    animation: sx-in 0.9s var(--af-ease-rise) both;
+    animation: sx-in 0.5s var(--af-ease-draw) both;
   }
-  .sx-hero-copy > :nth-child(1) { animation-delay: 0.1s; }
-  .sx-hero-copy > :nth-child(2) { animation-delay: 0.2s; }
-  .sx-hero-copy > :nth-child(3) { animation-delay: 0.32s; }
-  .sx-hero-copy > :nth-child(4) { animation-delay: 0.44s; }
-  .sx-hero-copy > :nth-child(5) { animation-delay: 0.56s; }
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .sx-mark:hover .sx-sheen {
-    animation: sx-sheen 1.5s var(--af-ease-cast) both;
-  }
-}
-@keyframes sx-draw {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
+  .sx-hero-copy > :nth-child(1) { animation-delay: 0.05s; }
+  .sx-hero-copy > :nth-child(2) { animation-delay: 0.12s; }
+  .sx-hero-copy > :nth-child(3) { animation-delay: 0.19s; }
+  .sx-hero-copy > :nth-child(4) { animation-delay: 0.26s; }
+  .sx-hero-copy > :nth-child(5) { animation-delay: 0.33s; }
 }
 @keyframes sx-in {
-  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
-}
-@keyframes sx-sheen {
-  0% { opacity: 0; background-position: 100% 0; }
-  14% { opacity: 1; }
-  86% { opacity: 1; }
-  100% { opacity: 0; background-position: 0% 0; }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 900px) {
   .sx-hero {
-    padding: 8px 20px 64px;
-  }
-  .sx-hero-bg {
-    background:
-      radial-gradient(90% 34% at 50% 17%, rgba(29, 58, 94, 0.95) 0%, rgba(19, 40, 65, 0.5) 45%, rgba(7, 9, 12, 0) 85%),
-      var(--af-carbon);
+    padding: 16px 20px 64px;
   }
   /* The two-line label runs as one paragraph on phones: three lines,
      not four. */
@@ -1135,22 +1059,18 @@ html {
     gap: 0;
   }
   /* Phone: the mark leads but stays small enough that the headline and
-     the heat button land in the first viewport (390 x 844). */
+     the button land in the first viewport (390 x 844). */
   .sx-mark {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
     order: -1;
-    width: min(264px, 64vw);
+    width: min(256px, 62vw);
     justify-self: center;
-    margin: 0 0 -20px;
+    margin: 0 0 4px;
   }
   .sx-hero-copy {
     padding-top: 0;
   }
   .sx-display {
-    font-size: min(52px, calc((100vw - 40px) / 10.8));
+    font-size: min(40px, calc((100vw - 40px) / 10.8));
   }
   .sx-line {
     white-space: normal;
@@ -1180,25 +1100,25 @@ html {
   }
 }
 
-/* ── Proof strip on Carbon: closes the hero ───────────────────
-   The builders' logos sit in the hero's own dark, knocked out to light
-   steel, so the lead surface ends in one composed band. */
+/* ── Proof strip on navy: closes the hero ─────────────────────
+   The builders' logos sit in the hero's own navy, knocked out to flat
+   white, so the lead surface ends in one composed band. */
 .sx-proof {
-  background: var(--af-carbon);
-  color: var(--af-fog);
+  background: var(--navy);
+  color: var(--af-light-blue);
 }
 .sx-proof .nc-strip {
-  border-top: 1px solid rgba(169, 197, 224, 0.12);
-  border-bottom: 1px solid rgba(169, 197, 224, 0.12);
+  border-top: 1px solid rgba(189, 214, 230, 0.16);
+  border-bottom: 1px solid rgba(189, 214, 230, 0.16);
   padding: 18px 0;
 }
 .sx-proof .nc-logo {
-  filter: grayscale(1) invert(1) brightness(1.15) !important;
-  opacity: 0.62 !important;
+  filter: grayscale(1) brightness(0) invert(1) !important;
+  opacity: 0.72 !important;
 }
 .sx-proof .nc-pause {
-  color: var(--af-fog) !important;
-  border-color: rgba(169, 197, 224, 0.28) !important;
+  color: var(--af-light-blue) !important;
+  border-color: rgba(189, 214, 230, 0.36) !important;
 }
 .nc-pause {
   min-height: 28px;
@@ -1222,78 +1142,23 @@ html {
   }
 }
 
-/* ── The heat button: a white-heat sheen crosses it on hover ─ */
-.sx-btn-heat {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-.sx-btn-heat::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(110deg, rgba(255, 244, 214, 0) 30%, rgba(255, 244, 214, 0.7) 50%, rgba(255, 244, 214, 0) 70%);
-  transform: translateX(-130%);
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .sx-btn-heat:hover::before {
-    transform: translateX(130%);
-    transition: transform 0.8s var(--af-ease-rise);
-  }
-}
-
-/* ── Horizon rule: opens every Carbon band ─────────────────── */
-.sx-horizon-rule {
-  position: relative;
-  height: 1px;
-  background: var(--af-horizon-line);
-}
-.sx-horizon-rule::after {
-  content: "";
-  position: absolute;
-  left: 25%;
-  right: 25%;
-  top: -3px;
-  height: 7px;
-  background: var(--af-horizon-line);
-  filter: blur(6px);
-  opacity: 0.7;
-}
-.sx-band {
-  position: relative;
-  overflow: hidden;
-  background-image:
-    radial-gradient(46% 90% at 50% 0%, rgba(29, 58, 94, 0.75) 0%, rgba(19, 40, 65, 0.3) 50%, rgba(7, 9, 12, 0) 80%) !important;
-}
-.sx-band::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--af-horizon-line);
-  box-shadow: 0 0 22px 1px rgba(255, 106, 19, 0.25);
-}
-
 /* ── Scroll-driven reveal ─────────────────────────────────────
-   Sections rise 24px out of a soft blur on the rise's easing, driven by
-   scroll position (animation-timeline: view()), no JavaScript. Without
-   scroll timelines, or with reduced motion, content simply sits in place. */
+   Sections enter on the build's draw easing: a 16 px lift and a fade,
+   driven by scroll position (animation-timeline: view()), no JavaScript.
+   Without scroll timelines, or with reduced motion, content simply sits
+   in place. Rules (sd-draw) draw in like construction lines. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .sd-reveal {
       animation: sd-rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 260px;
+      animation-range: entry 0% entry 220px;
     }
     .sd-stagger > .sd-reveal:nth-child(3n + 2) {
-      animation-range: entry 40px entry 300px;
+      animation-range: entry 32px entry 252px;
     }
     .sd-stagger > .sd-reveal:nth-child(3n + 3) {
-      animation-range: entry 80px entry 340px;
+      animation-range: entry 64px entry 284px;
     }
     .sd-draw {
       animation: sd-draw linear both;
@@ -1305,14 +1170,12 @@ html {
 @keyframes sd-rise {
   from {
     opacity: 0;
-    transform: translateY(24px);
-    filter: blur(5px);
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(16px);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 @keyframes sd-draw {
@@ -1322,28 +1185,28 @@ html {
 
 /* ── Route transitions (View Transitions API) ─────────────────
    CurtainRoute.tsx wraps internal navigation in startViewTransition. The
-   old page settles back and dims; the new page rises up from the bottom
-   edge behind a hot horizon line (.vt-horizon, present only in the new
-   snapshot). The header (af-header) holds still above both. */
+   old page steps back and fades; the new page is set in from the bottom
+   edge on the crane easing behind one flat orange level line (.vt-horizon,
+   present only in the new snapshot). The header (af-header) holds still. */
 ::view-transition-old(root) {
-  animation: vt-old 0.8s var(--af-ease-rise) both;
+  animation: vt-old 0.36s var(--af-ease-draw) both;
 }
 ::view-transition-new(root) {
-  animation: vt-new 0.8s var(--af-ease-rise) both;
+  animation: vt-new 0.62s var(--af-ease-travel) both;
 }
 ::view-transition-old(af-horizon) {
   display: none;
 }
 ::view-transition-new(af-horizon) {
-  animation: vt-line 0.8s var(--af-ease-rise) both;
+  animation: vt-line 0.62s var(--af-ease-travel) both;
 }
 ::view-transition-group(af-header) {
   animation-duration: 0s;
 }
 @keyframes vt-old {
   to {
-    transform: scale(0.965) translateY(-2%);
-    filter: brightness(0.35) blur(3px);
+    opacity: 0;
+    transform: translateY(-12px);
   }
 }
 @keyframes vt-new {
@@ -1352,7 +1215,7 @@ html {
 }
 @keyframes vt-line {
   0% { transform: translateY(100vh); opacity: 1; }
-  78% { opacity: 1; }
+  86% { opacity: 1; }
   100% { transform: translateY(0); opacity: 0; }
 }
 .vt-horizon {
@@ -1363,8 +1226,7 @@ html {
   height: 2px;
   z-index: 200;
   pointer-events: none;
-  background: var(--af-horizon-line);
-  box-shadow: 0 0 26px 3px rgba(255, 106, 19, 0.5);
+  background: var(--af-orange-deep);
   view-transition-name: af-horizon;
 }
 @media (prefers-reduced-motion: reduce) {

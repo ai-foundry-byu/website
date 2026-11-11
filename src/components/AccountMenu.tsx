@@ -69,7 +69,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
   const avatar = (
     <span
       aria-hidden="true"
-      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-blued-steel)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
+      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-navy-raised)", boxShadow: "inset 0 0 0 1px rgba(189,214,230,.35)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
     >
       {me.initials}
     </span>
@@ -98,9 +98,9 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
         </svg>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "var(--nav-panel, #fff)", border: "1px solid var(--nav-rule, var(--border-hairline))", borderRadius: "12px", boxShadow: "0 18px 40px rgba(0,0,0,.35)" }}>
+        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "var(--nav-panel, #fff)", border: "1px solid var(--nav-rule, var(--border-hairline))", borderRadius: "12px", boxShadow: "0 12px 32px rgba(0,26,54,.4)" }}>
           {me.email && (
-            <div className="px-4 pb-2.5 pt-2" style={{ fontSize: 12.5, color: "var(--af-fog)", borderBottom: "1px solid var(--nav-rule, var(--border-hairline))" }}>
+            <div className="px-4 pb-2.5 pt-2" style={{ fontSize: 12.5, color: "var(--af-light-blue)", borderBottom: "1px solid var(--nav-rule, var(--border-hairline))" }}>
               Signed in as {me.email}
             </div>
           )}

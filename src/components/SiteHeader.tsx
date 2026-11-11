@@ -6,10 +6,10 @@ import { Button } from "@/components/ds/Button"
 import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * AF Stride demo (brand/stride-2026-11): a Carbon glass bar on every page,
- * the one-colour name lockup at 40 px mark height (the shaded mark is never
- * used under 48 px), Specular labels, and a steel outline pill for the CTA so
- * the page's one orange button stays in the hero. The bar carries
+ * AF Stride demo v2 (brand/stride-2026-11): a flat BYU Navy bar on every
+ * page, the name-only digital lockup (white, Signal Orange arm) at 40 px mark
+ * height, white labels, and a white outline button for the CTA so the page's
+ * one orange button stays in the hero. The bar carries
  * view-transition-name: af-header (.sx-header) so it holds still while
  * routes change beneath it.
  *
@@ -37,9 +37,9 @@ export function SiteHeader() {
       >
         <CurtainNavLink href="/" className="flex items-center no-underline">
           <Image
-            src="/brand/stride/lockup-name-dark.svg"
+            src="/brand/stride/lockup-name-digital-dark.svg"
             alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={956}
+            width={1008}
             height={300}
             priority
             unoptimized
@@ -64,7 +64,7 @@ export function SiteHeader() {
           {/* The door into the app, set off from the site's own pages by a hairline. */}
           <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--nav-rule)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          <Button variant="steel" href={NAV_CTA.href}>
+          <Button variant="outline" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
         </nav>
@@ -101,7 +101,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-fog)" }}
+                style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-light-blue)" }}
               >
                 {NAV_ABOUT.label}
               </li>
