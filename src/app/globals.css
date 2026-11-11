@@ -214,9 +214,9 @@
   --border-on-inverse: var(--af-rule-dark);
   --border-accent: var(--royal);
 
-  --iron: var(--navy);
+  --iron: var(--af-carbon); /* Runout: legacy dark bands are Carbon */
   --iron-soft: var(--byu-navy-soft);
-  --paper: var(--white);
+  --paper: var(--af-studio); /* Runout: legacy paper is Studio */
   --paper-dim: var(--byu-off-white);
   --navy-deep: var(--byu-navy-deep);
   --ember: var(--royal); /* retired name, royal value */
@@ -811,14 +811,27 @@ html {
 }
 .surface-iron {
   background-color: var(--iron);
+  /* Runout: one key light from above the centre line, a horizon at the foot. */
+  background-image:
+    linear-gradient(90deg, rgba(94,139,186,0) 0%, rgba(127,166,204,.45) 25%, #ff6a13 42%, #fff4d6 50%, #ff6a13 58%, rgba(127,166,204,.4) 75%, rgba(94,139,186,0) 100%),
+    radial-gradient(70% 120% at 50% -10%, rgba(31, 66, 108, 0.85) 0%, rgba(7, 9, 12, 0) 70%);
+  background-size: 100% 1px, 100% 100%;
+  background-position: bottom, center;
+  background-repeat: no-repeat;
+}
+.surface-iron h1 {
+  background: var(--af-steel-type);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .surface-iron-deep {
   background-color: var(--iron);
   background-image: radial-gradient(
     120% 90% at 28% 0%,
-    #004380 0%,
-    #002e5d 52%,
-    #001a35 100%
+    #1f426c 0%,
+    #0d1a2a 52%,
+    #07090c 100%
   );
 }
 
@@ -1244,7 +1257,10 @@ body {
     .af-horizon-rule {
       animation: af-rule-draw linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 35%;
+      /* The rule is 1px tall, so its cover range is the viewport: it draws
+         over the first fifth of the screen it travels, which a footer at
+         the very end of the page still reaches. */
+      animation-range: cover 0% cover 20%;
     }
   }
 }

@@ -44,7 +44,7 @@ export function SiteHeader() {
             height={300}
             priority
             unoptimized
-            className="af-header-lockup h-11 w-auto md:h-[52px]"
+            className="af-header-lockup h-12 w-auto md:h-14"
             style={{ margin: "0 -8px" }}
           />
         </CurtainNavLink>
