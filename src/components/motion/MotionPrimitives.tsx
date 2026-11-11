@@ -17,7 +17,14 @@ import { motion, MotionConfig, type Variants } from "motion/react"
  * always appears.
  */
 export const STAMP: [number, number, number, number] = [0.2, 0.9, 0.3, 1]
-const TWEEN = { duration: 0.3, ease: STAMP } as const
+/* Runout retheme: sections rise on the kit's rise easing (--af-ease-rise),
+   slower and softer than the old 300ms stamp, and arrive out of a light
+   blur, the way the mark itself clears the horizon. Reduced motion still
+   strips the transform (MotionRoot); the fade and the unblur remain. */
+export const RISE: [number, number, number, number] = [0.16, 1, 0.3, 1]
+const TWEEN = { duration: 0.8, ease: RISE } as const
+const HIDDEN = { opacity: 0, y: 22, filter: "blur(6px)" }
+const SHOWN = { opacity: 1, y: 0, filter: "blur(0px)" }
 
 export function MotionRoot({ children }: { children: React.ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>
@@ -35,8 +42,8 @@ export function Reveal({
   return (
     <motion.div
       className="m-reveal"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={HIDDEN}
+      whileInView={SHOWN}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ ...TWEEN, delay }}
       style={style}
@@ -48,12 +55,12 @@ export function Reveal({
 
 const STAGGER_PARENT: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
+  show: { transition: { staggerChildren: 0.09 } },
 }
 
 const STAGGER_CHILD: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: TWEEN },
+  hidden: HIDDEN,
+  show: { ...SHOWN, transition: TWEEN },
 }
 
 /** Grid wrapper: children (StaggerItem) land in sequence, once. */

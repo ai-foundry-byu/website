@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { HeroMotionLayer } from "@/components/HeroMotionLayer"
+import { RunoutHeroMark } from "@/components/RunoutHeroMark"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,65 +36,49 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/** Subtle white halo for the hero text over the shader field. A knowing
- *  exception to "shadows: none" — that rule is about elevation; this is
- *  legibility against a moving ground. */
-const HERO_TEXT_GLOW =
-  "0 0 6px rgba(255,255,255,0.45), 0 0 22px rgba(255,255,255,0.55)"
-
-/* Vertical rhythm tightened site-hero through CTA band per Corbin
-   2026-08-16: the kit's 96px+ section paddings read too airy — bands now
-   run 64px, the hero 80/64. */
+/* Runout retheme (brand/runout-2026-11): the hero is Carbon under one
+   studio key light, the headline is brushed-steel type (kit: the display
+   line on dark is steel, never orange), the mark rises through its horizon
+   on the right, and the one heat button on this surface is the primary.
+   The shader field (HeroMotionLayer) is retired on this branch: the mark is
+   the motion now, and it costs about 21 KB instead of three.js. */
 function Hero() {
   return (
-    <section style={{ padding: "80px 24px 64px", position: "relative", overflow: "hidden" }}>
-      {/* The one exception to flat solids: the shader motion field.
-          HeroMotionLayer paints the CSS stand-in instantly, then fades in
-          the real ShaderGradient; reduced motion keeps the still CSS. */}
-      <HeroMotionLayer />
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* A whisper of white outer glow lifts the text off the shader
-            field where it runs dark (Corbin, 2026-08-16). Text only —
-            the buttons carry their own grounds. */}
-        <Eyebrow style={{ textShadow: HERO_TEXT_GLOW }}>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
-        <h1
-          className="hero"
-          style={{
-            /* The clamp's 48px FLOOR was clipping the headline on every
-               phone: "PRODUCTION-GRADE." needs 436px at 48px, and a 390px
-               viewport only offers 342px of line box. The section's
-               overflow:hidden then swallowed the tail, so it read as a
-               design choice rather than a bug — measured 2026-08-20 at
-               +164px over at 320px, +94px at 390px, +54px at 430px, clean
-               from 480px up.
-
-               The min() caps the existing curve by what actually fits:
-               "PRODUCTION-GRADE." occupies 436px of width per 48px of
-               font-size, i.e. 0.110 px of font per px of line box, and the
-               line box is the viewport less this section's 24px gutters.
-               0.105 leaves a little slack for font loading. At every width
-               where the old value already fit (>=480px) min() returns the
-               old value unchanged, so desktop is untouched. */
-            fontSize: "min(clamp(48px, 5.6vw, 80px), calc((100vw - 48px) * 0.105))",
-            textTransform: "uppercase",
-            margin: "18px 0 0",
-            color: "var(--navy)",
-            textShadow: HERO_TEXT_GLOW,
-          }}
-        >
-          {HERO_STACK[0]}
-          <br />
-          {HERO_STACK[1]}
-          <br />
-          <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
-        </h1>
-        <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
-          <Button variant="primary" size="lg" href={NAV_CTA.href}>
-            {NAV_CTA.label}
-          </Button>
-          <Button variant="secondary" size="lg" ring="white" href="/network">
-            Join the network
-          </Button>
+    <section className="af-hero" data-ground="navy">
+      <div aria-hidden="true" className="af-hero-key" />
+      <div aria-hidden="true" className="af-hero-grain" />
+      <div className="af-hero-inner">
+        <div className="af-hero-copy">
+          <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
+            {HERO_SUPPORT.replace(/\.$/, "")}
+          </Eyebrow>
+          <h1
+            className="hero af-hero-title"
+            style={{
+              /* Same phone guard as before: "PRODUCTION-GRADE." must fit the
+                 line box at every width (0.105 px of font per px of line). */
+              fontSize: "min(clamp(44px, 5vw, 76px), calc((100vw - 48px) * 0.105))",
+              textTransform: "uppercase",
+              margin: "22px 0 0",
+            }}
+          >
+            {HERO_STACK.map((line, i) => (
+              <span key={line} className="af-line" style={{ ["--i" as string]: i } as React.CSSProperties}>
+                <span className="af-steel">{line}</span>
+              </span>
+            ))}
+          </h1>
+          <div className="af-hero-ctas">
+            <Button variant="primary" size="lg" href={NAV_CTA.href}>
+              {NAV_CTA.label}
+            </Button>
+            <Button variant="glass" size="lg" href="/network">
+              Join the network
+            </Button>
+          </div>
+        </div>
+        <div className="af-hero-art">
+          <RunoutHeroMark />
         </div>
       </div>
     </section>
@@ -195,10 +179,14 @@ function QuoteBand() {
   return (
     <section
       data-ground="navy"
-      style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+      className="af-band"
+      style={{ background: "var(--surface-inverse)", padding: "72px 24px 64px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
     >
+      <div aria-hidden="true" className="af-horizon-rule" />
+      <div aria-hidden="true" className="af-band-key" />
       <Reveal
         style={{
+          position: "relative",
           maxWidth: "var(--container)",
           margin: "0 auto",
           display: "flex",
@@ -209,19 +197,20 @@ function QuoteBand() {
         }}
       >
         <h2
+          className="af-steel"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontStretch: "var(--w-plate)",
-            fontSize: "40px",
+            fontStretch: "var(--w-cast)",
+            fontSize: "clamp(30px, 4vw, 44px)",
             lineHeight: 1.1,
             margin: 0,
-            color: "#fff",
+            textTransform: "uppercase",
           }}
         >
           {QUOTE_HEADLINE}
         </h2>
-        <Button variant="inverse" size="lg" ring="white" href={QUOTE_CTA.href}>
+        <Button variant="primary" size="lg" href={QUOTE_CTA.href}>
           {QUOTE_CTA.label}
         </Button>
       </Reveal>

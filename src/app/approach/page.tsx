@@ -161,7 +161,7 @@ export default function ApproachPage() {
             <p style={{ fontWeight: 300, fontSize: "var(--size-body)", lineHeight: 1.6, color: "var(--text-on-dark-body)", margin: "0 0 8px", maxWidth: "56ch" }}>
               {APPROACH_CLIENT_LEAD}
             </p>
-            <Button variant="inverse" size="lg" ring="white" href={NAV_CTA.href}>
+            <Button variant="primary" size="lg" href={NAV_CTA.href}>
               {NAV_CTA.label}
             </Button>
           </Reveal>

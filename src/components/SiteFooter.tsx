@@ -21,18 +21,23 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 
 export function SiteFooter() {
   return (
-    <footer data-ground="navy" className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      <div style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
+    <footer data-ground="navy" className="af-footer mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
+      {/* Runout: the horizon runs across the top of the footer and draws
+          itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
+      <div aria-hidden="true" className="af-horizon-rule" />
+      <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         {/* Top row: the Foundry's lockup, and opposite it who the Foundry
             belongs to (each sponsor's own logo, white on navy; a second
             sponsor joins the same row). */}
         <div className="flex flex-wrap items-end justify-between gap-8">
           <Image
-            src="/byu-marriott-ai-foundry-light.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
-            height={360}
-            className="h-8 w-auto"
+            src="/brand/runout/lockup-horizontal-dark.svg"
+            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
+            width={938}
+            height={300}
+            unoptimized
+            className="h-14 w-auto"
+            style={{ margin: "-10px -9px" }}
           />
           <div>
             <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
@@ -59,7 +64,7 @@ export function SiteFooter() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3" style={{ borderTop: "1px solid rgba(255,255,255,.2)", marginTop: "28px", paddingTop: "20px" }}>
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3" style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: "28px", paddingTop: "20px" }}>
           <p className="caption" style={{ color: "var(--text-on-dark-soft)", fontWeight: 300, margin: 0 }}>
             © {new Date().getFullYear()} {PROGRAM}, {SCHOOL_FULL}. Provo, Utah.
           </p>

@@ -24,21 +24,28 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 export function SiteHeader() {
   return (
     <header
-      className="sticky top-0 z-50"
-      style={{ background: "#fff", borderBottom: "1px solid var(--border-hairline)" }}
+      className="af-header sticky top-0 z-50"
+      data-ground="navy"
+      style={{ ["--bar-ink" as string]: "var(--af-specular)" } as React.CSSProperties}
     >
       <div
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex items-center no-underline">
+          {/* Runout lockup, one-colour white on Carbon: below 48px the kit
+              allows only the one-colour drawing. The SVG carries its own
+              clear space (50 units each side), so it sits slightly taller
+              than the old PNG to keep the same visual size. */}
           <Image
-            src="/byu-marriott-ai-foundry.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
-            height={360}
+            src="/brand/runout/lockup-horizontal-dark.svg"
+            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
+            width={938}
+            height={300}
             priority
-            className="h-6 w-auto md:h-8"
+            unoptimized
+            className="af-header-lockup h-11 w-auto md:h-[52px]"
+            style={{ margin: "0 -8px" }}
           />
         </CurtainNavLink>
 
@@ -50,16 +57,18 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               className="link-draw whitespace-nowrap no-underline"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+              style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--bar-ink)" }}
             >
               {link.label}
             </CurtainNavLink>
           ))}
           <NavMenu label={NAV_ABOUT.label} items={NAV_ABOUT.items} />
           {/* The door into the app, set off from the site's own pages by a hairline. */}
-          <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--border-hairline)", margin: "0 -6px" }} />
+          <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--af-rule-dark)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          <Button variant="primary" href={NAV_CTA.href}>
+          {/* Glass, not heat: the heat button on any page belongs to the
+              surface below the bar (kit: one heat button per surface). */}
+          <Button variant="glass" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
         </nav>
@@ -71,14 +80,14 @@ export function SiteHeader() {
         <details className="relative lg:hidden">
           <summary
             className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
-            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--bar-ink)" }}
           >
             Menu
           </summary>
           <nav
             aria-label="Main"
             className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
-            style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)" }}
+            style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)", boxShadow: "0 18px 40px -18px rgba(2,26,51,.45)", ["--bar-ink" as string]: "var(--navy)", ["--focus-ring" as string]: "var(--royal)" } as React.CSSProperties}
           >
             <ul>
               {NAV.map((link) => (

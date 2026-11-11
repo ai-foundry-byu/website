@@ -14,17 +14,31 @@ import styles from "./Button.module.css"
  * .../forms/Button.jsx, values preserved; internal hrefs render through
  * next/link so client navigation keeps working.
  */
-type Variant = "primary" | "secondary" | "inverse" | "ghost"
+type Variant = "primary" | "secondary" | "inverse" | "ghost" | "glass"
 
+/* Runout retheme (brand/runout-2026-11): the primary is the kit's heat
+   CTA, a forged-orange pill with Carbon ink (6.95:1) and the heat glow.
+   Kit rule: ONE heat button per surface, so the header carries the
+   "glass" variant (steel hairline pill for Carbon grounds) and the hero
+   or band below it carries the heat. Hover warms the heat a step and
+   lifts it 1px; it never swaps to a second hue. */
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { background: "var(--accent)", color: "var(--accent-ink)", border: "1px solid var(--accent)" },
-  primaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
-  secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
+  primary: { background: "var(--af-heat-cta)", color: "var(--af-carbon)", border: "1px solid transparent", boxShadow: "var(--af-heat-glow)" },
+  primaryHover: {
+    background: "var(--af-heat-cta)",
+    color: "var(--af-carbon)",
+    border: "1px solid transparent",
+    boxShadow: "0 0 0 1px rgba(255,200,120,.55) inset, 0 14px 44px -8px rgba(255,106,19,.7)",
+    filter: "brightness(1.07) saturate(1.05)",
+  },
+  secondary: { background: "transparent", color: "var(--navy)", border: "1px solid rgba(0,46,93,.4)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   inverse: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
-  inverseHover: { background: "rgba(255,255,255,.85)", color: "var(--navy)", border: "1px solid rgba(255,255,255,.85)" },
+  inverseHover: { background: "var(--af-specular)", color: "var(--navy)", border: "1px solid var(--af-specular)" },
   ghost: { background: "transparent", color: "var(--royal)", border: "1px solid transparent" },
-  ghostHover: { background: "transparent", color: "var(--navy)", border: "1px solid transparent" },
+  ghostHover: { background: "transparent", color: "var(--af-ember)", border: "1px solid transparent" },
+  glass: { background: "rgba(228,238,247,.04)", color: "var(--af-specular)", border: "1px solid rgba(169,197,224,.35)" },
+  glassHover: { background: "rgba(228,238,247,.12)", color: "#fff", border: "1px solid rgba(228,238,247,.7)" },
 }
 
 export function Button({
@@ -63,11 +77,11 @@ export function Button({
   const look = PALETTES[hover && !off ? variant + "Hover" : variant] || PALETTES.primary
   const s: React.CSSProperties = {
     fontFamily: "var(--font-body)",
-    fontWeight: 500,
+    fontWeight: 600,
     lineHeight: 1.2,
     fontSize: size === "lg" ? "16px" : "var(--size-ui)",
-    padding: size === "lg" ? "16px 28px" : "12px 20px",
-    borderRadius: "var(--radius)",
+    padding: size === "lg" ? "16px 28px" : "11px 20px",
+    borderRadius: "999px",
     cursor: off ? "default" : "pointer",
     opacity: disabled ? 0.45 : 1,
     display: "inline-flex",
@@ -78,8 +92,9 @@ export function Button({
     userSelect: "none",
     whiteSpace: "nowrap",
     flex: "none",
-    transform: press && !off ? "translateY(1px)" : "none",
-    transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast)",
+    transform: press && !off ? "translateY(1px)" : hover && !off && variant === "primary" ? "translateY(-1px)" : "none",
+    transition:
+      "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-base) var(--af-ease-rise), filter var(--dur-base), transform var(--dur-base) var(--af-ease-rise)",
     ...look,
     ...style,
   }
@@ -96,7 +111,8 @@ export function Button({
   // Ring defaults: royal on the primary, none elsewhere. A royal ring
   // never goes on navy grounds (prohibited pair) — white is the ring for
   // buttons that live there.
-  const ringTone = ring ?? (variant === "primary" ? "royal" : "none")
+  // Runout: the heat button carries its own glow, so no ring by default.
+  const ringTone = ring ?? "none"
   const className =
     ringTone === "none"
       ? undefined

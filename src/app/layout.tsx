@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
-import { CurtainRouteProvider } from "@/components/CurtainRoute";
+import { RouteTransitions } from "@/components/RouteTransitions";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
 
@@ -56,9 +56,10 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // A plain BYU navy square, a deliberate placeholder: the anvil mark is
-  // under consideration and no official logo is approved yet (2026-08-01).
-  // When one is, regenerate this whole set from it. The SVG is listed first
+  // Runout preview (brand/runout-2026-11): the kit's favicon set. icon.svg is
+  // the 32px drawing hand-placed on the pixel grid, navy, white when the
+  // browser is dark; the PNGs are the kit's favicon-32 and app icon (the
+  // digital mark on Carbon). Concept, pending release. The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.
@@ -84,6 +85,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Runout preview: the browser chrome on phones matches the Carbon bar.
+export const viewport: Viewport = { themeColor: "#07090c" };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -99,17 +103,17 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      {/* CurtainRouteProvider is the corbin-curtain-site preview experiment:
-          header-nav route changes run behind a curtain. Pages stay server-
-          rendered — children cross the boundary as a ReactNode prop. Remove
-          this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
+      {/* RouteTransitions (Runout preview) runs internal navigations through
+          the View Transitions API; it replaces the curtain experiment here.
+          Pages stay server-rendered: children cross the boundary as a
+          ReactNode prop. Remove the wrapper to go back to plain routing. */}
       <body className="min-h-full flex flex-col">
-        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important}'}</style></noscript>
+        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important;filter:none !important}'}</style></noscript>
         {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
             system; the curtain handles reduced motion itself, outside it. */}
-        <CurtainRouteProvider effect="fade">
+        <RouteTransitions>
           <MotionRoot>{children}</MotionRoot>
-        </CurtainRouteProvider>
+        </RouteTransitions>
       </body>
     </html>
   );
