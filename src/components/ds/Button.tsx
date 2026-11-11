@@ -14,31 +14,27 @@ import styles from "./Button.module.css"
  * .../forms/Button.jsx, values preserved; internal hrefs render through
  * next/link so client navigation keeps working.
  */
-type Variant = "primary" | "secondary" | "inverse" | "ghost" | "glass"
+type Variant = "primary" | "secondary" | "inverse" | "ghost" | "outline"
 
-/* Runout retheme (brand/runout-2026-11): the primary is the kit's heat
-   CTA, a forged-orange pill with Carbon ink (6.95:1) and the heat glow.
-   Kit rule: ONE heat button per surface, so the header carries the
-   "glass" variant (steel hairline pill for Carbon grounds) and the hero
-   or band below it carries the heat. Hover warms the heat a step and
-   lifts it 1px; it never swaps to a second hue. */
+/* Runout retheme, system v2 (brand/runout-2026-11): flat, square-shouldered
+   buttons. The primary is the one orange on a surface, and the right orange
+   for its ground comes from CSS (globals.css, --cta-*): BYU Orange #D14124
+   with White on white and paper (4.67:1), Signal Orange #FC4C02 with Ink on
+   BYU Navy (5.12:1). Kit rule: ONE orange button per surface, so the bar
+   carries the "outline" variant (a white hairline on navy) and the hero or
+   band below it carries the orange. Hover steps the same orange one value;
+   it never swaps hue and never glows. */
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { background: "var(--af-heat-cta)", color: "var(--af-carbon)", border: "1px solid transparent", boxShadow: "var(--af-heat-glow)" },
-  primaryHover: {
-    background: "var(--af-heat-cta)",
-    color: "var(--af-carbon)",
-    border: "1px solid transparent",
-    boxShadow: "0 0 0 1px rgba(255,200,120,.55) inset, 0 14px 44px -8px rgba(255,106,19,.7)",
-    filter: "brightness(1.07) saturate(1.05)",
-  },
-  secondary: { background: "transparent", color: "var(--navy)", border: "1px solid rgba(0,46,93,.4)" },
+  primary: { background: "var(--cta-bg)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg)" },
+  primaryHover: { background: "var(--cta-bg-hover)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg-hover)" },
+  secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   inverse: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
-  inverseHover: { background: "var(--af-specular)", color: "var(--navy)", border: "1px solid var(--af-specular)" },
+  inverseHover: { background: "var(--af-light-blue)", color: "var(--navy)", border: "1px solid var(--af-light-blue)" },
   ghost: { background: "transparent", color: "var(--royal)", border: "1px solid transparent" },
-  ghostHover: { background: "transparent", color: "var(--af-ember)", border: "1px solid transparent" },
-  glass: { background: "rgba(228,238,247,.04)", color: "var(--af-specular)", border: "1px solid rgba(169,197,224,.35)" },
-  glassHover: { background: "rgba(228,238,247,.12)", color: "#fff", border: "1px solid rgba(228,238,247,.7)" },
+  ghostHover: { background: "transparent", color: "var(--navy)", border: "1px solid transparent" },
+  outline: { background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.7)" },
+  outlineHover: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
 }
 
 export function Button({
@@ -76,12 +72,16 @@ export function Button({
   const off = disabled || loading
   const look = PALETTES[hover && !off ? variant + "Hover" : variant] || PALETTES.primary
   const s: React.CSSProperties = {
-    fontFamily: "var(--font-body)",
+    /* Kit: Archivo Expanded capitals, tracked open, 2px corners. */
+    fontFamily: "var(--font-display)",
+    fontStretch: "125%",
     fontWeight: 600,
     lineHeight: 1.2,
-    fontSize: size === "lg" ? "16px" : "var(--size-ui)",
-    padding: size === "lg" ? "16px 28px" : "11px 20px",
-    borderRadius: "999px",
+    textTransform: "uppercase",
+    letterSpacing: "0.08em",
+    fontSize: size === "lg" ? "14px" : "12.5px",
+    padding: size === "lg" ? "17px 26px" : "12px 18px",
+    borderRadius: "2px",
     cursor: off ? "default" : "pointer",
     opacity: disabled ? 0.45 : 1,
     display: "inline-flex",
@@ -92,9 +92,8 @@ export function Button({
     userSelect: "none",
     whiteSpace: "nowrap",
     flex: "none",
-    transform: press && !off ? "translateY(1px)" : hover && !off && variant === "primary" ? "translateY(-1px)" : "none",
-    transition:
-      "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-base) var(--af-ease-rise), filter var(--dur-base), transform var(--dur-base) var(--af-ease-rise)",
+    transform: press && !off ? "translateY(1px)" : "none",
+    transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), transform 110ms var(--af-ease-seat)",
     ...look,
     ...style,
   }
@@ -111,7 +110,7 @@ export function Button({
   // Ring defaults: royal on the primary, none elsewhere. A royal ring
   // never goes on navy grounds (prohibited pair) — white is the ring for
   // buttons that live there.
-  // Runout: the heat button carries its own glow, so no ring by default.
+  // Runout v2: flat buttons, no splash ring unless a caller asks for one.
   const ringTone = ring ?? "none"
   const className =
     ringTone === "none"

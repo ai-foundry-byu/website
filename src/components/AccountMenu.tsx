@@ -9,7 +9,7 @@ const LINK: React.CSSProperties = {
   fontFamily: "var(--font-body)",
   fontWeight: 500,
   fontSize: "var(--size-ui)",
-  // The bar is Carbon on the Runout preview; panels reset --bar-ink to navy.
+  // The bar is BYU Navy on the Runout preview; panels reset --bar-ink to navy.
   color: "var(--bar-ink, var(--navy))",
 }
 
@@ -70,7 +70,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
   const avatar = (
     <span
       aria-hidden="true"
-      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-blued-steel)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
+      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-blue)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
     >
       {me.initials}
     </span>
@@ -99,7 +99,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
         </svg>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)", boxShadow: "0 18px 40px -18px rgba(2,26,51,.45)", ["--bar-ink" as string]: "var(--navy)", ["--focus-ring" as string]: "var(--royal)" } as React.CSSProperties}>
+        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)", ["--bar-ink" as string]: "var(--navy)", ["--focus-ring" as string]: "var(--royal)" } as React.CSSProperties}>
           {me.email && (
             <div className="px-4 pb-2.5 pt-2" style={{ fontSize: 12.5, color: "var(--text-secondary, #5b6770)", borderBottom: "1px solid var(--border-hairline)" }}>
               Signed in as {me.email}

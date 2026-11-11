@@ -13,7 +13,8 @@ import { usePathname, useRouter } from "next/navigation"
  * document.startViewTransition(). The callback's promise resolves when the
  * new pathname commits, so the browser snapshots the old page, React swaps
  * the tree, and the CSS in globals.css animates between the two: the outgoing
- * page sinks and blurs out, the incoming one rises out of a light blur, and
+ * page steps back and clears, the incoming one is set in from below on the
+ * builder's seat easing, an orange level line is shot along the bar's foot, and
  * the header (view-transition-name: af-header) holds perfectly still.
  *
  * Left alone, exactly as the curtain left them: hash links, links that open a
@@ -61,7 +62,7 @@ export function RouteTransitions({ children }: { children: React.ReactNode }) {
       const vt = doc.startViewTransition(
         () =>
           new Promise<void>((resolve) => {
-            // New state only: the bar's horizon runs out as the page rises.
+            // New state only: the bar's level line is shot as the page is set in.
             root.setAttribute("data-af-vt", String(Date.now()))
             const done = () => {
               clearTimeout(watchdog)
@@ -80,7 +81,7 @@ export function RouteTransitions({ children }: { children: React.ReactNode }) {
         .catch(() => {})
         .then(() => {
           const stamp = mark()
-          // The line takes 1.1 s; the transition itself about 0.65 s.
+          // The line takes 0.9 s; the transition itself about 0.5 s.
           setTimeout(() => {
             if (mark() === stamp) root.removeAttribute("data-af-vt")
           }, 600)

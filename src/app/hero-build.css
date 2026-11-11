@@ -1,0 +1,120 @@
+/* The builder motion for the Runout hero (HeroBuild.tsx). Adapted from the kit
+   (design-team final-v2-2026-11-11, system/motion/hero-build.css), Runout rules only.
+   Base styles are the FINAL mark: no JS, prefers-reduced-motion or print all show the
+   static mark. .is-armed applies the animations paused on frame 0; .is-building plays
+   them once (2.98 s), then the mark holds. Flat inks only: no metal, glow or blur. */
+.af-build{--af-b-ink:var(--af-mark-ink,#002E5D);--af-b-acc:var(--af-mark-accent,#D14124);--af-b-line:var(--af-construction,#0072CE);--af-b-line-op:.62;--af-b-grid-op:.24;overflow:visible}
+.af-build[data-theme=dark],[data-theme=dark] .af-build{--af-b-ink:var(--af-mark-ink,#FFFFFF);--af-b-acc:var(--af-mark-accent,#FC4C02);--af-b-line:var(--af-construction,#BDD6E6);--af-b-line-op:.5;--af-b-grid-op:.2}
+.af-ink{fill:var(--af-b-ink)}.af-acc{fill:var(--af-b-acc)}
+.af-scaffold,.af-level,.af-lock,.af-pin{opacity:0}
+.af-gridline,.af-cline,.af-level{fill:none;stroke-dasharray:1 1;stroke-linecap:butt}
+.af-gridline{stroke:var(--af-b-line);stroke-width:.75;opacity:var(--af-b-grid-op)}
+.af-gridminor{fill:none;stroke:var(--af-b-line);stroke-width:.5;stroke-opacity:calc(var(--af-b-grid-op)*.5)}
+.af-cline{stroke:var(--af-b-line);stroke-width:1.15;opacity:var(--af-b-line-op)}
+.af-node{fill:none;stroke:var(--af-b-line);stroke-width:1.15;stroke-opacity:var(--af-b-line-op);transform-box:fill-box;transform-origin:center}
+.af-level{stroke:var(--af-b-acc);stroke-width:2.4}
+.af-lock{fill:none;stroke:var(--af-b-acc);stroke-width:2.6;transform-box:fill-box;transform-origin:center}
+.af-pin{fill:var(--af-b-acc)}
+.af-build.is-armed:not(.is-building) *{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){.af-build *{animation:none!important}}
+.af-runout-stem-mv{transform-box:view-box;transform-origin:0px 0px}
+.af-runout-beam-mv{transform-box:view-box;transform-origin:0px 0px}
+.af-runout-lowarm-mv{transform-box:view-box;transform-origin:0px 0px}
+.af-runout-lblade-mv{transform-box:view-box;transform-origin:137px 310.5px}
+.af-runout-rblade-mv{transform-box:view-box;transform-origin:380.5px 310.5px}
+.af-build.is-armed .af-runout-scaffold{animation:af-runout-scaffold 2980ms linear both}
+.af-build.is-armed .af-runout-gridminor{animation:af-runout-gridminor 2980ms linear both}
+.af-build.is-armed .af-runout-g0{animation:af-runout-g0 2980ms linear both}
+.af-build.is-armed .af-runout-g1{animation:af-runout-g1 2980ms linear both}
+.af-build.is-armed .af-runout-g2{animation:af-runout-g2 2980ms linear both}
+.af-build.is-armed .af-runout-g3{animation:af-runout-g3 2980ms linear both}
+.af-build.is-armed .af-runout-g4{animation:af-runout-g4 2980ms linear both}
+.af-build.is-armed .af-runout-g5{animation:af-runout-g5 2980ms linear both}
+.af-build.is-armed .af-runout-g6{animation:af-runout-g6 2980ms linear both}
+.af-build.is-armed .af-runout-g7{animation:af-runout-g7 2980ms linear both}
+.af-build.is-armed .af-runout-g8{animation:af-runout-g8 2980ms linear both}
+.af-build.is-armed .af-runout-g9{animation:af-runout-g9 2980ms linear both}
+.af-build.is-armed .af-runout-g10{animation:af-runout-g10 2980ms linear both}
+.af-build.is-armed .af-runout-g11{animation:af-runout-g11 2980ms linear both}
+.af-build.is-armed .af-runout-g12{animation:af-runout-g12 2980ms linear both}
+.af-build.is-armed .af-runout-g13{animation:af-runout-g13 2980ms linear both}
+.af-build.is-armed .af-runout-c0{animation:af-runout-c0 2980ms linear both}
+.af-build.is-armed .af-runout-c1{animation:af-runout-c1 2980ms linear both}
+.af-build.is-armed .af-runout-c2{animation:af-runout-c2 2980ms linear both}
+.af-build.is-armed .af-runout-c3{animation:af-runout-c3 2980ms linear both}
+.af-build.is-armed .af-runout-c4{animation:af-runout-c4 2980ms linear both}
+.af-build.is-armed .af-runout-c5{animation:af-runout-c5 2980ms linear both}
+.af-build.is-armed .af-runout-c6{animation:af-runout-c6 2980ms linear both}
+.af-build.is-armed .af-runout-n0{animation:af-runout-n0 2980ms linear both}
+.af-build.is-armed .af-runout-n1{animation:af-runout-n1 2980ms linear both}
+.af-build.is-armed .af-runout-n2{animation:af-runout-n2 2980ms linear both}
+.af-build.is-armed .af-runout-n3{animation:af-runout-n3 2980ms linear both}
+.af-build.is-armed .af-runout-n4{animation:af-runout-n4 2980ms linear both}
+.af-build.is-armed .af-runout-level{animation:af-runout-level 2980ms linear both}
+.af-build.is-armed .af-runout-stem-mv{animation:af-runout-stem-mv 2980ms linear both}
+.af-build.is-armed .af-runout-stem-op{animation:af-runout-stem-op 2980ms linear both}
+.af-build.is-armed .af-runout-stem-lock{animation:af-runout-stem-lock 2980ms linear both}
+.af-build.is-armed .af-runout-stem-pin{animation:af-runout-stem-pin 2980ms linear both}
+.af-build.is-armed .af-runout-beam-mv{animation:af-runout-beam-mv 2980ms linear both}
+.af-build.is-armed .af-runout-beam-op{animation:af-runout-beam-op 2980ms linear both}
+.af-build.is-armed .af-runout-beam-lock{animation:af-runout-beam-lock 2980ms linear both}
+.af-build.is-armed .af-runout-beam-pin{animation:af-runout-beam-pin 2980ms linear both}
+.af-build.is-armed .af-runout-lowarm-mv{animation:af-runout-lowarm-mv 2980ms linear both}
+.af-build.is-armed .af-runout-lowarm-op{animation:af-runout-lowarm-op 2980ms linear both}
+.af-build.is-armed .af-runout-lowarm-lock{animation:af-runout-lowarm-lock 2980ms linear both}
+.af-build.is-armed .af-runout-lowarm-pin{animation:af-runout-lowarm-pin 2980ms linear both}
+.af-build.is-armed .af-runout-lblade-mv{animation:af-runout-lblade-mv 2980ms linear both}
+.af-build.is-armed .af-runout-lblade-op{animation:af-runout-lblade-op 2980ms linear both}
+.af-build.is-armed .af-runout-rblade-mv{animation:af-runout-rblade-mv 2980ms linear both}
+.af-build.is-armed .af-runout-rblade-op{animation:af-runout-rblade-op 2980ms linear both}
+.af-build.is-armed .af-runout-rblade-lock{animation:af-runout-rblade-lock 2980ms linear both}
+.af-build.is-armed .af-runout-rblade-pin{animation:af-runout-rblade-pin 2980ms linear both}
+.af-build.is-armed .af-runout-final{animation:af-runout-final 2980ms linear both}
+@keyframes af-runout-scaffold{0%{opacity:1}82.55%{opacity:1;animation-timing-function:cubic-bezier(.2,.7,.3,1)}97.315%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-gridminor{0%{opacity:0}4.027%{opacity:0;animation-timing-function:cubic-bezier(.2,.7,.3,1)}17.45%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-g0{0%{stroke-dashoffset:1}0.671%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}12.752%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g1{0%{stroke-dashoffset:1}1.477%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}13.557%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g2{0%{stroke-dashoffset:1}2.282%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}14.362%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g3{0%{stroke-dashoffset:1}3.087%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}15.168%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g4{0%{stroke-dashoffset:1}3.893%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}15.973%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g5{0%{stroke-dashoffset:1}4.698%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}16.779%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g6{0%{stroke-dashoffset:1}5.503%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}17.584%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g7{0%{stroke-dashoffset:1}6.309%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}18.389%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g8{0%{stroke-dashoffset:1}7.114%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}19.195%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g9{0%{stroke-dashoffset:1}7.919%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}20%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g10{0%{stroke-dashoffset:1}8.725%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}20.805%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g11{0%{stroke-dashoffset:1}9.53%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}21.611%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g12{0%{stroke-dashoffset:1}10.336%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}22.416%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-g13{0%{stroke-dashoffset:1}11.141%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}23.221%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c0{0%{stroke-dashoffset:1}5.034%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}21.141%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c1{0%{stroke-dashoffset:1}7.55%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}23.658%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c2{0%{stroke-dashoffset:1}10.067%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}26.174%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c3{0%{stroke-dashoffset:1}12.584%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}28.691%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c4{0%{stroke-dashoffset:1}15.101%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}31.208%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c5{0%{stroke-dashoffset:1}17.617%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}33.725%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-c6{0%{stroke-dashoffset:1}20.134%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}36.242%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+@keyframes af-runout-n0{0%{opacity:0;transform:scale(.2)}16.779%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}23.49%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+@keyframes af-runout-n1{0%{opacity:0;transform:scale(.2)}18.289%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}25%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+@keyframes af-runout-n2{0%{opacity:0;transform:scale(.2)}19.799%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}26.51%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+@keyframes af-runout-n3{0%{opacity:0;transform:scale(.2)}21.309%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}28.02%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+@keyframes af-runout-n4{0%{opacity:0;transform:scale(.2)}22.819%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}29.53%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+@keyframes af-runout-level{0%{stroke-dashoffset:1;opacity:1}18.456%{stroke-dashoffset:1;opacity:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}31.879%{stroke-dashoffset:0;opacity:1}56.376%{stroke-dashoffset:0;opacity:1;animation-timing-function:cubic-bezier(.2,.7,.3,1)}63.087%{stroke-dashoffset:0;opacity:0}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes af-runout-stem-mv{0%{transform:translate(0px,-150px)}30.201%{transform:translate(0px,-150px);animation-timing-function:cubic-bezier(.65,0,.25,1)}43.624%{transform:translate(0px,1.6px);animation-timing-function:cubic-bezier(.3,0,.3,1)}47.315%{transform:none}100%{transform:none}}
+@keyframes af-runout-stem-op{0%{opacity:0}30.201%{opacity:0;animation-timing-function:linear}33.221%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-stem-lock{0%{opacity:0;transform:scale(.45)}44.597%{opacity:0;transform:scale(.45)}44.631%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}55.369%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes af-runout-stem-pin{0%{opacity:0}44.597%{opacity:0}44.631%{opacity:1}49.664%{opacity:1;animation-timing-function:linear}53.356%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-beam-mv{0%{transform:translate(300px,0px)}40.268%{transform:translate(300px,0px);animation-timing-function:cubic-bezier(.65,0,.25,1)}54.362%{transform:translate(-1.6px,0px);animation-timing-function:cubic-bezier(.3,0,.3,1)}58.054%{transform:none}100%{transform:none}}
+@keyframes af-runout-beam-op{0%{opacity:0}40.268%{opacity:0;animation-timing-function:linear}43.289%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-beam-lock{0%{opacity:0;transform:scale(.45)}55.336%{opacity:0;transform:scale(.45)}55.369%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}66.107%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes af-runout-beam-pin{0%{opacity:0}55.336%{opacity:0}55.369%{opacity:1}60.403%{opacity:1;animation-timing-function:linear}64.094%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-lowarm-mv{0%{transform:translate(240px,0px)}51.007%{transform:translate(240px,0px);animation-timing-function:cubic-bezier(.65,0,.25,1)}63.087%{transform:translate(-1.6px,0px);animation-timing-function:cubic-bezier(.3,0,.3,1)}66.779%{transform:none}100%{transform:none}}
+@keyframes af-runout-lowarm-op{0%{opacity:0}51.007%{opacity:0;animation-timing-function:linear}54.027%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-lowarm-lock{0%{opacity:0;transform:scale(.45)}64.06%{opacity:0;transform:scale(.45)}64.094%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}74.832%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes af-runout-lowarm-pin{0%{opacity:0}64.06%{opacity:0}64.094%{opacity:1}69.128%{opacity:1;animation-timing-function:linear}72.819%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-lblade-mv{0%{transform:rotate(-76deg)}61.074%{transform:rotate(-76deg);animation-timing-function:cubic-bezier(.65,0,.25,1)}77.181%{transform:rotate(0.7deg);animation-timing-function:cubic-bezier(.3,0,.3,1)}80.872%{transform:none}100%{transform:none}}
+@keyframes af-runout-lblade-op{0%{opacity:0}61.074%{opacity:0;animation-timing-function:linear}64.094%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-rblade-mv{0%{transform:rotate(76deg)}63.758%{transform:rotate(76deg);animation-timing-function:cubic-bezier(.65,0,.25,1)}79.866%{transform:rotate(-0.7deg);animation-timing-function:cubic-bezier(.3,0,.3,1)}83.557%{transform:none}100%{transform:none}}
+@keyframes af-runout-rblade-op{0%{opacity:0}63.758%{opacity:0;animation-timing-function:linear}66.779%{opacity:1}100%{opacity:1}}
+@keyframes af-runout-rblade-lock{0%{opacity:0;transform:scale(.45)}80.839%{opacity:0;transform:scale(.45)}80.872%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}91.611%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes af-runout-rblade-pin{0%{opacity:0}80.839%{opacity:0}80.872%{opacity:1}85.906%{opacity:1;animation-timing-function:linear}89.597%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-final{0%{opacity:0}81.208%{opacity:0;animation-timing-function:linear}84.564%{opacity:1}100%{opacity:1}}

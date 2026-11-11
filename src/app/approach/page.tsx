@@ -84,9 +84,9 @@ export default function ApproachPage() {
       <main>
         <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{APPROACH_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>{APPROACH_EYEBROW}</Eyebrow>
             <h1
-              className="af-steel"
+              className="af-head-dark"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -150,17 +150,16 @@ export default function ApproachPage() {
           </div>
         </section>
 
-        {/* Same Carbon terminal as the landing page's quote band: the
-            horizon rule draws in at its top edge under one key light. */}
+        {/* Same navy terminal as the landing page quote band: the
+            set-out rule draws in at its top edge. */}
         <section
           data-ground="navy"
           className="af-band"
           style={{ background: "var(--surface-inverse)", padding: "64px 24px 56px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
         >
           <div aria-hidden="true" className="af-horizon-rule" />
-          <div aria-hidden="true" className="af-band-key" />
           <Reveal style={{ position: "relative", maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", textAlign: "center" }}>
-            <h2 className="af-steel" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0 }}>
+            <h2 className="af-head-dark" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0 }}>
               {APPROACH_CLIENT_HEADING}
             </h2>
             <p style={{ fontWeight: 300, fontSize: "var(--size-body)", lineHeight: 1.6, color: "var(--text-on-dark-body)", margin: "0 0 8px", maxWidth: "56ch" }}>

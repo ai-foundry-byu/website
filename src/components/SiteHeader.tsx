@@ -11,8 +11,9 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
  * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
- * typographic recreation. Carbon bar, so the white one-colour lockup is the
- * sanctioned one here; menus are Graphite on Carbon (guide: cards and menus).
+ * typographic recreation. Flat BYU Navy bar, and the mark there is under
+ * 48 px, so the white one-colour lockup is the sanctioned one (kit); menus
+ * are Navy Raised on navy (guide: cards and menus).
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -26,14 +27,14 @@ export function SiteHeader() {
     <header
       className="af-header sticky top-0 z-50"
       data-ground="navy"
-      style={{ ["--bar-ink" as string]: "var(--af-specular)" } as React.CSSProperties}
+      style={{ ["--bar-ink" as string]: "#fff" } as React.CSSProperties}
     >
       <div
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex min-h-[44px] items-center no-underline">
-          {/* Runout lockup, one-colour white on Carbon: below 48px the kit
+          {/* Runout lockup, one-colour white on navy: below 48px the kit
               allows only the one-colour drawing. The SVG carries its own
               clear space (50 units each side), so it sits slightly taller
               than the old PNG to keep the same visual size. */}
@@ -66,9 +67,9 @@ export function SiteHeader() {
           {/* The door into the app, set off from the site's own pages by a hairline. */}
           <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--af-rule-dark)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          {/* Glass, not heat: the heat button on any page belongs to the
-              surface below the bar (kit: one heat button per surface). */}
-          <Button variant="glass" href={NAV_CTA.href}>
+          {/* Outline, not orange: the orange button on any page belongs to
+              the surface below the bar (kit: one orange action per surface). */}
+          <Button variant="outline" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
         </nav>
@@ -87,7 +88,7 @@ export function SiteHeader() {
           <nav
             aria-label="Main"
             className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
-            style={{ background: "var(--af-graphite)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", boxShadow: "0 24px 48px -20px rgba(0,0,0,.75)", ["--bar-ink" as string]: "var(--af-specular)", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
+            style={{ background: "var(--af-navy-raised)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", ["--bar-ink" as string]: "#fff", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
           >
             <ul>
               {NAV.map((link) => (
@@ -95,7 +96,7 @@ export function SiteHeader() {
                   <CurtainNavLink
                     href={link.href}
                     className="block px-4 py-3 no-underline hover:bg-white/5"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--af-specular)" }}
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "#fff" }}
                   >
                     {link.label}
                   </CurtainNavLink>
@@ -105,7 +106,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-fog)" }}
+                style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-light-blue)" }}
               >
                 {NAV_ABOUT.label}
               </li>
@@ -114,7 +115,7 @@ export function SiteHeader() {
                   <CurtainNavLink
                     href={link.href}
                     className="block px-4 py-3 no-underline hover:bg-white/5"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--af-specular)" }}
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "#fff" }}
                   >
                     {link.label}
                   </CurtainNavLink>

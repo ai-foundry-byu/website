@@ -27,41 +27,40 @@
        are retired. */
   --navy: #002e5d; /* PMS 648C, BYU navy: still the heading ink on Studio */
   --white: #ffffff;
-  /* RUNOUT RETHEME (brand/runout-2026-11, preview only). The old royal
-     slot now holds Blued Steel #1F4E7E from the Runout kit, so every link,
-     eyebrow and focus ring reads as steel: 7.46:1 on Studio, 8.57:1 on
-     white, 8.57:1 white-on-steel. Heat (Forge Orange) is NOT a token here
-     on purpose: it lives only at the cut, on one primary button per
-     surface and in the horizon line (kit rule). */
-  --royal: #1f4e7e; /* Blued Steel (was BYU royal #003da5) */
-  --slate: #56606c; /* kit Slate, 5.56:1 on Studio (was PMS 430C) */
+  /* RUNOUT, SYSTEM V2 (brand/runout-2026-11, preview only): BYU Navy and
+     one orange, flat. Values from the kit (final-v2-2026-11-11,
+     runout/kit/color/tokens.css). No metal, no brushing, no heat
+     gradients. The old royal slot holds BYU Blue #0072CE, the kit's link
+     and focus colour on white. Orange is not a text token here on
+     purpose: it is the horizon beam in the mark and the one call to
+     action on a surface, nothing else. */
+  --royal: #0072ce; /* BYU Blue (kit: links, focus, UI blue) */
+  --slate: #4a5663; /* kit Graphite, secondary text on white */
 
-  /* ── RUNOUT · HEAT AND STEEL (kit/color/tokens.css) ───── */
-  --af-carbon: #07090c;
-  --af-graphite: #121821;
-  --af-studio: #f1efea;
-  --af-deep-steel: #021a33;
-  --af-navy: #002e5d;
-  --af-blued-steel: #1f4e7e;
-  --af-brushed-steel: #5a87b4;
-  --af-spot-steel: #8db0d3;
-  --af-polish: #b4cde6;
-  --af-specular: #e4eef7;
-  --af-white-heat: #fff4d6;
-  --af-amber: #ffb23e;
-  --af-forge: #ff6a13;
-  --af-ember: #c9380c;
-  --af-fog: #8e9baa;
-  --af-heat-cta: linear-gradient(180deg, #ff9a3c 0%, #ff6a13 55%, #e8530d 100%);
-  --af-heat-line: linear-gradient(90deg, rgba(94,139,186,0) 0%, rgba(127,166,204,.55) 22%, #ff6a13 38%, #fff4d6 50%, #ff6a13 62%, rgba(127,166,204,.45) 78%, rgba(94,139,186,0) 100%);
-  --af-heat-glow: 0 0 0 1px rgba(255,180,90,.35) inset, 0 10px 36px -8px rgba(255,106,19,.55);
-  --af-key-light: radial-gradient(60% 70% at 72% 30%, rgba(29,58,94,.95) 0%, rgba(19,40,65,.55) 45%, rgba(7,9,12,0) 100%);
-  --af-steel-type: linear-gradient(176deg, #ffffff 0%, #e3ecf5 46%, #9fb9d4 100%);
-  --af-ease-rise: cubic-bezier(0.16, 1, 0.3, 1);
-  --af-ease-cast: cubic-bezier(0.22, 1, 0.36, 1);
-  --af-ease-set: cubic-bezier(0.65, 0, 0.35, 1);
-  --af-ease-heat: cubic-bezier(0.33, 0, 0.2, 1);
-  --af-rule-dark: rgba(169, 197, 224, 0.14);
+  /* ── RUNOUT · BYU NAVY AND ONE ORANGE (kit/color/tokens.css) ── */
+  --af-navy: #002e5d; /* BYU Navy, PMS 648 C: the primary */
+  --af-orange: #fc4c02; /* Signal Orange: the accent on navy */
+  --af-orange-deep: #d14124; /* BYU Orange: the accent on white */
+  --af-blue: #0072ce; /* BYU Blue */
+  --af-light-blue: #bdd6e6; /* BYU Light Blue: secondary text on navy */
+  --af-navy-raised: #0b3b6c; /* cards and menus on navy */
+  --af-night: #001a36; /* the deepest navy */
+  --af-ink: #0b1b2b;
+  --af-graphite: #4a5663;
+  --af-mist: #dde4eb;
+  --af-paper: #f4f6f9;
+  /* The one tonal lift: a very soft radial behind the mark on the navy
+     hero, never on the mark, never on type, never on light grounds. */
+  --af-ground-lift: radial-gradient(70% 60% at 50% 46%, #06396b 0%, var(--af-navy) 70%);
+  --af-rule-dark: rgba(189, 214, 230, 0.18);
+  /* the builder easings (kit MOTION.md) */
+  --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1); /* a member on the crane */
+  --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1); /* the last of the approach */
+  --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1); /* construction lines, the level */
+  /* HeroBuild colours, light by default; [data-theme="dark"] below. */
+  --af-mark-ink: var(--af-navy);
+  --af-mark-accent: var(--af-orange-deep);
+  --af-construction: var(--af-blue);
 
   /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
      One navy, frozen into a fixed ramp. Refactoring UI's rule:
@@ -94,25 +93,25 @@
 
   /* on-dark text (baked solids) */
   --text-on-dark: var(--white); /* headings, buttons, short labels only */
-  --text-on-dark-body: #c3cfdc; /* sentence-length text on Carbon (11.9:1) */
-  --text-on-dark-soft: #aebbca; /* metadata, footer nav on Carbon (10.2:1) */
+  --text-on-dark-body: #d1d9e2; /* white/82: sentence-length text on navy */
+  --text-on-dark-soft: #bdd6e6; /* BYU Light Blue: metadata, footer nav on navy */
 
   /* surfaces (baked solids) */
-  --surface-page: var(--af-studio); /* Runout: Studio ground, white cards ride on it */
-  --surface-inverse: var(--af-carbon); /* Runout: dark bands are Carbon, not navy */
+  --surface-page: var(--white); /* Runout v2: white page, flat */
+  --surface-inverse: var(--navy); /* Runout v2: dark bands are flat BYU Navy */
   /* navy/4 = color-mix(in srgb, navy 4%, white). Defined so the value is
      frozen, but NOT YET USED as a section ground — that amendment to
      "all-white subpages" is a Tier 3 team vote. House rule for any
      future derived opaque value: color-mix must specify `in srgb`
      (the default oklab space shifts flat tints off their approved hex). */
-  --surface-recessed: #e9e6df; /* a step below Studio */
+  --surface-recessed: #f4f6f9; /* kit Paper */
 
   /* accent + fills */
   --accent: var(--royal);
   --accent-ink: var(--white);
   /* royal/8 — the ultra-light accent fill for selected states and the
      bordered error block (Refactoring UI's tinted-alert move). */
-  --fill-selected: rgba(31, 78, 126, 0.08);
+  --fill-selected: rgba(0, 114, 206, 0.08);
   /* Royal's states stay the two-step ladder the site ships: royal at
      rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
      a new hue). If the jump ever feels abrupt, the sanctioned mid-step
@@ -176,13 +175,12 @@
   --container-pad: 24px;
   --measure: 66ch; /* body measure: 60-75 characters */
 
-  --radius: 8px; /* Runout: a touch softer than the old 5px; buttons are pills */
-  /* Runout: one soft studio key light from above, never a drop shadow box */
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 40px -26px rgba(2, 26, 51, 0.35);
+  --radius: 4px; /* Runout v2: engineered, square-shouldered; buttons are 2px */
+  --shadow: none; /* elevation is drawn with hairlines, never shadows (flat) */
 
   --dur-fast: 150ms;
   --dur-base: 300ms;
-  --ease-stamp: cubic-bezier(0.16, 1, 0.3, 1); /* Runout: the rise easing */
+  --ease-stamp: cubic-bezier(0.3, 0, 0.3, 1); /* Runout v2: the builder seat easing */
 
   /* ── LEGACY ALIASES ─────────────────────────────────────
      Kept so the pages outside the redesign (/network, /ops,
@@ -191,10 +189,10 @@
      the new accent without being rebuilt. Migrate to the
      semantic names above when touching them. */
   --byu-navy: var(--navy);
-  --byu-navy-deep: var(--af-carbon); /* Runout: deepest surface is Carbon */
-  --byu-navy-soft: var(--af-graphite); /* Runout: raised dark is Graphite */
+  --byu-navy-deep: var(--af-night); /* pressed / deepest surface */
+  --byu-navy-soft: var(--af-navy-raised); /* raised navy, rules and hover on dark */
   --byu-white: var(--white);
-  --byu-off-white: #e9e6df; /* Runout: a step below Studio */
+  --byu-off-white: var(--af-paper); /* kit Paper, the alternating surface */
   --byu-royal: var(--royal);
   --byu-slate-gray: var(--slate);
 
@@ -214,9 +212,9 @@
   --border-on-inverse: var(--af-rule-dark);
   --border-accent: var(--royal);
 
-  --iron: var(--af-carbon); /* Runout: legacy dark bands are Carbon */
+  --iron: var(--navy);
   --iron-soft: var(--byu-navy-soft);
-  --paper: var(--af-studio); /* Runout: legacy paper is Studio */
+  --paper: var(--white);
   --paper-dim: var(--byu-off-white);
   --navy-deep: var(--byu-navy-deep);
   --ember: var(--royal); /* retired name, royal value */
@@ -590,8 +588,8 @@ html {
 }
 
 ::selection {
-  background: var(--af-forge);
-  color: var(--af-carbon);
+  background: var(--royal);
+  color: var(--white);
 }
 
 [data-ground="navy"] ::selection,
@@ -810,29 +808,12 @@ html {
   background-color: var(--paper-dim);
 }
 .surface-iron {
+  /* Runout v2: flat BYU Navy, one Light Blue hairline at the foot. */
   background-color: var(--iron);
-  /* Runout: one key light from above the centre line, a horizon at the foot. */
-  background-image:
-    linear-gradient(90deg, rgba(94,139,186,0) 0%, rgba(127,166,204,.45) 25%, #ff6a13 42%, #fff4d6 50%, #ff6a13 58%, rgba(127,166,204,.4) 75%, rgba(94,139,186,0) 100%),
-    radial-gradient(70% 120% at 50% -10%, rgba(31, 66, 108, 0.85) 0%, rgba(7, 9, 12, 0) 70%);
-  background-size: 100% 1px, 100% 100%;
-  background-position: bottom, center;
-  background-repeat: no-repeat;
-}
-.surface-iron h1 {
-  background: var(--af-steel-type);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  box-shadow: inset 0 -1px 0 var(--af-rule-dark);
 }
 .surface-iron-deep {
   background-color: var(--iron);
-  background-image: radial-gradient(
-    120% 90% at 28% 0%,
-    #1f426c 0%,
-    #0d1a2a 52%,
-    #07090c 100%
-  );
 }
 
 .ember-bar {
@@ -910,39 +891,59 @@ html {
   }
 }
 
-/* ═══ RUNOUT · HEAT AND STEEL (brand/runout-2026-11 preview) ═══════
-   Everything below is the Runout layer: the Carbon bar, the hero, the
-   horizon rules, steel type, view transitions between
-   routes, and scroll-driven motion. Kit rules kept here:
-   - heat appears only at the cut, in the horizon line, and on one
-     primary button per surface; never as body text on Studio;
-   - display type on dark is brushed steel, never orange;
-   - every moving thing stops for prefers-reduced-motion.
+/* ═══ RUNOUT · BYU NAVY AND ONE ORANGE (brand/runout-2026-11 preview) ═══
+   System v2 of the Runout kit (final-v2-2026-11-11): flat BYU Navy and one
+   orange, and motion that builds rather than glows. Rules kept here:
+   - BYU Navy carries the page; type is flat White or BYU Navy, never a
+     gradient and never orange;
+   - orange is the horizon beam in the mark and the one call to action on
+     a surface; the only other orange is the level line a route change
+     shoots across the bar, and it is gone in about a second;
+   - one tonal lift, behind the hero mark only (--af-ground-lift);
+   - construction lines are BYU Light Blue hairlines on navy;
+   - motion is mechanical: lines draw, pieces slide and seat, nothing
+     blurs, glows or breathes, and everything stops for reduced motion.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── The bar: Carbon glass, the lockup in one colour ── */
+/* The one orange button (Button primary): BYU Orange with White on light
+   grounds, Signal Orange with Ink on navy. Never swapped. */
+:root {
+  --cta-bg: var(--af-orange-deep);
+  --cta-bg-hover: #b5381f;
+  --cta-ink: var(--white);
+}
+[data-ground="navy"] {
+  --cta-bg: var(--af-orange);
+  --cta-bg-hover: #ff6a26;
+  --cta-ink: var(--af-ink);
+}
+
+/* HeroBuild on navy: white mark, Signal Orange beam, Light Blue lines. */
+[data-theme="dark"] {
+  --af-mark-ink: var(--white);
+  --af-mark-accent: var(--af-orange);
+  --af-construction: var(--af-light-blue);
+}
+
+/* ── The bar: flat BYU Navy, the lockup in one colour ── */
 .af-header {
-  background: rgba(7, 9, 12, 0.86);
-  -webkit-backdrop-filter: saturate(1.4) blur(16px);
-  backdrop-filter: saturate(1.4) blur(16px);
+  background: var(--navy);
   border-bottom: 1px solid var(--af-rule-dark);
   view-transition-name: af-header;
 }
-/* The bar sits in normal flow above the hero, so at the top of the page
-   the glass would show Studio through it. The first 72px of the body are
-   painted Carbon, so the bar reads pure Carbon at rest and turns to glass
-   only once there is content scrolling under it. */
+/* The bar sits in normal flow above the hero; the first 72px of the body
+   are painted navy so it reads solid at rest on every page. */
 body {
   background:
-    linear-gradient(var(--af-carbon), var(--af-carbon)) top / 100% 72px no-repeat,
+    linear-gradient(var(--navy), var(--navy)) top / 100% 72px no-repeat,
     var(--surface-page);
 }
 .af-header .link-draw:hover {
   color: #fff !important;
 }
 
-/* Scroll progress: the bar's bottom edge fills with steel that runs hot at
-   its leading edge, driven by the document's own scroll (no script). */
+/* Scroll progress: a Light Blue construction line along the bar's foot,
+   driven by the document's own scroll (no script). */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .af-header::after {
@@ -952,8 +953,8 @@ body {
       right: 0;
       bottom: -1px;
       height: 1px;
-      background: linear-gradient(90deg, rgba(90, 135, 180, 0) 0%, #5a87b4 55%, #ff6a13 94%, #fff4d6 100%);
-      box-shadow: 0 0 10px rgba(255, 106, 19, 0.45);
+      background: var(--af-light-blue);
+      opacity: 0.55;
       transform-origin: left;
       transform: scaleX(0);
       animation: af-progress linear both;
@@ -967,47 +968,21 @@ body {
   }
 }
 
-/* ── Steel type ── */
-.af-steel {
-  background: var(--af-steel-type);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-@media (forced-colors: active) {
-  .af-steel {
-    color: CanvasText;
-    background: none;
-  }
+/* Headings on navy: flat white. */
+.af-head-dark {
+  color: var(--white);
 }
 
 /* ── The hero ── */
 .af-hero {
   position: relative;
   overflow: hidden;
-  background: var(--af-carbon);
-  color: var(--af-specular);
+  background-color: var(--navy);
+  /* the one tonal lift, centred on the mark (right column) */
+  background-image: radial-gradient(38% 62% at 76% 50%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
+  color: var(--white);
   padding: 96px 24px 104px;
   isolation: isolate;
-}
-.af-hero-key {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(55% 75% at 76% 34%, rgba(31, 66, 108, 0.9) 0%, rgba(19, 40, 65, 0.5) 42%, rgba(7, 9, 12, 0) 75%),
-    radial-gradient(40% 30% at 74% 66%, rgba(255, 106, 19, 0.1) 0%, rgba(255, 106, 19, 0) 70%),
-    linear-gradient(180deg, rgba(7, 9, 12, 0) 70%, var(--af-carbon) 100%);
-  z-index: -1;
-}
-.af-hero-grain {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.08;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .af-hero-inner {
   max-width: var(--container);
@@ -1025,6 +1000,7 @@ body {
 .af-hero-title {
   line-height: 1.02;
   letter-spacing: -0.005em;
+  color: var(--white);
 }
 .af-line {
   display: block;
@@ -1039,120 +1015,64 @@ body {
 .af-hero-art {
   position: relative;
   z-index: 1;
-  aspect-ratio: 1;
   width: 100%;
   max-width: 560px;
   justify-self: end;
 }
-
-/* The mark: the horizon behind it and the kit's rise. Nothing else moves
-   it: the guide forbids tilt, our own glows or shadows, and any animation
-   but the rise (Don'ts 2 and 5). */
-.af-mark {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.af-mark-body {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.af-mark-body img {
+.af-hero-art .af-build {
   display: block;
   width: 100%;
   height: auto;
 }
-.af-horizon {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-.af-horizon-draw {
-  transform-box: view-box;
-  transform-origin: 256px 318px;
-  animation: af-horizon-draw 1.6s var(--af-ease-rise) 0.15s both;
-}
-.af-horizon-glow {
-  opacity: 0.55;
-  animation: af-breathe 7s var(--af-ease-set) 3.2s infinite alternate;
-}
-@keyframes af-horizon-draw {
-  from {
-    transform: scaleX(0);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  to {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-}
-@keyframes af-breathe {
-  from {
-    opacity: 0.55;
-  }
-  to {
-    opacity: 0.25;
-  }
-}
 
-/* The headline lines rise in under the mark's easing, one after another. */
+/* The copy is set the way the mark is built: each headline line is drawn
+   in left to right like a member run out along its level, then the
+   buttons and the figures seat. No blur, no fade-from-glow. */
 @media (prefers-reduced-motion: no-preference) {
   .af-line {
-    animation: af-line-rise 1.1s var(--af-ease-rise) both;
-    animation-delay: calc(0.12s + var(--i, 0) * 0.09s);
+    animation: af-line-set 0.62s var(--af-ease-draw) both;
+    animation-delay: calc(0.18s + var(--i, 0) * 0.12s);
   }
   .af-hero .af-hero-copy > span,
   .af-hero-ctas,
   .af-hero-facts {
-    animation: af-line-rise 1.1s var(--af-ease-rise) both;
+    animation: af-seat 0.5s var(--af-ease-seat) both;
+  }
+  .af-hero .af-hero-copy > span {
+    animation-delay: 0.05s;
   }
   .af-hero-ctas {
-    animation-delay: 0.45s;
+    animation-delay: 0.62s;
   }
   .af-hero-facts {
-    animation-delay: 0.6s;
+    animation-delay: 0.78s;
   }
 }
-@keyframes af-line-rise {
+@keyframes af-line-set {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-14px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+@keyframes af-seat {
   from {
     opacity: 0;
-    transform: translateY(0.45em);
-    filter: blur(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: blur(0);
-  }
-}
-
-/* As the hero scrolls away its key light dims, driven by the hero's own
-   view timeline. The mark itself holds still: it animates only by the rise. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .af-hero-key {
-      animation: af-key-dim linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-  }
-}
-@keyframes af-key-dim {
-  to {
-    opacity: 0.3;
   }
 }
 
 @media (max-width: 900px) {
   .af-hero {
     padding: 40px 24px 72px;
+    background-image: radial-gradient(70% 34% at 50% 18%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
   }
   .af-hero-inner {
     grid-template-columns: minmax(0, 1fr);
@@ -1181,25 +1101,22 @@ body {
   }
 }
 
-/* ── Horizon rules on the Carbon bands and the footer ── */
+/* ── Construction rules on the navy bands and the footer ──
+   One Light Blue hairline at the top edge, drawn in left to right like a
+   set-out line as it scrolls into view. Flat: no gradient, no glow. */
 .af-horizon-rule {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--af-heat-line);
-  box-shadow: 0 0 14px 1px rgba(255, 106, 19, 0.3);
+  background: var(--af-light-blue);
+  opacity: 0.35;
+  transform-origin: left;
   pointer-events: none;
 }
 .af-footer {
   position: relative;
-}
-.af-band-key {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(50% 120% at 50% 0%, rgba(31, 66, 108, 0.55) 0%, rgba(7, 9, 12, 0) 70%);
-  pointer-events: none;
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -1216,21 +1133,21 @@ body {
 @keyframes af-rule-draw {
   from {
     transform: scaleX(0);
-    opacity: 0;
   }
   to {
     transform: scaleX(1);
-    opacity: 1;
   }
 }
 
-/* ── View transitions between routes ── */
+/* ── View transitions between routes ──
+   The outgoing page steps back and clears; the incoming one is set in
+   from below on the seat easing. The bar holds still. */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {
-    animation: af-vt-out 260ms var(--af-ease-set) both;
+    animation: af-vt-out 200ms var(--af-ease-travel) both;
   }
   ::view-transition-new(root) {
-    animation: af-vt-in 560ms var(--af-ease-rise) 90ms both;
+    animation: af-vt-in 420ms var(--af-ease-seat) 80ms both;
   }
   ::view-transition-group(af-header) {
     animation: none;
@@ -1239,15 +1156,13 @@ body {
 @keyframes af-vt-out {
   to {
     opacity: 0;
-    transform: translateY(-10px) scale(0.995);
-    filter: blur(6px);
+    transform: translateY(-8px);
   }
 }
 @keyframes af-vt-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
-    filter: blur(8px);
+    transform: translateY(16px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1256,26 +1171,23 @@ body {
   ::view-transition-new(*) {
     animation: none !important;
   }
-  .af-horizon-draw,
-  .af-horizon-glow,
   .af-line,
   .af-hero-ctas,
   .af-hero-facts,
+  .af-hero .af-hero-copy > span,
   .af-page-hero::after,
   .af-header::before {
     animation: none !important;
   }
 }
 
-/* Runout: anchors (/#quote) land below the sticky 72px Carbon bar. */
+/* Runout: anchors (/#quote) land below the sticky 72px bar. */
 [id] {
   scroll-margin-top: 72px;
 }
 
-/* ── Review pass 1 (2026-11-11) ─────────────────────────────── */
-
-/* The hero's three figures, from the guide's website spec (facts.yaml):
-   a hairline, then number over label. Static facts, never a live counter. */
+/* The hero's three figures (guide, Website: hero; facts.yaml): a hairline,
+   then number over label. Static facts, never a live counter. */
 .af-hero-facts {
   display: flex;
   flex-wrap: wrap;
@@ -1303,7 +1215,7 @@ body {
 .af-hero-facts span {
   font-size: 14px;
   line-height: 1.4;
-  color: var(--af-fog);
+  color: var(--af-light-blue);
 }
 @media (max-width: 900px) {
   .af-hero-facts {
@@ -1322,30 +1234,16 @@ body {
   }
 }
 
-/* Interior page heroes: the same Carbon ground as the landing hero and
-   /network, one key light from the top right, grain, and the horizon line
-   at the foot that runs out from the centre on load. Every page now opens
-   on Carbon, so a route change crosses dark to dark under the still bar. */
+/* Interior page heroes: the same flat navy as the landing hero, so a route
+   change crosses navy to navy under the still bar. A Light Blue set-out
+   line runs along the foot, drawn left to right on load. */
 .af-page-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background-color: var(--af-carbon);
-  background-image:
-    radial-gradient(46% 120% at 84% -10%, rgba(31, 66, 108, 0.9) 0%, rgba(19, 40, 65, 0.45) 45%, rgba(7, 9, 12, 0) 78%),
-    radial-gradient(30% 60% at 50% 100%, rgba(255, 106, 19, 0.07) 0%, rgba(255, 106, 19, 0) 70%);
-  color: var(--af-specular);
+  background-color: var(--navy);
+  color: var(--white);
   padding: 80px 24px 72px;
-}
-.af-page-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.08;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .af-page-hero::after {
   content: "";
@@ -1354,26 +1252,22 @@ body {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: var(--af-heat-line);
-  box-shadow: 0 0 14px 1px rgba(255, 106, 19, 0.3);
+  background: var(--af-light-blue);
+  opacity: 0.35;
+  transform-origin: left;
   pointer-events: none;
 }
 @media (prefers-reduced-motion: no-preference) {
   .af-page-hero::after {
-    animation: af-run-out 1.2s var(--af-ease-rise) 0.2s both;
+    animation: af-run-out 0.8s var(--af-ease-draw) 0.15s both;
   }
 }
 @keyframes af-run-out {
   from {
     transform: scaleX(0);
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
   }
   to {
     transform: scaleX(1);
-    opacity: 1;
   }
 }
 @media (max-width: 640px) {
@@ -1382,32 +1276,37 @@ body {
   }
 }
 
-/* The page transition the guide allows, and nothing more: a 1 px horizon
-   runs out from the centre of the bar's foot in 0.6 s on the rise easing,
-   the next page rises through it, then the line cools away.
-   RouteTransitions sets data-af-vt on <html> for the new state only. */
+/* The route change: the build's level line. One 2px Signal Orange line is
+   shot left to right along the bar's foot as the next page is set in,
+   holds a beat, and clears. RouteTransitions sets data-af-vt on <html>
+   for the new state only. */
 html[data-af-vt] .af-header::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: -1px;
-  height: 1px;
-  background: var(--af-heat-line);
-  box-shadow: 0 0 14px 1px rgba(255, 106, 19, 0.45);
+  height: 2px;
+  background: var(--af-orange);
+  transform-origin: left;
   pointer-events: none;
-  animation: af-vt-horizon 1.1s both;
+  animation: af-vt-level 0.9s both;
 }
-@keyframes af-vt-horizon {
+@keyframes af-vt-level {
   0% {
     transform: scaleX(0);
     opacity: 1;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
   }
-  55% {
+  50% {
     transform: scaleX(1);
     opacity: 1;
-    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+    animation-timing-function: linear;
+  }
+  72% {
+    transform: scaleX(1);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
   }
   100% {
     transform: scaleX(1);

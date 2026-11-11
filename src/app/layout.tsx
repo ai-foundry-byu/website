@@ -3,6 +3,7 @@ import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { RouteTransitions } from "@/components/RouteTransitions";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
+import "./hero-build.css";
 
 /**
  * The three families of the design system, and no others. Spec:
@@ -56,10 +57,10 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // Runout preview (brand/runout-2026-11): the kit's favicon set. icon.svg is
-  // the 32px drawing hand-placed on the pixel grid, navy, white when the
-  // browser is dark; the PNGs are the kit's favicon-32 and app icon (the
-  // digital mark on Carbon). Concept, pending release. The SVG is listed first
+  // Runout preview (brand/runout-2026-11): the kit's favicon set (system v2).
+  // icon.svg is the 32px drawing hand-placed on the pixel grid, navy, white
+  // when the browser is dark; the PNGs are the kit's favicon-32 and app icon
+  // (flat BYU Navy tile, white mark, Signal Orange beam). Concept, pending release. The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.
@@ -85,8 +86,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Runout preview: the browser chrome on phones matches the Carbon bar.
-export const viewport: Viewport = { themeColor: "#07090c" };
+// Runout preview: the browser chrome on phones matches the navy bar.
+export const viewport: Viewport = { themeColor: "#002e5d" };
 
 export default function RootLayout({
   children,

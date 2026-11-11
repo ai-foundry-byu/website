@@ -60,9 +60,9 @@ export default function AboutPage() {
       <main>
         <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{ABOUT_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>{ABOUT_EYEBROW}</Eyebrow>
             <h1
-              className="af-steel"
+              className="af-head-dark"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,

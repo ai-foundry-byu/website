@@ -22,8 +22,8 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="af-footer mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      {/* Runout: the horizon runs across the top of the footer and draws
-          itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
+      {/* Runout: a Light Blue set-out line runs across the top of the footer
+          and draws itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
       <div aria-hidden="true" className="af-horizon-rule" />
       <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         {/* Top row: the Foundry's lockup, and opposite it who the Foundry

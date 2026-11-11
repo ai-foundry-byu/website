@@ -17,14 +17,15 @@ import { motion, MotionConfig, type Variants } from "motion/react"
  * always appears.
  */
 export const STAMP: [number, number, number, number] = [0.2, 0.9, 0.3, 1]
-/* Runout retheme: sections rise on the kit's rise easing (--af-ease-rise),
-   slower and softer than the old 300ms stamp, and arrive out of a light
-   blur, the way the mark itself clears the horizon. Reduced motion still
-   strips the transform (MotionRoot); the fade and the unblur remain. */
-export const RISE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const TWEEN = { duration: 0.8, ease: RISE } as const
-const HIDDEN = { opacity: 0, y: 22, filter: "blur(6px)" }
-const SHOWN = { opacity: 1, y: 0, filter: "blur(0px)" }
+/* Runout retheme, system v2: sections are set in the way the hero mark is
+   built, on the kit's travel easing (--af-ease-travel: lift, travel, slow
+   final approach), a short slide with no blur, and grid children are placed
+   one after another like members off a crane. Reduced motion still strips
+   the transform (MotionRoot); the fade remains, so content always appears. */
+export const TRAVEL: [number, number, number, number] = [0.65, 0, 0.25, 1]
+const TWEEN = { duration: 0.55, ease: TRAVEL } as const
+const HIDDEN = { opacity: 0, y: 16 }
+const SHOWN = { opacity: 1, y: 0 }
 
 export function MotionRoot({ children }: { children: React.ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>
@@ -55,7 +56,7 @@ export function Reveal({
 
 const STAGGER_PARENT: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.09 } },
+  show: { transition: { staggerChildren: 0.08 } },
 }
 
 const STAGGER_CHILD: Variants = {

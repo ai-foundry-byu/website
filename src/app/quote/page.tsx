@@ -29,9 +29,9 @@ export default function QuotePage() {
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             {/* The page eyebrow keeps naming the action; only BUTTONS
                 read "Start a project" (Scott, 2026-10-15). */}
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>Request a proposal</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>Request a proposal</Eyebrow>
             <h1
-              className="af-steel"
+              className="af-head-dark"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,

@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { RunoutHeroMark } from "@/components/RunoutHeroMark"
+import { HeroBuild } from "@/components/HeroBuild"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,12 +36,13 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* Runout retheme (brand/runout-2026-11): the hero is Carbon under one
-   studio key light, the headline is brushed-steel type (kit: the display
-   line on dark is steel, never orange), the mark rises through its horizon
-   on the right, and the one heat button on this surface is the primary.
-   The shader field (HeroMotionLayer) is retired on this branch: the mark is
-   the motion now, and it costs about 21 KB instead of three.js. */
+/* Runout retheme, system v2 (brand/runout-2026-11): the hero is flat BYU
+   Navy with the one soft tonal lift behind the mark, the headline is flat
+   White (kit: type is never a gradient and never orange), the mark is
+   built on the right like a builder builds it (HeroBuild: grid, set-out,
+   orange level line, members placed and locked, then it holds), and the
+   one orange button on this surface is the primary. The shader field
+   (HeroMotionLayer) is retired on this branch: the build is the motion. */
 const HERO_FACTS = [
   { value: "5 weeks", label: "engagements, extendable" },
   { value: "1 or 2", label: "builders per team" },
@@ -51,11 +52,9 @@ const HERO_FACTS = [
 function Hero() {
   return (
     <section className="af-hero" data-ground="navy">
-      <div aria-hidden="true" className="af-hero-key" />
-      <div aria-hidden="true" className="af-hero-grain" />
       <div className="af-hero-inner">
         <div className="af-hero-copy">
-          <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
+          <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
             {HERO_SUPPORT.replace(/\.$/, "")}
           </Eyebrow>
           <h1
@@ -72,7 +71,7 @@ function Hero() {
           >
             {HERO_STACK.map((line, i) => (
               <span key={line} className="af-line" style={{ ["--i" as string]: i } as React.CSSProperties}>
-                <span className="af-steel">{line}</span>
+                {line}
               </span>
             ))}
           </h1>
@@ -80,7 +79,7 @@ function Hero() {
             <Button variant="primary" size="lg" href={NAV_CTA.href}>
               {NAV_CTA.label}
             </Button>
-            <Button variant="glass" size="lg" href="/network">
+            <Button variant="outline" size="lg" href="/network">
               Join the network
             </Button>
           </div>
@@ -97,7 +96,7 @@ function Hero() {
           </ul>
         </div>
         <div className="af-hero-art">
-          <RunoutHeroMark />
+          <HeroBuild theme="dark" />
         </div>
       </div>
     </section>
@@ -202,7 +201,6 @@ function QuoteBand() {
       style={{ background: "var(--surface-inverse)", padding: "72px 24px 64px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
     >
       <div aria-hidden="true" className="af-horizon-rule" />
-      <div aria-hidden="true" className="af-band-key" />
       <Reveal
         style={{
           position: "relative",
@@ -216,7 +214,7 @@ function QuoteBand() {
         }}
       >
         <h2
-          className="af-steel"
+          className="af-head-dark"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,

@@ -89,9 +89,9 @@ export default function StudentsPage() {
       <main>
         <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{STUDENTS_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>{STUDENTS_EYEBROW}</Eyebrow>
             <h1
-              className="af-steel"
+              className="af-head-dark"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -112,7 +112,7 @@ export default function StudentsPage() {
               <Button variant="primary" size="lg" href={SELF_ASSESSMENT_URL}>
                 Take the self-assessment
               </Button>
-              <Button variant="glass" size="lg" href={HANDBOOK_URL}>
+              <Button variant="outline" size="lg" href={HANDBOOK_URL}>
                 Read the handbook
               </Button>
             </div>

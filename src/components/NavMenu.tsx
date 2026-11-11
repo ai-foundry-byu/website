@@ -14,8 +14,8 @@ const LABEL: React.CSSProperties = {
 /**
  * A top-bar tab that opens a short list of pages (About). Click opens it;
  * a click outside, Escape, or choosing a page closes it. Same panel as
- * AccountMenu: Graphite on the Carbon bar (guide: cards and menus), hairline
- * border, system radius.
+ * AccountMenu: Navy Raised on the navy bar (guide: cards and menus), hairline
+ * border, system radius, no shadow.
  */
 export function NavMenu({ label, items }: { label: string; items: NavLink[] }) {
   const [open, setOpen] = useState(false)
@@ -51,7 +51,7 @@ export function NavMenu({ label, items }: { label: string; items: NavLink[] }) {
       {open ? (
         <ul
           className="absolute left-1/2 top-full z-50 mt-3 w-48 -translate-x-1/2 py-2"
-          style={{ background: "var(--af-graphite)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", boxShadow: "0 24px 48px -20px rgba(0,0,0,.75)", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
+          style={{ background: "var(--af-navy-raised)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
         >
           {items.map((link) => (
             <li key={link.href}>
@@ -59,7 +59,7 @@ export function NavMenu({ label, items }: { label: string; items: NavLink[] }) {
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="block px-4 py-2.5 no-underline hover:bg-white/5"
-                style={{ ...LABEL, color: "var(--af-specular)" }}
+                style={{ ...LABEL, color: "#fff" }}
               >
                 {link.label}
               </CurtainNavLink>
