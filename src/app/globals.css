@@ -1307,12 +1307,18 @@ body {
 }
 @media (max-width: 900px) {
   .af-hero-facts {
-    gap: 20px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
     margin-top: 40px;
     padding-top: 24px;
   }
   .af-hero-facts strong {
-    font-size: 22px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  .af-hero-facts span {
+    font-size: 13px;
   }
 }
 

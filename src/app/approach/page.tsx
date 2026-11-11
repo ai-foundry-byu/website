@@ -150,12 +150,17 @@ export default function ApproachPage() {
           </div>
         </section>
 
+        {/* Same Carbon terminal as the landing page's quote band: the
+            horizon rule draws in at its top edge under one key light. */}
         <section
           data-ground="navy"
-          style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+          className="af-band"
+          style={{ background: "var(--surface-inverse)", padding: "64px 24px 56px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
         >
-          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", textAlign: "center" }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0, color: "#fff" }}>
+          <div aria-hidden="true" className="af-horizon-rule" />
+          <div aria-hidden="true" className="af-band-key" />
+          <Reveal style={{ position: "relative", maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", textAlign: "center" }}>
+            <h2 className="af-steel" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0 }}>
               {APPROACH_CLIENT_HEADING}
             </h2>
             <p style={{ fontWeight: 300, fontSize: "var(--size-body)", lineHeight: 1.6, color: "var(--text-on-dark-body)", margin: "0 0 8px", maxWidth: "56ch" }}>
