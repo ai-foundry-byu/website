@@ -210,7 +210,7 @@
 
   --iron: var(--navy);
   --iron-soft: var(--byu-navy-soft);
-  --paper: var(--white);
+  --paper: var(--af-studio);
   --paper-dim: var(--byu-off-white);
   --navy-deep: var(--byu-navy-deep);
   --ember: var(--royal); /* retired name, royal value */
@@ -804,17 +804,24 @@ html {
 .surface-paper-dim {
   background-color: var(--paper-dim);
 }
-.surface-iron {
-  background-color: var(--iron);
-}
+/* AF Stride demo: the legacy iron bands (the /network hero) become Carbon
+   with one key light from above and the horizon line along their foot. */
+.surface-iron,
 .surface-iron-deep {
-  background-color: var(--iron);
-  background-image: radial-gradient(
-    120% 90% at 28% 0%,
-    #004380 0%,
-    #002e5d 52%,
-    #001a35 100%
-  );
+  position: relative;
+  background-color: var(--af-carbon);
+  background-image: radial-gradient(55% 120% at 50% 0%, rgba(29, 58, 94, 0.9) 0%, rgba(19, 40, 65, 0.4) 50%, rgba(7, 9, 12, 0) 85%);
+}
+.surface-iron::after,
+.surface-iron-deep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--af-horizon-line);
+  box-shadow: 0 0 22px 1px rgba(255, 106, 19, 0.25);
 }
 
 .ember-bar {
