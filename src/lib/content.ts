@@ -71,6 +71,19 @@ export const HERO_SUPPORT =
  */
 export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
 
+/** The hero's offerings line in the AF Stride demo (brand/stride-2026-11).
+ *  Verbatim from the site's own What we build copy (facts.yaml: offerings). */
+export const HERO_LEAD =
+  "Full-stack applications, AI integration and orchestration, and AI enablement and training. Every engagement combines what your project needs."
+
+/** Three facts under the hero, each already published on this site
+ *  (facts.yaml: engagement-weeks, team-size, students). */
+export const HERO_FACTS: { value: string; label: string }[] = [
+  { value: "5 weeks", label: "engagements, extendable" },
+  { value: "1 or 2", label: "builders per team" },
+  { value: "30", label: "students, many disciplines" },
+]
+
 /** Not currently rendered — removed from the hero by Corbin 2026-08-16;
  *  kept as the decided support line should it come back. */
 export const HERO_STACK_SUPPORT =

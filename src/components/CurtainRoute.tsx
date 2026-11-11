@@ -1,210 +1,119 @@
 "use client"
 
 /**
- * CurtainRoute — real route navigation behind the PageCurtain experiment.
- * PREVIEW-ONLY (corbin-curtain-site branch): exists so the team can feel the
- * curtain on the actual site, not just the /lab/page-curtain harness.
+ * Route transitions on the View Transitions API (AF Stride demo,
+ * brand/stride-2026-11). Replaces the motion-library curtain overlay.
  *
- * How it keeps the static model intact: pages stay server-rendered and
- * prerendered. This provider is one client leaf in the layout that receives
- * the page tree as children (a ReactNode prop crosses the boundary without
- * hydrating it). Navigation is intercepted at the link: close the curtain
- * over the viewport, router.push() while covered, open when the new pathname
- * commits. Cost is one fixed overlay and the interception logic — the pages
- * themselves ship no extra JavaScript.
+ * How it works: a plain left-click on an internal, hash-free link calls
+ * document.startViewTransition(). Inside the update callback we router.push()
+ * and hold the callback open until the new pathname commits, so the browser
+ * snapshots the old page, then the new one, and animates between them with
+ * the CSS in globals.css ("Route transitions"): the old page settles back
+ * and dims while the new page RISES up through a hot horizon line, the
+ * brand's own motion.
  *
- * The doors carry a 3px ember edge, so at full close they meet as the site's
- * vertical accent-bar motif before parting onto the next page.
+ * The header carries view-transition-name: af-header, so it stays put while
+ * the page beneath it changes.
  *
- * What is deliberately NOT curtained: hash links (/#quote), external URLs,
- * modified clicks (cmd/ctrl/shift/alt, middle-click), browser back/forward
- * (popstate swaps content directly), and any navigation under
- * prefers-reduced-motion, which goes straight to router.push().
+ * Pages stay server-rendered: this provider is one client leaf that receives
+ * the page tree as children. Nothing here is required for navigation to
+ * work. Browsers without startViewTransition, prefers-reduced-motion, hash
+ * links, external URLs, modified clicks and back/forward all fall straight
+ * through to ordinary Next navigation.
  *
- * A 2.5s watchdog force-opens the curtain if a pushed route never commits
- * (redirect, slow network chunk), so the site can never be left covered.
+ * A 2.5 s watchdog resolves the transition if a pushed route never commits
+ * (redirect, slow chunk), so the page can never be left frozen.
  */
 
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { motion, useReducedMotion } from "motion/react"
-import {
-  curtainPanels,
-  EASE,
-  type CurtainDirection,
-  type CurtainEffect,
-} from "@/components/PageCurtain"
-import type { ComponentProps, CSSProperties, ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 
-type Phase = "idle" | "closing" | "navigating" | "opening"
-
-interface CurtainRouteContextValue {
-  go: (href: string) => void
+interface RouteTransitionContextValue {
+  go: (href: string) => boolean
 }
 
-const CurtainRouteContext = React.createContext<CurtainRouteContextValue | null>(null)
+const RouteTransitionContext = React.createContext<RouteTransitionContextValue | null>(null)
 
-/** Ember seam: the door edges that meet at centre echo the accent-bar motif. */
-const DOOR_EDGE: Record<string, CSSProperties> = {
-  "door-left": { borderRight: "3px solid var(--surface-accent)" },
-  "door-right": { borderLeft: "3px solid var(--surface-accent)" },
-}
+type StartViewTransition = (cb: () => Promise<void>) => { finished: Promise<void> }
 
-export interface CurtainRouteProviderProps {
-  /** Route order for wipe direction; unknown routes navigate as forward. */
-  order?: readonly string[]
-  effect?: CurtainEffect
-  closeDuration?: number
-  openDuration?: number
-  children: ReactNode
-}
-
-export function CurtainRouteProvider({
-  order = ["/", "/work", "/network", "/about"],
-  effect = "doors",
-  closeDuration = 0.45,
-  openDuration = 0.45,
-  children,
-}: CurtainRouteProviderProps) {
+export function CurtainRouteProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
-  const reduced = useReducedMotion()
+  const pending = React.useRef<{ target: string; resolve: () => void } | null>(null)
 
-  interface State {
-    phase: Phase
-    target: string | null
-    direction: CurtainDirection
-  }
-  const [state, setState] = React.useState<State>({
-    phase: "idle",
-    target: null,
-    direction: 1,
-  })
-  const { phase, target, direction } = state
+  // New route committed: release the transition so the browser snapshots it.
+  React.useEffect(() => {
+    const p = pending.current
+    if (p && pathname === p.target) {
+      pending.current = null
+      p.resolve()
+    }
+  }, [pathname])
 
   const go = React.useCallback(
     (href: string) => {
-      if (reduced) {
-        router.push(href)
-        return
-      }
-      setState((s) => {
-        if (s.phase !== "idle") return s
-        const from = order.indexOf(pathname)
-        const to = order.indexOf(href)
-        const dir: CurtainDirection = from !== -1 && to !== -1 && to < from ? -1 : 1
-        return { phase: "closing", target: href, direction: dir }
-      })
+      const start = (document as Document & { startViewTransition?: StartViewTransition }).startViewTransition
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      if (!start || reduced || pending.current) return false
+      const target = href.split("?")[0]
+      const vt = start.call(
+        document,
+        () =>
+          new Promise<void>((resolve) => {
+            const done = () => {
+              // The hot horizon line that leads the reveal: present only in
+              // the new snapshot, so it animates as an entering element.
+              const line = document.createElement("div")
+              line.className = "vt-horizon"
+              line.setAttribute("aria-hidden", "true")
+              document.body.appendChild(line)
+              resolve()
+            }
+            pending.current = { target, resolve: done }
+            router.push(href)
+            setTimeout(() => {
+              if (pending.current?.target === target) {
+                pending.current = null
+                done()
+              }
+            }, 2500)
+          }),
+      )
+      vt.finished.finally(() => document.querySelectorAll(".vt-horizon").forEach((n) => n.remove()))
+      return true
     },
-    [order, pathname, reduced, router],
+    [router],
   )
-
-  // Curtain fully closed: perform the real navigation while covered.
-  const handleClosed = React.useCallback(() => {
-    setState((s) => (s.phase === "closing" ? { ...s, phase: "navigating" } : s))
-  }, [])
-  React.useEffect(() => {
-    if (phase === "navigating" && target) router.push(target)
-  }, [phase, target, router])
-
-  // New route committed (or was already current): part the curtain.
-  React.useEffect(() => {
-    if (phase === "navigating" && target && pathname === target.split("#")[0]) {
-      setState((s) => ({ ...s, phase: "opening", target: null }))
-    }
-  }, [phase, target, pathname])
-
-  // Watchdog: never leave the site covered if a push doesn't commit.
-  React.useEffect(() => {
-    if (phase !== "navigating") return
-    const t = setTimeout(
-      () => setState((s) => (s.phase === "navigating" ? { ...s, phase: "opening", target: null } : s)),
-      2500,
-    )
-    return () => clearTimeout(t)
-  }, [phase])
-
-  const handleOpened = React.useCallback(() => {
-    setState((s) => (s.phase === "opening" ? { ...s, phase: "idle" } : s))
-  }, [])
-
-  const panels = React.useMemo(() => curtainPanels(effect, direction), [effect, direction])
-
-  // A phase completes when every panel (doors has two) finishes animating.
-  const doneCount = React.useRef(0)
-  React.useEffect(() => {
-    doneCount.current = 0
-  }, [phase])
-  const active = phase !== "idle"
-  const closingward = phase === "closing" || phase === "navigating"
-  const handlePanelDone = () => {
-    doneCount.current += 1
-    if (doneCount.current < panels.length) return
-    if (phase === "closing") handleClosed()
-    else if (phase === "opening") handleOpened()
-  }
 
   const context = React.useMemo(() => ({ go }), [go])
-
-  return (
-    <CurtainRouteContext.Provider value={context}>
-      {children}
-      {active && (
-        <div
-          aria-hidden
-          style={{ position: "fixed", inset: 0, zIndex: 100, overflow: "hidden" }}
-        >
-          {panels.map((panel) => (
-            <motion.div
-              key={panel.key}
-              className="bg-surface-inverse-deep"
-              style={{
-                position: "absolute",
-                ...panel.style,
-                ...(effect === "doors" ? DOOR_EDGE[panel.key] : undefined),
-              }}
-              initial={panel.initial}
-              animate={closingward ? panel.close : panel.open}
-              transition={{
-                duration: phase === "navigating" ? 0 : closingward ? closeDuration : openDuration,
-                ease: EASE,
-              }}
-              onAnimationComplete={handlePanelDone}
-            />
-          ))}
-        </div>
-      )}
-    </CurtainRouteContext.Provider>
-  )
+  return <RouteTransitionContext.Provider value={context}>{children}</RouteTransitionContext.Provider>
 }
 
 export type CurtainNavLinkProps = ComponentProps<typeof Link>
 
 /**
- * Drop-in for next/link in the header nav. Renders a real <a> via next/link
- * (href, prefetch, cmd-click, copy-link all intact); a plain left-click on an
- * internal, hash-free href goes through the curtain instead.
+ * Drop-in for next/link. Renders a real <a> via next/link (href, prefetch,
+ * cmd-click, copy-link all intact); a plain left-click on an internal,
+ * hash-free href runs through a view transition when the browser has one.
  */
 export function CurtainNavLink({ href, onClick, ...rest }: CurtainNavLinkProps) {
-  const curtain = React.useContext(CurtainRouteContext)
+  const ctx = React.useContext(RouteTransitionContext)
   const pathname = usePathname()
 
   const hrefString = typeof href === "string" ? href : (href.pathname ?? "")
-  const curtainable =
-    curtain !== null && hrefString.startsWith("/") && !hrefString.includes("#")
+  const eligible = ctx !== null && hrefString.startsWith("/") && !hrefString.includes("#")
 
   return (
     <Link
       href={href}
       onClick={(event) => {
         onClick?.(event)
-        if (!curtainable || event.defaultPrevented) return
-        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-          return
-        event.preventDefault()
+        if (!eligible || event.defaultPrevented) return
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
         if (hrefString === pathname) return
-        curtain.go(hrefString)
+        if (ctx.go(hrefString)) event.preventDefault()
       }}
       {...rest}
     />

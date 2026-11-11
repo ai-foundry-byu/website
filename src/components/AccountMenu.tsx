@@ -9,7 +9,7 @@ const LINK: React.CSSProperties = {
   fontFamily: "var(--font-body)",
   fontWeight: 500,
   fontSize: "var(--size-ui)",
-  color: "var(--navy)",
+  color: "var(--nav-ink, var(--navy))",
 }
 
 const PERSON = (
@@ -69,7 +69,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
   const avatar = (
     <span
       aria-hidden="true"
-      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--navy)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
+      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-blued-steel)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
     >
       {me.initials}
     </span>
@@ -98,9 +98,9 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
         </svg>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)", boxShadow: "0 8px 24px rgba(0,46,93,.12)" }}>
+        <div role="menu" className="absolute right-0 z-50 py-1.5" style={{ top: "calc(100% + 14px)", width: 240, background: "var(--nav-panel, #fff)", border: "1px solid var(--nav-rule, var(--border-hairline))", borderRadius: "12px", boxShadow: "0 18px 40px rgba(0,0,0,.35)" }}>
           {me.email && (
-            <div className="px-4 pb-2.5 pt-2" style={{ fontSize: 12.5, color: "var(--text-secondary, #5b6770)", borderBottom: "1px solid var(--border-hairline)" }}>
+            <div className="px-4 pb-2.5 pt-2" style={{ fontSize: 12.5, color: "var(--af-fog)", borderBottom: "1px solid var(--nav-rule, var(--border-hairline))" }}>
               Signed in as {me.email}
             </div>
           )}
@@ -113,7 +113,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
           {/* The app's sign-out: clears its session on this address (and on strategy.byu.edu
               for someone in both lanes), then lands on the app's sign-in page. */}
           <form method="post" action={APP_SIGN_OUT}>
-            <button role="menuitem" type="submit" className="block w-full px-4 py-2.5 text-left" style={{ ...LINK, background: "none", border: 0, borderTop: "1px solid var(--border-hairline)", cursor: "pointer" }}>
+            <button role="menuitem" type="submit" className="block w-full px-4 py-2.5 text-left" style={{ ...LINK, background: "none", border: 0, borderTop: "1px solid var(--nav-rule, var(--border-hairline))", cursor: "pointer" }}>
               Sign out
             </button>
           </form>

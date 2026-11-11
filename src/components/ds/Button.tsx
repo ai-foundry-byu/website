@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
+import { CurtainNavLink } from "@/components/CurtainRoute"
 import styles from "./Button.module.css"
 
 /**
@@ -14,17 +14,25 @@ import styles from "./Button.module.css"
  * .../forms/Button.jsx, values preserved; internal hrefs render through
  * next/link so client navigation keeps working.
  */
-type Variant = "primary" | "secondary" | "inverse" | "ghost"
+type Variant = "primary" | "secondary" | "inverse" | "ghost" | "steel"
 
+/* AF Stride demo (brand/stride-2026-11): the primary is the HEAT button,
+   the kit's one orange moment per surface (Forge gradient, Carbon ink,
+   6.95:1, a glow that only reads on Carbon). Hover lifts the glow and runs
+   a white-heat sheen across it (.sx-btn-heat in globals.css). "steel" is the
+   outline pill for dark grounds (header, hero). Every variant is a pill set
+   in the kit's button type: Archivo Expanded 600, capitals, +8% tracking. */
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { background: "var(--accent)", color: "var(--accent-ink)", border: "1px solid var(--accent)" },
-  primaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
+  primary: { background: "var(--af-heat-cta)", color: "var(--af-carbon)", border: "1px solid transparent", boxShadow: "var(--af-heat-cta-glow)" },
+  primaryHover: { background: "var(--af-heat-cta)", color: "var(--af-carbon)", border: "1px solid transparent", boxShadow: "var(--af-heat-cta-glow-hover)", filter: "brightness(1.06) saturate(1.05)" },
   secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
-  inverse: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
-  inverseHover: { background: "rgba(255,255,255,.85)", color: "var(--navy)", border: "1px solid rgba(255,255,255,.85)" },
+  inverse: { background: "var(--af-specular)", color: "var(--af-carbon)", border: "1px solid var(--af-specular)" },
+  inverseHover: { background: "#fff", color: "var(--af-carbon)", border: "1px solid #fff" },
   ghost: { background: "transparent", color: "var(--royal)", border: "1px solid transparent" },
   ghostHover: { background: "transparent", color: "var(--navy)", border: "1px solid transparent" },
+  steel: { background: "rgba(228, 238, 247, 0.02)", color: "var(--af-specular)", border: "1px solid rgba(228, 238, 247, 0.3)" },
+  steelHover: { background: "rgba(228, 238, 247, 0.09)", color: "#fff", border: "1px solid rgba(228, 238, 247, 0.62)" },
 }
 
 export function Button({
@@ -62,12 +70,15 @@ export function Button({
   const off = disabled || loading
   const look = PALETTES[hover && !off ? variant + "Hover" : variant] || PALETTES.primary
   const s: React.CSSProperties = {
-    fontFamily: "var(--font-body)",
-    fontWeight: 500,
+    fontFamily: "var(--font-display)",
+    fontStretch: "125%",
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: "0.08em",
     lineHeight: 1.2,
-    fontSize: size === "lg" ? "16px" : "var(--size-ui)",
-    padding: size === "lg" ? "16px 28px" : "12px 20px",
-    borderRadius: "var(--radius)",
+    fontSize: size === "lg" ? "13.5px" : "12px",
+    padding: size === "lg" ? "17px 30px" : "12px 20px",
+    borderRadius: "999px",
     cursor: off ? "default" : "pointer",
     opacity: disabled ? 0.45 : 1,
     display: "inline-flex",
@@ -79,7 +90,8 @@ export function Button({
     whiteSpace: "nowrap",
     flex: "none",
     transform: press && !off ? "translateY(1px)" : "none",
-    transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast)",
+    transition:
+      "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-base) var(--af-ease-rise), filter var(--dur-base)",
     ...look,
     ...style,
   }
@@ -93,16 +105,12 @@ export function Button({
     onMouseUp: () => setPress(false),
     onClick: off ? undefined : onClick,
   }
-  // Ring defaults: royal on the primary, none elsewhere. A royal ring
-  // never goes on navy grounds (prohibited pair) — white is the ring for
-  // buttons that live there.
-  const ringTone = ring ?? (variant === "primary" ? "royal" : "none")
-  const className =
-    ringTone === "none"
-      ? undefined
-      : ringTone === "royal"
-        ? styles.splash
-        : `${styles.splash} ${styles.splashWhite}`
+  // The splash ring is retired in the Stride demo (the heat glow replaces
+  // it); ring="royal" or "white" still opts back in.
+  const ringTone = ring ?? "none"
+  const ringClass =
+    ringTone === "none" ? "" : ringTone === "royal" ? styles.splash : `${styles.splash} ${styles.splashWhite}`
+  const className = [ringClass, variant === "primary" ? "sx-btn-heat" : ""].filter(Boolean).join(" ") || undefined
   const inner = (
     <>
       {loading ? (
@@ -123,9 +131,9 @@ export function Button({
   )
   if (href) {
     return href.startsWith("/") && !download ? (
-      <Link href={href} className={className} style={s} {...handlers}>
+      <CurtainNavLink href={href} className={className} style={s} {...handlers}>
         {inner}
-      </Link>
+      </CurtainNavLink>
     ) : (
       <a href={href} download={download} className={className} style={s} {...handlers}>
         {inner}

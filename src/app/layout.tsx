@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { CurtainRouteProvider } from "@/components/CurtainRoute";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
@@ -42,6 +42,9 @@ const TITLE = "AI Foundry | BYU Marriott School of Business";
 const DESCRIPTION =
   "An AI-native product studio and consultancy, and an experiential learning program of the BYU Marriott School of Business. Students scope real projects and ship production systems for real clients.";
 
+/** Carbon browser chrome on phones, matching the header (AF Stride demo). */
+export const viewport: Viewport = { themeColor: "#07090C" }
+
 export const metadata: Metadata = {
   // byu-aifoundry.com currently serves a second live copy of this site from
   // another Vercel account. Until that redirects, this tells search engines
@@ -56,15 +59,13 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // A plain BYU navy square, a deliberate placeholder: the anvil mark is
-  // under consideration and no official logo is approved yet (2026-08-01).
-  // When one is, regenerate this whole set from it. The SVG is listed first
-  // because browsers that understand it prefer it and it stays sharp at any
-  // size; the PNG is the fallback for those that do not. src/app/favicon.ico
-  // is picked up by Next automatically and covers everything older.
+  // AF Stride demo (brand/stride-2026-11): the kit's hand-drawn one-colour
+  // favicons (navy for light browser chrome, white for dark), the app icon
+  // for iOS, and src/app/favicon.ico (16/32/48) for everything older.
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
     ],
@@ -99,15 +100,15 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      {/* CurtainRouteProvider is the corbin-curtain-site preview experiment:
-          header-nav route changes run behind a curtain. Pages stay server-
-          rendered — children cross the boundary as a ReactNode prop. Remove
-          this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
+      {/* CurtainRouteProvider runs internal link clicks through the View
+          Transitions API (AF Stride demo). Pages stay server-rendered:
+          children cross the boundary as a ReactNode prop. Remove this
+          wrapper to turn route transitions off. */}
       <body className="min-h-full flex flex-col">
         <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important}'}</style></noscript>
         {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
             system; the curtain handles reduced motion itself, outside it. */}
-        <CurtainRouteProvider effect="fade">
+        <CurtainRouteProvider>
           <MotionRoot>{children}</MotionRoot>
         </CurtainRouteProvider>
       </body>

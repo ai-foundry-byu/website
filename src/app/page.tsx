@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { HeroMotionLayer } from "@/components/HeroMotionLayer"
+import { HeroStride } from "@/components/HeroStride"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -13,6 +13,8 @@ import {
   BUILD_LEAD,
   BUILDERS_LOGOS,
   BUILDERS_STRIP_EYEBROW,
+  HERO_FACTS,
+  HERO_LEAD,
   HERO_STACK,
   HERO_SUPPORT,
   CULTURE_LEAD,
@@ -36,66 +38,54 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/** Subtle white halo for the hero text over the shader field. A knowing
- *  exception to "shadows: none" — that rule is about elevation; this is
- *  legibility against a moving ground. */
-const HERO_TEXT_GLOW =
-  "0 0 6px rgba(255,255,255,0.45), 0 0 22px rgba(255,255,255,0.55)"
-
-/* Vertical rhythm tightened site-hero through CTA band per Corbin
-   2026-08-16: the kit's 96px+ section paddings read too airy — bands now
-   run 64px, the hero 80/64. */
+/* AF Stride demo (brand/stride-2026-11). The hero is the brand guide's
+   website spec: Carbon with one key light behind the mark, the label, one
+   Display line in the steel text gradient, the offerings line, ONE heat
+   button, three facts, and on the right the digital mark playing the rise
+   once (HeroStride). The old shader layer (HeroMotionLayer, three.js) is no
+   longer imported, so the landing page ships lighter. */
 function Hero() {
   return (
-    <section style={{ padding: "80px 24px 64px", position: "relative", overflow: "hidden" }}>
-      {/* The one exception to flat solids: the shader motion field.
-          HeroMotionLayer paints the CSS stand-in instantly, then fades in
-          the real ShaderGradient; reduced motion keeps the still CSS. */}
-      <HeroMotionLayer />
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* A whisper of white outer glow lifts the text off the shader
-            field where it runs dark (Corbin, 2026-08-16). Text only —
-            the buttons carry their own grounds. */}
-        <Eyebrow style={{ textShadow: HERO_TEXT_GLOW }}>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
-        <h1
-          className="hero"
-          style={{
-            /* The clamp's 48px FLOOR was clipping the headline on every
-               phone: "PRODUCTION-GRADE." needs 436px at 48px, and a 390px
-               viewport only offers 342px of line box. The section's
-               overflow:hidden then swallowed the tail, so it read as a
-               design choice rather than a bug — measured 2026-08-20 at
-               +164px over at 320px, +94px at 390px, +54px at 430px, clean
-               from 480px up.
-
-               The min() caps the existing curve by what actually fits:
-               "PRODUCTION-GRADE." occupies 436px of width per 48px of
-               font-size, i.e. 0.110 px of font per px of line box, and the
-               line box is the viewport less this section's 24px gutters.
-               0.105 leaves a little slack for font loading. At every width
-               where the old value already fit (>=480px) min() returns the
-               old value unchanged, so desktop is untouched. */
-            fontSize: "min(clamp(48px, 5.6vw, 80px), calc((100vw - 48px) * 0.105))",
-            textTransform: "uppercase",
-            margin: "18px 0 0",
-            color: "var(--navy)",
-            textShadow: HERO_TEXT_GLOW,
-          }}
-        >
-          {HERO_STACK[0]}
-          <br />
-          {HERO_STACK[1]}
-          <br />
-          <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
-        </h1>
-        <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
-          <Button variant="primary" size="lg" href={NAV_CTA.href}>
-            {NAV_CTA.label}
-          </Button>
-          <Button variant="secondary" size="lg" ring="white" href="/network">
-            Join the network
-          </Button>
+    <section className="sx-hero" data-ground="navy">
+      <div className="sx-hero-bg" aria-hidden="true" />
+      <div className="sx-hero-grid">
+        <div className="sx-hero-copy">
+          {/* Two lines, broken where the sentence turns, as the guide's hero sets it. */}
+          <Eyebrow tone="on-dark" style={{ lineHeight: 1.8 }}>
+            {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[0]}
+            <br />
+            at the {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[1]}
+          </Eyebrow>
+          {/* One phrase per line. Sizing lives in .sx-display (globals.css):
+              "PRODUCTION-GRADE." measures 14.25 px of line per px of type at
+              Archivo 125/700, so desktop caps the size by that; phones let
+              that one phrase break at its hyphen. */}
+          <h1 className="hero sx-display">
+            {HERO_STACK.map((line) => (
+              <span key={line} className="sx-line">
+                {line}
+              </span>
+            ))}
+          </h1>
+          <p className="sx-hero-lead">{HERO_LEAD}</p>
+          <div style={{ display: "flex", gap: "14px", marginTop: "34px", flexWrap: "wrap", alignItems: "center" }}>
+            <Button variant="primary" size="lg" href={NAV_CTA.href}>
+              {NAV_CTA.label}
+            </Button>
+            <Button variant="steel" size="lg" href="/network">
+              Join the network
+            </Button>
+          </div>
+          <dl className="sx-facts">
+            {HERO_FACTS.map((f) => (
+              <div key={f.value}>
+                <dt>{f.value}</dt>
+                <dd>{f.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+        <HeroStride />
       </div>
     </section>
   )
@@ -195,7 +185,8 @@ function QuoteBand() {
   return (
     <section
       data-ground="navy"
-      style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+      className="sx-band"
+      style={{ background: "var(--surface-inverse)", padding: "88px 24px 80px", borderBottom: "1px solid rgba(255,255,255,.08)" }}
     >
       <Reveal
         style={{
@@ -209,19 +200,21 @@ function QuoteBand() {
         }}
       >
         <h2
+          className="sx-steel-text"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontStretch: "var(--w-plate)",
-            fontSize: "40px",
-            lineHeight: 1.1,
+            fontStretch: "125%",
+            textTransform: "uppercase",
+            letterSpacing: "0.01em",
+            fontSize: "clamp(28px, 4vw, 44px)",
+            lineHeight: 1.08,
             margin: 0,
-            color: "#fff",
           }}
         >
           {QUOTE_HEADLINE}
         </h2>
-        <Button variant="inverse" size="lg" ring="white" href={QUOTE_CTA.href}>
+        <Button variant="primary" size="lg" href={QUOTE_CTA.href}>
           {QUOTE_CTA.label}
         </Button>
       </Reveal>

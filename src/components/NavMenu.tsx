@@ -8,7 +8,7 @@ const LABEL: React.CSSProperties = {
   fontFamily: "var(--font-body)",
   fontWeight: 500,
   fontSize: "var(--size-ui)",
-  color: "var(--navy)",
+  color: "var(--nav-ink, var(--navy))",
 }
 
 /**
@@ -50,7 +50,7 @@ export function NavMenu({ label, items }: { label: string; items: NavLink[] }) {
       {open ? (
         <ul
           className="absolute left-1/2 top-full z-50 mt-3 w-48 -translate-x-1/2 py-2"
-          style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)" }}
+          style={{ background: "var(--nav-panel, #fff)", border: "1px solid var(--nav-rule, var(--border-hairline))", borderRadius: "12px" }}
         >
           {items.map((link) => (
             <li key={link.href}>

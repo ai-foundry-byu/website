@@ -6,7 +6,14 @@ import { Button } from "@/components/ds/Button"
 import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * Top bar: co-brand lockup left, links, the door into the app (AccountMenu),
+ * AF Stride demo (brand/stride-2026-11): a Carbon glass bar on every page,
+ * the one-colour name lockup at 40 px mark height (the shaded mark is never
+ * used under 48 px), Specular labels, and a steel outline pill for the CTA so
+ * the page's one orange button stays in the hero. The bar carries
+ * view-transition-name: af-header (.sx-header) so it holds still while
+ * routes change beneath it.
+ *
+ * Top bar: lockup left, links, the door into the app (AccountMenu),
  * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
@@ -23,22 +30,20 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  */
 export function SiteHeader() {
   return (
-    <header
-      className="sticky top-0 z-50"
-      style={{ background: "#fff", borderBottom: "1px solid var(--border-hairline)" }}
-    >
+    <header className="sx-header sticky top-0 z-50" data-ground="navy">
       <div
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex items-center no-underline">
           <Image
-            src="/byu-marriott-ai-foundry.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
-            height={360}
+            src="/brand/stride/lockup-name-dark.svg"
+            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
+            width={956}
+            height={300}
             priority
-            className="h-6 w-auto md:h-8"
+            unoptimized
+            className="h-12 w-auto md:h-[60px]"
           />
         </CurtainNavLink>
 
@@ -50,16 +55,16 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               className="link-draw whitespace-nowrap no-underline"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+              style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--nav-ink)" }}
             >
               {link.label}
             </CurtainNavLink>
           ))}
           <NavMenu label={NAV_ABOUT.label} items={NAV_ABOUT.items} />
           {/* The door into the app, set off from the site's own pages by a hairline. */}
-          <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--border-hairline)", margin: "0 -6px" }} />
+          <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--nav-rule)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          <Button variant="primary" href={NAV_CTA.href}>
+          <Button variant="steel" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
         </nav>
@@ -71,14 +76,14 @@ export function SiteHeader() {
         <details className="relative lg:hidden">
           <summary
             className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
-            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+            style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--nav-ink)" }}
           >
             Menu
           </summary>
           <nav
             aria-label="Main"
             className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
-            style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)" }}
+            style={{ background: "var(--nav-panel)", border: "1px solid var(--nav-rule)", borderRadius: "12px" }}
           >
             <ul>
               {NAV.map((link) => (
@@ -86,7 +91,7 @@ export function SiteHeader() {
                   <CurtainNavLink
                     href={link.href}
                     className="block px-4 py-3 no-underline"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--nav-ink)" }}
                   >
                     {link.label}
                   </CurtainNavLink>
@@ -96,7 +101,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--border-hairline)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--text-meta)" }}
+                style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-fog)" }}
               >
                 {NAV_ABOUT.label}
               </li>
@@ -105,13 +110,13 @@ export function SiteHeader() {
                   <CurtainNavLink
                     href={link.href}
                     className="block px-4 py-3 no-underline"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--nav-ink)" }}
                   >
                     {link.label}
                   </CurtainNavLink>
                 </li>
               ))}
-              <li style={{ borderTop: "1px solid var(--border-hairline)", marginTop: 4 }}>
+              <li style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4 }}>
                 <AccountMenu variant="menu" />
               </li>
               <li className="px-4 pb-2 pt-3">

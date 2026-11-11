@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, MotionConfig, type Variants } from "motion/react"
+import { MotionConfig } from "motion/react"
 
 /**
  * The site's scroll-entrance motion system (proposals 1 and 3 of the
@@ -17,15 +17,22 @@ import { motion, MotionConfig, type Variants } from "motion/react"
  * always appears.
  */
 export const STAMP: [number, number, number, number] = [0.2, 0.9, 0.3, 1]
-const TWEEN = { duration: 0.3, ease: STAMP } as const
 
 export function MotionRoot({ children }: { children: React.ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>
 }
 
+/*
+ * AF Stride demo (brand/stride-2026-11): Reveal, Stagger and DrawRule are now
+ * SCROLL-DRIVEN CSS (animation-timeline: view(), rules in globals.css under
+ * "Scroll-driven reveal"). Each block rises 24px out of a soft blur on the
+ * rise's own easing, tied to scroll position rather than a timer, with no
+ * JavaScript and no observers. Browsers without scroll timelines, and anyone
+ * who asks for reduced motion, get the content in place, never hidden.
+ * Signatures are unchanged so every page keeps working.
+ */
 export function Reveal({
   children,
-  delay = 0,
   style,
 }: {
   children: React.ReactNode
@@ -33,74 +40,46 @@ export function Reveal({
   style?: React.CSSProperties
 }) {
   return (
-    <motion.div
-      className="m-reveal"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ ...TWEEN, delay }}
-      style={style}
-    >
+    <div className="sd-reveal" style={style}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 
-const STAGGER_PARENT: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
-}
-
-const STAGGER_CHILD: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: TWEEN },
-}
-
-/** Grid wrapper: children (StaggerItem) land in sequence, once. */
+/** Grid wrapper: children (StaggerItem) land in sequence as they scroll in. */
 export function Stagger({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <motion.div
-      variants={STAGGER_PARENT}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: "some" }}
-      style={style}
-    >
+    <div className="sd-stagger" style={style}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 
 export function StaggerItem({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <motion.div className="m-reveal" variants={STAGGER_CHILD} style={style}>
+    <div className="sd-reveal" style={style}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 
 /**
- * A 1px rule that draws itself in from the left when it enters view.
+ * A 1px rule that draws itself in from the left as it scrolls into view.
  * tone "hairline" (default) or "strong" (solid navy). `bleed` pins it to
- * the top edge of a position:relative section so it stays full-bleed the
- * way the section borders it replaces were.
+ * the top edge of a position:relative section so it stays full-bleed.
  */
 export function DrawRule({
   tone = "hairline",
   bleed = false,
-  delay = 0,
 }: {
   tone?: "hairline" | "strong"
   bleed?: boolean
   delay?: number
 }) {
   return (
-    <motion.div
+    <div
       aria-hidden="true"
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ ...TWEEN, delay }}
+      className="sd-draw"
       style={{
         height: "1px",
         background: tone === "strong" ? "var(--border-strong)" : "var(--border-hairline)",
