@@ -1163,11 +1163,20 @@ html {
   .sx-hero-copy > div:nth-of-type(1) {
     margin-top: 26px !important;
   }
+  /* Three facts, one row: no orphaned third fact on a phone. */
   .sx-facts {
-    gap: 18px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 36px;
   }
   .sx-facts dt {
-    font-size: 22px;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  .sx-facts dd {
+    font-size: 13px;
+    line-height: 18px;
   }
 }
 

@@ -53,6 +53,7 @@ function Hero() {
           {/* Two lines, broken where the sentence turns, as the guide's hero sets it. */}
           <Eyebrow tone="on-dark" style={{ lineHeight: 1.8 }}>
             {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[0]}
+            {" "}
             <br className="sx-br" />
             at the {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[1]}
           </Eyebrow>
