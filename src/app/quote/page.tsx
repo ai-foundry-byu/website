@@ -25,12 +25,13 @@ export default function QuotePage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 0" }}>
+        <section className="af-page-hero" data-ground="navy">
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             {/* The page eyebrow keeps naming the action; only BUTTONS
                 read "Start a project" (Scott, 2026-10-15). */}
-            <Eyebrow>Request a proposal</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>Request a proposal</Eyebrow>
             <h1
+              className="af-steel"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -39,12 +40,11 @@ export default function QuotePage() {
                 lineHeight: 1.05,
                 letterSpacing: "-0.005em",
                 margin: "14px 0 0",
-                color: "var(--navy)",
               }}
             >
               {QUOTE_HEADLINE}
             </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "56ch", margin: "16px 0 0" }}>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "56ch", margin: "16px 0 0" }}>
               {QUOTE_FOLLOW}
             </p>
           </div>

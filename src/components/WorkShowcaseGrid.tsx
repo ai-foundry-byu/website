@@ -40,6 +40,7 @@ function Chip({
   return (
     <button
       type="button"
+      className="af-hit"
       aria-pressed={selected}
       onClick={onClick}
       onMouseEnter={() => setHover(true)}

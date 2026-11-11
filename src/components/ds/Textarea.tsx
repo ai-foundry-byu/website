@@ -16,7 +16,7 @@ export function Textarea({
   const s: React.CSSProperties = {
     fontFamily: "var(--font-body)",
     fontWeight: 400,
-    fontSize: "15px",
+    fontSize: "16px", /* 16 px or iOS Safari zooms on focus */
     lineHeight: 1.5,
     color: "var(--text-primary)",
     background: "#fff",

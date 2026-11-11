@@ -11,8 +11,8 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
  * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
- * typographic recreation. White bar, so the navy variant is the
- * sanctioned one here.
+ * typographic recreation. Carbon bar, so the white one-colour lockup is the
+ * sanctioned one here; menus are Graphite on Carbon (guide: cards and menus).
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -32,7 +32,7 @@ export function SiteHeader() {
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
-        <CurtainNavLink href="/" className="flex items-center no-underline">
+        <CurtainNavLink href="/" className="flex min-h-[44px] items-center no-underline">
           {/* Runout lockup, one-colour white on Carbon: below 48px the kit
               allows only the one-colour drawing. The SVG carries its own
               clear space (50 units each side), so it sits slightly taller
@@ -79,7 +79,7 @@ export function SiteHeader() {
             lockup to 36 to 190px wide (measured 2026-10-15). */}
         <details className="relative lg:hidden">
           <summary
-            className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
+            className="flex min-h-[44px] min-w-[44px] cursor-pointer list-none items-center justify-center px-3 [&::-webkit-details-marker]:hidden"
             style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--bar-ink)" }}
           >
             Menu
@@ -87,15 +87,15 @@ export function SiteHeader() {
           <nav
             aria-label="Main"
             className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
-            style={{ background: "#fff", border: "1px solid var(--border-hairline)", borderRadius: "var(--radius)", boxShadow: "0 18px 40px -18px rgba(2,26,51,.45)", ["--bar-ink" as string]: "var(--navy)", ["--focus-ring" as string]: "var(--royal)" } as React.CSSProperties}
+            style={{ background: "var(--af-graphite)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", boxShadow: "0 24px 48px -20px rgba(0,0,0,.75)", ["--bar-ink" as string]: "var(--af-specular)", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
           >
             <ul>
               {NAV.map((link) => (
                 <li key={link.href}>
                   <CurtainNavLink
                     href={link.href}
-                    className="block px-4 py-3 no-underline"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+                    className="block px-4 py-3 no-underline hover:bg-white/5"
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--af-specular)" }}
                   >
                     {link.label}
                   </CurtainNavLink>
@@ -105,7 +105,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--border-hairline)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--text-meta)" }}
+                style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-fog)" }}
               >
                 {NAV_ABOUT.label}
               </li>
@@ -113,14 +113,14 @@ export function SiteHeader() {
                 <li key={link.href}>
                   <CurtainNavLink
                     href={link.href}
-                    className="block px-4 py-3 no-underline"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
+                    className="block px-4 py-3 no-underline hover:bg-white/5"
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--af-specular)" }}
                   >
                     {link.label}
                   </CurtainNavLink>
                 </li>
               ))}
-              <li style={{ borderTop: "1px solid var(--border-hairline)", marginTop: 4 }}>
+              <li style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4 }}>
                 <AccountMenu variant="menu" />
               </li>
               <li className="px-4 pb-2 pt-3">

@@ -26,10 +26,11 @@ export default function WorkPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 0" }}>
+        <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow>{SHOWCASE_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{SHOWCASE_EYEBROW}</Eyebrow>
             <h1
+              className="af-steel"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -38,12 +39,11 @@ export default function WorkPage() {
                 lineHeight: 1.05,
                 letterSpacing: "-0.005em",
                 margin: "14px 0 0",
-                color: "var(--navy)",
               }}
             >
               {WORK_HEADING}
             </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "56ch", margin: "16px 0 0" }}>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "56ch", margin: "16px 0 0" }}>
               {WORK_LEAD}
             </p>
           </Reveal>

@@ -82,10 +82,11 @@ export default function ApproachPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 48px" }}>
+        <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow>{APPROACH_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{APPROACH_EYEBROW}</Eyebrow>
             <h1
+              className="af-steel"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -94,12 +95,11 @@ export default function ApproachPage() {
                 lineHeight: 1.05,
                 letterSpacing: "-0.005em",
                 margin: "14px 0 0",
-                color: "var(--navy)",
               }}
             >
               {APPROACH_HEADING}
             </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "62ch", margin: "16px 0 0" }}>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "62ch", margin: "16px 0 0" }}>
               {APPROACH_LEAD}
             </p>
           </Reveal>

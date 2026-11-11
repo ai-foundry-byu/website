@@ -87,10 +87,11 @@ export default function StudentsPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 48px" }}>
+        <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow>{STUDENTS_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{STUDENTS_EYEBROW}</Eyebrow>
             <h1
+              className="af-steel"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -99,20 +100,19 @@ export default function StudentsPage() {
                 lineHeight: 1.05,
                 letterSpacing: "-0.005em",
                 margin: "14px 0 0",
-                color: "var(--navy)",
                 maxWidth: "22ch",
               }}
             >
               {STUDENTS_HEADING}
             </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "60ch", margin: "16px 0 0" }}>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "60ch", margin: "16px 0 0" }}>
               {STUDENTS_LEAD}
             </p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "28px" }}>
               <Button variant="primary" size="lg" href={SELF_ASSESSMENT_URL}>
                 Take the self-assessment
               </Button>
-              <Button variant="secondary" size="lg" href={HANDBOOK_URL}>
+              <Button variant="glass" size="lg" href={HANDBOOK_URL}>
                 Read the handbook
               </Button>
             </div>

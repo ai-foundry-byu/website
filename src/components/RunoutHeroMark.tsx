@@ -1,7 +1,3 @@
-"use client"
-
-import { useEffect, useRef } from "react"
-
 /**
  * The Runout mark in the landing hero: the rise, in heat and steel, on Carbon.
  *
@@ -11,55 +7,24 @@ import { useEffect, useRef } from "react"
  *      the edges. It draws outward from the centre as the mark rises, then
  *      breathes very slowly. Same geometry as the cut: the arc's crown sits
  *      at y 318 of the mark's 512-unit drawing, the gap between the A's feet
- *      and the F's top arm.
+ *      and the F's top arm. (Guide, Website: "the horizon running out of its
+ *      cut across the page as one hairline that is white-hot at the mark and
+ *      cools to steel at the edges.")
  *   2. The mark. The kit's own animated SVG (kit/motion/animated.svg: hot
  *      horizon, rise, cast, set, heat, one glint, 3.05 s, plays once and
  *      holds), loaded as an image so its SMIL timeline runs with no script.
  *      prefers-reduced-motion gets the still digital mark instead, through
  *      <picture>, so nothing moves and nothing is downloaded twice.
- *   3. The sheen. A specular band masked to the mark's exact outline
- *      (mark-white.svg shares the 512 viewBox), swept across on hover.
  *
- * The only script is a pointer tilt, a few degrees at most, written into
- * two custom properties. It is skipped for reduced motion and for devices
- * without a fine pointer, and it never re-renders React.
+ * Nothing else moves the mark. The guide's Don'ts forbid tilting it ("the
+ * horizon is level"), adding gradients, glows or shadows of our own, and
+ * animating it any way but the rise, so the pointer tilt, the hover sheen,
+ * the drop shadow and the scroll sink of the first preview are gone
+ * (review 2026-11-11). No client script is needed.
  */
 export function RunoutHeroMark() {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)")
-    if (still.matches || !fine.matches) return
-    const zone = el.closest("section") ?? el
-    let frame = 0
-    const move = (e: PointerEvent) => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect()
-        const x = (e.clientX - (r.left + r.width / 2)) / window.innerWidth
-        const y = (e.clientY - (r.top + r.height / 2)) / window.innerHeight
-        el.style.setProperty("--tilt-y", `${(x * 9).toFixed(2)}deg`)
-        el.style.setProperty("--tilt-x", `${(-y * 6).toFixed(2)}deg`)
-      })
-    }
-    const leave = () => {
-      el.style.setProperty("--tilt-y", "0deg")
-      el.style.setProperty("--tilt-x", "0deg")
-    }
-    zone.addEventListener("pointermove", move as EventListener)
-    zone.addEventListener("pointerleave", leave)
-    return () => {
-      cancelAnimationFrame(frame)
-      zone.removeEventListener("pointermove", move as EventListener)
-      zone.removeEventListener("pointerleave", leave)
-    }
-  }, [])
-
   return (
-    <div ref={ref} className="af-mark">
+    <div className="af-mark">
       <svg className="af-horizon" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="af-hz" gradientUnits="userSpaceOnUse" x1="-1100" y1="0" x2="1612" y2="0">
@@ -94,7 +59,6 @@ export function RunoutHeroMark() {
             decoding="async"
           />
         </picture>
-        <span aria-hidden="true" className="af-sheen" />
       </div>
     </div>
   )

@@ -42,6 +42,12 @@ import {
    on the right, and the one heat button on this surface is the primary.
    The shader field (HeroMotionLayer) is retired on this branch: the mark is
    the motion now, and it costs about 21 KB instead of three.js. */
+const HERO_FACTS = [
+  { value: "5 weeks", label: "engagements, extendable" },
+  { value: "1 or 2", label: "builders per team" },
+  { value: "30", label: "students, many disciplines" },
+]
+
 function Hero() {
   return (
     <section className="af-hero" data-ground="navy">
@@ -78,6 +84,17 @@ function Hero() {
               Join the network
             </Button>
           </div>
+          {/* The guide's three figures (Website: hero), each a fact already on
+              the site: five-week engagements (/approach), teams of one or two
+              and 30 students (/about). Static facts, never a live counter. */}
+          <ul className="af-hero-facts">
+            {HERO_FACTS.map((f) => (
+              <li key={f.value}>
+                <strong>{f.value}</strong>
+                <span>{f.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="af-hero-art">
           <RunoutHeroMark />

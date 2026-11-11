@@ -58,10 +58,11 @@ export default function AboutPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 40px" }}>
+        <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow>{ABOUT_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-fog)" }}>{ABOUT_EYEBROW}</Eyebrow>
             <h1
+              className="af-steel"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
@@ -70,18 +71,17 @@ export default function AboutPage() {
                 lineHeight: 1.05,
                 letterSpacing: "-0.005em",
                 margin: "14px 0 0",
-                color: "var(--navy)",
               }}
             >
               {ABOUT_HEADING}
             </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "60ch", margin: "16px 0 0" }}>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "60ch", margin: "16px 0 0" }}>
               {BUILDERS_DETAIL}
             </p>
           </Reveal>
         </section>
 
-        <section style={{ padding: "0 24px 40px" }}>
+        <section style={{ padding: "48px 24px 40px" }}>
           <Reveal
             style={{
               maxWidth: "var(--container)",

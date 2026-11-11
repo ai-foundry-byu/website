@@ -95,6 +95,7 @@ export function NameCarousel({
       </div>
       <button
         type="button"
+        className="af-hit af-hit-lg"
         onClick={() => setPaused(!paused)}
         aria-label={paused ? "Play animation" : "Pause animation"}
         style={{

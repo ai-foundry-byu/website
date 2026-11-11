@@ -57,9 +57,12 @@ export function RouteTransitions({ children }: { children: React.ReactNode }) {
       if (url.pathname === window.location.pathname) return
       e.preventDefault()
       const href = url.pathname + url.search
-      doc.startViewTransition(
+      const root = document.documentElement
+      const vt = doc.startViewTransition(
         () =>
           new Promise<void>((resolve) => {
+            // New state only: the bar's horizon runs out as the page rises.
+            root.setAttribute("data-af-vt", String(Date.now()))
             const done = () => {
               clearTimeout(watchdog)
               resolve()
@@ -71,7 +74,17 @@ export function RouteTransitions({ children }: { children: React.ReactNode }) {
             pending.current = { path: url.pathname, resolve: done }
             router.push(href)
           }),
-      )
+      ) as { finished?: Promise<void> } | undefined
+      const mark = () => root.getAttribute("data-af-vt")
+      Promise.resolve(vt?.finished)
+        .catch(() => {})
+        .then(() => {
+          const stamp = mark()
+          // The line takes 1.1 s; the transition itself about 0.65 s.
+          setTimeout(() => {
+            if (mark() === stamp) root.removeAttribute("data-af-vt")
+          }, 600)
+        })
     }
     document.addEventListener("click", onClick, true)
     return () => document.removeEventListener("click", onClick, true)
