@@ -20,10 +20,13 @@ export function NameCarousel({
   eyebrow = "Our builders have shipped at",
   items = [],
   duration = 28,
+  tone = "accent",
 }: {
   eyebrow?: string
   items: CarouselItem[]
   duration?: number
+  /* "on-dark" when the strip sits on Carbon (AF Stride hero). */
+  tone?: "accent" | "on-dark"
 }) {
   const [paused, setPaused] = useState(false)
   const anyLogos = items.some((i) => i.logo)
@@ -34,6 +37,7 @@ export function NameCarousel({
            by intrinsic ratio, and next/image buys nothing here. */
         // eslint-disable-next-line @next/next/no-img-element
         <img
+          className="nc-logo"
           src={item.logo}
           alt={item.name}
           style={{
@@ -65,7 +69,7 @@ export function NameCarousel({
        a media query without !important. Colors and spacing that do not vary
        stay inline, as everywhere else in this kit. */
     <div className="nc-strip">
-      <Eyebrow style={{ flex: "none", paddingLeft: "var(--container-pad)" }}>{eyebrow}</Eyebrow>
+      <Eyebrow tone={tone} style={{ flex: "none", paddingLeft: "var(--container-pad)" }}>{eyebrow}</Eyebrow>
       <div
         style={{
           overflow: "hidden",
@@ -95,6 +99,7 @@ export function NameCarousel({
       </div>
       <button
         type="button"
+        className="nc-pause"
         onClick={() => setPaused(!paused)}
         aria-label={paused ? "Play animation" : "Pause animation"}
         style={{

@@ -25,7 +25,7 @@ export default function QuotePage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 0" }}>
+        <section style={{ padding: "64px 24px 40px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             {/* The page eyebrow keeps naming the action; only BUTTONS
                 read "Start a project" (Scott, 2026-10-15). */}

@@ -53,7 +53,7 @@ function Hero() {
           {/* Two lines, broken where the sentence turns, as the guide's hero sets it. */}
           <Eyebrow tone="on-dark" style={{ lineHeight: 1.8 }}>
             {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[0]}
-            <br />
+            <br className="sx-br" />
             at the {HERO_SUPPORT.replace(/\.$/, "").split(" at the ")[1]}
           </Eyebrow>
           {/* One phrase per line. Sizing lives in .sx-display (globals.css):
@@ -228,7 +228,11 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
-        <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} />
+        {/* The proof strip closes the Carbon hero instead of opening the
+            Studio page: one dark lead surface, then the document. */}
+        <div className="sx-proof" data-ground="navy">
+          <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} tone="on-dark" />
+        </div>
         <MissionVision />
         <Values />
         <Build />

@@ -927,7 +927,7 @@ html {
   isolation: isolate;
   background: var(--af-carbon);
   color: var(--af-specular);
-  padding: 64px 24px 84px;
+  padding: 64px 24px 72px;
 }
 .sx-hero-bg {
   position: absolute;
@@ -1119,22 +1119,32 @@ html {
       radial-gradient(90% 34% at 50% 17%, rgba(29, 58, 94, 0.95) 0%, rgba(19, 40, 65, 0.5) 45%, rgba(7, 9, 12, 0) 85%),
       var(--af-carbon);
   }
+  /* The two-line label runs as one paragraph on phones: three lines,
+     not four. */
   .sx-hero-copy > span:first-child {
+    font-size: 11px !important;
     letter-spacing: 0.1em !important;
+    line-height: 1.7 !important;
+    text-wrap: balance;
+  }
+  .sx-br {
+    display: none;
   }
   .sx-hero-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
+  /* Phone: the mark leads but stays small enough that the headline and
+     the heat button land in the first viewport (390 x 844). */
   .sx-mark {
     position: relative;
     top: auto;
     right: auto;
     transform: none;
     order: -1;
-    width: min(380px, 86vw);
+    width: min(264px, 64vw);
     justify-self: center;
-    margin: 0 0 -36px;
+    margin: 0 0 -20px;
   }
   .sx-hero-copy {
     padding-top: 0;
@@ -1146,14 +1156,48 @@ html {
     white-space: normal;
   }
   .sx-hero-lead {
-    font-size: 18px;
-    line-height: 28px;
+    margin-top: 20px;
+    font-size: 17px;
+    line-height: 26px;
+  }
+  .sx-hero-copy > div:nth-of-type(1) {
+    margin-top: 26px !important;
   }
   .sx-facts {
     gap: 18px 32px;
   }
   .sx-facts dt {
     font-size: 22px;
+  }
+}
+
+/* ── Proof strip on Carbon: closes the hero ───────────────────
+   The builders' logos sit in the hero's own dark, knocked out to light
+   steel, so the lead surface ends in one composed band. */
+.sx-proof {
+  background: var(--af-carbon);
+  color: var(--af-fog);
+}
+.sx-proof .nc-strip {
+  border-top: 1px solid rgba(169, 197, 224, 0.12);
+  border-bottom: 1px solid rgba(169, 197, 224, 0.12);
+  padding: 18px 0;
+}
+.sx-proof .nc-logo {
+  filter: grayscale(1) invert(1) brightness(1.15) !important;
+  opacity: 0.62 !important;
+}
+.sx-proof .nc-pause {
+  color: var(--af-fog) !important;
+  border-color: rgba(169, 197, 224, 0.28) !important;
+}
+.nc-pause {
+  min-height: 28px;
+  min-width: 44px;
+}
+@media (pointer: coarse) {
+  .nc-pause {
+    min-height: 44px;
   }
 }
 
