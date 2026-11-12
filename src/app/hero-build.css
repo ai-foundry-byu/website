@@ -13,8 +13,8 @@
 .af-cline{stroke:var(--af-b-line);stroke-width:1.15;opacity:var(--af-b-line-op)}
 .af-node{fill:none;stroke:var(--af-b-line);stroke-width:1.15;stroke-opacity:var(--af-b-line-op);transform-box:fill-box;transform-origin:center}
 .af-level{stroke:var(--af-b-acc);stroke-width:2.4}
-.af-lock{fill:none;stroke:var(--af-b-acc);stroke-width:2.6;transform-box:fill-box;transform-origin:center}
-.af-pin{fill:var(--af-b-acc)}
+.af-lock{fill:none;stroke:var(--af-b-acc);stroke-width:3.2;transform-box:fill-box;transform-origin:center}
+.af-pin{fill:var(--af-b-acc);transform-box:fill-box;transform-origin:center}
 .af-build.is-armed:not(.is-building) *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.af-build *{animation:none!important}}
 .af-runout-stem-mv{transform-box:view-box;transform-origin:0px 0px}
@@ -102,19 +102,19 @@
 @keyframes af-runout-stem-mv{0%{transform:translate(0px,-150px)}30.201%{transform:translate(0px,-150px);animation-timing-function:cubic-bezier(.65,0,.25,1)}43.624%{transform:translate(0px,1.6px);animation-timing-function:cubic-bezier(.3,0,.3,1)}47.315%{transform:none}100%{transform:none}}
 @keyframes af-runout-stem-op{0%{opacity:0}30.201%{opacity:0;animation-timing-function:linear}33.221%{opacity:1}100%{opacity:1}}
 @keyframes af-runout-stem-lock{0%{opacity:0;transform:scale(.45)}44.597%{opacity:0;transform:scale(.45)}44.631%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}55.369%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
-@keyframes af-runout-stem-pin{0%{opacity:0}44.597%{opacity:0}44.631%{opacity:1}49.664%{opacity:1;animation-timing-function:linear}53.356%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-stem-pin{0%{opacity:0;transform:scale(2.2)}44.597%{opacity:0;transform:scale(2.2)}44.631%{opacity:1;transform:scale(2.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}48.658%{opacity:1;transform:scale(1)}49.664%{opacity:1;transform:scale(1);animation-timing-function:linear}53.356%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 @keyframes af-runout-beam-mv{0%{transform:translate(300px,0px)}40.268%{transform:translate(300px,0px);animation-timing-function:cubic-bezier(.65,0,.25,1)}54.362%{transform:translate(-1.6px,0px);animation-timing-function:cubic-bezier(.3,0,.3,1)}58.054%{transform:none}100%{transform:none}}
 @keyframes af-runout-beam-op{0%{opacity:0}40.268%{opacity:0;animation-timing-function:linear}43.289%{opacity:1}100%{opacity:1}}
 @keyframes af-runout-beam-lock{0%{opacity:0;transform:scale(.45)}55.336%{opacity:0;transform:scale(.45)}55.369%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}66.107%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
-@keyframes af-runout-beam-pin{0%{opacity:0}55.336%{opacity:0}55.369%{opacity:1}60.403%{opacity:1;animation-timing-function:linear}64.094%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-beam-pin{0%{opacity:0;transform:scale(2.2)}55.336%{opacity:0;transform:scale(2.2)}55.369%{opacity:1;transform:scale(2.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}59.396%{opacity:1;transform:scale(1)}60.403%{opacity:1;transform:scale(1);animation-timing-function:linear}64.094%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 @keyframes af-runout-lowarm-mv{0%{transform:translate(240px,0px)}51.007%{transform:translate(240px,0px);animation-timing-function:cubic-bezier(.65,0,.25,1)}63.087%{transform:translate(-1.6px,0px);animation-timing-function:cubic-bezier(.3,0,.3,1)}66.779%{transform:none}100%{transform:none}}
 @keyframes af-runout-lowarm-op{0%{opacity:0}51.007%{opacity:0;animation-timing-function:linear}54.027%{opacity:1}100%{opacity:1}}
 @keyframes af-runout-lowarm-lock{0%{opacity:0;transform:scale(.45)}64.06%{opacity:0;transform:scale(.45)}64.094%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}74.832%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
-@keyframes af-runout-lowarm-pin{0%{opacity:0}64.06%{opacity:0}64.094%{opacity:1}69.128%{opacity:1;animation-timing-function:linear}72.819%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-lowarm-pin{0%{opacity:0;transform:scale(2.2)}64.06%{opacity:0;transform:scale(2.2)}64.094%{opacity:1;transform:scale(2.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}68.121%{opacity:1;transform:scale(1)}69.128%{opacity:1;transform:scale(1);animation-timing-function:linear}72.819%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 @keyframes af-runout-lblade-mv{0%{transform:rotate(-76deg)}61.074%{transform:rotate(-76deg);animation-timing-function:cubic-bezier(.65,0,.25,1)}77.181%{transform:rotate(0.7deg);animation-timing-function:cubic-bezier(.3,0,.3,1)}80.872%{transform:none}100%{transform:none}}
 @keyframes af-runout-lblade-op{0%{opacity:0}61.074%{opacity:0;animation-timing-function:linear}64.094%{opacity:1}100%{opacity:1}}
 @keyframes af-runout-rblade-mv{0%{transform:rotate(76deg)}63.758%{transform:rotate(76deg);animation-timing-function:cubic-bezier(.65,0,.25,1)}79.866%{transform:rotate(-0.7deg);animation-timing-function:cubic-bezier(.3,0,.3,1)}83.557%{transform:none}100%{transform:none}}
 @keyframes af-runout-rblade-op{0%{opacity:0}63.758%{opacity:0;animation-timing-function:linear}66.779%{opacity:1}100%{opacity:1}}
 @keyframes af-runout-rblade-lock{0%{opacity:0;transform:scale(.45)}80.839%{opacity:0;transform:scale(.45)}80.872%{opacity:1;transform:scale(.55);animation-timing-function:cubic-bezier(.2,.7,.3,1)}91.611%{opacity:0;transform:scale(1.7)}100%{opacity:0;transform:scale(1.7)}}
-@keyframes af-runout-rblade-pin{0%{opacity:0}80.839%{opacity:0}80.872%{opacity:1}85.906%{opacity:1;animation-timing-function:linear}89.597%{opacity:0}100%{opacity:0}}
+@keyframes af-runout-rblade-pin{0%{opacity:0;transform:scale(2.2)}80.839%{opacity:0;transform:scale(2.2)}80.872%{opacity:1;transform:scale(2.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}84.899%{opacity:1;transform:scale(1)}85.906%{opacity:1;transform:scale(1);animation-timing-function:linear}89.597%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 @keyframes af-runout-final{0%{opacity:0}81.208%{opacity:0;animation-timing-function:linear}84.564%{opacity:1}100%{opacity:1}}

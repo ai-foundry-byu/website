@@ -9,7 +9,8 @@
  *   3. the members are placed bottom up like beams off a crane: the column is lowered
  *      onto the baseline, the orange horizon beam slides in along the level, then the
  *      lower arm; the two blades are raised about their feet like an A-frame;
- *   4. each member seats with a small overshoot and an orange lock marker at its joint;
+ *   4. each member seats with a small overshoot; an orange lock ring opens at its joint
+ *      and a flat orange tack weld snaps down and holds a beat (no sparks, no glow);
  *   5. the scaffold comes down and the clean mark holds. Nothing moves after that.
  *
  * Changes from the kit component: Runout only, and no client script. The SVG ships with
@@ -96,9 +97,11 @@ export function HeroBuild({ theme = "dark", className }: { theme?: "light" | "da
           return (
             <g key={mem.id} aria-hidden="true">
               <g className={`af-lock af-${K}-${mem.id}-lock`}>
-                <rect x={x - 8} y={y - 8} width={16} height={16} transform={`rotate(45 ${x} ${y})`} />
+                <rect x={x - 14} y={y - 14} width={28} height={28} transform={`rotate(45 ${x} ${y})`} />
               </g>
-              <rect className={`af-pin af-${K}-${mem.id}-pin`} x={x - 2.5} y={y - 2.5} width={5} height={5} />
+              <g transform={`rotate(45 ${x} ${y})`}>
+                <rect className={`af-pin af-${K}-${mem.id}-pin`} x={x - 5} y={y - 5} width={10} height={10} />
+              </g>
             </g>
           )
         })}
