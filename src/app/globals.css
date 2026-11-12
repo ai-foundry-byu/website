@@ -935,7 +935,7 @@ html {
   --af-build-marker-opacity: 0.8;
 }
 
-/* ── The bar: flat BYU Navy, the lockup in one colour ── */
+/* ── The bar: flat BYU Navy, the mark in one colour ── */
 .af-header {
   background: var(--navy);
   border-bottom: 1px solid var(--af-rule-dark);
@@ -952,26 +952,47 @@ body {
   color: #fff !important;
 }
 
-/* The draft co-brand lockup (system v3) in the bar and the footer. The
-   file is 645 x 74 (the drawing only); widths are set here, height
-   follows. The Marriott logo is 46.5% of the lockup's width. */
-.af-header-lockup {
+/* The bar carries the secondary version (the Runout mark + AI FOUNDRY,
+   SiteHeader): the mark 48px tall, the master's screen floor, with its
+   clear space X (a quarter of its height, 12px) above and below in the
+   72px bar. The file is 286 x 58 (the drawing only), the mark 56.8 of 58. */
+.af-header-mark {
   display: block;
-  width: min(300px, calc(100vw - 132px));
-  height: auto;
+  width: auto;
+  height: 48.85px;
 }
-/* lg and up: the full nav is about 703px wide (measured), so the lockup
-   takes what is left, 240px at 1024 up to 440px from about 1240. */
-@media (min-width: 1024px) {
-  .af-header-lockup {
-    width: clamp(240px, calc(100vw - 800px), 440px);
-  }
+
+/* The footer carries the BYU Marriott logo at 250px or more on every
+   viewport (Scott Murff's brief: at least 250px in every version, one B of
+   clear space all round; B = 38.26/396 of the logo's width).
+   From 640px: the draft co-brand lockup. The -web file is 645 x 74 (the
+   drawing only) and the Marriott logo is 300/644.67 = 46.5% of its width,
+   so 540 to 600px of lockup puts the logo at 251 to 279px.
+   Under 640px: the official BYU Marriott logo alone (the school's file,
+   unchanged; its ink fills its 396 x 75 viewBox), 250 to 270px wide.
+   The 4px inset plus the 24px gutter keeps one B (at most 27px) from the
+   screen edge; the row gap (32px) and the nav's 32px keep it from
+   everything else. */
+.af-footer-brand {
+  padding-left: 4px;
 }
 .af-footer-lockup {
+  display: none;
+}
+.af-footer-marriott {
   display: block;
-  width: 600px;
-  max-width: 100%;
+  width: min(270px, calc(100vw - 56px));
   height: auto;
+}
+@media (min-width: 640px) {
+  .af-footer-lockup {
+    display: block;
+    width: clamp(540px, calc(100vw - 80px), 600px);
+    height: auto;
+  }
+  .af-footer-marriott {
+    display: none;
+  }
 }
 
 /* "Draft for BYU Marriott approval": a small fixed chip, bottom left, on

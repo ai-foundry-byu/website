@@ -117,8 +117,8 @@ export default function RootLayout({
         <RouteTransitions>
           <MotionRoot>{children}</MotionRoot>
         </RouteTransitions>
-        {/* System v3: the co-brand lockup in the bar and footer is a draft
-            until BYU Marriott Marketing approves it (Scott Murff's brief),
+        {/* System v3: the AI Foundry mark in the bar and the co-brand lockup in the footer are drafts
+            until BYU Marriott Marketing approves them (Scott Murff's brief),
             so every page carries this fixed label (globals.css). */}
         <p className="af-draft-label" role="note">
           Draft for BYU Marriott approval

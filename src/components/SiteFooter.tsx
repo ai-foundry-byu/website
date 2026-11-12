@@ -26,22 +26,40 @@ export function SiteFooter() {
           and draws itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
       <div aria-hidden="true" className="af-horizon-rule" />
       <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
-        {/* Top row: the draft co-brand lockup (system v3, white on navy:
+        {/* Top row: the BYU Marriott logo, at least 250px wide with one B
+            of clear space (B = 38.26/396 of the logo's width, about 24 to
+            27px here) on every side, and opposite it who the Foundry
+            belongs to (each sponsor's own logo, white on navy).
+            From 640px: the draft co-brand lockup (system v3, white on navy:
             the official BYU Marriott logo, a rule, the Runout mark and AI
-            FOUNDRY), and opposite it who the Foundry belongs to (each
-            sponsor's own logo, white on navy; a second sponsor joins the
-            same row). At its full 600px the Marriott logo is 279px wide,
-            over the brief's 250px minimum, and the 32px gaps round it cover
-            the clear space (one B width, 27px at this size). */}
+            FOUNDRY), 540 to 600px wide, so the Marriott logo is 251 to
+            279px. Under 640px the horizontal lockup cannot hold a 250px
+            logo plus its clear space inside the gutters (it needs about
+            590px), so phones get the official BYU Marriott logo alone,
+            the school's own file unchanged, 250 to 270px wide; the header
+            already carries the AI Foundry mark (the secondary version the
+            brief allows where the Marriott logo is clearly visible
+            elsewhere). The 4px inset keeps one B from the screen edge.
+            Widths: globals.css; measured at 390 to 1440px. */}
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <Image
-            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
-            alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
-            width={645}
-            height={74}
-            unoptimized
-            className="af-footer-lockup"
-          />
+          <div className="af-footer-brand">
+            <Image
+              src="/brand/runout/cobrand/lockup-runout-white-web.svg"
+              alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
+              width={645}
+              height={74}
+              unoptimized
+              className="af-footer-lockup"
+            />
+            <Image
+              src="/brand/byu-marriott/msb_left_white.svg"
+              alt={SCHOOL_FULL}
+              width={396}
+              height={75}
+              unoptimized
+              className="af-footer-marriott"
+            />
+          </div>
           <div>
             <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
               {SPONSOR_LABEL}

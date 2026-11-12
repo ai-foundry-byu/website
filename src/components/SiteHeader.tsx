@@ -3,17 +3,16 @@ import { CurtainNavLink } from "@/components/CurtainRoute"
 import { AccountMenu } from "@/components/AccountMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
-import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
+import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM } from "@/lib/content"
 
 /**
- * Top bar: co-brand lockup left, links, the door into the app (AccountMenu),
+ * Top bar: the secondary mark left, links, the door into the app (AccountMenu),
  * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
- * typographic recreation. Flat BYU Navy bar, and the mark there is under
- * 48 px, so the white one-colour lockup is the sanctioned one (kit); menus
- * are Navy Raised on navy (guide: cards and menus).
+ * The mark is the design team's file, never a typographic recreation; the
+ * full co-brand lockup sits in the footer (SiteFooter). Flat BYU Navy bar,
+ * the mark white (kit); menus are Navy Raised on navy (guide: cards and menus).
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -34,21 +33,27 @@ export function SiteHeader() {
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex min-h-[44px] items-center no-underline">
-          {/* System v3 draft co-brand lockup, white on the navy bar: the
-              official BYU Marriott logo (the school's own file, unchanged),
-              a thin rule, then the Runout mark and AI FOUNDRY. The -web
-              file is the design team's lockup with only its outer viewBox
-              trimmed to the drawing; the page supplies the clear space (one
-              B width, under the 24px gap beside it). Draft for BYU Marriott
-              approval: the fixed DraftLabel chip says so on every page. */}
+          {/* The secondary version, white on the navy bar: the Runout mark and
+              AI FOUNDRY (our half of the draft co-brand lockup, from the
+              design team's cobrand.py; scripts/build-secondary-mark.py).
+              Not the full lockup: the brief wants the BYU Marriott logo at
+              least 250px wide with one B of clear space (about 24px) all
+              round, and in a 72px bar the lockup at that size is 62px tall
+              (5px above and below), nor does it fit beside the nav at
+              1024 or 1280. The brief allows the secondary version where
+              the Marriott logo is clearly visible elsewhere: the footer
+              carries it at 250px or more on every page and viewport.
+              The mark is 48px tall (the master's screen floor) with 12px,
+              its clear space X, above and below. Draft for BYU Marriott
+              approval: the fixed chip says so on every page. */}
           <Image
-            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
-            alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
-            width={645}
-            height={74}
+            src="/brand/runout/cobrand/secondary-runout-white-web.svg"
+            alt={`${PROGRAM}, draft mark`}
+            width={286}
+            height={58}
             priority
             unoptimized
-            className="af-header-lockup"
+            className="af-header-mark"
           />
         </CurtainNavLink>
 

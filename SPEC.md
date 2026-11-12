@@ -150,6 +150,12 @@ contract. `npm run check:contrast` fails the build on a violation.
 - Never "the Marriott School". "BYU Marriott School of Business" first reference, "BYU Marriott" after
 - Never a standalone "AI Foundry" without BYU identification
 - Use the co-brand lockup only, never a standalone AI Foundry mark
+  - Runout preview (brand/runout-2026-11, system v3, Scott Murff's brief of 2026-11-12): the
+    brief puts the BYU Marriott logo at 250px or wider in every lockup, with one B of clear space
+    (38.26/396 of the logo's width) all round. The 72px bar cannot hold that, so the header carries
+    the secondary version (the Runout mark + AI FOUNDRY), which the brief allows where the Marriott
+    logo is clearly visible elsewhere. The footer always carries it: the co-brand lockup from 640px
+    (logo 251 to 279px), the official BYU Marriott file alone on phones (250 to 270px)
 - **The official lockup is the glyph wordmark**, `public/brand/wordmark-glyph-white.png`,
   where the AI glyph stands in for the letters "AI". Treated as official from
   2026-07-29 by Brandon's decision. Regenerate with
