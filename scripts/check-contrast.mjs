@@ -31,11 +31,11 @@ const AA_LARGE = 3
 const APCA_LEDGER = [
   ["text-primary", "surface-default", 99.6],
   ["text-accent", "surface-default", 91.0],
-  ["text-meta", "surface-default", 76.8],
+  ["text-meta", "surface-default", 86.1], // Graphite #4A5663 (stride v2/v3)
   ["text-muted", "surface-default", 64.4],
   ["text-on-inverse", "surface-inverse", -102.8],
-  ["text-on-dark-body", "surface-inverse", -77.8],
-  ["text-on-dark-soft", "surface-inverse", -69.0],
+  ["text-on-dark-body", "surface-inverse", -84.7], // Mist #DDE4EB
+  ["text-on-dark-soft", "surface-inverse", -84.7], // Mist #DDE4EB (system v3)
   ["text-primary", "surface-recessed", 94.6],
   ["text-accent", "surface-recessed", 86.0],
   ["text-on-accent", "surface-accent", -95.4],

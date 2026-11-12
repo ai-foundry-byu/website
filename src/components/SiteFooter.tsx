@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { CurtainNavLink as Link } from "@/components/CurtainRoute"
+import { CobrandLockup } from "@/components/CobrandLockup"
 import { LINKEDIN_LINK, NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
 
 /**
@@ -27,17 +28,11 @@ export function SiteFooter() {
             belongs to (each sponsor's own logo, white on navy; a second
             sponsor joins the same row). */}
         <div className="flex flex-wrap items-end justify-between gap-8">
-          {/* The full horizontal lockup, digital finish for navy (white,
-              Signal Orange arm), at the guide's 364 px minimum or wider
-              (clear space is in the file). */}
-          <Image
-            src="/brand/stride/lockup-horizontal-digital-dark.svg"
-            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={1008}
-            height={300}
-            unoptimized
-            style={{ width: "min(420px, 100%)", height: "auto", margin: "-22px 0 -22px -22px" }}
-          />
+          {/* The draft co-brand lockup, all white on navy (system v3): the
+              official BYU Marriott logo, unchanged, at 250 px (the brief's
+              floor), the rule, the AF Stride mark and AI FOUNDRY. Clear space
+              is the footer's own padding and the 32 px gap. */}
+          <CobrandLockup tone="white" logoWidth={250} alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
           <div>
             <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
               {SPONSOR_LABEL}

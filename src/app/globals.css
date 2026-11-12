@@ -23,25 +23,25 @@
      - Royal never sits directly on navy (1.43:1).
      - Slate is for metadata and large text only, never
        body-critical copy.
-     - Orange/ember and light blue from earlier explorations
-       are retired. */
+     - Orange/ember, BYU Blue and light blue from earlier
+       explorations are retired (system v3). */
   --navy: #002e5d; /* PMS 648C */
   --white: #ffffff;
-  /* AF Stride demo, system v2 (brand/stride-2026-11): BYU Navy and one
-     orange, flat. Royal keeps its name so every existing page re-skins
-     without a rebuild; it now holds BYU Blue #0072CE, the kit's UI blue on
-     light grounds (4.89:1 on white: links, focus, labels). It never sits
-     on navy (2.78:1). */
-  --royal: #0072ce;
+  /* AF Stride demo, system v3 (brand/stride-2026-11): the BYU Marriott
+     palette, flat, per Scott Murff's logo brief (2026-11-12). Navy and
+     White are the primaries, Royal and Slate the secondaries. Royal is the
+     one action colour on light grounds (links, buttons, focus; 9.50:1 on
+     white) and never sits on navy (1.43:1). No orange and no BYU Blue. */
+  --royal: #003da5;
   --slate: #7c878e; /* PMS 430C */
 
-  /* The v2 palette, verbatim from the kit's color/tokens.css. No metal,
-     no gradients on type or the mark; one soft lift behind the hero mark. */
+  /* The v3 palette, verbatim from final-v3 system/tokens.css. No metal,
+     no gradients on type or the mark; one soft lift behind the hero mark.
+     Navy Raised, Night, Ink, Graphite, Mist and Paper are UI colours only. */
   --af-navy: #002e5d;
-  --af-orange: #fc4c02; /* Signal Orange: the accent on navy */
-  --af-orange-deep: #d14124; /* BYU Orange: the accent on white */
-  --af-blue: #0072ce;
-  --af-light-blue: #bdd6e6;
+  --af-white: #ffffff;
+  --af-royal: #003da5;
+  --af-slate: #7c878e;
   --af-navy-raised: #0b3b6c;
   --af-night: #001a36;
   --af-ink: #0b1b2b;
@@ -53,10 +53,11 @@
   --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1);
   --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1);
   --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1);
-  /* The one call to action: BYU Orange with white ink on light grounds,
-     Signal Orange with Ink on navy ([data-ground="navy"] swaps them). */
-  --cta-bg: var(--af-orange-deep);
-  --cta-bg-hover: #b8381e;
+  /* The one call to action: Royal with white ink on light grounds (hover
+     steps to Navy), White with Navy ink on navy ([data-ground="navy"]
+     swaps them). */
+  --cta-bg: var(--royal);
+  --cta-bg-hover: var(--navy);
   --cta-ink: var(--white);
 
   /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
@@ -74,11 +75,11 @@
 
        navy    on white      13.56:1 |  99.6   any text
        royal   on white       9.50:1 |  91.0   any text (clears APCA body)
-       navy/70 on white        5.4:1 |  76.8   secondary text, any size
+       graphite on white      7.49:1 |  86.1   secondary text, any size (--text-meta)
        slate   on white       3.68:1 |  64.4   >=24px reg / 18.66px bold + strokes
        white     on navy     13.56:1 | -102.8  headings, buttons, labels
-       white/82  on navy       9.5:1 |  -77.8  body-length text on navy
-       white/75  on navy      8.22:1 |  -69.0  metadata / nav links on navy
+       mist      on navy     10.57:1 |  -84.7  body-length text on navy (--text-on-dark-body)
+       mist      on navy     10.57:1 |  -84.7  metadata / nav links on navy (--text-on-dark-soft, v3)
        navy  on recessed     12.63:1 |  94.6   text on the navy/4 surface
        royal on recessed      8.85:1 |  86.0   links on the navy/4 surface
        white on royal         9.50:1 | -95.4   button ink
@@ -91,7 +92,7 @@
   /* on-dark text (baked solids) */
   --text-on-dark: var(--white); /* headings, buttons, short labels only */
   --text-on-dark-body: var(--af-mist); /* Mist on navy, 11.0:1 */
-  --text-on-dark-soft: var(--af-light-blue); /* BYU Light Blue on navy, 8.99:1 */
+  --text-on-dark-soft: var(--af-mist); /* Mist on navy, 10.57:1 (v3: secondary text on navy) */
 
   /* surfaces (baked solids) */
   --surface-page: var(--white);
@@ -108,7 +109,7 @@
   --accent-ink: var(--white);
   /* royal/8 — the ultra-light accent fill for selected states and the
      bordered error block (Refactoring UI's tinted-alert move). */
-  --fill-selected: rgba(0, 114, 206, 0.08);
+  --fill-selected: rgba(0, 61, 165, 0.08);
   /* Royal's states stay the two-step ladder the site ships: royal at
      rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
      a new hue). If the jump ever feels abrupt, the sanctioned mid-step
@@ -499,9 +500,9 @@ html {
 
 [data-ground="navy"] {
   --focus-ring: var(--white);
-  --cta-bg: var(--af-orange);
-  --cta-bg-hover: #ff6a2b;
-  --cta-ink: var(--af-ink);
+  --cta-bg: var(--white);
+  --cta-bg-hover: var(--af-mist);
+  --cta-ink: var(--navy);
 }
 
 /* ── Link draw + arrow nudge (motion plan #2) ──────────────
@@ -588,15 +589,15 @@ html {
 }
 
 ::selection {
-  background: var(--af-blue);
+  background: var(--royal);
   color: var(--white);
 }
 
-/* On navy, selection is Signal Orange with Ink: 5.12:1. */
+/* On navy, selection is White with Navy: 13.56:1 (Royal never sits on navy). */
 [data-ground="navy"] ::selection,
 [data-ground="navy"]::selection {
-  background: var(--af-orange);
-  color: var(--af-ink);
+  background: var(--white);
+  color: var(--navy);
 }
 
 /* ── Hero motion layer ──────────────────────────────────────
@@ -891,24 +892,86 @@ html {
 }
 
 
-/* ═══ AF STRIDE v2: BYU NAVY AND ONE ORANGE (demo branch brand/stride-2026-11)
-   Source: design-team/clients/ai-foundry/final-v2-2026-11-11/stride/kit and
-   its brand guide (sections 5, 6, 7 and 9, Website). BYU Navy, flat, is the
-   lead surface (header, hero, proof strip, CTA band); white is the document
-   surface; Night closes the page in the footer. One orange per surface: the
-   mark's middle arm and the one call to action. No metal, no glow, no
-   gradient on type. The only tonal lift sits behind the hero mark.
+/* ═══ AF STRIDE, SYSTEM v3: THE BYU MARRIOTT PALETTE (demo branch brand/stride-2026-11)
+   Source: design-team/clients/ai-foundry/final-v3-2026-11-12/system and
+   SPEC-v3-scott-brief.md (Scott Murff's logo brief wins). BYU Navy, flat, is
+   the lead surface (header, hero, proof strip, CTA band); white is the
+   document surface. On navy everything is White: the mark, the buttons
+   (Navy labels), the links; Mist for secondary text. On white: the mark in
+   Navy with a Slate accent, Royal for links and the one filled button. No
+   orange, no accent colour in the mark, no metal, no glow, no gradient on
+   type. The only tonal lift sits behind the hero mark. Header and footer
+   carry the draft co-brand lockup. Draft for BYU Marriott approval.
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ── Header: flat navy ────────────────────────────────────── */
 .sx-header {
   --nav-ink: var(--white);
-  --nav-rule: rgba(189, 214, 230, 0.18);
+  --nav-rule: rgba(255, 255, 255, 0.18);
   --nav-panel: var(--af-navy-raised);
-  --fill-selected: rgba(189, 214, 230, 0.12);
+  --fill-selected: rgba(255, 255, 255, 0.1);
   background: var(--navy);
-  border-bottom: 1px solid rgba(189, 214, 230, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   view-transition-name: af-header;
+}
+/* 104 px on a desktop: the lockup's artwork is 56.6 px tall at the 250 px
+   logo, so about one "B" (24 px) of clear space sits above and below it. */
+.sx-header > div {
+  height: 104px;
+}
+/* At xl the lockup holds its full size (the 250 px logo floor) and the nav
+   takes the rest; below xl it shrinks to the space beside Menu. */
+.sx-header-home {
+  flex: 0 1 auto;
+}
+@media (min-width: 1280px) {
+  .sx-header-home {
+    flex: none;
+  }
+}
+@media (max-width: 1279px) {
+  .sx-header > div {
+    height: 72px;
+    gap: 12px;
+  }
+}
+
+/* ── The draft label: fixed, bottom left, on every page ───── */
+.af-draft-chip {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 150;
+  margin: 0;
+  padding: 5px 9px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 11.5px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--navy);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(0, 46, 93, 0.22);
+  border-radius: 2px;
+  pointer-events: none;
+  user-select: none;
+  view-transition-name: af-draft;
+}
+::view-transition-group(af-draft) {
+  animation-duration: 0s;
+}
+@media (max-width: 640px) {
+  .af-draft-chip {
+    left: 8px;
+    bottom: 8px;
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+}
+@media print {
+  .af-draft-chip {
+    position: static;
+  }
 }
 
 /* ── Hero ─────────────────────────────────────────────────── */
@@ -957,7 +1020,7 @@ html {
   max-width: 50ch;
   font-size: 19px;
   line-height: 30px;
-  color: var(--af-light-blue);
+  color: var(--af-mist);
 }
 .sx-facts {
   display: flex;
@@ -965,7 +1028,7 @@ html {
   gap: 20px 48px;
   margin: 44px 0 0;
   padding-top: 24px;
-  border-top: 1px solid rgba(189, 214, 230, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
   max-width: 600px;
 }
 .sx-facts dt {
@@ -981,7 +1044,7 @@ html {
   margin: 6px 0 0;
   font-size: 14px;
   line-height: 22px;
-  color: var(--af-light-blue);
+  color: var(--af-mist);
 }
 
 /* The mark: HeroBuild (the builder sequence) in a square box. Behind it,
@@ -1008,16 +1071,20 @@ html {
 }
 .sx-mark::after {
   background-image:
-    linear-gradient(to right, rgba(189, 214, 230, 0.075) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(189, 214, 230, 0.075) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: calc(100% / 12) calc(100% / 12);
   -webkit-mask: radial-gradient(closest-side, #000 45%, transparent 100%);
   mask: radial-gradient(closest-side, #000 45%, transparent 100%);
 }
+/* v3 on navy: the whole mark White; construction lines, the level line and
+   the lock markers White too, at reduced opacity (HeroBuild theme="dark"). */
 .sx-mark .af-build {
   --af-mark-ink: var(--white);
-  --af-mark-accent: var(--af-orange);
-  --af-construction: var(--af-light-blue);
+  --af-mark-accent: var(--white);
+  --af-construction: var(--white);
+  --af-build-marker: var(--white);
+  --af-build-marker-opacity: 0.8;
   display: block;
   width: 100%;
   height: 100%;
@@ -1106,11 +1173,11 @@ html {
    so the lead surface ends in one composed band. */
 .sx-proof {
   background: var(--navy);
-  color: var(--af-light-blue);
+  color: var(--af-mist);
 }
 .sx-proof .nc-strip {
-  border-top: 1px solid rgba(189, 214, 230, 0.16);
-  border-bottom: 1px solid rgba(189, 214, 230, 0.16);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   padding: 18px 0;
 }
 .sx-proof .nc-logo {
@@ -1118,8 +1185,8 @@ html {
   opacity: 0.7 !important;
 }
 .sx-proof .nc-pause {
-  color: var(--af-light-blue) !important;
-  border-color: rgba(189, 214, 230, 0.36) !important;
+  color: var(--af-mist) !important;
+  border-color: rgba(255, 255, 255, 0.36) !important;
 }
 .nc-pause {
   min-height: 28px;
@@ -1187,8 +1254,9 @@ html {
 /* ── Route transitions (View Transitions API) ─────────────────
    CurtainRoute.tsx wraps internal navigation in startViewTransition. The
    old page steps back and fades; the new page is set in from the bottom
-   edge on the crane easing behind one flat orange level line (.vt-horizon,
-   present only in the new snapshot). The header (af-header) holds still. */
+   edge on the crane easing behind one flat Slate level line (.vt-horizon,
+   present only in the new snapshot; Slate is the mark's horizon and reads
+   3.7:1 on both white and navy). The header (af-header) holds still. */
 ::view-transition-old(root) {
   animation: vt-old 0.36s var(--af-ease-draw) both;
 }
@@ -1227,7 +1295,7 @@ html {
   height: 2px;
   z-index: 200;
   pointer-events: none;
-  background: var(--af-orange-deep);
+  background: var(--slate);
   view-transition-name: af-horizon;
 }
 @media (prefers-reduced-motion: reduce) {

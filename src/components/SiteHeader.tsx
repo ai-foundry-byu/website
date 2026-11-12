@@ -1,55 +1,46 @@
-import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
 import { AccountMenu } from "@/components/AccountMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
+import { CobrandLockup } from "@/components/CobrandLockup"
 import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * AF Stride demo v2 (brand/stride-2026-11): a flat BYU Navy bar on every
- * page, the name-only digital lockup (white, Signal Orange arm) at 40 px mark
- * height, white labels, and a white outline button for the CTA so the page's
- * one orange button stays in the hero. The bar carries
- * view-transition-name: af-header (.sx-header) so it holds still while
- * routes change beneath it.
+ * AF Stride demo, system v3 (brand/stride-2026-11): a flat BYU Navy bar on
+ * every page carrying the draft co-brand lockup, white on navy: the official
+ * BYU Marriott logo, unchanged, a thin rule, the AF Stride mark and AI
+ * FOUNDRY (CobrandLockup; Draft for BYU Marriott approval). On a desktop the
+ * Marriott logo is 250 px wide, the brief's floor, and the bar is 104 px tall
+ * so a "B" of clear space sits above and below it. White labels, and a white
+ * outline button for the CTA; the hero carries the page's one filled button.
+ * The bar carries view-transition-name: af-header (.sx-header) so it holds
+ * still while routes change beneath it.
  *
  * Top bar: lockup left, links, the door into the app (AccountMenu),
  * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
- * typographic recreation. White bar, so the navy variant is the
- * sanctioned one here.
- *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
  * deliberately not curtained: it targets the /#quote anchor.
  *
- * The handoff bar is desktop-only; the mobile disclosure below is the
- * repo's own, styled to the system (Plex 500 UI labels, hairline panel).
+ * The full lockup at a 250 px logo is 548 px wide, so the inline nav waits
+ * for xl (1280 px); below that the repo's own disclosure menu is used.
  */
 export function SiteHeader() {
   return (
     <header className="sx-header sticky top-0 z-50" data-ground="navy">
       <div
         className="mx-auto flex items-center justify-between gap-6"
-        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
+        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)" }}
       >
-        <CurtainNavLink href="/" className="flex items-center no-underline">
-          <Image
-            src="/brand/stride/lockup-name-digital-dark.svg"
-            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={1008}
-            height={300}
-            priority
-            unoptimized
-            className="h-12 w-auto md:h-[60px]"
-          />
+        <CurtainNavLink href="/" className="sx-header-home flex min-w-0 items-center no-underline">
+          <CobrandLockup tone="white" logoWidth={250} priority alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
         </CurtainNavLink>
 
         {/* desktop nav — the tabs carry the link-draw underline (motion
             plan #2) so header hover speaks the same hairline language. */}
-        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-[15px] xl:flex">
           {NAV.map((link) => (
             <CurtainNavLink
               key={link.href}
@@ -70,10 +61,9 @@ export function SiteHeader() {
         </nav>
 
         {/* mobile and tablet nav: native disclosure, no script. The bar
-            switches at lg (1024px), not md: with About and Sign in beside
-            three tabs and the button, at 768 to 900px the bar squeezed the
-            lockup to 36 to 190px wide (measured 2026-10-15). */}
-        <details className="relative lg:hidden">
+            switches at xl (1280px): the co-brand lockup needs 548 px at the
+            brief's 250 px logo, and the inline nav needs the rest. */}
+        <details className="relative xl:hidden">
           <summary
             className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
             style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--nav-ink)" }}
@@ -101,7 +91,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-light-blue)" }}
+                style={{ borderTop: "1px solid var(--nav-rule)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-mist)" }}
               >
                 {NAV_ABOUT.label}
               </li>

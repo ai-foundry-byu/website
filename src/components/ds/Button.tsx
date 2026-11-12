@@ -16,10 +16,11 @@ import styles from "./Button.module.css"
  */
 type Variant = "primary" | "secondary" | "inverse" | "ghost" | "outline"
 
-/* AF Stride demo v2 (brand/stride-2026-11): the primary is the page's ONE
-   orange, flat. Its colours come from tokens that follow the ground: BYU
-   Orange with white ink on white (4.67:1), Signal Orange with Ink on navy
-   (5.12:1) via [data-ground="navy"] in globals.css. Hover steps the value,
+/* AF Stride demo, system v3 (brand/stride-2026-11): the primary is the
+   page's one filled button, flat. Its colours come from tokens that follow
+   the ground: Royal with white ink on white (9.50:1), White with a Navy
+   label on navy (13.56:1) via [data-ground="navy"] in globals.css. Hover
+   steps the value (Royal to Navy, White to Mist),
    never adds a glow. "outline" is the white outline button for navy grounds
    (header, hero). Every variant is set in the kit's button type: Archivo
    Expanded 600, capitals, +8% tracking, square 2px corners. */

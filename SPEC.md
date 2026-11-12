@@ -140,9 +140,12 @@ Naming him is the highest-value credibility item on the site. Confirm title with
 Carried over in `src/app/globals.css` as a three-layer token system with an enforced contrast
 contract. `npm run check:contrast` fails the build on a violation.
 
-- Palette is BYU's: navy `#002E5D`, white, royal `#003DA5`, slate `#7C878E`, accent orange `#D14124`
-- **Orange is a fill on dark, never text on navy.** That pair is 2.90:1 and fails
-- Accent text on navy uses BYU Light Blue `#BDD6E6`, 8.99:1
+- Palette is BYU Marriott's (system v3, Scott Murff's logo brief, 2026-11-12): navy `#002E5D` and white
+  are the primaries, royal `#003DA5` and slate `#7C878E` the secondaries. No orange in the mark, the
+  lockup or a call to action; BYU Marriott's accents are limited use and never an equal to navy
+- **Royal is the action colour on light grounds and never sits on navy** (1.43:1). On navy, buttons are
+  white with navy labels and links are white
+- Secondary text on navy uses Mist `#DDE4EB`, 10.57:1
 - Accent on the subtle grey surface is 4.27:1, so large text only
 - Sentence case headlines. **No em dashes, ever**
 - Never "the Marriott School". "BYU Marriott School of Business" first reference, "BYU Marriott" after

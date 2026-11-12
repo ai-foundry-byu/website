@@ -2,22 +2,25 @@
 /*
  * HeroBuild: the AF Stride mark (round 8 final-3, the master of record),
  * built the way a crew builds: a blueprint grid and construction lines set
- * out, the orange level line is shot through the horizon, the members are
- * placed bottom up on the crane easing and seat with a small overshoot, an
- * orange lock marker flashes at each joint, then the scaffolding clears and
- * the clean mark holds. 3.25 s, plays once.
+ * out, the level line is shot through the horizon, the members are placed
+ * bottom up on the crane easing and seat with a small overshoot, a lock
+ * marker flashes at each joint, then the scaffolding clears and the clean
+ * mark holds. 3.25 s, plays once.
  *
- * Adapted from the kit (final-v2-2026-11-11/stride/kit/motion/web), Stride
- * only. The geometry below is the untouched master: every member is the
- * master path clipped along an edge it already has, so the members put back
- * together are exactly the mark.
+ * System v3 (the BYU Marriott palette), ported from
+ * final-v3-2026-11-12/system/motion/HeroBuild.tsx, Stride only. The
+ * geometry below is the untouched master: every member is the master path
+ * clipped along an edge it already has, so the members put back together
+ * are exactly the mark. Draft for BYU Marriott approval.
  *
  * Server render and no-JS show the finished mark. On mount the component
  * arms the animation on frame 0 (so nothing flashes), then plays it once
  * when the mark is in view, which in the hero is on load. With
  * prefers-reduced-motion it never arms: the static mark stays. Colours come
- * from --af-mark-ink, --af-mark-accent and --af-construction (set on
- * .sx-mark in globals.css).
+ * from --af-mark-ink, --af-mark-accent, --af-construction and
+ * --af-build-marker (set on .sx-mark in globals.css): on the navy hero the
+ * whole build is White; on white it is a Navy mark with a Slate accent and
+ * Royal lines and markers. No orange.
  */
 import "./hero-build.css"
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react"

@@ -59,9 +59,11 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // AF Stride demo v2 (brand/stride-2026-11): the kit's hand-drawn one-colour
-  // favicons of the round 8 master (navy for light browser chrome, white for
-  // dark), the navy app icon for iOS, and src/app/favicon.ico for the rest.
+  // AF Stride demo, system v3 (brand/stride-2026-11): the hand-drawn 16 and
+  // 32 px one-colour drawings of the round 8 master (Navy for light browser
+  // chrome, White for dark; no accent below 32 px), the v3 app tile (the
+  // whole mark White on Navy, final-v3 system/marks/stride-tile-dark) for iOS
+  // and the 512 icon, and src/app/favicon.ico for the rest.
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
@@ -111,6 +113,10 @@ export default function RootLayout({
         <CurtainRouteProvider>
           <MotionRoot>{children}</MotionRoot>
         </CurtainRouteProvider>
+        {/* System v3: the brand on this branch is a draft that BYU Marriott
+            Marketing has not approved, so every page says so (Scott Murff's
+            logo brief, 2026-11-12). Fixed, bottom left, never takes a click. */}
+        <p className="af-draft-chip" role="note">Draft for BYU Marriott approval</p>
       </body>
     </html>
   );

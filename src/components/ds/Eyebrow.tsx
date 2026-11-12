@@ -3,7 +3,7 @@
 const COLORS: Record<string, string> = {
   accent: "var(--accent)",
   meta: "var(--text-meta)",
-  "on-dark": "var(--af-light-blue)",
+  "on-dark": "var(--af-mist)",
 }
 
 export function Eyebrow({

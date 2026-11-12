@@ -38,11 +38,12 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* AF Stride demo v2 (brand/stride-2026-11). The hero is the brand guide's
-   website spec, dark theme: flat BYU Navy, the label, one Display line in
-   flat white, the offerings line, ONE Signal Orange button, three facts,
-   and on the right the AF Stride mark built once on load by the builder
-   sequence (HeroBuild) over the soft lift and a faint 64-unit grid. The old shader layer (HeroMotionLayer, three.js) is no
+/* AF Stride demo, system v3 (brand/stride-2026-11). The hero is the brand
+   guide's website spec, dark theme: flat BYU Navy, the label, one Display
+   line in flat white, the offerings line, ONE filled button (White with a
+   Navy label on navy), three facts, and on the right the AF Stride mark,
+   all White, built once on load by the builder sequence (HeroBuild) over
+   the soft lift and a faint 64-unit grid. The old shader layer (HeroMotionLayer, three.js) is no
    longer imported, so the landing page ships lighter. */
 function Hero() {
   return (
@@ -187,7 +188,7 @@ function QuoteBand() {
   return (
     <section
       data-ground="navy"
-      style={{ background: "var(--surface-inverse)", padding: "88px 24px 80px", borderBottom: "1px solid rgba(189,214,230,.16)" }}
+      style={{ background: "var(--surface-inverse)", padding: "88px 24px 80px", borderBottom: "1px solid rgba(255,255,255,.14)" }}
     >
       <Reveal
         style={{
