@@ -1187,7 +1187,7 @@ body:has(.sx-header) .af-draft-chip {
     order: -1;
     width: min(256px, 62vw);
     justify-self: center;
-    margin: 0 0 40px;
+    margin: 0 0 60px;
   }
   /* Phones only (md:hidden): the program's name under the mark, centred, a
      little narrower than the mark, so the first viewport names AI Foundry. */
