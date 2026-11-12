@@ -34,19 +34,21 @@ export function SiteHeader() {
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
         <CurtainNavLink href="/" className="flex min-h-[44px] items-center no-underline">
-          {/* Runout lockup, one-colour white on navy: below 48px the kit
-              allows only the one-colour drawing. The SVG carries its own
-              clear space (50 units each side), so it sits slightly taller
-              than the old PNG to keep the same visual size. */}
+          {/* System v3 draft co-brand lockup, white on the navy bar: the
+              official BYU Marriott logo (the school's own file, unchanged),
+              a thin rule, then the Runout mark and AI FOUNDRY. The -web
+              file is the design team's lockup with only its outer viewBox
+              trimmed to the drawing; the page supplies the clear space (one
+              B width, under the 24px gap beside it). Draft for BYU Marriott
+              approval: the fixed DraftLabel chip says so on every page. */}
           <Image
-            src="/brand/runout/lockup-horizontal-dark.svg"
-            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={938}
-            height={300}
+            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
+            alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
+            width={645}
+            height={74}
             priority
             unoptimized
-            className="af-header-lockup h-12 w-auto md:h-14"
-            style={{ margin: "0 -8px" }}
+            className="af-header-lockup"
           />
         </CurtainNavLink>
 
@@ -67,8 +69,8 @@ export function SiteHeader() {
           {/* The door into the app, set off from the site's own pages by a hairline. */}
           <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--af-rule-dark)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          {/* Outline, not orange: the orange button on any page belongs to
-              the surface below the bar (kit: one orange action per surface). */}
+          {/* Outline, not the primary: the primary on any page belongs to
+              the surface below the bar (kit: one primary action per surface). */}
           <Button variant="outline" href={NAV_CTA.href}>
             {NAV_CTA.label}
           </Button>
@@ -106,7 +108,7 @@ export function SiteHeader() {
                   is already a list and needs no second disclosure. */}
               <li
                 className="px-4 pb-1 pt-3"
-                style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-light-blue)" }}
+                style={{ borderTop: "1px solid var(--af-rule-dark)", marginTop: 4, fontFamily: "var(--font-body)", fontSize: "var(--size-caption)", color: "var(--af-mist)" }}
               >
                 {NAV_ABOUT.label}
               </li>

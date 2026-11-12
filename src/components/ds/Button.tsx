@@ -16,21 +16,21 @@ import styles from "./Button.module.css"
  */
 type Variant = "primary" | "secondary" | "inverse" | "ghost" | "outline"
 
-/* Runout retheme, system v2 (brand/runout-2026-11): flat, square-shouldered
-   buttons. The primary is the one orange on a surface, and the right orange
-   for its ground comes from CSS (globals.css, --cta-*): BYU Orange #D14124
-   with White on white and paper (4.67:1), Signal Orange #FC4C02 with Ink on
-   BYU Navy (5.12:1). Kit rule: ONE orange button per surface, so the bar
-   carries the "outline" variant (a white hairline on navy) and the hero or
-   band below it carries the orange. Hover steps the same orange one value;
-   it never swaps hue and never glows. */
+/* Runout retheme, system v3 (brand/runout-2026-11, draft for BYU Marriott
+   approval): flat, square-shouldered buttons, no orange. The primary's
+   colours for its ground come from CSS (globals.css, --cta-*): Royal #003DA5
+   with a White label on white and paper (9.5:1), White with a Navy label on
+   Navy (13.6:1). Royal never sits on navy. ONE primary per surface, so the
+   bar carries the "outline" variant (a white hairline on navy) and the hero
+   or band below it carries the primary. Hover steps one value (Royal to
+   Navy, White to Mist); it never glows. */
 const PALETTES: Record<string, React.CSSProperties> = {
   primary: { background: "var(--cta-bg)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg)" },
   primaryHover: { background: "var(--cta-bg-hover)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg-hover)" },
   secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   inverse: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
-  inverseHover: { background: "var(--af-light-blue)", color: "var(--navy)", border: "1px solid var(--af-light-blue)" },
+  inverseHover: { background: "var(--af-mist)", color: "var(--navy)", border: "1px solid var(--af-mist)" },
   ghost: { background: "transparent", color: "var(--royal)", border: "1px solid transparent" },
   ghostHover: { background: "transparent", color: "var(--navy)", border: "1px solid transparent" },
   outline: { background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.7)" },

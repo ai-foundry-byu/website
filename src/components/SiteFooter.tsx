@@ -22,22 +22,25 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="af-footer mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      {/* Runout: a Light Blue set-out line runs across the top of the footer
+      {/* Runout: a Slate set-out line runs across the top of the footer
           and draws itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
       <div aria-hidden="true" className="af-horizon-rule" />
       <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
-        {/* Top row: the Foundry's lockup, and opposite it who the Foundry
-            belongs to (each sponsor's own logo, white on navy; a second
-            sponsor joins the same row). */}
+        {/* Top row: the draft co-brand lockup (system v3, white on navy:
+            the official BYU Marriott logo, a rule, the Runout mark and AI
+            FOUNDRY), and opposite it who the Foundry belongs to (each
+            sponsor's own logo, white on navy; a second sponsor joins the
+            same row). At its full 600px the Marriott logo is 279px wide,
+            over the brief's 250px minimum, and the 32px gaps round it cover
+            the clear space (one B width, 27px at this size). */}
         <div className="flex flex-wrap items-end justify-between gap-8">
           <Image
-            src="/brand/runout/lockup-horizontal-dark.svg"
-            alt={`${PROGRAM}, ${SCHOOL_FULL}`}
-            width={938}
-            height={300}
+            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
+            alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
+            width={645}
+            height={74}
             unoptimized
-            className="h-14 w-auto"
-            style={{ margin: "-10px -9px" }}
+            className="af-footer-lockup"
           />
           <div>
             <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>

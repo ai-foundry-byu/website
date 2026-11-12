@@ -57,10 +57,12 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // Runout preview (brand/runout-2026-11): the kit's favicon set (system v2).
-  // icon.svg is the 32px drawing hand-placed on the pixel grid, navy, white
-  // when the browser is dark; the PNGs are the kit's favicon-32 and app icon
-  // (flat BYU Navy tile, white mark, Signal Orange beam). Concept, pending release. The SVG is listed first
+  // Runout preview (brand/runout-2026-11): the favicon set, system v3, draft
+  // for BYU Marriott approval. icon.svg is the 32px drawing hand-placed on the
+  // pixel grid (round 10 runout-cut), navy, white when the browser is dark;
+  // favicon-32.png is the same drawing, favicon.ico carries the 16px drawing
+  // too, and the 180/512 app icons are the v3 tile (flat Navy, the whole
+  // option 44 master in White, no orange). Concept, pending release. The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.
@@ -76,7 +78,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "BYU AI Foundry" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "BYU Marriott School of Business and AI Foundry, draft co-brand lockup (draft for BYU Marriott approval)" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -115,6 +117,12 @@ export default function RootLayout({
         <RouteTransitions>
           <MotionRoot>{children}</MotionRoot>
         </RouteTransitions>
+        {/* System v3: the co-brand lockup in the bar and footer is a draft
+            until BYU Marriott Marketing approves it (Scott Murff's brief),
+            so every page carries this fixed label (globals.css). */}
+        <p className="af-draft-label" role="note">
+          Draft for BYU Marriott approval
+        </p>
       </body>
     </html>
   );

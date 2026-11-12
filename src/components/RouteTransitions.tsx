@@ -14,7 +14,7 @@ import { usePathname, useRouter } from "next/navigation"
  * new pathname commits, so the browser snapshots the old page, React swaps
  * the tree, and the CSS in globals.css animates between the two: the outgoing
  * page steps back and clears, the incoming one is set in from below on the
- * builder's seat easing, an orange level line is shot along the bar's foot, and
+ * builder's seat easing, a White level line is shot along the bar's foot, and
  * the header (view-transition-name: af-header) holds perfectly still.
  *
  * Left alone, exactly as the curtain left them: hash links, links that open a

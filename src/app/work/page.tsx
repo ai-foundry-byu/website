@@ -28,7 +28,7 @@ export default function WorkPage() {
       <main>
         <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>{SHOWCASE_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)" }}>{SHOWCASE_EYEBROW}</Eyebrow>
             <h1
               className="af-head-dark"
               style={{

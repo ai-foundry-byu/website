@@ -36,12 +36,12 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* Runout retheme, system v2 (brand/runout-2026-11): the hero is flat BYU
-   Navy with the one soft tonal lift behind the mark, the headline is flat
-   White (kit: type is never a gradient and never orange), the mark is
+/* Runout retheme, system v3 (brand/runout-2026-11, draft for BYU Marriott
+   approval): the hero is flat Navy with the one soft tonal lift behind the
+   mark, the headline is flat White (type is never a gradient), the mark is
    built on the right like a builder builds it (HeroBuild: grid, set-out,
-   orange level line, members placed and locked, then it holds), and the
-   one orange button on this surface is the primary. The shader field
+   level line, members placed and locked, then it holds, all White on
+   navy), and the primary on this surface is White with a Navy label. The shader field
    (HeroMotionLayer) is retired on this branch: the build is the motion. */
 const HERO_FACTS = [
   { value: "5 weeks", label: "engagements, extendable" },
@@ -54,7 +54,7 @@ function Hero() {
     <section className="af-hero" data-ground="navy">
       <div className="af-hero-inner">
         <div className="af-hero-copy">
-          <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
+          <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
             {HERO_SUPPORT.replace(/\.$/, "")}
           </Eyebrow>
           <h1

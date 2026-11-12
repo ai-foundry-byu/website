@@ -84,7 +84,7 @@ export default function ApproachPage() {
       <main>
         <section className="af-page-hero" data-ground="navy">
           <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow tone="on-dark" style={{ color: "var(--af-light-blue)" }}>{APPROACH_EYEBROW}</Eyebrow>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)" }}>{APPROACH_EYEBROW}</Eyebrow>
             <h1
               className="af-head-dark"
               style={{

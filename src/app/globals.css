@@ -24,25 +24,27 @@
      - Slate is for metadata and large text only, never
        body-critical copy.
      - Orange/ember and light blue from earlier explorations
-       are retired. */
+       are retired (again in system v3: no orange, no BYU Blue). */
   --navy: #002e5d; /* PMS 648C, BYU navy: still the heading ink on Studio */
   --white: #ffffff;
-  /* RUNOUT, SYSTEM V2 (brand/runout-2026-11, preview only): BYU Navy and
-     one orange, flat. Values from the kit (final-v2-2026-11-11,
-     runout/kit/color/tokens.css). No metal, no brushing, no heat
-     gradients. The old royal slot holds BYU Blue #0072CE, the kit's link
-     and focus colour on white. Orange is not a text token here on
-     purpose: it is the horizon beam in the mark and the one call to
-     action on a surface, nothing else. */
-  --royal: #0072ce; /* BYU Blue (kit: links, focus, UI blue) */
-  --slate: #4a5663; /* kit Graphite, secondary text on white */
+  /* RUNOUT, SYSTEM V3 (brand/runout-2026-11, preview only, draft for
+     BYU Marriott approval): the BYU Marriott palette, flat, aligned to
+     Scott Murff's logo brief (2026-11-12). Navy and White are the
+     primaries, Royal and Slate the secondaries. Values from the design
+     team's system v3 (final-v3-2026-11-12, system/tokens.css). No
+     orange anywhere, no BYU Blue, no BYU Light Blue. Royal is the link,
+     focus and call-to-action colour on light grounds; on navy grounds
+     everything is White (White buttons with Navy labels). */
+  --royal: #003da5; /* BYU Marriott Royal: links, focus, CTAs on light */
+  /* --slate keeps the UI secondary-text job it had in v2 (kit Graphite,
+     small text on white). The brand Slate is --af-slate below. */
+  --slate: #4a5663;
 
-  /* ── RUNOUT · BYU NAVY AND ONE ORANGE (kit/color/tokens.css) ── */
-  --af-navy: #002e5d; /* BYU Navy, PMS 648 C: the primary */
-  --af-orange: #fc4c02; /* Signal Orange: the accent on navy */
-  --af-orange-deep: #d14124; /* BYU Orange: the accent on white */
-  --af-blue: #0072ce; /* BYU Blue */
-  --af-light-blue: #bdd6e6; /* BYU Light Blue: secondary text on navy */
+  /* ── RUNOUT · THE BYU MARRIOTT PALETTE (system v3 tokens.css) ── */
+  --af-navy: #002e5d; /* Navy, PMS 648 C: the primary */
+  --af-white: #ffffff; /* the other primary */
+  --af-royal: #003da5; /* secondary: actions on light, never on navy (1.43:1) */
+  --af-slate: #7c878e; /* secondary: the mark's accent member, set-out lines, rules */
   --af-navy-raised: #0b3b6c; /* cards and menus on navy */
   --af-night: #001a36; /* the deepest navy */
   --af-ink: #0b1b2b;
@@ -52,15 +54,18 @@
   /* The one tonal lift: a very soft radial behind the mark on the navy
      hero, never on the mark, never on type, never on light grounds. */
   --af-ground-lift: radial-gradient(70% 60% at 50% 46%, #06396b 0%, var(--af-navy) 70%);
-  --af-rule-dark: rgba(189, 214, 230, 0.18);
+  --af-rule-dark: rgba(255, 255, 255, 0.18);
   /* the builder easings (kit MOTION.md) */
   --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1); /* a member on the crane */
   --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1); /* the last of the approach */
   --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1); /* construction lines, the level */
-  /* HeroBuild colours, light by default; [data-theme="dark"] below. */
+  /* HeroBuild colours, light by default; [data-theme="dark"] below.
+     Light: Navy mark, Slate accent member, Royal lines and markers. */
   --af-mark-ink: var(--af-navy);
-  --af-mark-accent: var(--af-orange-deep);
-  --af-construction: var(--af-blue);
+  --af-mark-accent: var(--af-slate);
+  --af-construction: var(--af-royal);
+  --af-build-marker: var(--af-royal);
+  --af-build-marker-opacity: 1;
 
   /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
      One navy, frozen into a fixed ramp. Refactoring UI's rule:
@@ -94,7 +99,7 @@
   /* on-dark text (baked solids) */
   --text-on-dark: var(--white); /* headings, buttons, short labels only */
   --text-on-dark-body: #d1d9e2; /* white/82: sentence-length text on navy */
-  --text-on-dark-soft: #bdd6e6; /* BYU Light Blue: metadata, footer nav on navy */
+  --text-on-dark-soft: #dde4eb; /* v3 Mist: metadata, footer nav on navy */
 
   /* surfaces (baked solids) */
   --surface-page: var(--white); /* Runout v2: white page, flat */
@@ -111,7 +116,7 @@
   --accent-ink: var(--white);
   /* royal/8 — the ultra-light accent fill for selected states and the
      bordered error block (Refactoring UI's tinted-alert move). */
-  --fill-selected: rgba(0, 114, 206, 0.08);
+  --fill-selected: rgba(0, 61, 165, 0.08);
   /* Royal's states stay the two-step ladder the site ships: royal at
      rest, NAVY on hover/active (Carbon/Yale pattern — a value step, not
      a new hue). If the jump ever feels abrupt, the sanctioned mid-step
@@ -891,38 +896,43 @@ html {
   }
 }
 
-/* ═══ RUNOUT · BYU NAVY AND ONE ORANGE (brand/runout-2026-11 preview) ═══
-   System v2 of the Runout kit (final-v2-2026-11-11): flat BYU Navy and one
-   orange, and motion that builds rather than glows. Rules kept here:
-   - BYU Navy carries the page; type is flat White or BYU Navy, never a
-     gradient and never orange;
-   - orange is the horizon beam in the mark and the one call to action on
-     a surface; the only other orange is the level line a route change
-     shoots across the bar, and it is gone in about a second;
+/* ═══ RUNOUT · THE BYU MARRIOTT PALETTE (brand/runout-2026-11 preview) ═══
+   System v3 of the Runout kit (final-v3-2026-11-12), draft for BYU
+   Marriott approval: flat Navy and White, Royal and Slate, and motion that
+   builds rather than glows. Rules kept here:
+   - Navy carries the page; type is flat White or Navy, never a gradient;
+   - no orange anywhere: not in the mark, not on a button, not in motion;
+   - light grounds: Royal for links, calls to action and focus;
+   - navy grounds: White buttons with Navy labels, White links and focus,
+     Mist for secondary text; Royal never sits on navy (1.43:1);
+   - Slate is the accent: the mark's horizon beam on light grounds, and
+     the thin set-out lines on navy bands;
    - one tonal lift, behind the hero mark only (--af-ground-lift);
-   - construction lines are BYU Light Blue hairlines on navy;
    - motion is mechanical: lines draw, pieces slide and seat, nothing
      blurs, glows or breathes, and everything stops for reduced motion.
    ═══════════════════════════════════════════════════════════════ */
 
-/* The one orange button (Button primary): BYU Orange with White on light
-   grounds, Signal Orange with Ink on navy. Never swapped. */
+/* The primary button: Royal with a White label on light grounds (hover
+   steps to Navy), White with a Navy label on navy (hover steps to Mist). */
 :root {
-  --cta-bg: var(--af-orange-deep);
-  --cta-bg-hover: #b5381f;
+  --cta-bg: var(--af-royal);
+  --cta-bg-hover: var(--navy);
   --cta-ink: var(--white);
 }
 [data-ground="navy"] {
-  --cta-bg: var(--af-orange);
-  --cta-bg-hover: #ff6a26;
-  --cta-ink: var(--af-ink);
+  --cta-bg: var(--white);
+  --cta-bg-hover: var(--af-mist);
+  --cta-ink: var(--navy);
 }
 
-/* HeroBuild on navy: white mark, Signal Orange beam, Light Blue lines. */
+/* HeroBuild on navy: the whole mark White; construction lines White at
+   reduced opacity (hero-build.css), lock markers White at 0.8. */
 [data-theme="dark"] {
   --af-mark-ink: var(--white);
-  --af-mark-accent: var(--af-orange);
-  --af-construction: var(--af-light-blue);
+  --af-mark-accent: var(--white);
+  --af-construction: var(--white);
+  --af-build-marker: var(--white);
+  --af-build-marker-opacity: 0.8;
 }
 
 /* ── The bar: flat BYU Navy, the lockup in one colour ── */
@@ -942,7 +952,69 @@ body {
   color: #fff !important;
 }
 
-/* Scroll progress: a Light Blue construction line along the bar's foot,
+/* The draft co-brand lockup (system v3) in the bar and the footer. The
+   file is 645 x 74 (the drawing only); widths are set here, height
+   follows. The Marriott logo is 46.5% of the lockup's width. */
+.af-header-lockup {
+  display: block;
+  width: min(300px, calc(100vw - 132px));
+  height: auto;
+}
+/* lg and up: the full nav is about 703px wide (measured), so the lockup
+   takes what is left, 240px at 1024 up to 440px from about 1240. */
+@media (min-width: 1024px) {
+  .af-header-lockup {
+    width: clamp(240px, calc(100vw - 800px), 440px);
+  }
+}
+.af-footer-lockup {
+  display: block;
+  width: 600px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* "Draft for BYU Marriott approval": a small fixed chip, bottom left, on
+   every page (layout.tsx), until Marketing signs the lockup off. Quiet on
+   purpose: Navy Raised with a White hairline, never over the content's
+   own controls on a phone (it sits in the bottom-left corner, under any
+   modal). */
+.af-draft-label {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 40;
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 2px;
+  background: var(--af-navy-raised);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  opacity: 0.92;
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 640px) {
+  .af-draft-label {
+    left: 8px;
+    bottom: 8px;
+    padding: 4px 7px;
+    font-size: 10px;
+  }
+}
+@media print {
+  .af-draft-label {
+    position: static;
+    display: inline-block;
+  }
+}
+
+/* Scroll progress: a Slate construction line along the bar's foot,
    driven by the document's own scroll (no script). */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -953,8 +1025,8 @@ body {
       right: 0;
       bottom: -1px;
       height: 1px;
-      background: var(--af-light-blue);
-      opacity: 0.55;
+      background: var(--af-slate);
+      opacity: 0.9;
       transform-origin: left;
       transform: scaleX(0);
       animation: af-progress linear both;
@@ -1102,7 +1174,7 @@ body {
 }
 
 /* ── Construction rules on the navy bands and the footer ──
-   One Light Blue hairline at the top edge, drawn in left to right like a
+   One Slate hairline at the top edge, drawn in left to right like a
    set-out line as it scrolls into view. Flat: no gradient, no glow. */
 .af-horizon-rule {
   position: absolute;
@@ -1110,8 +1182,8 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--af-light-blue);
-  opacity: 0.35;
+  background: var(--af-slate);
+  opacity: 0.8;
   transform-origin: left;
   pointer-events: none;
 }
@@ -1215,7 +1287,7 @@ body {
 .af-hero-facts span {
   font-size: 14px;
   line-height: 1.4;
-  color: var(--af-light-blue);
+  color: var(--af-mist);
 }
 @media (max-width: 900px) {
   .af-hero-facts {
@@ -1235,7 +1307,7 @@ body {
 }
 
 /* Interior page heroes: the same flat navy as the landing hero, so a route
-   change crosses navy to navy under the still bar. A Light Blue set-out
+   change crosses navy to navy under the still bar. A Slate set-out
    line runs along the foot, drawn left to right on load. */
 .af-page-hero {
   position: relative;
@@ -1252,8 +1324,8 @@ body {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: var(--af-light-blue);
-  opacity: 0.35;
+  background: var(--af-slate);
+  opacity: 0.8;
   transform-origin: left;
   pointer-events: none;
 }
@@ -1276,7 +1348,8 @@ body {
   }
 }
 
-/* The route change: the build's level line. One 2px Signal Orange line is
+/* The route change: the build's level line. One 2px White line (at 0.8,
+   the build's marker on navy) is
    shot left to right along the bar's foot as the next page is set in,
    holds a beat, and clears. RouteTransitions sets data-af-vt on <html>
    for the new state only. */
@@ -1287,7 +1360,7 @@ html[data-af-vt] .af-header::before {
   right: 0;
   bottom: -1px;
   height: 2px;
-  background: var(--af-orange);
+  background: rgba(255, 255, 255, 0.8);
   transform-origin: left;
   pointer-events: none;
   animation: af-vt-level 0.9s both;

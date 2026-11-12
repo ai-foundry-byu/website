@@ -70,7 +70,7 @@ export function AccountMenu({ variant }: { variant: "bar" | "menu" }) {
   const avatar = (
     <span
       aria-hidden="true"
-      style={{ width: 28, height: 28, borderRadius: 999, background: "var(--af-blue)", color: "#fff", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
+      style={{ width: 28, height: 28, borderRadius: 999, background: "#fff", color: "var(--navy)", fontSize: 11, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", letterSpacing: ".02em", flex: "none" }}
     >
       {me.initials}
     </span>
