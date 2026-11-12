@@ -151,10 +151,14 @@ contract. `npm run check:contrast` fails the build on a violation.
 - Never "the Marriott School". "BYU Marriott School of Business" first reference, "BYU Marriott" after
 - Never a standalone "AI Foundry" without BYU identification
 - The co-brand lockup wherever it can hold the BYU Marriott logo at 250 px or more with one "B" of BYU
-  clear all round (Scott Murff's brief); never squeeze it below that. The AI Foundry mark alone (with
-  AI FOUNDRY) is the brief's secondary version, allowed only where the BYU Marriott logo is clearly
-  visible elsewhere on the page: below 768 px the header carries it and the footer carries the
-  official BYU Marriott logo (`public/brand/byu-marriott/msb_left_white.svg`, unchanged) at 250 px
+  clear all round (Scott Murff's brief), padded to B plus 4 px; never squeeze it below that. Below
+  768 px the header and footer carry the official BYU Marriott logo alone
+  (`public/brand/byu-marriott/msb_left_white.svg`, unchanged) at 250 px with the same clear space, so
+  the first viewport of every page shows the school's logo; the AF mark alone (the brief's secondary
+  version) appears in the hero, capped at 360 px so it never dwarfs the 250 px logo
+- The "Draft for BYU Marriott approval" label sits in a strip under the header bar, inside the sticky
+  header, on every page with the header: never a fixed element that can slide over a Marriott logo
+  or its clear space (measure while scrolling, fixed elements included)
 - **The official lockup is the glyph wordmark**, `public/brand/wordmark-glyph-white.png`,
   where the AI glyph stands in for the letters "AI". Treated as official from
   2026-07-29 by Brandon's decision. Regenerate with

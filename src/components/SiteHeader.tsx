@@ -2,7 +2,7 @@ import { CurtainNavLink } from "@/components/CurtainRoute"
 import { AccountMenu } from "@/components/AccountMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
-import { CobrandLockup } from "@/components/CobrandLockup"
+import { CobrandLockup, MarriottLogo } from "@/components/CobrandLockup"
 import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
@@ -14,10 +14,11 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * Scott Murff's brief: the Marriott logo is at least 250 px wide in every
  * version of the lockup, with one "B" of BYU clear all round. From 768 px the
  * full lockup holds a 250 px logo and its clear space (the component's own
- * padding, 24.2 px, so the bar is about 105 px tall). Below 768 px it cannot,
- * so the bar carries the secondary version the brief allows, the AF mark and
- * AI FOUNDRY, and the footer carries the official BYU Marriott logo at 250 px
- * on the same page (SiteFooter). White labels, and a white
+ * padding, one B plus 4 px, 28.2 px, so the bar is about 113 px tall). Below
+ * 768 px the lockup cannot fit, so the bar carries the official BYU Marriott
+ * logo alone (msb_left_white.svg, unchanged) at 250 px with the same clear
+ * space, and the AF mark appears in the hero: the first viewport of every
+ * page shows the school's logo at every width. White labels, and a white
  * outline button for the CTA; the hero carries the page's one filled button.
  * The bar carries view-transition-name: af-header (.sx-header) so it holds
  * still while routes change beneath it.
@@ -37,24 +38,19 @@ export function SiteHeader() {
   return (
     <header className="sx-header sticky top-0 z-50" data-ground="navy">
       <div
-        className="mx-auto flex items-center justify-between gap-0"
-        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)" }}
+        className="sx-header-bar mx-auto flex items-center justify-between gap-0"
+        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))" }}
       >
         <CurtainNavLink href="/" className="sx-header-home flex min-w-0 items-center no-underline">
           <span className="hidden md:block">
             <CobrandLockup tone="white" logoWidth={250} priority alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
           </span>
-          {/* Phones: the secondary version (mark and AI FOUNDRY, the lockup's
-              right half). The official Marriott logo is in the footer at 250 px. */}
-          {/* eslint-disable-next-line @next/next/no-img-element -- brand artwork is served unchanged */}
-          <img
-            className="sx-header-secondary md:hidden"
-            src="/brand/stride/mark-wordmark-stride-white.svg"
-            alt={`${PROGRAM}. Draft mark for BYU Marriott approval.`}
-            width={297.86}
-            height={52.27}
-            style={{ height: 34, width: "auto" }}
-          />
+          {/* Phones: the official BYU Marriott logo alone at 250 px with its
+              clear space (the lockup is 606 px wide with it and cannot fit).
+              The AF mark is in the hero, below this bar. */}
+          <span className="md:hidden">
+            <MarriottLogo width={250} priority alt={`${SCHOOL_FULL}, home of ${PROGRAM}`} />
+          </span>
         </CurtainNavLink>
 
         {/* desktop nav — the tabs carry the link-draw underline (motion
@@ -80,7 +76,7 @@ export function SiteHeader() {
         </nav>
 
         {/* mobile and tablet nav: native disclosure, no script. The bar
-            switches at xl (1280px): the co-brand lockup needs 597 px at the
+            switches at xl (1280px): the co-brand lockup needs 605 px at the
             brief's 250 px logo with its clear space, and the inline nav
             needs the rest. */}
         <details className="relative xl:hidden">
@@ -138,6 +134,13 @@ export function SiteHeader() {
           </nav>
         </details>
       </div>
+      {/* The draft label, pinned under the bar on every page (Scott Murff's
+          brief: drafts say so until Marketing signs off). It lives inside the
+          sticky header, below the logo's clear space, so it stays on screen
+          at every scroll position and never crosses a Marriott logo. */}
+      <p className="sx-draft-strip" role="note">
+        <span>Draft for BYU Marriott approval</span>
+      </p>
     </header>
   )
 }

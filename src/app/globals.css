@@ -915,10 +915,52 @@ html {
   view-transition-name: af-header;
 }
 /* From 768 px the bar's height is the lockup's: its artwork is 56.6 px tall
-   at the 250 px logo and the component pads one "B" (24.2 px) all round, so
-   the bar is about 105 px. Below 768 px it holds the secondary version. */
-.sx-header > div {
+   at the 250 px logo and the component pads one "B" plus 4 px (28.2 px) all
+   round, so the bar is about 113 px. Below 768 px it holds the official
+   BYU Marriott logo alone at 250 px with the same clear space (about 104 px).
+   On phones the bar drops its left padding: the logo's own clear space is
+   the margin, so logo, clear space and the Menu button fit in 390 px. */
+.sx-header-bar {
   min-height: 72px;
+  padding: 0 var(--container-pad);
+}
+@media (max-width: 767.98px) {
+  .sx-header-bar {
+    padding: 0 12px 0 0;
+  }
+}
+/* The draft label, under the bar, inside the sticky header: on screen at
+   every scroll position, never over a Marriott logo or its clear space (the
+   bar's logo clear space ends at the bar's bottom edge, where this begins). */
+.sx-draft-strip {
+  margin: 0;
+  padding: 3px var(--container-pad) 4px;
+  background: var(--af-night, #001a36);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  text-align: right;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 11.5px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  pointer-events: none;
+  user-select: none;
+}
+.sx-draft-strip > span {
+  display: inline-block;
+}
+@media (max-width: 767.98px) {
+  .sx-draft-strip {
+    text-align: center;
+    padding: 3px 12px 4px;
+  }
+}
+@media print {
+  .sx-draft-strip {
+    background: none;
+    color: var(--navy);
+  }
 }
 /* The lockup never shrinks (a squeezed lockup drops the Marriott logo under
    250 px): from 768 px it sits at its full size with its own clear space as
@@ -933,12 +975,20 @@ html {
   }
 }
 @media (max-width: 1279px) {
-  .sx-header > div {
+  .sx-header-bar {
     gap: 12px;
   }
 }
 
-/* ── The draft label: fixed, bottom left, on every page ───── */
+/* ── The draft label on pages without the site header ──────
+   Every page with the site header carries the label in the header's strip
+   (.sx-draft-strip), so the fixed chip is hidden there: a fixed chip slid
+   over the footer's Marriott logo while scrolling. The unlinked internal
+   pages (/board, /brief, /ops, /trek) have no header and no Marriott logo,
+   so the chip stays on them, bottom left. */
+body:has(.sx-header) .af-draft-chip {
+  display: none;
+}
 .af-draft-chip {
   position: fixed;
   left: 12px;
@@ -1051,12 +1101,16 @@ html {
 
 /* The mark: HeroBuild (the builder sequence) in a square box. Behind it,
    the one soft lift (Navy Raised into BYU Navy) and a very faint 64-unit
-   grid on the mark's own module: the site plan the build leaves behind. */
+   grid on the mark's own module: the site plan the build leaves behind.
+   Capped at 360 px (ink about 315 px wide) so the mark alone stays close to
+   the header's 250 px BYU Marriott logo instead of dwarfing it; the brief
+   asks that the AI Foundry mark never overpower the school's logo. */
 .sx-mark {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 580px;
+  max-width: 360px;
+  align-self: center;
   aspect-ratio: 1;
   justify-self: end;
 }

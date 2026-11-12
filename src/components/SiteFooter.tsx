@@ -31,10 +31,10 @@ export function SiteFooter() {
           {/* The draft co-brand lockup, all white on navy (system v3): the
               official BYU Marriott logo, unchanged, at 250 px (the brief's
               floor), the rule, the AF Stride mark and AI FOUNDRY, with one B
-              of clear space as the component's padding. From 768 px only:
-              below that the horizontal lockup cannot hold a 250 px logo in
-              the column, so phones get the official BYU Marriott logo alone at
-              250 px (the header carries the AF mark and AI FOUNDRY). */}
+              plus 4 px of clear space as the component's padding. From 768 px
+              only: below that the horizontal lockup cannot hold a 250 px logo
+              in the column, so phones get the official BYU Marriott logo alone
+              at 250 px, as in the phone header. */}
           <span className="hidden md:block">
             <CobrandLockup tone="white" logoWidth={250} alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
           </span>
