@@ -79,6 +79,8 @@ export function SiteHeader() {
             switches at xl (1280px): the co-brand lockup needs 605 px at the
             brief's 250 px logo with its clear space, and the inline nav
             needs the rest. */}
+        {/* The open panel drops 34 px below the Menu button so it clears the
+            phone bar's BYU Marriott logo by one B (24 px) plus margin. */}
         <details className="relative xl:hidden">
           <summary
             className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
@@ -88,7 +90,7 @@ export function SiteHeader() {
           </summary>
           <nav
             aria-label="Main"
-            className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
+            className="absolute right-0 top-full z-50 mt-[34px] w-56 py-2"
             style={{ background: "var(--nav-panel)", border: "1px solid var(--nav-rule)", borderRadius: "12px" }}
           >
             <ul>
