@@ -1207,6 +1207,13 @@ body {
     justify-self: center;
     max-width: 220px;
   }
+  /* Phones only (md:hidden): the program's name under the mark. */
+  .af-hero-name {
+    display: block;
+    width: 86%;
+    height: auto;
+    margin: 6px auto 0;
+  }
   .af-hero-ctas {
     margin-top: 32px;
   }
