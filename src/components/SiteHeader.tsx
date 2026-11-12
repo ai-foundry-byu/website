@@ -1,25 +1,31 @@
-import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
 import { AccountMenu } from "@/components/AccountMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
-import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM } from "@/lib/content"
+import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
 
 /**
- * Top bar: the secondary mark left, links, the door into the app (AccountMenu),
- * and one action right. Port of
+ * Top bar: the BYU Marriott logo left, links, the door into the app
+ * (AccountMenu), and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The mark is the design team's file, never a typographic recreation; the
- * full co-brand lockup sits in the footer (SiteFooter). Flat BYU Navy bar,
- * the mark white (kit); menus are Navy Raised on navy (guide: cards and menus).
+ * Runout, system v3 (brand/runout-2026-11; Scott Murff's logo brief): the
+ * first thing on every page is the official BYU Marriott logo, at least
+ * 250px wide with one B of clear space (B = 38.26/396 of the logo's width,
+ * about 24px) plus a 3px margin, on every side:
+ * - from 768px: the draft co-brand lockup (the official logo, unchanged, a
+ *   rule, the Runout mark and AI FOUNDRY), 540px wide, so the Marriott logo
+ *   is 251px, with 28px of clear space round the whole lockup;
+ * - under 768px: the official BYU Marriott logo alone (msb_left_white.svg,
+ *   the school's own file, unchanged), 251px wide, 28px clear; the Runout
+ *   mark is in the hero below it.
+ * The draft label is a strip across the top of the bar, so it travels with
+ * the bar and never floats over a logo (the old fixed chip slid over the
+ * footer lockup). Heights, widths and breakpoints: globals.css.
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
  * deliberately not curtained: it targets the /#quote anchor.
- *
- * The handoff bar is desktop-only; the mobile disclosure below is the
- * repo's own, styled to the system (Plex 500 UI labels, hairline panel).
  */
 export function SiteHeader() {
   return (
@@ -28,38 +34,35 @@ export function SiteHeader() {
       data-ground="navy"
       style={{ ["--bar-ink" as string]: "#fff" } as React.CSSProperties}
     >
+      <p className="af-draft-strip" role="note">
+        Draft for BYU Marriott approval
+      </p>
       <div
-        className="mx-auto flex items-center justify-between gap-6"
-        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
+        className="af-header-row mx-auto flex items-center justify-between"
+        style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))" }}
       >
-        <CurtainNavLink href="/" className="flex min-h-[44px] items-center no-underline">
-          {/* The secondary version, white on the navy bar: the Runout mark and
-              AI FOUNDRY (our half of the draft co-brand lockup, from the
-              design team's cobrand.py; scripts/build-secondary-mark.py).
-              Not the full lockup: the brief wants the BYU Marriott logo at
-              least 250px wide with one B of clear space (about 24px) all
-              round, and in a 72px bar the lockup at that size is 62px tall
-              (5px above and below), nor does it fit beside the nav at
-              1024 or 1280. The brief allows the secondary version where
-              the Marriott logo is clearly visible elsewhere: the footer
-              carries it at 250px or more on every page and viewport.
-              The mark is 48px tall (the master's screen floor) with 12px,
-              its clear space X, above and below. Draft for BYU Marriott
-              approval: the fixed chip says so on every page. */}
-          <Image
-            src="/brand/runout/cobrand/secondary-runout-white-web.svg"
-            alt={`${PROGRAM}, draft mark`}
-            width={286}
-            height={58}
-            priority
-            unoptimized
-            className="af-header-mark"
+        <CurtainNavLink href="/" className="af-header-home flex shrink-0 items-center no-underline">
+          {/* eslint-disable-next-line @next/next/no-img-element -- brand artwork is served unchanged */}
+          <img
+            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
+            alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup for BYU Marriott approval`}
+            width={645}
+            height={74}
+            className="af-header-lockup"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- the school's own file, unchanged */}
+          <img
+            src="/brand/byu-marriott/msb_left_white.svg"
+            alt={SCHOOL_FULL}
+            width={396}
+            height={75}
+            className="af-header-marriott"
           />
         </CurtainNavLink>
 
         {/* desktop nav — the tabs carry the link-draw underline (motion
             plan #2) so header hover speaks the same hairline language. */}
-        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Main" className="af-header-nav hidden items-center xl:flex">
           {NAV.map((link) => (
             <CurtainNavLink
               key={link.href}
@@ -82,10 +85,9 @@ export function SiteHeader() {
         </nav>
 
         {/* mobile and tablet nav: native disclosure, no script. The bar
-            switches at lg (1024px), not md: with About and Sign in beside
-            three tabs and the button, at 768 to 900px the bar squeezed the
-            lockup to 36 to 190px wide (measured 2026-10-15). */}
-        <details className="relative lg:hidden">
+            switches at xl (1280px): the lockup and its clear space take
+            596px, which leaves the inline nav no room below 1280. */}
+        <details className="af-header-menu xl:hidden">
           <summary
             className="flex min-h-[44px] min-w-[44px] cursor-pointer list-none items-center justify-center px-3 [&::-webkit-details-marker]:hidden"
             style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--bar-ink)" }}
@@ -94,7 +96,7 @@ export function SiteHeader() {
           </summary>
           <nav
             aria-label="Main"
-            className="absolute right-0 top-full z-50 mt-2 w-56 py-2"
+            className="absolute right-2 top-full z-50 mt-1 w-56 py-2"
             style={{ background: "var(--af-navy-raised)", border: "1px solid var(--af-rule-dark)", borderRadius: "var(--radius)", ["--bar-ink" as string]: "#fff", ["--focus-ring" as string]: "#fff" } as React.CSSProperties}
           >
             <ul>

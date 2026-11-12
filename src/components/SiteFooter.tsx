@@ -27,19 +27,18 @@ export function SiteFooter() {
       <div aria-hidden="true" className="af-horizon-rule" />
       <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
         {/* Top row: the BYU Marriott logo, at least 250px wide with one B
-            of clear space (B = 38.26/396 of the logo's width, about 24 to
-            27px here) on every side, and opposite it who the Foundry
+            of clear space (B = 38.26/396 of the logo's width, 24.3px
+            here) plus 3px on every side, and opposite it who the Foundry
             belongs to (each sponsor's own logo, white on navy).
             From 640px: the draft co-brand lockup (system v3, white on navy:
             the official BYU Marriott logo, a rule, the Runout mark and AI
-            FOUNDRY), 540 to 600px wide, so the Marriott logo is 251 to
-            279px. Under 640px the horizontal lockup cannot hold a 250px
-            logo plus its clear space inside the gutters (it needs about
+            FOUNDRY), 540px wide, so the Marriott logo is 251px. Under
+            640px the horizontal lockup cannot hold a 250px logo plus its
+            clear space inside the gutters (it needs about
             590px), so phones get the official BYU Marriott logo alone,
-            the school's own file unchanged, 250 to 270px wide; the header
-            already carries the AI Foundry mark (the secondary version the
-            brief allows where the Marriott logo is clearly visible
-            elsewhere). The 4px inset keeps one B from the screen edge.
+            the school's own file unchanged, 251px wide (the header
+            carries the same file at 251px, and the hero the Runout mark).
+            The 4px inset keeps 28px (one B plus 3px) from the screen edge.
             Widths: globals.css; measured at 390 to 1440px. */}
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div className="af-footer-brand">

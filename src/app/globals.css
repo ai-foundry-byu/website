@@ -941,25 +941,93 @@ html {
   border-bottom: 1px solid var(--af-rule-dark);
   view-transition-name: af-header;
 }
-/* The bar sits in normal flow above the hero; the first 72px of the body
-   are painted navy so it reads solid at rest on every page. */
+/* The bar sits in normal flow above the hero; the top of the body is
+   painted navy to the bar's height so it reads solid at rest on every page
+   (and under a route transition's snapshot). */
+:root {
+  --af-strip-h: 20px;
+  --af-clear: 28px; /* one B (24.3px at a 251px logo) plus at least 3px */
+  --af-header-h: calc(var(--af-strip-h) + 2 * var(--af-clear) + 251px * 75 / 396);
+}
+@media (min-width: 768px) {
+  :root {
+    --af-header-h: calc(var(--af-strip-h) + 2 * var(--af-clear) + 540px * 73.86 / 644.67);
+  }
+}
 body {
   background:
-    linear-gradient(var(--navy), var(--navy)) top / 100% 72px no-repeat,
+    linear-gradient(var(--navy), var(--navy)) top / 100% var(--af-header-h) no-repeat,
     var(--surface-page);
 }
 .af-header .link-draw:hover {
   color: #fff !important;
 }
 
-/* The bar carries the secondary version (the Runout mark + AI FOUNDRY,
-   SiteHeader): the mark 48px tall, the master's screen floor, with its
-   clear space X (a quarter of its height, 12px) above and below in the
-   72px bar. The file is 286 x 58 (the drawing only), the mark 56.8 of 58. */
-.af-header-mark {
+/* The bar carries the BYU Marriott logo (SiteHeader; Scott Murff's brief:
+   at least 250px wide, one B of clear space all round, B = 38.26/396 of the
+   logo's width). --af-clear (28px) is one B plus at least 3px, kept between
+   the logo and the draft strip above it, the bar's foot below it, the
+   screen edge on its left and the nearest control on its right.
+   Under 768px: the official BYU Marriott logo alone, 251px wide (B 24.3px;
+   its ink fills its 396 x 75 viewBox), and the Menu button.
+   From 768px: the draft co-brand lockup, the -web file (645 x 74, the
+   drawing only), 540px wide, so the Marriott logo is 540 x 300/644.67 =
+   251.3px (B 24.3px), with 28px round the whole lockup. */
+.af-header-row {
+  padding: 0 4px 0 calc(var(--af-clear) - 4px);
+}
+.af-header-home {
+  padding: var(--af-clear) var(--af-clear) var(--af-clear) 4px;
+}
+.af-header-lockup,
+.af-header-marriott {
   display: block;
-  width: auto;
-  height: 48.85px;
+  height: auto;
+  max-width: none;
+}
+.af-header-lockup {
+  display: none;
+  width: 540px;
+}
+.af-header-marriott {
+  width: 251px;
+}
+.af-header-menu > summary {
+  padding: 0 10px;
+}
+@media (min-width: 768px) {
+  .af-header-row {
+    padding: 0 var(--container-pad);
+  }
+  .af-header-lockup {
+    display: block;
+  }
+  .af-header-marriott {
+    display: none;
+  }
+}
+.af-header-nav {
+  gap: 14px;
+}
+/* The draft label, a strip across the top of the bar on every page (it was
+   a fixed chip, bottom left, which slid over the footer lockup while
+   scrolling). It moves with the bar, so it never sits over a logo; the
+   logo keeps its 28px below it. */
+.af-draft-strip {
+  margin: 0;
+  height: var(--af-strip-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--af-navy-raised);
+  border-bottom: 1px solid var(--af-rule-dark);
+  box-sizing: border-box;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
 }
 
 /* The footer carries the BYU Marriott logo at 250px or more on every
@@ -967,12 +1035,13 @@ body {
    clear space all round; B = 38.26/396 of the logo's width).
    From 640px: the draft co-brand lockup. The -web file is 645 x 74 (the
    drawing only) and the Marriott logo is 300/644.67 = 46.5% of its width,
-   so 540 to 600px of lockup puts the logo at 251 to 279px.
+   so 540px of lockup puts the logo at 251.3px (B 24.3px).
    Under 640px: the official BYU Marriott logo alone (the school's file,
-   unchanged; its ink fills its 396 x 75 viewBox), 250 to 270px wide.
-   The 4px inset plus the 24px gutter keeps one B (at most 27px) from the
-   screen edge; the row gap (32px) and the nav's 32px keep it from
-   everything else. */
+   unchanged; its ink fills its 396 x 75 viewBox), 251px wide (B 24.3px).
+   Both sizes match the header's. The 4px inset plus the 24px gutter keeps
+   28px (one B plus more than 3px) from the screen edge; the row gap (32px)
+   and the nav's 32px keep it from everything else. Measured while
+   scrolling at 390 to 1440px (measure_site.py in the design kit). */
 .af-footer-brand {
   padding-left: 4px;
 }
@@ -981,57 +1050,17 @@ body {
 }
 .af-footer-marriott {
   display: block;
-  width: min(270px, calc(100vw - 56px));
+  width: 251px;
   height: auto;
 }
 @media (min-width: 640px) {
   .af-footer-lockup {
     display: block;
-    width: clamp(540px, calc(100vw - 80px), 600px);
+    width: 540px;
     height: auto;
   }
   .af-footer-marriott {
     display: none;
-  }
-}
-
-/* "Draft for BYU Marriott approval": a small fixed chip, bottom left, on
-   every page (layout.tsx), until Marketing signs the lockup off. Quiet on
-   purpose: Navy Raised with a White hairline, never over the content's
-   own controls on a phone (it sits in the bottom-left corner, under any
-   modal). */
-.af-draft-label {
-  position: fixed;
-  left: 12px;
-  bottom: 12px;
-  z-index: 40;
-  margin: 0;
-  padding: 5px 9px;
-  border-radius: 2px;
-  background: var(--af-navy-raised);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  opacity: 0.92;
-  pointer-events: none;
-  user-select: none;
-}
-@media (max-width: 640px) {
-  .af-draft-label {
-    left: 8px;
-    bottom: 8px;
-    padding: 4px 7px;
-    font-size: 10px;
-  }
-}
-@media print {
-  .af-draft-label {
-    position: static;
-    display: inline-block;
   }
 }
 
@@ -1109,7 +1138,9 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 560px;
+  /* 380px of build is about 250px of mark ink: no larger than the BYU
+     Marriott logo (251px) in the bar above it. */
+  max-width: 380px;
   justify-self: end;
 }
 .af-hero-art .af-build {
@@ -1174,7 +1205,7 @@ body {
   .af-hero-art {
     order: -1;
     justify-self: center;
-    max-width: 300px;
+    max-width: 220px;
   }
   .af-hero-ctas {
     margin-top: 32px;
@@ -1274,9 +1305,9 @@ body {
   }
 }
 
-/* Runout: anchors (/#quote) land below the sticky 72px bar. */
+/* Runout: anchors (/#quote) land below the sticky bar. */
 [id] {
-  scroll-margin-top: 72px;
+  scroll-margin-top: var(--af-header-h);
 }
 
 /* The hero's three figures (guide, Website: hero; facts.yaml): a hairline,
