@@ -88,6 +88,17 @@ function Hero() {
         </div>
         <div className="sx-mark">
           <HeroBuild theme="dark" />
+          {/* Phones: the bar carries the BYU Marriott logo alone, so the
+              program's name rides under the hero mark here (the secondary
+              version: mark and AI FOUNDRY). */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/stride/wordmark-white.svg"
+            alt="AI Foundry"
+            className="sx-mark-name md:hidden"
+            width={218}
+            height={28}
+          />
         </div>
       </div>
     </section>

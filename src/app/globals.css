@@ -1187,7 +1187,17 @@ body:has(.sx-header) .af-draft-chip {
     order: -1;
     width: min(256px, 62vw);
     justify-self: center;
-    margin: 0 0 4px;
+    margin: 0 0 40px;
+  }
+  /* Phones only (md:hidden): the program's name under the mark, centred, a
+     little narrower than the mark, so the first viewport names AI Foundry. */
+  .sx-mark-name {
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    width: 78%;
+    height: auto;
+    transform: translateX(-50%);
   }
   .sx-hero-copy {
     padding-top: 0;
