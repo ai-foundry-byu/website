@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { CurtainNavLink as Link } from "@/components/CurtainRoute"
-import { CobrandLockup } from "@/components/CobrandLockup"
+import { CobrandLockup, MarriottLogo } from "@/components/CobrandLockup"
 import { LINKEDIN_LINK, NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
 
 /**
@@ -30,9 +30,17 @@ export function SiteFooter() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           {/* The draft co-brand lockup, all white on navy (system v3): the
               official BYU Marriott logo, unchanged, at 250 px (the brief's
-              floor), the rule, the AF Stride mark and AI FOUNDRY. Clear space
-              is the footer's own padding and the 32 px gap. */}
-          <CobrandLockup tone="white" logoWidth={250} alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
+              floor), the rule, the AF Stride mark and AI FOUNDRY, with one B
+              of clear space as the component's padding. From 768 px only:
+              below that the horizontal lockup cannot hold a 250 px logo in
+              the column, so phones get the official BYU Marriott logo alone at
+              250 px (the header carries the AF mark and AI FOUNDRY). */}
+          <span className="hidden md:block">
+            <CobrandLockup tone="white" logoWidth={250} alt={`${SCHOOL_FULL} | ${PROGRAM}. Draft co-brand lockup for BYU Marriott approval.`} />
+          </span>
+          <span className="md:hidden">
+            <MarriottLogo width={250} alt={SCHOOL_FULL} />
+          </span>
           <div>
             <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
               {SPONSOR_LABEL}

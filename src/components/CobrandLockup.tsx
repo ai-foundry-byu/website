@@ -8,19 +8,22 @@
  * cobrand outputs byte for byte (final-v3-2026-11-12/system/cobrand). They
  * carry their own clear space (one "B" of BYU, 28.99 units at 1x) and, below
  * it, the outlined "Draft for BYU Marriott approval" line. On the site the
- * clear space is the header and footer padding and the draft label is the
- * fixed chip on every page (DraftLabel), so this component shows the file
- * through a window cut to the lockup's own artwork box (x 28.99 to 686.82,
- * y 28.99 to 96.94: the logo, the rule and our half). The file itself is
- * never edited, and the official logo inside it is never cropped.
+ * draft label is the fixed chip on every page, so this component shows the
+ * file through a window cut to the lockup's own artwork box (x 28.99 to
+ * 686.82, y 28.99 to 96.94: the logo, the rule and our half) and puts the
+ * clear space back as padding: one B of BYU on every side, B = 38.26/396 of
+ * the Marriott logo's width (24.2 px at a 250 px logo). Nothing may sit in
+ * that padding. The file itself is never edited, and the official logo
+ * inside it is never cropped.
  *
  * It renders as <img>, never as inline SVG: the official file's class names
  * (.st0, .st1) would clash with a second inline copy on the same page.
  *
- * Sizing: pass the BYU Marriott logo's width in px. The artwork box is
- * 657.83 x 67.95 at a 300 px logo, so the box is logoWidth * 2.1928 wide.
- * The brief's floor is a 250 px logo; on screens too narrow for that the
- * box shrinks to the column (maxWidth 100%) and the report says so.
+ * Sizing: pass the BYU Marriott logo's width in px; the brief's floor is
+ * 250 and the component refuses less. It never shrinks to its column (flex
+ * none, no max-width): a lockup squeezed below a 250 px logo breaks the
+ * brief, so the header and footer show it only where it fits (768 px and
+ * up) and use the secondary version or the official logo alone below that.
  */
 const FILE_W = 715.81
 const FILE_H = 147.61
@@ -29,10 +32,13 @@ const BOX_Y = 28.99
 const BOX_W = 657.83
 const BOX_H = 67.95
 const LOGO_W = 300
+/** Width of the "B" in BYU over the official file's width (38.26 / 396 units). */
+export const B_RATIO = 38.26 / 396
+export const MIN_LOGO_W = 250
 
 export function CobrandLockup({
   tone,
-  logoWidth = 250,
+  logoWidth = MIN_LOGO_W,
   alt,
   className,
   style,
@@ -47,36 +53,71 @@ export function CobrandLockup({
   style?: React.CSSProperties
   priority?: boolean
 }) {
-  const boxWidth = (logoWidth * BOX_W) / LOGO_W
+  const w = Math.max(logoWidth, MIN_LOGO_W)
+  const boxWidth = (w * BOX_W) / LOGO_W
+  const boxHeight = (boxWidth * BOX_H) / BOX_W
+  const b = Math.ceil(w * B_RATIO * 10) / 10
   return (
     <span
       className={className}
-      style={{
-        display: "block",
-        position: "relative",
-        overflow: "hidden",
-        width: `${boxWidth.toFixed(1)}px`,
-        maxWidth: "100%",
-        aspectRatio: `${BOX_W} / ${BOX_H}`,
-        flex: "none",
-        ...style,
-      }}
+      data-lockup="cobrand"
+      style={{ display: "block", flex: "none", boxSizing: "content-box", padding: `${b}px`, ...style }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element -- the file must be served unchanged, never re-encoded */}
-      <img
-        src={`/brand/stride/lockup-stride-${tone}.svg`}
-        alt={alt}
-        width={FILE_W}
-        height={FILE_H}
-        fetchPriority={priority ? "high" : undefined}
+      <span
+        data-lockup-art=""
         style={{
-          position: "absolute",
-          maxWidth: "none",
-          width: `${((FILE_W / BOX_W) * 100).toFixed(4)}%`,
-          height: "auto",
-          left: `${((-BOX_X / BOX_W) * 100).toFixed(4)}%`,
-          top: `${((-BOX_Y / BOX_H) * 100).toFixed(4)}%`,
+          display: "block",
+          position: "relative",
+          overflow: "hidden",
+          width: `${boxWidth.toFixed(2)}px`,
+          height: `${boxHeight.toFixed(2)}px`,
         }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- the file must be served unchanged, never re-encoded */}
+        <img
+          src={`/brand/stride/lockup-stride-${tone}.svg`}
+          alt={alt}
+          width={FILE_W}
+          height={FILE_H}
+          data-marriott-w={((boxWidth * LOGO_W) / BOX_W).toFixed(2)}
+          fetchPriority={priority ? "high" : undefined}
+          style={{
+            position: "absolute",
+            maxWidth: "none",
+            width: `${((FILE_W / BOX_W) * 100).toFixed(4)}%`,
+            height: "auto",
+            left: `${((-BOX_X / BOX_W) * 100).toFixed(4)}%`,
+            top: `${((-BOX_Y / BOX_H) * 100).toFixed(4)}%`,
+          }}
+        />
+      </span>
+    </span>
+  )
+}
+
+/**
+ * The official BYU Marriott School of Business logo alone, white on navy:
+ * public/brand/byu-marriott/msb_left_white.svg is the school's file byte for
+ * byte (viewBox 396 x 75, nothing cropped). Used in the footer below 768 px,
+ * where the horizontal lockup cannot fit at a 250 px logo; it keeps the
+ * school's logo on every page at 250 px or more, which is what lets the
+ * header use the secondary version (the AF mark and AI FOUNDRY) on phones.
+ * One B of clear space as padding, as for the lockup.
+ */
+export function MarriottLogo({ width = MIN_LOGO_W, alt, className }: { width?: number; alt: string; className?: string }) {
+  const w = Math.max(width, MIN_LOGO_W)
+  const b = Math.ceil(w * B_RATIO * 10) / 10
+  return (
+    <span className={className} data-lockup="marriott" style={{ display: "block", flex: "none", boxSizing: "content-box", padding: `${b}px` }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- the official file is served unchanged, never re-encoded */}
+      <img
+        src="/brand/byu-marriott/msb_left_white.svg"
+        alt={alt}
+        width={w}
+        height={(w * 75) / 396}
+        data-lockup-art=""
+        data-marriott-w={w.toFixed(2)}
+        style={{ display: "block", width: `${w}px`, height: "auto", maxWidth: "none" }}
       />
     </span>
   )

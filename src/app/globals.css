@@ -914,13 +914,16 @@ html {
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   view-transition-name: af-header;
 }
-/* 104 px on a desktop: the lockup's artwork is 56.6 px tall at the 250 px
-   logo, so about one "B" (24 px) of clear space sits above and below it. */
+/* From 768 px the bar's height is the lockup's: its artwork is 56.6 px tall
+   at the 250 px logo and the component pads one "B" (24.2 px) all round, so
+   the bar is about 105 px. Below 768 px it holds the secondary version. */
 .sx-header > div {
-  height: 104px;
+  min-height: 72px;
 }
-/* At xl the lockup holds its full size (the 250 px logo floor) and the nav
-   takes the rest; below xl it shrinks to the space beside Menu. */
+/* The lockup never shrinks (a squeezed lockup drops the Marriott logo under
+   250 px): from 768 px it sits at its full size with its own clear space as
+   padding, so the bar needs no gap of its own; below 768 px the bar holds the
+   secondary version (SiteHeader). */
 .sx-header-home {
   flex: 0 1 auto;
 }
@@ -931,7 +934,6 @@ html {
 }
 @media (max-width: 1279px) {
   .sx-header > div {
-    height: 72px;
     gap: 12px;
   }
 }

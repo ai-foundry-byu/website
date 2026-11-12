@@ -150,7 +150,11 @@ contract. `npm run check:contrast` fails the build on a violation.
 - Sentence case headlines. **No em dashes, ever**
 - Never "the Marriott School". "BYU Marriott School of Business" first reference, "BYU Marriott" after
 - Never a standalone "AI Foundry" without BYU identification
-- Use the co-brand lockup only, never a standalone AI Foundry mark
+- The co-brand lockup wherever it can hold the BYU Marriott logo at 250 px or more with one "B" of BYU
+  clear all round (Scott Murff's brief); never squeeze it below that. The AI Foundry mark alone (with
+  AI FOUNDRY) is the brief's secondary version, allowed only where the BYU Marriott logo is clearly
+  visible elsewhere on the page: below 768 px the header carries it and the footer carries the
+  official BYU Marriott logo (`public/brand/byu-marriott/msb_left_white.svg`, unchanged) at 250 px
 - **The official lockup is the glyph wordmark**, `public/brand/wordmark-glyph-white.png`,
   where the AI glyph stands in for the letters "AI". Treated as official from
   2026-07-29 by Brandon's decision. Regenerate with
