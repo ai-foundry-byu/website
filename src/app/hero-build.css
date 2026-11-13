@@ -51,7 +51,6 @@
 .af-build.is-armed .af-runout-c4{animation:af-runout-c4 2980ms linear both}
 .af-build.is-armed .af-runout-c5{animation:af-runout-c5 2980ms linear both}
 .af-build.is-armed .af-runout-c6{animation:af-runout-c6 2980ms linear both}
-.af-build.is-armed .af-runout-c7{animation:af-runout-c7 2980ms linear both}
 .af-build.is-armed .af-runout-n0{animation:af-runout-n0 2980ms linear both}
 .af-build.is-armed .af-runout-n1{animation:af-runout-n1 2980ms linear both}
 .af-build.is-armed .af-runout-n2{animation:af-runout-n2 2980ms linear both}
@@ -100,7 +99,6 @@
 @keyframes af-runout-c4{0%{stroke-dashoffset:1}15.101%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}31.208%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
 @keyframes af-runout-c5{0%{stroke-dashoffset:1}17.617%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}33.725%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
 @keyframes af-runout-c6{0%{stroke-dashoffset:1}20.134%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}36.242%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
-@keyframes af-runout-c7{0%{stroke-dashoffset:1}22.651%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}38.758%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
 @keyframes af-runout-n0{0%{opacity:0;transform:scale(.2)}16.779%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}23.49%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
 @keyframes af-runout-n1{0%{opacity:0;transform:scale(.2)}18.289%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}25%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
 @keyframes af-runout-n2{0%{opacity:0;transform:scale(.2)}19.799%{opacity:0;transform:scale(.2);animation-timing-function:cubic-bezier(.2,.7,.3,1)}26.51%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}

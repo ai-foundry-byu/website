@@ -59,10 +59,10 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   // Runout preview (brand/runout-2026-11): the favicon set, system v3, draft
   // for BYU Marriott approval. icon.svg is the 32px drawing hand-placed on the
-  // pixel grid (round 10 runout-cut), navy, white when the browser is dark;
+  // pixel grid (round 9 refine-runout), navy, white when the browser is dark;
   // favicon-32.png is the same drawing, favicon.ico carries the 16px drawing
   // too, and the 180/512 app icons are the v3 tile (flat Navy, the whole
-  // option 44 master in White, no orange). Concept, pending release. The SVG is listed first
+  // round 9 master in White, no orange). Concept, pending release. The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.

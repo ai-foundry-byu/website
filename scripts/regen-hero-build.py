@@ -69,11 +69,10 @@ doc_new = """/**
  * Draft for BYU Marriott approval.
  *
  * Adapted from the design team's system v3 (final-v3-2026-11-12, system/motion/HeroBuild.tsx)
- * for this page. The geometry below is the untouched Runout master (round 10 runout-cut,
- * option 44: round 9 plus the 11-12 slit, which stops just inside the A's outer edge);
- * the timeline lives in src/app/hero-build.css (2.98 s):
- *   1. a blueprint grid draws in, then the set-out lines (the last one is the cut) and
- *      their nodes;
+ * for this page. The geometry below is the untouched Runout master (round 9
+ * refine-runout: the clean F and A, two shapes); the timeline lives in
+ * src/app/hero-build.css (2.98 s):
+ *   1. a blueprint grid draws in, then the set-out lines and their nodes;
  *   2. one level line is shot along the horizon arc;
  *   3. the members are placed bottom up like beams off a crane: the column is lowered
  *      onto the baseline, the horizon beam slides in along the level, then the lower arm;
@@ -93,6 +92,6 @@ doc_new = """/**
  * White, lines at reduced opacity and markers at 0.8.
  */"""
 tsx = tsx.replace(doc_old, doc_new, 1)
-assert '"durationMs":2980' in tsx and "M363.65 150L335.84 330" in tsx
+assert '"durationMs":2980' in tsx and "af-runout-c7" not in css and "the cut" not in tsx
 open(f"{R}/src/components/HeroBuild.tsx", "w").write(tsx)
 print("ok", len(css), len(tsx))
