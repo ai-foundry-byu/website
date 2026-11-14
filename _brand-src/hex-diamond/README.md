@@ -48,7 +48,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | G | Facets, stretched | solid, split into four triangles | none: the diamond stretched 2 : sqrt 3 so all four corners touch the hexagon | none |
 | H | Inverted | none: a square diamond is the O (points overshoot 3%) | a flat-topped hexagon cut out as the counter, as large as fits: its four upper and lower corners sit exactly on the diamond's sides (point radius 2/(1+sqrt 3) of the diamond's half-width), which splits the navy into four pieces meeting at those points | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently F). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently H). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -66,9 +66,9 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/favicon-16.svg` | 16 px only: the diamond is filled, since no outline survives at that size |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
-## Notes on H
+## Notes on H (chosen, 2026-11-14)
 
-Scott, 2026-11-14: tried with the roles swapped. A strong standalone symbol (a gem with a hexagonal window), a weaker
+Scott, 2026-11-14: tried with the roles swapped, then chosen ("I think this could look really cool"). A strong standalone symbol (a gem with a hexagonal window), a weaker
 letter: the diamond's mass sits in its four points, which a flat-topped hexagon cannot reach into, so the O reads darker
 than the letters; and a square diamond at cap height is about 18% narrower than the font's O, so the word can read as
 F-diamond-UNDRY at small sizes.
