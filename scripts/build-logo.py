@@ -55,7 +55,7 @@ VARIANTS = {
     "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
-    "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0.12},
+    "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -150,6 +150,10 @@ def symbol(cx, cy, H, m, v):
                   (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
             lo, hi = (r, hi) if poly_gap(hx, dia) >= wall else (lo, r)
         r = lo
+        if v["wall"] == 0:
+            # Scott, 2026-11-14: literally touching. The largest flat-topped hexagon in the square diamond has its
+            # four upper and lower corners exactly on the diamond's sides: r/2 + r*sqrt(3)/2 = a.
+            r = 2 * a / (1 + math.sqrt(3))
         hole = [(cx + r, cy), (cx + r / 2, cy + r * math.sqrt(3) / 2), (cx - r / 2, cy + r * math.sqrt(3) / 2),
                 (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
         return poly(dia) + " " + poly(hole[::-1]), ""
@@ -330,8 +334,7 @@ def build(font_path, key, out):
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
     elif v.get("inverted"):
         # favicons keep a visible wall so the diamond stays one shape in a browser tab
-        compact = dict(v, wall=max(v["wall"], 0.35))
-        compact16 = dict(v, wall=max(v["wall"], 0.5))
+        compact = compact16 = v  # the same touching geometry at every size
     elif v.get("facets") and v.get("square"):
         # favicons and avatars keep a heavier band so the hexagon's top and bottom lines survive in a browser tab
         compact = dict(v, flat=max(v.get("flat", 0), 0.45))

@@ -65,8 +65,11 @@ svg{{max-width:100%}} .card>svg{{align-self:flex-start}}
 def caption(v):
     """One line describing a direction's construction, for the comparison sheet."""
     if v.get("inverted"):
-        return ("square diamond turned 45 degrees as the O, points overshooting 3%; flat-topped hexagon cut out as the "
-                f"counter, its corners {v['wall']:.2f} stem short of the diamond's sides")
+        if v["wall"] == 0:
+            fit = "its four upper and lower corners exactly on the diamond's sides"
+        else:
+            fit = f"its corners {v['wall']:.2f} stem short of the diamond's sides"
+        return "square diamond turned 45 degrees as the O, points overshooting 3%; the largest flat-topped hexagon cut out as the counter, " + fit
     if v.get("facets") and v.get("square"):
         return (f"square diamond cut out of the hexagon, stopping {v.get('flat', 0):.3f} of the O's top short of the "
                 "flats; side corners short of the points")
@@ -106,7 +109,7 @@ def preview(out, key):
     vv = bl.VARIANTS[key]
     cut = vv.get("cut") or vv.get("facets") or vv.get("inverted")
     prim = ("All navy; the diamond is the O and the hexagon its counter" if vv.get("inverted") else "All navy; a square diamond set into the hexagon" if bl.VARIANTS[key].get("square") else "All navy; the diamond runs to the hexagon's edges" if bl.VARIANTS[key].get("facets") else "All navy; the diamond is the O's counter") if cut else "Navy, diamond in royal"
-    symcap = ("Navy diamond, hexagon cut out nearly to its sides" if vv.get("inverted") else ("Navy hexagon, square diamond cut out nearly to its edges" if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
+    symcap = ("Navy diamond, the largest hexagon cut out, touching its sides" if vv.get("inverted") else ("Navy hexagon, square diamond cut out nearly to its edges" if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>
