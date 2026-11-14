@@ -22,7 +22,9 @@ the diamond fade; check it in place before use.
 
 ## Why L
 
-Scott, 2026-11-14: "try smaller so the weight of the O is consistent with other letters." Measured as ink density
-(ink area over the letter's box at cap height): U, N, D, R average 0.59, the font's own O 0.53, F's O 0.36. L
-shrinks the square diamond so the bands above and below it are 0.75 of the O's top weight, which brings the O to
-0.54, the font's own O. `lockup-sheet.png` shows F above and L below.
+Scott, 2026-11-14: "try smaller so the weight of the O is consistent with other letters", then "a little less
+weight on the blue... almost like a special letter of the font." A band of 0.75 of the O's top weight matched the
+font's O on box fill (0.54 vs 0.53) and on average stroke (156 vs 156.5 units) but read heavy: the hexagon's four
+upper and lower corners hold solid shoulders where a round O is thinnest. Chosen by eye from 0.75, 0.60, 0.50 and
+0.40 (`diamond-size-comparison.png`): 0.50, whose counter matches the U's and D's and whose bands match the
+letters' horizontals.
