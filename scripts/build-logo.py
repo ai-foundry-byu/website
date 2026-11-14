@@ -53,6 +53,9 @@ VARIANTS = {
     "e": {"name": "Cut", "cut": True, "hex_flat": 0.72, "wall": 0.80},
     # Scott, 2026-11-14: the diamond's points run to the hexagon's edges (top and bottom flats, left and right points).
     "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
+    # Scott, 2026-11-14: "try smaller so the weight of the O is consistent with other letters." F's O has an ink
+    # density of 0.36 against the font's own O at 0.53 and U, N, D, R at 0.59; a band of 0.75 brings it to 0.54.
+    "l": {"name": "Facets, balanced", "facets": True, "square": True, "flat": 0.75},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
