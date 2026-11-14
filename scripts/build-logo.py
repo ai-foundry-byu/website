@@ -56,6 +56,8 @@ VARIANTS = {
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
+    # Scott, 2026-11-14: H with the fills reversed: a solid hexagon inside a diamond outline (royal in the primary).
+    "i": {"name": "Inverted, solid hexagon", "inverted": True, "solid_hex": True, "overshoot": 0.03, "outline": 0.40},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -142,6 +144,16 @@ def symbol(cx, cy, H, m, v):
         # `wall` x stem to the diamond's sides allows.
         a = H / 2 * (1 + 2 * v["overshoot"])
         dia = [(cx, cy - a), (cx + a, cy), (cx, cy + a), (cx - a, cy)]
+        if v.get("solid_hex"):
+            # Scott, 2026-11-14: the hexagon solid, the diamond an outline with white inside. The diamond's stroke
+            # is `outline` x stem; the largest flat-topped hexagon touches its inner edge at four corners.
+            tw = m["stem"] * v["outline"]
+            dia_in = inset(dia, [tw] * 4)
+            a_in = a - tw * math.sqrt(2)
+            r = 2 * a_in / (1 + math.sqrt(3))
+            s3 = r * math.sqrt(3) / 2
+            hexa = [(cx + r, cy), (cx + r / 2, cy + s3), (cx - r / 2, cy + s3), (cx - r, cy), (cx - r / 2, cy - s3), (cx + r / 2, cy - s3)]
+            return poly(hexa), poly(dia) + " " + poly(dia_in[::-1])
         wall = m["stem"] * v["wall"]
         lo, hi = 0.0, a
         for _ in range(60):
@@ -334,7 +346,10 @@ def build(font_path, key, out):
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
     elif v.get("inverted"):
         # favicons keep a visible wall so the diamond stays one shape in a browser tab
-        compact = compact16 = v  # the same touching geometry at every size
+        if v.get("solid_hex"):
+            compact, compact16 = dict(v, outline=0.55), dict(v, outline=0.70)
+        else:
+            compact = compact16 = v  # the same touching geometry at every size
     elif v.get("facets") and v.get("square"):
         # favicons and avatars keep a heavier band so the hexagon's top and bottom lines survive in a browser tab
         compact = dict(v, flat=max(v.get("flat", 0), 0.45))
