@@ -58,7 +58,10 @@ VARIANTS = {
     # Scott, 2026-11-14: H with the O weighted like the letters: the hexagon at 0.75 of the touching size (chosen by
     # eye from 1.00, 0.85, 0.75 and 0.65 in the lockup; average stroke went from 44 to near the letters').
     "m": {"name": "Inverted, balanced", "inverted": True, "overshoot": 0.03, "wall": 0, "hex_scale": 0.75},
-    "l": {"name": "Facets, balanced", "facets": True, "square": True, "flat": 0.75},
+    # Scott, 2026-11-14: L is F with the O weighted like the letters ("a little less weight on the blue... almost like a
+    # special letter of the font"). 0.75 matched the font's O on box fill and average stroke but read heavy: the
+    # hexagon's corners put solid shoulders where a round O is thinnest. Chosen by eye from 0.75, 0.60, 0.50, 0.40: 0.50.
+    "l": {"name": "Facets, balanced", "facets": True, "square": True, "flat": 0.50},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
