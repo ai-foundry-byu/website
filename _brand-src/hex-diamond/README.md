@@ -44,7 +44,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | C | Open | 0.76 / 0.82 | 0.26 stem | 1.50 |
 | D | Parallel | 0.80 / 0.86 | 0.26 stem, a rhombus with sides parallel to the hexagon's slants | 0.62 |
 | E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: the aligned diamond cut out of the hexagon is the O's counter | n/a |
-| F | Facets | solid; a thin band (0.50 of the O's top) above and below the diamond keeps the hexagon whole | none: a true square diamond cut out nearly to the edges; its side corners stop short of the hexagon's points (a square cannot reach them and the flats at once) | n/a |
+| F | Facets | solid; a thin band (0.25 of the O's top) above and below the diamond keeps the hexagon whole | none: a true square diamond cut out nearly to the edges; its side corners stop short of the hexagon's points (a square cannot reach them and the flats at once) | n/a |
 | G | Facets, stretched | solid, split into four triangles | none: the diamond stretched 2 : sqrt 3 so all four corners touch the hexagon | none |
 
 `svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently F). To rebuild with another:
@@ -69,7 +69,8 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 
 Scott, 2026-11-14: keep the diamond a true square (90-degree corners), as close to the hexagon's edges as it can go,
 with a little width left on the top and bottom lines so it reads as a hexagon with a diamond set into it. The band
-is 0.50 of the O's top weight: about 2 px at a 20 px wordmark, so it holds at small sizes. A square cannot touch the
+is 0.25 of the O's top weight (Scott: "a bit bigger... split the difference"), about 1 px at a 20 px wordmark. The
+favicon and avatar files keep 0.45 (0.60 at 16 px) so the hexagon's top and bottom lines survive in a browser tab. A square cannot touch the
 flats and the points at once (the points are 2 / sqrt 3 farther out), so the side corners stop short; G shows the
 stretched diamond that touches all four.
 
