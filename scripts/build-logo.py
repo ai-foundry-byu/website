@@ -59,6 +59,10 @@ VARIANTS = {
     # Scott, 2026-11-14: H with the fills reversed: a solid hexagon inside a diamond outline (royal in the primary).
     "i": {"name": "Inverted, solid hexagon", "inverted": True, "solid_hex": True, "overshoot": 0.03, "outline": 0.40},
     # Scott, 2026-11-14: I with a white border around the hexagon that notches the diamond's outline where they meet.
+    # Scott, 2026-11-14: a solid white diamond with a hairline navy border (about 1.5 pt at a 100 pt wordmark), and
+    # a solid navy hexagon inscribed in it, its four upper and lower corners on the diamond's sides. Only the
+    # diamond's four corners show around the hexagon. On navy, the diamond is solid white and needs no border.
+    "k": {"name": "Inscribed", "inverted": True, "solid_hex": True, "white_diamond": True, "overshoot": 0.03, "outline": 0.09},
     "j": {"name": "Inverted, keyline", "inverted": True, "solid_hex": True, "keyline": 0.20, "overshoot": 0.03, "outline": 0.40},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
@@ -167,6 +171,8 @@ def symbol(cx, cy, H, m, v):
             r = 2 * (a_in - kw * math.sqrt(2)) / (1 + math.sqrt(3))
             s3 = r * math.sqrt(3) / 2
             hexa = [(cx + r, cy), (cx + r / 2, cy + s3), (cx - r / 2, cy + s3), (cx - r, cy), (cx - r / 2, cy - s3), (cx + r / 2, cy - s3)]
+            if v.get("solid_dia"):
+                return poly(hexa), poly(dia)  # reversed: a solid white diamond under the navy hexagon
             return poly(hexa), poly(dia) + " " + poly(dia_in[::-1])
         wall = m["stem"] * v["wall"]
         lo, hi = 0.0, a
@@ -318,8 +324,8 @@ def wordmark(tmp, font, gs, m, v, letters, hexc, diac):
     run("UNDRY")
     width = x - track - (gs["Y"].width - 866)  # trim Y's right bearing so the artwork ends at the letter
     body = (f'<path fill="{letters}" d="{" ".join(parts)}"/>'
-            f'<path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/>'
-            f'<path fill="{diac}" fill-rule="evenodd" d="{diap}"/>')
+            f'<path fill="{diac}" fill-rule="evenodd" d="{diap}"/>'
+            f'<path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/>')  # diamond first: in K the hexagon sits on it
     return body, width, cap
 
 
@@ -337,21 +343,23 @@ def build(font_path, key, out):
     out.mkdir(parents=True, exist_ok=True)
     pad = m["cap"] * 0.12  # a small margin; the clear-space rule is in the README, not baked into files
     files = {}
+    wd = v.get("white_diamond")
+    vr = dict(v, solid_dia=True) if wd else v  # the version drawn on navy
     for name, (letters, hexc, diac, bg) in {
-        "wordmark": (NAVY, NAVY, ROYAL, None),            # primary: navy, diamond in royal
+        "wordmark": (NAVY, NAVY, NAVY if wd else ROYAL, None),  # primary: navy, diamond in royal (K: all navy)
         "wordmark-navy": (NAVY, NAVY, NAVY, None),        # single colour
         "wordmark-black": (BLACK, BLACK, BLACK, None),    # single colour, print
-        "wordmark-white": (WHITE, WHITE, WHITE, None),    # reversed, for navy grounds
+        "wordmark-white": (WHITE, NAVY if wd else WHITE, WHITE, None),  # reversed, for navy grounds
     }.items():
-        body, w, h = wordmark(tmp, font, gs, m, v, letters, hexc, diac)
+        body, w, h = wordmark(tmp, font, gs, m, vr if name == "wordmark-white" else v, letters, hexc, diac)
         files[name] = svg(body, -pad, -pad, w + 2 * pad, h + 2 * pad, "AI Foundry", bg)
     H = m["cap"]
     W = sym_width(H, v)
-    for name, (hexc, diac) in {"glyph": (NAVY, ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
-                               "glyph-white": (WHITE, WHITE)}.items():
-        hexp, diap = symbol(0, 0, H, m, v)
+    for name, (hexc, diac) in {"glyph": (NAVY, NAVY if wd else ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
+                               "glyph-white": (NAVY if wd else WHITE, WHITE)}.items():
+        hexp, diap = symbol(0, 0, H, m, vr if name == "glyph-white" else v)
         side = W * 1.16
-        body = f'<path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/><path fill="{diac}" fill-rule="evenodd" d="{diap}"/>'
+        body = f'<path fill="{diac}" fill-rule="evenodd" d="{diap}"/><path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/>'
         files[name] = svg(body, -side / 2, -side / 2, side, side, "AI Foundry symbol")
     # Compact mark for favicons and avatars: a navy tile, the symbol in white, weights raised so the
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
@@ -360,7 +368,9 @@ def build(font_path, key, out):
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
     elif v.get("inverted"):
         # favicons keep a visible wall so the diamond stays one shape in a browser tab
-        if v.get("solid_hex"):
+        if wd:
+            compact = compact16 = vr  # on the navy tile: a solid white diamond, the navy hexagon on it
+        elif v.get("solid_hex"):
             compact, compact16 = dict(v, outline=0.55), dict(v, outline=0.70)
             if v.get("keyline"):
                 compact, compact16 = dict(compact, keyline=0.26), dict(compact16, keyline=0.32)
@@ -375,16 +385,17 @@ def build(font_path, key, out):
     else:
         compact, compact16 = COMPACT, COMPACT_16
     hexp, diap = symbol(0, 0, H, m, compact)
+    hx = NAVY if wd else WHITE  # the hexagon's color on the navy tile
     t = W * 1.42
     tile = f'<rect x="{-t/2:.1f}" y="{-t/2:.1f}" width="{t:.1f}" height="{t:.1f}" rx="{t*5/32:.1f}" fill="{NAVY}"/>'
-    files["favicon"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp}"/><path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/>',
+    files["favicon"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
                            -t / 2, -t / 2, t, t, "AI Foundry")
     a = W * 1.9  # avatar: square navy ground, symbol inside the circle a platform crops to
     files["avatar"] = svg(f'<rect x="{-a/2:.1f}" y="{-a/2:.1f}" width="{a:.1f}" height="{a:.1f}" fill="{NAVY}"/>'
-                          f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp}"/><path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/>',
+                          f'<path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
                           -a / 2, -a / 2, a, a, "AI Foundry")
     hexp16, diap16 = symbol(0, 0, H, m, compact16)
-    files["favicon-16"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp16}"/><path fill="{WHITE}" d="{diap16}"/>',
+    files["favicon-16"] = svg(tile + f'<path fill="{WHITE}" d="{diap16}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp16}"/>',
                               -t / 2, -t / 2, t, t, "AI Foundry")
     for name, text in files.items():
         (out / f"{name}.svg").write_text(text)
