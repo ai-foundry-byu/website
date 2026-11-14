@@ -52,7 +52,8 @@ VARIANTS = {
     # parallel to the hexagon's slanted sides (60 degrees at top and bottom, 120 at left and right).
     "e": {"name": "Cut", "cut": True, "hex_flat": 0.72, "wall": 0.80},
     # Scott, 2026-11-14: the diamond's points run to the hexagon's edges (top and bottom flats, left and right points).
-    "f": {"name": "Facets", "facets": True},
+    "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.50},
+    "g": {"name": "Facets, stretched", "facets": True},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -133,6 +134,19 @@ def symbol(cx, cy, H, m, v):
     # = 2 / sqrt(3). D keeps its own rule (sides parallel to the slants), which cannot also meet this one.
     ka = R / h
     full = [(cx, cy - h), (cx + R, cy), (cx, cy + h), (cx - R, cy)]  # the diamond at full size, corners on the hexagon
+    if v.get("facets") and v.get("square") and v.get("flat"):
+        # Scott, 2026-11-14: a little width on the top and bottom lines so the hexagon reads whole: the square
+        # diamond stops `flat` x the O's top weight short of each flat, and is cut out of the solid hexagon.
+        s = h - m["o_top"] * v["flat"]
+        hole = [(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)]
+        return poly(outer) + " " + poly(hole[::-1]), ""
+    if v.get("facets") and v.get("square"):
+        # Scott, 2026-11-14: keep the diamond a true square (90-degree corners). The largest square that fits
+        # has its top and bottom points on the flats; its side corners then fall short of the hexagon's points
+        # by R - h (about 13% of the half-width). What is left is two arrowhead pieces, left and right.
+        right = [full[0], outer[5], outer[0], outer[1], (cx, cy + h), (cx + h, cy)]
+        left = [(cx, cy + h), outer[2], outer[3], outer[4], full[0], (cx - h, cy)]
+        return poly(right) + " " + poly(left), ""
     if v.get("facets"):
         # Scott, 2026-11-14: the diamond runs to the edges: top and bottom points on the flats, left and right
         # corners on the hexagon's points. Cut from a solid hexagon, it leaves four triangles in the corners.
