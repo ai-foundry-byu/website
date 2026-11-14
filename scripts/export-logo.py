@@ -68,7 +68,7 @@ def comparison(out):
         v = bl.VARIANTS[key]
         d = out / "variants" / key
         cards += f"""<div class="card"><div class="k">{key.upper()} · {v['name']}</div>
-<div class="cap">hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond {v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight</div>
+<div class="cap">{(f"solid hexagon, square diamond cut out as the O's counter · flats {v['hex_flat']:.2f} of the O's top · narrowest wall {v['wall']:.2f} stem" if v.get('cut') else f"hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond {v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight")}</div>
 {inline(d / 'glyph.svg', width=220)}
 {inline(d / 'wordmark.svg', height=56)}
 <div class="row">{inline(d / 'wordmark.svg', height=28)}</div>
@@ -77,7 +77,7 @@ def comparison(out):
     darks = "".join(f"""<div class="card dark"><div class="k">{k.upper()}</div>{inline(out / 'variants' / k / 'wordmark-white.svg', height=48)}
 <div class="row">{inline(out / 'variants' / k / 'glyph-white.svg', height=64)}{inline(out / 'variants' / k / 'wordmark-white.svg', height=18)}</div></div>""" for k in sorted(bl.VARIANTS))
     body = f"""<h1>AI Foundry logo: directions</h1>
-<p class="lede">The same construction four ways. The hexagon is the Builder Hexagon (flat top and bottom, as the app draws it); the inner shape is the Consultant Diamond. A, B and C use a square diamond and differ in the weight of the hexagon, the weight of the diamond, and the clear space between them. D turns the diamond into a rhombus whose sides run parallel to the hexagon's slanted sides, so every line in the symbol sits at 0 or 60 degrees. Type is the brand nameplate: Archivo 700 at width 125, outlined.</p>
+<p class="lede">The same construction five ways. The hexagon is the Builder Hexagon (flat top and bottom, as the app draws it); the inner shape is the Consultant Diamond. A, B and C use a square diamond and differ in the weight of the hexagon, the weight of the diamond, and the clear space between them. D turns the diamond into a rhombus whose sides run parallel to the hexagon's slanted sides, so every line in the symbol sits at 0 or 60 degrees. E drops the inner outline: the hexagon is solid and a square diamond is cut out of it as the O's counter, so there is one shape and nothing to balance. Type is the brand nameplate: Archivo 700 at width 125, outlined.</p>
 <h2>On white, large to small</h2><div class="grid g3">{cards}</div>
 <h2>Reversed on navy</h2><div class="grid g3">{darks}</div>
 <p class="note">Reversed versions are all white: royal never sits on navy (brand rule, 1.43:1). The 16 px row is the smallest size a wordmark should be used at.</p>"""
@@ -86,20 +86,23 @@ def comparison(out):
 
 def preview(out, key):
     s = out / "svg"
+    cut = bl.VARIANTS[key].get("cut")
+    prim = "All navy; the diamond is the O's counter" if cut else "Navy, diamond in royal"
+    symcap = "Navy hexagon, diamond cut out" if cut else "Navy hexagon, royal diamond"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>
-<div class="grid g2"><div class="card">{inline(s / 'wordmark.svg', height=96)}<div class="row">{inline(s / 'wordmark.svg', height=40)}{inline(s / 'wordmark.svg', height=20)}</div><div class="cap">Navy, diamond in royal · on white</div></div>
+<div class="grid g2"><div class="card">{inline(s / 'wordmark.svg', height=96)}<div class="row">{inline(s / 'wordmark.svg', height=40)}{inline(s / 'wordmark.svg', height=20)}</div><div class="cap">{prim} · on white</div></div>
 <div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed, all white · on navy</div></div></div>
 <h2>Symbol</h2>
-<div class="grid g2"><div class="card"><div class="row">{inline(s / 'glyph.svg', height=200)}{inline(s / 'glyph.svg', height=64)}{inline(s / 'glyph.svg', height=32)}{inline(s / 'glyph.svg', height=20)}</div><div class="cap">Navy hexagon, royal diamond</div></div>
+<div class="grid g2"><div class="card"><div class="row">{inline(s / 'glyph.svg', height=200)}{inline(s / 'glyph.svg', height=64)}{inline(s / 'glyph.svg', height=32)}{inline(s / 'glyph.svg', height=20)}</div><div class="cap">{symcap}</div></div>
 <div class="card dark"><div class="row">{inline(s / 'glyph-white.svg', height=200)}{inline(s / 'glyph-white.svg', height=64)}{inline(s / 'glyph-white.svg', height=32)}{inline(s / 'glyph-white.svg', height=20)}</div><div class="cap">White</div></div></div>
 <h2>Single color</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only</div></div>
 <div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black only, for print that cannot take navy</div></div></div>
 <h2>Compact: favicon and avatar</h2>
 <div class="card"><div class="row">{inline(s / 'avatar.svg', height=160)}<div style="border-radius:50%;overflow:hidden;width:160px;height:160px">{inline(s / 'avatar.svg', height=160)}</div>{inline(s / 'favicon.svg', height=96)}{inline(s / 'favicon.svg', height=48)}{inline(s / 'favicon.svg', height=32)}{inline(s / 'favicon-16.svg', height=16)}</div>
-<div class="cap">Avatar (square and circle crop) · favicon at 96, 48, 32 px · the 16 px favicon fills the diamond</div></div>
+<div class="cap">Avatar (square and circle crop) · favicon at 96, 48, 32 and 16 px{" · the same cut shape at every size" if cut else " · the 16 px favicon fills the diamond"}</div></div>
 <p class="note">Brand rule: the Foundry is never shown as a standalone "AI Foundry" without BYU identification. Use this wordmark where BYU Marriott is identified nearby; the co-branded BYU Marriott lockup itself comes only from BYU Marriott Marketing and is never recreated.</p>"""
     (out / "preview.html").write_text(PAGE.format(title="AI Foundry logo preview", body=body))
 

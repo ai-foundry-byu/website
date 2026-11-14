@@ -50,6 +50,7 @@ VARIANTS = {
     "c": {"name": "Open", "hex_side": 0.76, "hex_flat": 0.82, "dia": 0.26, "gap": 1.50},
     # Scott, 2026-11-14: the inner shape follows the hexagon's angled lines. A rhombus whose sides run
     # parallel to the hexagon's slanted sides (60 degrees at top and bottom, 120 at left and right).
+    "e": {"name": "Cut", "cut": True, "hex_flat": 0.72, "wall": 0.80},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -123,6 +124,27 @@ def symbol(cx, cy, H, m, v):
     """Hexagon and diamond centered at (cx, cy), flat-to-flat height H. Returns (hexagon path, diamond path)."""
     R, h = H / math.sqrt(3), H / 2
     outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
+    if v.get("cut"):
+        # Scott, 2026-11-14: the diamond IS the O's counter. A solid hexagon with a square diamond cut out of
+        # its center. The hole is as large as the two weights allow: the flats keep the O's top thickness,
+        # and the narrowest wall to a slanted side keeps `wall` x stem.
+        flat, wall = m["o_top"] * v["hex_flat"], m["stem"] * v["wall"]
+        slants = [(outer[i], outer[(i + 1) % 6]) for i in (0, 2, 3, 5)]
+
+        def wall_at(d):
+            dia = [(cx, cy - d), (cx + d, cy), (cx, cy + d), (cx - d, cy)]
+            best = min(seg_dist(p, a, b) for p in dia for a, b in slants)
+            for q in outer:
+                best = min(best, min(seg_dist(q, dia[i], dia[(i + 1) % 4]) for i in range(4)))
+            return best
+
+        lo, hi = 0.0, h - flat
+        for _ in range(60):
+            d = (lo + hi) / 2
+            lo, hi = (d, hi) if wall_at(d) >= wall else (lo, d)
+        d = lo
+        hole = [(cx, cy - d), (cx + d, cy), (cx, cy + d), (cx - d, cy)]
+        return poly(outer) + " " + poly(hole[::-1]), ""
     side, flat = m["stem"] * v["hex_side"], m["o_top"] * v["hex_flat"]
     inner = inset(outer, [side, flat, side, side, flat, side])
     td = m["stem"] * v["dia"]
@@ -216,6 +238,8 @@ def wordmark(tmp, font, gs, m, v, letters, hexc, diac):
 
 
 def svg(body, x0, y0, w, h, title, bg=None):
+    import re
+    body = re.sub(r'<path [^>]*d=""/>', "", body)  # a cut symbol has no separate diamond
     rect = f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{w:.1f}" height="{h:.1f}" fill="{bg}"/>' if bg else ""
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x0:.1f} {y0:.1f} {w:.1f} {h:.1f}" role="img" '
             f'aria-label="{title}"><title>{title}</title>{rect}{body}</svg>\n')
@@ -245,7 +269,9 @@ def build(font_path, key, out):
         files[name] = svg(body, -side / 2, -side / 2, side, side, "AI Foundry symbol")
     # Compact mark for favicons and avatars: a navy tile, the symbol in white, weights raised so the
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
-    hexp, diap = symbol(0, 0, H, m, COMPACT)
+    compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1) if v.get("cut") else COMPACT
+    compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2) if v.get("cut") else COMPACT_16
+    hexp, diap = symbol(0, 0, H, m, compact)
     t = W * 1.42
     tile = f'<rect x="{-t/2:.1f}" y="{-t/2:.1f}" width="{t:.1f}" height="{t:.1f}" rx="{t*5/32:.1f}" fill="{NAVY}"/>'
     files["favicon"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp}"/><path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/>',
@@ -254,7 +280,7 @@ def build(font_path, key, out):
     files["avatar"] = svg(f'<rect x="{-a/2:.1f}" y="{-a/2:.1f}" width="{a:.1f}" height="{a:.1f}" fill="{NAVY}"/>'
                           f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp}"/><path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/>',
                           -a / 2, -a / 2, a, a, "AI Foundry")
-    hexp16, diap16 = symbol(0, 0, H, m, COMPACT_16)
+    hexp16, diap16 = symbol(0, 0, H, m, compact16)
     files["favicon-16"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{hexp16}"/><path fill="{WHITE}" d="{diap16}"/>',
                               -t / 2, -t / 2, t, t, "AI Foundry")
     for name, text in files.items():

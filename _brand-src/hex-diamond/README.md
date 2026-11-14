@@ -31,7 +31,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 
 ## Directions
 
-`comparison.html` shows four. `variants/` holds every file for each.
+`comparison.html` shows five. `variants/` holds every file for each.
 
 | | Name | Hexagon (slants / flats) | Diamond weight | Clear space |
 |---|---|---|---|---|
@@ -39,8 +39,9 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | B | Strong core | 0.86 / 0.92 | 0.40 stem | 0.70 |
 | C | Open | 0.76 / 0.82 | 0.26 stem | 1.50 |
 | D | Parallel | 0.80 / 0.86 | 0.26 stem, a rhombus with sides parallel to the hexagon's slants | 0.62 |
+| E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: a square diamond cut out of the hexagon is the O's counter | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently A). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently E). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
