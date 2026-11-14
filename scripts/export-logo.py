@@ -11,6 +11,7 @@ Writes, under --out:
     png/                        PNG exports of the chosen direction
     favicon.ico                 16, 32 and 48 px
     comparison.html             the three directions side by side, light and dark, large and small
+    svg/lockup*.svg             mockups of the BYU Marriott lockup with the chosen wordmark (never ship these)
     preview.html                the chosen direction on light and dark, large and small, every version
 
 Needs rsvg-convert (Homebrew librsvg) and Pillow. Nothing here touches public/ or the live site.
@@ -133,6 +134,9 @@ def preview(out, key):
 <h2>Single color</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only</div></div>
 <div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black only, for print that cannot take navy</div></div></div>
+<h2>With BYU Marriott (mockup)</h2>
+<div class="grid"><div class="card"><img src="svg/lockup.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup" style="display:block;width:100%;max-width:1000px"></div>
+<div class="card dark"><img src="svg/lockup-white.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup, reversed" style="display:block;width:100%;max-width:1000px"><div class="cap">Mockup: the BYU Marriott half is the official lockup's own pixels. The real lockup comes only from BYU Marriott Marketing.</div></div></div>
 <h2>Compact: favicon and avatar</h2>
 <div class="card"><div class="row">{inline(s / 'avatar.svg', height=160)}<div style="border-radius:50%;overflow:hidden;width:160px;height:160px">{inline(s / 'avatar.svg', height=160)}</div>{inline(s / 'favicon.svg', height=96)}{inline(s / 'favicon.svg', height=48)}{inline(s / 'favicon.svg', height=32)}{inline(s / 'favicon-16.svg', height=16)}</div>
 <div class="cap">Avatar (square and circle crop) · favicon at 96, 48, 32 and 16 px{" · the same cut shape at every size" if cut else " · the 16 px favicon fills the diamond"}</div></div>
@@ -167,6 +171,10 @@ def main():
     from PIL import Image
     Image.open(p / "favicon-48.png").save(out / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)],
                                            append_images=[Image.open(p / "favicon-16.png"), Image.open(p / "favicon-32.png")])
+    spec2 = importlib.util.spec_from_file_location("build_lockup", HERE / "build-lockup.py")
+    lk = importlib.util.module_from_spec(spec2)
+    spec2.loader.exec_module(lk)
+    lk.build(a.font, a.choose, s)  # svg/lockup.svg and lockup-white.svg, mockups for review
     comparison(out)
     preview(out, a.choose)
     print(f"exported direction {a.choose} to {out}")
