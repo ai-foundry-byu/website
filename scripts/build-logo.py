@@ -62,6 +62,10 @@ VARIANTS = {
     # special letter of the font"). 0.75 matched the font's O on box fill and average stroke but read heavy: the
     # hexagon's corners put solid shoulders where a round O is thinnest. Chosen by eye from 0.75, 0.60, 0.50, 0.40: 0.50.
     "l": {"name": "Facets, balanced", "facets": True, "square": True, "flat": 0.50},
+    # Scott, 2026-11-14: L with the hexagon turned point up (Agentic Workflow at the peak; Discovery and Design down the
+    # right, Application Architecture and AI Systems down the left; Launch and Learn at the bottom). Its vertical
+    # sides keep `band` x stem beside the square diamond; its points overshoot like an O.
+    "n": {"name": "Facets, point up", "facets": True, "square": True, "pointy": True, "band": 0.50, "overshoot": 0.03},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
@@ -156,6 +160,8 @@ def sym_width(H, v):
     """Width of the symbol for a cap height H."""
     if v.get("inverted"):
         return H * (1 + 2 * v["overshoot"])  # a square diamond: as wide as it is tall
+    if v.get("pointy"):
+        return H * (1 + 2 * v["overshoot"]) * math.sqrt(3) / 2  # point to point is the height
     return 2 * H / math.sqrt(3)
 
 
@@ -202,6 +208,13 @@ def symbol(cx, cy, H, m, v):
         hole = [(cx + r, cy), (cx + r / 2, cy + r * math.sqrt(3) / 2), (cx - r / 2, cy + r * math.sqrt(3) / 2),
                 (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
         return poly(dia) + " " + poly(hole[::-1]), ""
+    if v.get("pointy"):
+        Rp = H / 2 * (1 + 2 * v["overshoot"])  # points at top and bottom, overshooting the cap height and baseline
+        wp = Rp * math.sqrt(3) / 2
+        outer = [(cx, cy - Rp), (cx + wp, cy - Rp / 2), (cx + wp, cy + Rp / 2), (cx, cy + Rp), (cx - wp, cy + Rp / 2), (cx - wp, cy - Rp / 2)]
+        s = wp - m["stem"] * v["band"]
+        hole = [(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)]
+        return poly(outer) + " " + poly(hole[::-1]), ""
     R, h = H / math.sqrt(3), H / 2
     outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
     # Scott, 2026-11-14: the diamond's four corners must reach the hexagon together when scaled up from the
@@ -389,6 +402,8 @@ def build(font_path, key, out):
                 compact, compact16 = dict(compact, keyline=0.26), dict(compact16, keyline=0.32)
         else:
             compact = compact16 = v  # the same touching geometry at every size
+    elif v.get("pointy"):
+        compact, compact16 = dict(v, band=max(v["band"], 0.55)), dict(v, band=max(v["band"], 0.65))
     elif v.get("facets") and v.get("square"):
         # favicons and avatars keep a heavier band so the hexagon's top and bottom lines survive in a browser tab
         compact = dict(v, flat=max(v.get("flat", 0), 0.45))
