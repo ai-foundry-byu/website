@@ -35,7 +35,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 
 ## Directions
 
-`comparison.html` shows nine. `variants/` holds every file for each.
+`comparison.html` shows ten. `variants/` holds every file for each.
 
 | | Name | Hexagon (slants / flats) | Diamond weight | Clear space |
 |---|---|---|---|---|
@@ -48,6 +48,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | G | Facets, stretched | solid, split into four triangles | none: the diamond stretched 2 : sqrt 3 so all four corners touch the hexagon | none |
 | H | Inverted | none: a square diamond is the O (points overshoot 3%) | a flat-topped hexagon cut out as the counter, as large as fits: its four upper and lower corners sit exactly on the diamond's sides (point radius 2/(1+sqrt 3) of the diamond's half-width), which splits the navy into four pieces meeting at those points | n/a |
 | I | Inverted, solid hexagon | a diamond outline (0.40 stem, royal in the primary) with white inside | the largest solid navy hexagon, its four upper and lower corners touching the outline's inner edge | n/a |
+| J | Inverted, keyline | a diamond outline (0.40 stem, royal in the primary) with white inside | a solid navy hexagon with a white keyline (0.20 stem): the hexagon plus its keyline touches the outline at four corners | n/a |
 
 `svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently H). To rebuild with another:
 

@@ -58,6 +58,8 @@ VARIANTS = {
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
     # Scott, 2026-11-14: H with the fills reversed: a solid hexagon inside a diamond outline (royal in the primary).
     "i": {"name": "Inverted, solid hexagon", "inverted": True, "solid_hex": True, "overshoot": 0.03, "outline": 0.40},
+    # Scott, 2026-11-14: I with a white border around the hexagon that notches the diamond's outline where they meet.
+    "j": {"name": "Inverted, keyline", "inverted": True, "solid_hex": True, "keyline": 0.20, "overshoot": 0.03, "outline": 0.40},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -106,6 +108,15 @@ def seg_dist(p, a, b):
     return math.hypot(px - ax - t * dx, py - ay - t * dy)
 
 
+def geom_path(g):
+    """SVG path for a shapely (Multi)Polygon; holes as subpaths, for fill-rule evenodd."""
+    parts = []
+    for pg in getattr(g, "geoms", [g]):
+        for ring in [pg.exterior, *pg.interiors]:
+            parts.append(poly(list(ring.coords)[:-1]))
+    return " ".join(parts)
+
+
 def inside(p, poly_):
     """True if point p is inside the convex polygon (either winding)."""
     signs = []
@@ -150,7 +161,10 @@ def symbol(cx, cy, H, m, v):
             tw = m["stem"] * v["outline"]
             dia_in = inset(dia, [tw] * 4)
             a_in = a - tw * math.sqrt(2)
-            r = 2 * a_in / (1 + math.sqrt(3))
+            # With a keyline, the hexagon's white border is the space between it and the outline: the hexagon
+            # plus its border touches the outline, so its four nearest corners stop `keyline` x stem away.
+            kw = m["stem"] * v.get("keyline", 0)
+            r = 2 * (a_in - kw * math.sqrt(2)) / (1 + math.sqrt(3))
             s3 = r * math.sqrt(3) / 2
             hexa = [(cx + r, cy), (cx + r / 2, cy + s3), (cx - r / 2, cy + s3), (cx - r, cy), (cx - r / 2, cy - s3), (cx + r / 2, cy - s3)]
             return poly(hexa), poly(dia) + " " + poly(dia_in[::-1])
@@ -348,6 +362,8 @@ def build(font_path, key, out):
         # favicons keep a visible wall so the diamond stays one shape in a browser tab
         if v.get("solid_hex"):
             compact, compact16 = dict(v, outline=0.55), dict(v, outline=0.70)
+            if v.get("keyline"):
+                compact, compact16 = dict(compact, keyline=0.26), dict(compact16, keyline=0.32)
         else:
             compact = compact16 = v  # the same touching geometry at every size
     elif v.get("facets") and v.get("square"):
