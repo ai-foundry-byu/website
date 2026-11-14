@@ -55,7 +55,7 @@ VARIANTS = {
     "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
-    "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0.45},
+    "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0.12},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -329,8 +329,9 @@ def build(font_path, key, out):
         compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
     elif v.get("inverted"):
-        compact = dict(v, wall=v["wall"] * 1.1)
-        compact16 = dict(v, wall=v["wall"] * 1.25)
+        # favicons keep a visible wall so the diamond stays one shape in a browser tab
+        compact = dict(v, wall=max(v["wall"], 0.35))
+        compact16 = dict(v, wall=max(v["wall"], 0.5))
     elif v.get("facets") and v.get("square"):
         # favicons and avatars keep a heavier band so the hexagon's top and bottom lines survive in a browser tab
         compact = dict(v, flat=max(v.get("flat", 0), 0.45))

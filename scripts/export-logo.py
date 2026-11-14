@@ -62,13 +62,30 @@ svg{{max-width:100%}} .card>svg{{align-self:flex-start}}
 """
 
 
+def caption(v):
+    """One line describing a direction's construction, for the comparison sheet."""
+    if v.get("inverted"):
+        return ("square diamond turned 45 degrees as the O, points overshooting 3%; flat-topped hexagon cut out as the "
+                f"counter, its corners {v['wall']:.2f} stem short of the diamond's sides")
+    if v.get("facets") and v.get("square"):
+        return (f"square diamond cut out of the hexagon, stopping {v.get('flat', 0):.3f} of the O's top short of the "
+                "flats; side corners short of the points")
+    if v.get("facets"):
+        return "diamond stretched 2 : sqrt 3 so all four corners touch: four corner triangles"
+    if v.get("cut"):
+        return (f"solid hexagon, diamond cut out as the O's counter · flats {v['hex_flat']:.2f} of the O's top · "
+                f"narrowest wall {v['wall']:.2f} stem")
+    return (f"hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond "
+            f"{v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight")
+
+
 def comparison(out):
     cards = ""
     for key in sorted(bl.VARIANTS):
         v = bl.VARIANTS[key]
         d = out / "variants" / key
         cards += f"""<div class="card"><div class="k">{key.upper()} · {v['name']}</div>
-<div class="cap">{((f"square diamond cut out of the hexagon, stopping {v.get('flat', 0):.2f} of the O's top short of the flats; side corners short of the points" if v.get('square') else "diamond stretched 2 : sqrt 3 so all four corners touch: four corner triangles") if v.get('facets') else f"solid hexagon, diamond cut out as the O's counter · flats {v['hex_flat']:.2f} of the O's top · narrowest wall {v['wall']:.2f} stem" if v.get('cut') else "" if v.get('inverted') else f"hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond {v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight")}</div>
+<div class="cap">{caption(v)}</div>
 {inline(d / 'glyph.svg', width=220)}
 {inline(d / 'wordmark.svg', height=56)}
 <div class="row">{inline(d / 'wordmark.svg', height=28)}</div>
@@ -86,9 +103,10 @@ def comparison(out):
 
 def preview(out, key):
     s = out / "svg"
-    cut = bl.VARIANTS[key].get("cut") or bl.VARIANTS[key].get("facets")
-    prim = ("All navy; a square diamond set into the hexagon" if bl.VARIANTS[key].get("square") else "All navy; the diamond runs to the hexagon's edges" if bl.VARIANTS[key].get("facets") else "All navy; the diamond is the O's counter") if cut else "Navy, diamond in royal"
-    symcap = (("Navy hexagon, square diamond cut out nearly to its edges" if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
+    vv = bl.VARIANTS[key]
+    cut = vv.get("cut") or vv.get("facets") or vv.get("inverted")
+    prim = ("All navy; the diamond is the O and the hexagon its counter" if vv.get("inverted") else "All navy; a square diamond set into the hexagon" if bl.VARIANTS[key].get("square") else "All navy; the diamond runs to the hexagon's edges" if bl.VARIANTS[key].get("facets") else "All navy; the diamond is the O's counter") if cut else "Navy, diamond in royal"
+    symcap = ("Navy diamond, hexagon cut out nearly to its sides" if vv.get("inverted") else ("Navy hexagon, square diamond cut out nearly to its edges" if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>

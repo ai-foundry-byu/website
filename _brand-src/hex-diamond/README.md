@@ -46,7 +46,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: the aligned diamond cut out of the hexagon is the O's counter | n/a |
 | F | Facets | solid; a hairline band (0.125 of the O's top) above and below the diamond keeps the hexagon whole | none: a true square diamond cut out nearly to the edges; its side corners stop short of the hexagon's points (a square cannot reach them and the flats at once) | n/a |
 | G | Facets, stretched | solid, split into four triangles | none: the diamond stretched 2 : sqrt 3 so all four corners touch the hexagon | none |
-| H | Inverted | none: a square diamond is the O (points overshoot 3%) | a flat-topped hexagon cut out as the counter; walls 0.45 stem at the pinch | n/a |
+| H | Inverted | none: a square diamond is the O (points overshoot 3%) | a flat-topped hexagon cut out as the counter, as large as fits: its four upper and lower corners stop a hairline (0.12 stem) short of the diamond's sides | n/a |
 
 `svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently F). To rebuild with another:
 
