@@ -23,8 +23,12 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 - Its slanted edges carry 0.76 to 0.86 of the stem weight and its flat edges 0.82 to 0.92 of the O's top
   thickness: a 60-degree band reads darker than a vertical stem of the same width, so it is drawn lighter to
   match the letters' color.
-- The diamond is royal and lighter than the hexagon; it is fitted to keep an exact clear space from the
-  hexagon on every side.
+- Every diamond is a scaled copy of the rhombus that joins the midpoints of the hexagon's flats to its two
+  points (width : height = 2 : sqrt 3). Scaled up from the center, its four corners reach the hexagon together:
+  top and bottom at the flats, left and right at the points (Scott, 2026-11-14). D is the exception: its sides
+  run parallel to the hexagon's slants instead.
+- In A to D the diamond is royal and lighter than the hexagon, fitted to keep an exact clear space from the
+  hexagon on every side. In E it is cut out of a solid hexagon as the O's counter.
 - The symbol's side bearings are smaller than the O's (a pointed side reads farther away), and smaller again on
   the left, where F's open side already leaves white.
 - Shapes are filled outlines, never SVG strokes. Letters are outlined from the font; no font is needed.
@@ -39,7 +43,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | B | Strong core | 0.86 / 0.92 | 0.40 stem | 0.70 |
 | C | Open | 0.76 / 0.82 | 0.26 stem | 1.50 |
 | D | Parallel | 0.80 / 0.86 | 0.26 stem, a rhombus with sides parallel to the hexagon's slants | 0.62 |
-| E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: a square diamond cut out of the hexagon is the O's counter | n/a |
+| E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: the aligned diamond cut out of the hexagon is the O's counter | n/a |
 
 `svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently E). To rebuild with another:
 

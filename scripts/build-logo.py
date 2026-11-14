@@ -124,6 +124,11 @@ def symbol(cx, cy, H, m, v):
     """Hexagon and diamond centered at (cx, cy), flat-to-flat height H. Returns (hexagon path, diamond path)."""
     R, h = H / math.sqrt(3), H / 2
     outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
+    # Scott, 2026-11-14: the diamond's four corners must reach the hexagon together when scaled up from the
+    # center: top and bottom to the flats' midpoints, left and right to the points. Only the rhombus joining
+    # those four points does that, so every diamond is a scaled copy of it: half-width / half-height = R / h
+    # = 2 / sqrt(3). D keeps its own rule (sides parallel to the slants), which cannot also meet this one.
+    ka = R / h
     if v.get("cut"):
         # Scott, 2026-11-14: the diamond IS the O's counter. A solid hexagon with a square diamond cut out of
         # its center. The hole is as large as the two weights allow: the flats keep the O's top thickness,
@@ -132,7 +137,7 @@ def symbol(cx, cy, H, m, v):
         slants = [(outer[i], outer[(i + 1) % 6]) for i in (0, 2, 3, 5)]
 
         def wall_at(d):
-            dia = [(cx, cy - d), (cx + d, cy), (cx, cy + d), (cx - d, cy)]
+            dia = [(cx, cy - d), (cx + d * ka, cy), (cx, cy + d), (cx - d * ka, cy)]
             best = min(seg_dist(p, a, b) for p in dia for a, b in slants)
             for q in outer:
                 best = min(best, min(seg_dist(q, dia[i], dia[(i + 1) % 4]) for i in range(4)))
@@ -143,13 +148,13 @@ def symbol(cx, cy, H, m, v):
             d = (lo + hi) / 2
             lo, hi = (d, hi) if wall_at(d) >= wall else (lo, d)
         d = lo
-        hole = [(cx, cy - d), (cx + d, cy), (cx, cy + d), (cx - d, cy)]
+        hole = [(cx, cy - d), (cx + d * ka, cy), (cx, cy + d), (cx - d * ka, cy)]
         return poly(outer) + " " + poly(hole[::-1]), ""
     side, flat = m["stem"] * v["hex_side"], m["o_top"] * v["hex_flat"]
     inner = inset(outer, [side, flat, side, side, flat, side])
     td = m["stem"] * v["dia"]
     gap = td * v["gap"]
-    k = 1 / math.sqrt(3) if v.get("rhombus") else 1.0  # half-width / half-height of the inner shape
+    k = 1 / math.sqrt(3) if v.get("rhombus") else ka  # half-width / half-height of the inner shape
     lo, hi = 0.0, h
     for _ in range(60):  # the largest diamond that keeps `gap` clear of the hexagon all round
         d = (lo + hi) / 2
