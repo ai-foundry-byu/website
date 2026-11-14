@@ -35,7 +35,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 
 ## Directions
 
-`comparison.html` shows seven. `variants/` holds every file for each.
+`comparison.html` shows eight. `variants/` holds every file for each.
 
 | | Name | Hexagon (slants / flats) | Diamond weight | Clear space |
 |---|---|---|---|---|
@@ -46,6 +46,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: the aligned diamond cut out of the hexagon is the O's counter | n/a |
 | F | Facets | solid; a hairline band (0.125 of the O's top) above and below the diamond keeps the hexagon whole | none: a true square diamond cut out nearly to the edges; its side corners stop short of the hexagon's points (a square cannot reach them and the flats at once) | n/a |
 | G | Facets, stretched | solid, split into four triangles | none: the diamond stretched 2 : sqrt 3 so all four corners touch the hexagon | none |
+| H | Inverted | none: a square diamond is the O (points overshoot 3%) | a flat-topped hexagon cut out as the counter; walls 0.45 stem at the pinch | n/a |
 
 `svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently F). To rebuild with another:
 
@@ -64,6 +65,13 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/favicon.svg`, `favicon.ico`, `png/favicon-*.png` | Browser tab, Apple touch icon (180), PWA icons (192, 512) |
 | `svg/favicon-16.svg` | 16 px only: the diamond is filled, since no outline survives at that size |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
+
+## Notes on H
+
+Scott, 2026-11-14: tried with the roles swapped. A strong standalone symbol (a gem with a hexagonal window), a weaker
+letter: the diamond's mass sits in its four points, which a flat-topped hexagon cannot reach into, so the O reads darker
+than the letters; and a square diamond at cap height is about 18% narrower than the font's O, so the word can read as
+F-diamond-UNDRY at small sizes.
 
 ## Notes on F
 

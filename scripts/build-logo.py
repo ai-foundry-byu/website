@@ -54,6 +54,8 @@ VARIANTS = {
     # Scott, 2026-11-14: the diamond's points run to the hexagon's edges (top and bottom flats, left and right points).
     "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
     "g": {"name": "Facets, stretched", "facets": True},
+    # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
+    "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0.45},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -124,8 +126,33 @@ def poly_gap(inner_poly, outer_poly):
     return best
 
 
+def sym_width(H, v):
+    """Width of the symbol for a cap height H."""
+    if v.get("inverted"):
+        return H * (1 + 2 * v["overshoot"])  # a square diamond: as wide as it is tall
+    return 2 * H / math.sqrt(3)
+
+
 def symbol(cx, cy, H, m, v):
     """Hexagon and diamond centered at (cx, cy), flat-to-flat height H. Returns (hexagon path, diamond path)."""
+    if v.get("inverted"):
+        # Scott, 2026-11-14: the roles swapped. The diamond is the letter: a square turned 45 degrees whose
+        # points overshoot the baseline and cap height a little (a point reads small next to flat letters).
+        # The hexagon, flat top and bottom, is cut out of it as the counter, as large as a wall of
+        # `wall` x stem to the diamond's sides allows.
+        a = H / 2 * (1 + 2 * v["overshoot"])
+        dia = [(cx, cy - a), (cx + a, cy), (cx, cy + a), (cx - a, cy)]
+        wall = m["stem"] * v["wall"]
+        lo, hi = 0.0, a
+        for _ in range(60):
+            r = (lo + hi) / 2  # the hole's point radius; its flat half-height is r * sqrt(3) / 2
+            hx = [(cx + r, cy), (cx + r / 2, cy + r * math.sqrt(3) / 2), (cx - r / 2, cy + r * math.sqrt(3) / 2),
+                  (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
+            lo, hi = (r, hi) if poly_gap(hx, dia) >= wall else (lo, r)
+        r = lo
+        hole = [(cx + r, cy), (cx + r / 2, cy + r * math.sqrt(3) / 2), (cx - r / 2, cy + r * math.sqrt(3) / 2),
+                (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
+        return poly(dia) + " " + poly(hole[::-1]), ""
     R, h = H / math.sqrt(3), H / 2
     outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
     # Scott, 2026-11-14: the diamond's four corners must reach the hexagon together when scaled up from the
@@ -254,7 +281,7 @@ def wordmark(tmp, font, gs, m, v, letters, hexc, diac):
     x += gs["space"].width * WORD_SPACE - track
     run("F")
     H = cap
-    W = 2 * H / math.sqrt(3)
+    W = sym_width(H, v)
     x += m["o_lsb"] * SIDE_BEARING[0]
     hexp, diap = symbol(x + W / 2, cap / 2, H, m, v)
     x += W + m["o_rsb"] * SIDE_BEARING[1] + track
@@ -289,7 +316,7 @@ def build(font_path, key, out):
         body, w, h = wordmark(tmp, font, gs, m, v, letters, hexc, diac)
         files[name] = svg(body, -pad, -pad, w + 2 * pad, h + 2 * pad, "AI Foundry", bg)
     H = m["cap"]
-    W = 2 * H / math.sqrt(3)
+    W = sym_width(H, v)
     for name, (hexc, diac) in {"glyph": (NAVY, ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
                                "glyph-white": (WHITE, WHITE)}.items():
         hexp, diap = symbol(0, 0, H, m, v)
@@ -301,6 +328,9 @@ def build(font_path, key, out):
     if v.get("cut"):
         compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
+    elif v.get("inverted"):
+        compact = dict(v, wall=v["wall"] * 1.1)
+        compact16 = dict(v, wall=v["wall"] * 1.25)
     elif v.get("facets") and v.get("square"):
         # favicons and avatars keep a heavier band so the hexagon's top and bottom lines survive in a browser tab
         compact = dict(v, flat=max(v.get("flat", 0), 0.45))
