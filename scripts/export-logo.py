@@ -68,7 +68,7 @@ def comparison(out):
         v = bl.VARIANTS[key]
         d = out / "variants" / key
         cards += f"""<div class="card"><div class="k">{key.upper()} · {v['name']}</div>
-<div class="cap">{(f"solid hexagon, square diamond cut out as the O's counter · flats {v['hex_flat']:.2f} of the O's top · narrowest wall {v['wall']:.2f} stem" if v.get('cut') else f"hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond {v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight")}</div>
+<div class="cap">{("solid hexagon split by the full-size diamond into four corner triangles" if v.get('facets') else f"solid hexagon, diamond cut out as the O's counter · flats {v['hex_flat']:.2f} of the O's top · narrowest wall {v['wall']:.2f} stem" if v.get('cut') else f"hexagon {v['hex_side']:.2f} stem (slants), {v['hex_flat']:.2f} of the O's top (flats) · diamond {v['dia']:.2f} stem · gap {v['gap']:.2f} of the diamond weight")}</div>
 {inline(d / 'glyph.svg', width=220)}
 {inline(d / 'wordmark.svg', height=56)}
 <div class="row">{inline(d / 'wordmark.svg', height=28)}</div>
@@ -77,7 +77,7 @@ def comparison(out):
     darks = "".join(f"""<div class="card dark"><div class="k">{k.upper()}</div>{inline(out / 'variants' / k / 'wordmark-white.svg', height=48)}
 <div class="row">{inline(out / 'variants' / k / 'glyph-white.svg', height=64)}{inline(out / 'variants' / k / 'wordmark-white.svg', height=18)}</div></div>""" for k in sorted(bl.VARIANTS))
     body = f"""<h1>AI Foundry logo: directions</h1>
-<p class="lede">The same construction five ways. The hexagon is the Builder Hexagon (flat top and bottom, as the app draws it); the inner shape is the Consultant Diamond. A, B and C use an outlined diamond and differ in the weight of the hexagon, the weight of the diamond, and the clear space between them. D turns the diamond into a rhombus whose sides run parallel to the hexagon's slanted sides, so every line in the symbol sits at 0 or 60 degrees. E drops the inner outline: the hexagon is solid and the diamond is cut out of it as the O's counter, so there is one shape and nothing to balance. In every direction but D, the diamond is proportioned so that, scaled up from the center, its four corners reach the hexagon together: top and bottom at the flats, left and right at the points. Type is the brand nameplate: Archivo 700 at width 125, outlined.</p>
+<p class="lede">The same construction six ways. The hexagon is the Builder Hexagon (flat top and bottom, as the app draws it); the inner shape is the Consultant Diamond. A, B and C use an outlined diamond and differ in the weight of the hexagon, the weight of the diamond, and the clear space between them. D turns the diamond into a rhombus whose sides run parallel to the hexagon's slanted sides, so every line in the symbol sits at 0 or 60 degrees. E drops the inner outline: the hexagon is solid and the diamond is cut out of it as the O's counter, so there is one shape and nothing to balance. F runs the diamond to the edges: its top and bottom points sit on the flats and its side corners on the hexagon's points, which leaves four navy triangles. In every direction but D, the diamond is proportioned so that, scaled up from the center, its four corners reach the hexagon together: top and bottom at the flats, left and right at the points. Type is the brand nameplate: Archivo 700 at width 125, outlined.</p>
 <h2>On white, large to small</h2><div class="grid g3">{cards}</div>
 <h2>Reversed on navy</h2><div class="grid g3">{darks}</div>
 <p class="note">Reversed versions are all white: royal never sits on navy (brand rule, 1.43:1). The 16 px row is the smallest size a wordmark should be used at.</p>"""
@@ -86,9 +86,9 @@ def comparison(out):
 
 def preview(out, key):
     s = out / "svg"
-    cut = bl.VARIANTS[key].get("cut")
-    prim = "All navy; the diamond is the O's counter" if cut else "Navy, diamond in royal"
-    symcap = "Navy hexagon, diamond cut out" if cut else "Navy hexagon, royal diamond"
+    cut = bl.VARIANTS[key].get("cut") or bl.VARIANTS[key].get("facets")
+    prim = ("All navy; the diamond runs to the hexagon's edges" if bl.VARIANTS[key].get("facets") else "All navy; the diamond is the O's counter") if cut else "Navy, diamond in royal"
+    symcap = ("Four navy triangles around a full-size diamond" if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>

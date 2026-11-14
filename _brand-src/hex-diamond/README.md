@@ -35,7 +35,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 
 ## Directions
 
-`comparison.html` shows five. `variants/` holds every file for each.
+`comparison.html` shows six. `variants/` holds every file for each.
 
 | | Name | Hexagon (slants / flats) | Diamond weight | Clear space |
 |---|---|---|---|---|
@@ -44,8 +44,9 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | C | Open | 0.76 / 0.82 | 0.26 stem | 1.50 |
 | D | Parallel | 0.80 / 0.86 | 0.26 stem, a rhombus with sides parallel to the hexagon's slants | 0.62 |
 | E | Cut | solid; flats 0.72 of the O's top, narrowest wall 0.80 stem | none: the aligned diamond cut out of the hexagon is the O's counter | n/a |
+| F | Facets | solid, split by the full-size diamond | none: the diamond's points sit on the flats and the hexagon's points, leaving four navy triangles | none |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently E). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently F). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -62,6 +63,11 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/favicon.svg`, `favicon.ico`, `png/favicon-*.png` | Browser tab, Apple touch icon (180), PWA icons (192, 512) |
 | `svg/favicon-16.svg` | 16 px only: the diamond is filled, since no outline survives at that size |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
+
+## Notes on F
+
+Strongest at display sizes. Two thirds of the hexagon is white and the triangles narrow to about 19 degrees at the
+hexagon's points, so below about 32 px tall the O reads light and the side points fade; E holds up better there.
 
 ## Use
 

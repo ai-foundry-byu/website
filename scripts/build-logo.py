@@ -51,6 +51,8 @@ VARIANTS = {
     # Scott, 2026-11-14: the inner shape follows the hexagon's angled lines. A rhombus whose sides run
     # parallel to the hexagon's slanted sides (60 degrees at top and bottom, 120 at left and right).
     "e": {"name": "Cut", "cut": True, "hex_flat": 0.72, "wall": 0.80},
+    # Scott, 2026-11-14: the diamond's points run to the hexagon's edges (top and bottom flats, left and right points).
+    "f": {"name": "Facets", "facets": True},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
 # The compact mark (favicon, avatar) is drawn for 16 to 48 px: a lighter hexagon to open the interior,
@@ -108,6 +110,7 @@ def inside(p, poly_):
     return all(signs) or not any(signs)
 
 
+
 def poly_gap(inner_poly, outer_poly):
     """Smallest distance between two nested convex polygons; 0 if the inner one is not inside the outer."""
     if not all(inside(p, outer_poly) for p in inner_poly):
@@ -129,6 +132,13 @@ def symbol(cx, cy, H, m, v):
     # those four points does that, so every diamond is a scaled copy of it: half-width / half-height = R / h
     # = 2 / sqrt(3). D keeps its own rule (sides parallel to the slants), which cannot also meet this one.
     ka = R / h
+    full = [(cx, cy - h), (cx + R, cy), (cx, cy + h), (cx - R, cy)]  # the diamond at full size, corners on the hexagon
+    if v.get("facets"):
+        # Scott, 2026-11-14: the diamond runs to the edges: top and bottom points on the flats, left and right
+        # corners on the hexagon's points. Cut from a solid hexagon, it leaves four triangles in the corners.
+        tris = [[full[0], outer[5], outer[0]], [outer[0], outer[1], full[2]], [full[2], outer[2], outer[3]],
+                [outer[3], outer[4], full[0]]]
+        return " ".join(poly(tr) for tr in tris), ""
     if v.get("cut"):
         # Scott, 2026-11-14: the diamond IS the O's counter. A solid hexagon with a square diamond cut out of
         # its center. The hole is as large as the two weights allow: the flats keep the O's top thickness,
@@ -274,8 +284,13 @@ def build(font_path, key, out):
         files[name] = svg(body, -side / 2, -side / 2, side, side, "AI Foundry symbol")
     # Compact mark for favicons and avatars: a navy tile, the symbol in white, weights raised so the
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
-    compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1) if v.get("cut") else COMPACT
-    compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2) if v.get("cut") else COMPACT_16
+    if v.get("cut"):
+        compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)
+        compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
+    elif v.get("facets"):
+        compact = compact16 = v
+    else:
+        compact, compact16 = COMPACT, COMPACT_16
     hexp, diap = symbol(0, 0, H, m, compact)
     t = W * 1.42
     tile = f'<rect x="{-t/2:.1f}" y="{-t/2:.1f}" width="{t:.1f}" height="{t:.1f}" rx="{t*5/32:.1f}" fill="{NAVY}"/>'
