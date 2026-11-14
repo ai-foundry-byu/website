@@ -53,7 +53,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | L | Facets, balanced | solid, as F, with the band at 0.50 of the O's top so the O reads as a letter of the font (Scott, 2026-11-14, chosen by eye from 0.75 / 0.60 / 0.50 / 0.40) | a square diamond cut out, as F | n/a |
 | M | Inverted, balanced | none: a square diamond is the O, as H | the hexagon cut out at 0.75 of the largest that fits, so the navy forms one ring and the O carries the letters' weight (chosen by eye from 1.00 / 0.85 / 0.75 / 0.65) | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently H). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently L). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -69,11 +69,16 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/glyph*.svg` | The symbol alone, same color set |
 | `svg/favicon.svg`, `favicon.ico`, `png/favicon-*.png` | Browser tab, Apple touch icon (180), PWA icons (192, 512) |
 | `svg/favicon-16.svg` | 16 px only: the diamond is filled, since no outline survives at that size |
+| `svg/lockup.svg`, `svg/lockup-white.svg` | Mockups of the BYU Marriott lockup for review only; never ship them |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
-## Notes on H (chosen, 2026-11-14)
+## Notes on L (chosen, 2026-11-14)
 
-Scott, 2026-11-14: tried with the roles swapped, then chosen ("I think this could look really cool"). A strong standalone symbol (a gem with a hexagonal window), a weaker
+Scott, 2026-11-14, after seeing L and M side by side with the BYU Marriott lockup: "I like the diamond inscribed in the hex better." L is F with the band at 0.50 of the O's top: the hexagon is as wide as the font's O, so FOUNDRY keeps its letter spacing, and the band reads at every size down to the 16 px favicon.
+
+## Notes on H
+
+Scott, 2026-11-14: tried with the roles swapped, then picked for a time ("I think this could look really cool"); M is H with the hexagon at 0.75 so the O carries the letters' weight; L replaced both. A strong standalone symbol (a gem with a hexagonal window), a weaker
 letter: the diamond's mass sits in its four points, which a flat-topped hexagon cannot reach into, so the O reads darker
 than the letters; and a square diamond at cap height is about 18% narrower than the font's O, so the word can read as
 F-diamond-UNDRY at small sizes.
