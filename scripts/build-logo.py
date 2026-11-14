@@ -55,6 +55,9 @@ VARIANTS = {
     "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
     # Scott, 2026-11-14: "try smaller so the weight of the O is consistent with other letters." F's O has an ink
     # density of 0.36 against the font's own O at 0.53 and U, N, D, R at 0.59; a band of 0.75 brings it to 0.54.
+    # Scott, 2026-11-14: H with the O weighted like the letters: the hexagon at 0.75 of the touching size (chosen by
+    # eye from 1.00, 0.85, 0.75 and 0.65 in the lockup; average stroke went from 44 to near the letters').
+    "m": {"name": "Inverted, balanced", "inverted": True, "overshoot": 0.03, "wall": 0, "hex_scale": 0.75},
     "l": {"name": "Facets, balanced", "facets": True, "square": True, "flat": 0.75},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
@@ -185,7 +188,11 @@ def symbol(cx, cy, H, m, v):
                   (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
             lo, hi = (r, hi) if poly_gap(hx, dia) >= wall else (lo, r)
         r = lo
-        if v["wall"] == 0:
+        if v.get("hex_scale"):
+            # Scott, 2026-11-14: a smaller hexagon so the O weighs what the letters do: a fraction of the largest
+            # hexagon that fits (the touching one).
+            r = 2 * a / (1 + math.sqrt(3)) * v["hex_scale"]
+        if v["wall"] == 0 and not v.get("hex_scale"):
             # Scott, 2026-11-14: literally touching. The largest flat-topped hexagon in the square diamond has its
             # four upper and lower corners exactly on the diamond's sides: r/2 + r*sqrt(3)/2 = a.
             r = 2 * a / (1 + math.sqrt(3))
