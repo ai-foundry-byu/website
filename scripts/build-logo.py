@@ -52,7 +52,7 @@ VARIANTS = {
     # parallel to the hexagon's slanted sides (60 degrees at top and bottom, 120 at left and right).
     "e": {"name": "Cut", "cut": True, "hex_flat": 0.72, "wall": 0.80},
     # Scott, 2026-11-14: the diamond's points run to the hexagon's edges (top and bottom flats, left and right points).
-    "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.25},
+    "f": {"name": "Facets", "facets": True, "square": True, "flat": 0.125},
     "g": {"name": "Facets, stretched", "facets": True},
     "d": {"name": "Parallel", "hex_side": 0.80, "hex_flat": 0.86, "dia": 0.26, "gap": 0.62, "rhombus": True},
 }
