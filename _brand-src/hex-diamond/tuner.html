@@ -60,6 +60,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 .readout { font: 12px/1.55 var(--mono); background: var(--chip); border-radius: 6px; padding: 10px 12px; white-space: pre-wrap; word-break: break-word; font-variant-numeric: tabular-nums }
 .btn { font: 600 13px var(--body); padding: 9px 12px; border-radius: 6px; border: 0; background: var(--accent); color: var(--accent-fg); cursor: pointer }
 .btn:active { transform: translateY(1px) }
+.proposal .btn { font-size: 14px; padding: 11px 12px }
+.proposal .btn[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent-fg) }
 .hint { font-size: 12px; color: var(--muted); margin: 0 }
 
 .story { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px 24px; max-width: 72ch }
@@ -92,8 +94,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
   </header>
 
   <aside class="controls" aria-label="Controls">
+    <div class="group proposal">
+      <button class="btn" id="proposal" type="button">Proposed design</button>
+      <p class="hint" id="proposalNote">Puts every control back to the proposal (direction S). Change anything below; this button always returns to it.</p>
+    </div>
+
     <div class="group">
-      <div class="label">Start from</div>
+      <div class="label">Or start from</div>
       <div class="presets" id="presets">
         <button data-p="L">L<small>flat, cut</small></button>
         <button data-p="N">N<small>point up</small></button>
@@ -222,17 +229,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
   </aside>
 
   <main class="proofs">
-    <section class="story" aria-labelledby="storyH">
-      <h2 id="storyH">About the mark</h2>
-      <p>The O in FOUNDRY is made of the two shapes the AI Foundry already uses to describe its people.</p>
-      <p><strong>The hexagon is the builder.</strong> It is the Builder Profile: its six corners are the six skills a builder grows, Discovery, Design, Application Architecture, AI Systems, Agentic Workflow, and Launch and Learn. A hexagon is also the cell of a honeycomb, the shape worker bees build together.</p>
-      <p><strong>The diamond is the consultant and leader.</strong> It is the Consultant Profile: its four corners are Judgment, Ownership, Communication and Collaboration.</p>
-      <p>The diamond sits inside the hexagon: builders who make working AI products, and the consultants and leaders who deliver them for clients, in one letter.</p>
-      <p><strong>A diamond reflects light.</strong> Its left half is lit and its right half a shade darker, so it sparkles the way a cut stone does, and the flat mark gains a little depth.</p>
-      <p><strong>The beehive is Utah's.</strong> Utah's state emblem is the beehive and its state motto is "Industry," both adopted in 1959 from a pioneer symbol: the settlers named their proposed state Deseret, a Book of Mormon word for honeybee. The hexagon ties the Foundry to that history of industry.</p>
-      <p><strong>The mark follows BYU's mission.</strong> BYU's mission is "to assist individuals in their quest for perfection and eternal life," and BYU Marriott's is to develop "leaders of faith, intellect, and character." The AI Foundry's purpose follows from both: "to develop disciple-leaders who use AI to enhance human flourishing." The hexagon stands for the skill a builder grows through steady, shared work, the industry of the beehive. The diamond stands for the character and judgment of a leader who serves a client. The light on the diamond stands for what the work is for: using AI to help people flourish, in keeping with BYU's motto, "Enter to learn; go forth to serve."</p>
-      <p>The letters are Archivo, bold and wide, the Foundry's nameplate face. The O is measured from the font: the hexagon's top and bottom sit on the cap height and baseline, and its walls are close to the thickness of the font's own O. The wordmark always appears with BYU Marriott identification nearby.</p>
-    </section>
     <section class="card white">
       <div id="wmLarge"></div>
       <div id="wmCompare" hidden></div>
@@ -286,6 +282,17 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
         <p class="cap">Favicon and app icon at 96, 48, 32 and 16 px</p>
       </section>
     </div>
+    <section class="story" aria-labelledby="storyH">
+      <h2 id="storyH">About the mark</h2>
+      <p>The O in FOUNDRY is made of the two shapes the AI Foundry already uses to describe its people.</p>
+      <p><strong>The hexagon is the builder.</strong> It is the Builder Profile: its six corners are the six skills a builder grows, Discovery, Design, Application Architecture, AI Systems, Agentic Workflow, and Launch and Learn. A hexagon is also the cell of a honeycomb, the shape worker bees build together.</p>
+      <p><strong>The diamond is the consultant and leader.</strong> It is the Consultant Profile: its four corners are Judgment, Ownership, Communication and Collaboration.</p>
+      <p>The diamond sits inside the hexagon: builders who make working AI products, and the consultants and leaders who deliver them for clients, in one letter.</p>
+      <p><strong>A diamond reflects light.</strong> Its left half is lit and its right half a shade darker, so it sparkles the way a cut stone does, and the flat mark gains a little depth.</p>
+      <p><strong>The beehive is Utah's.</strong> Utah's state emblem is the beehive and its state motto is "Industry," both adopted in 1959 from a pioneer symbol: the settlers named their proposed state Deseret, a Book of Mormon word for honeybee. The hexagon ties the Foundry to that history of industry.</p>
+      <p><strong>The mark follows BYU's mission.</strong> BYU's mission is "to assist individuals in their quest for perfection and eternal life," and BYU Marriott's is to develop "leaders of faith, intellect, and character." The AI Foundry's purpose follows from both: "to develop disciple-leaders who use AI to enhance human flourishing." The hexagon stands for the skill a builder grows through steady, shared work, the industry of the beehive. The diamond stands for the character and judgment of a leader who serves a client. The light on the diamond stands for what the work is for: using AI to help people flourish, in keeping with BYU's motto, "Enter to learn; go forth to serve."</p>
+      <p>The letters are Archivo, bold and wide, the Foundry's nameplate face. The O is measured from the font: the hexagon's top and bottom sit on the cap height and baseline, and its walls are close to the thickness of the font's own O. The wordmark always appears with BYU Marriott identification nearby.</p>
+    </section>
   </main>
 </div>
 
@@ -306,8 +313,8 @@ let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, s
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
-  try { const s = JSON.parse(localStorage.getItem("mark-tuner") || "null"); if (s) { if (!s.v5) for (const k of ["sheen", "glint", "gsize", "gwaist", "sw"]) delete s[k]; st = Object.assign(st, s); } else applyPreset("L", false); }
-  catch (e) { applyPreset("L", false); }
+  try { const s = JSON.parse(localStorage.getItem("mark-tuner") || "null"); if (s) { if (!s.v5) for (const k of ["sheen", "glint", "gsize", "gwaist", "sw"]) delete s[k]; st = Object.assign(st, s); } else applyProposal(false); }
+  catch (e) { applyProposal(false); }
 }
 function fixOld() {
   for (const k of ["detail", "alpha", "gplace"]) delete st[k]; st.v5 = true; }
@@ -491,6 +498,11 @@ function fitRatio() {
   if (st.mode !== "dih") return 1;
   return st.orient === "flat" ? 2 / S3 : S3 / 2;
 }
+// The proposed design (direction S): every setting, so the button restores all of them.
+const PROPOSAL = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 0, scale: 100, space: 100,
+  sheen: "split", split: "left", lg: true, sa: 16, pyr: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };
+function applyProposal(redraw = true) { st = Object.assign(st, PROPOSAL, { preset: "proposal" }); if (redraw) render(); }
+const isProposal = () => Object.keys(PROPOSAL).every(k => st[k] === PROPOSAL[k] || (typeof PROPOSAL[k] === "number" && Math.abs(st[k] - PROPOSAL[k]) < 1e-6));
 function applyPreset(name, redraw = true) {
   const p = PRESETS[name];
   st = Object.assign(st, { mode: p.mode, orient: p.orient, ratio: p.ratio, os: p.os, scale: p.scale, space: p.space, preset: name });
@@ -505,6 +517,9 @@ function applyPreset(name, redraw = true) {
 function setSeg(id, v) { for (const b of $(id).querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === v)); }
 
 function render() {
+  const prop = isProposal();
+  $("proposal").setAttribute("aria-pressed", String(prop));
+  $("proposal").textContent = prop ? "Showing the proposed design" : "Back to the proposed design";
   setSeg("mode", st.mode); setSeg("orient", st.orient);
   for (const b of $("presets").querySelectorAll("button")) b.style.outline = st.preset === b.dataset.p ? "2px solid var(--accent)" : "";
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
@@ -583,6 +598,7 @@ $("guides").addEventListener("change", e => { st.guides = e.target.checked; rend
 $("compare").addEventListener("change", e => { st.compare = e.target.checked; render(); });
 $("square").addEventListener("click", () => { st.ratio = 1; st.preset = null; render(); });
 $("fit").addEventListener("click", () => { st.ratio = Math.round(fitRatio() * 1000) / 1000; st.preset = null; render(); });
+$("proposal").addEventListener("click", () => applyProposal());
 $("presets").addEventListener("click", e => { const b = e.target.closest("button"); if (b) applyPreset(b.dataset.p); });
 $("copy").addEventListener("click", () => {
   const text = $("readout").textContent;
