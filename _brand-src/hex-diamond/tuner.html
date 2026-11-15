@@ -138,6 +138,16 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
       <div class="sub" id="sheenCtl">
         <label class="label" for="sa"><span>Sheen strength</span><output id="saOut"></output></label>
         <input type="range" id="sa" min="2" max="40" step="1">
+        <div id="splitCtl" class="sub0">
+          <div class="seg seg4" id="split">
+            <button data-v="left">Left lit</button>
+            <button data-v="right">Right lit</button>
+            <button data-v="top">Top lit</button>
+            <button data-v="pyramid">Pyramid</button>
+          </div>
+          <label class="label" for="pyr" id="pyrLbl"><span>Peak position</span><output id="pyrOut"></output></label>
+          <input type="range" id="pyr" min="-40" max="40" step="1">
+        </div>
         <div id="bandCtl" class="sub0">
           <label class="label" for="bpos"><span>Band position</span><output id="bposOut"></output></label>
           <input type="range" id="bpos" min="10" max="90" step="1">
@@ -254,7 +264,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -342,7 +352,13 @@ function markup(g, p, cx, cy, ink, bg) {
     s += `<clipPath id="${id}"><path d="${dia}"/></clipPath><path fill="${ink}" fill-opacity="${a}" d="${dia}"/>` +
          `<path clip-path="url(#${id})" fill="${bg}" d="${poly([q(o1, -1), q(o1, 1), q(o2, 1), q(o2, -1)])}"/>`;
   } else if (p.sheen === "split") {
-    s += `<path fill="${ink}" fill-opacity="${a}" d="${poly([T, R, B])}"/>`;
+    // depth from shading alone, no drawn lines: a ridge (two faces) or a pyramid (four faces), lit from the upper left
+    const C = [cx + dk * p.pyr / 100, cy + d * p.pyr / 100];  // the peak, moved along the light's diagonal
+    const face = (pts, k) => k > 0 ? `<path fill="${ink}" fill-opacity="${(a * k).toFixed(3)}" d="${poly(pts)}"/>` : "";
+    if (p.split === "left") s += face([T, R, B], 1);
+    else if (p.split === "right") s += face([B, L, T], 1);
+    else if (p.split === "top") s += face([R, B, L], 1);
+    else s += face([T, R, C], 0.45) + face([R, B, C], 1) + face([B, L, C], 0.6) + face([L, T, C], 0);
   } else if (p.sheen === "lines") {
     const id = uid(), gap = d * p.sgap / 100, w = D.stem * p.sw / 100;
     let path = "";
@@ -429,11 +445,13 @@ function render() {
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
   setSeg("sheen", st.sheen); setSeg("glint", st.glint); setSeg("gat", st.gat);
   $("detailGroup").hidden = st.mode !== "dih";
-  $("sheenCtl").hidden = st.sheen === "none"; $("bandCtl").hidden = st.sheen !== "band"; $("linesCtl").hidden = st.sheen !== "lines";
+  $("sheenCtl").hidden = st.sheen === "none"; $("splitCtl").hidden = st.sheen !== "split"; setSeg("split", st.split);
+  $("pyr").hidden = $("pyrLbl").hidden = !(st.sheen === "split" && st.split === "pyramid");
+  $("pyr").value = st.pyr; $("pyrOut").textContent = st.pyr === 0 ? "centered" : (st.pyr < 0 ? "toward the light " : "away from the light ") + Math.abs(st.pyr) + "%"; $("bandCtl").hidden = st.sheen !== "band"; $("linesCtl").hidden = st.sheen !== "lines";
   $("glintCtl").hidden = st.glint === "none";
   $("sheenHint").textContent = { none: "", gradient: "The diamond darkens slightly from its upper-left edge, so that edge reads as lit.",
     band: "A faint tint with one clean diagonal stripe of light across it, like a reflection on glass.",
-    split: "The right half takes a faint tint, as if the light comes from the left.",
+    split: "Depth from shading alone: two faces like a ridge, or four faces like a pyramid lit from the upper left.",
     lines: "Short strokes along the upper-left edge." }[st.sheen];
   $("glintHint").textContent = st.glint === "none" ? "" : st.gat === "edge" ? "A small star beside the diamond, cut through the hexagon." : "Centered on a tip of the diamond, so light seems to leave the point.";
   for (const k of ["sa", "bpos", "bw", "scount", "slen", "sw", "gsize", "gwaist"]) $(k).value = st[k];
@@ -471,7 +489,7 @@ function render() {
     `Symbol height: ${st.scale.toFixed(1)}% of cap`,
     `Space beside the O: ${st.space}%`,
     ...(st.mode === "dih" ? [
-      `Sheen: ${st.sheen}${st.sheen === "none" ? "" : ", strength " + st.sa + "%"}${st.sheen === "band" ? ", band at " + st.bpos + "%, " + st.bw + "% wide" : ""}${st.sheen === "lines" ? `, ${st.scount} lines, length ${st.slen}%, weight ${(st.sw / 100).toFixed(3)} of a stem` : ""}`,
+      `Sheen: ${st.sheen}${st.sheen === "none" ? "" : ", strength " + st.sa + "%"}${st.sheen === "split" ? ", " + st.split + (st.split === "pyramid" ? ", peak " + st.pyr + "%" : "") : ""}${st.sheen === "band" ? ", band at " + st.bpos + "%, " + st.bw + "% wide" : ""}${st.sheen === "lines" ? `, ${st.scount} lines, length ${st.slen}%, weight ${(st.sw / 100).toFixed(3)} of a stem` : ""}`,
       `Glint: ${st.glint}${st.glint === "none" ? "" : `, ${st.gat === "edge" ? "off the edge" : "on the " + st.gat + " tip"}, ${st.gsize}% of the diamond, thickness ${st.gwaist}%`}`,
     ] : []),
     `Thinnest wall: ${g.wall.toFixed(0)} units = ${(g.wall / D.stem).toFixed(2)} of a stem (${(g.wall / D.oTop).toFixed(2)} of the O's top)`,
@@ -487,8 +505,8 @@ function bindSeg(id, key) {
     if (key === "mode" || key === "orient") { if (st.mode === "hid" && Math.abs(st.ratio - 1) > 0.2) st.ratio = 1; }
     render(); });
 }
-bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat");
-for (const [id, key] of [["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split");
+for (const [id, key] of [["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
 $("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
 $("compare").addEventListener("change", e => { st.compare = e.target.checked; render(); });
