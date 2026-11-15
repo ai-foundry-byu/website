@@ -416,16 +416,16 @@ def build(font_path, key, out):
     for name, (letters, hexc, diac, bg) in {
         "wordmark": (NAVY, NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL, None),  # primary: navy, diamond in royal (K: all navy)
         "wordmark-navy": (NAVY, NAVY, NAVY, None),        # single colour
-        "wordmark-black": (BLACK, BLACK, BLACK, None),    # single colour, print
+        "wordmark-black": (BLACK, BLACK, v.get("shade_on_white") or BLACK, None),    # print; S keeps the lockup grey (Scott, 2026-11-14)
         "wordmark-white": (WHITE, NAVY if wd else WHITE, on_navy if v.get("shade") else WHITE, None),  # reversed, for navy grounds
     }.items():
-        body, w, h = wordmark(tmp, font, gs, m, vr if name == "wordmark-white" else flat1 if name in ("wordmark-navy", "wordmark-black") else v, letters, hexc, diac)
+        body, w, h = wordmark(tmp, font, gs, m, vr if name == "wordmark-white" else flat1 if name == "wordmark-navy" or (name == "wordmark-black" and not v.get("shade_on_white")) else v, letters, hexc, diac)
         files[name] = svg(body, -pad, -pad, w + 2 * pad, h + 2 * pad, "AI Foundry", bg)
     H = m["cap"]
     W = sym_width(H, v)
-    for name, (hexc, diac) in {"glyph": (NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
+    for name, (hexc, diac) in {"glyph": (NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, v.get("shade_on_white") or BLACK),
                                "glyph-white": (NAVY if wd else WHITE, on_navy if v.get("shade") else WHITE)}.items():
-        hexp, diap = symbol(0, 0, H, m, vr if name == "glyph-white" else flat1 if name in ("glyph-navy", "glyph-black") else v)
+        hexp, diap = symbol(0, 0, H, m, vr if name == "glyph-white" else flat1 if name == "glyph-navy" or (name == "glyph-black" and not v.get("shade_on_white")) else v)
         side = W * 1.16
         body = f'<path fill="{diac}" fill-rule="evenodd" d="{diap}"/><path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/>'
         files[name] = svg(body, -side / 2, -side / 2, side, side, "AI Foundry symbol")

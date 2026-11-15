@@ -143,7 +143,7 @@ def preview(out, key):
 <div class="card dark"><div class="row">{inline(s / 'glyph-white.svg', height=200)}{inline(s / 'glyph-white.svg', height=64)}{inline(s / 'glyph-white.svg', height=32)}{inline(s / 'glyph-white.svg', height=20)}</div><div class="cap">White</div></div></div>
 <h2>Single color</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only{", no shading" if vv.get("shade") else ""}</div></div>
-<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black only, for print that cannot take navy{", no shading" if vv.get("shade") else ""}</div></div></div>
+<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">{"Black and the lockup's grey, for print that cannot take navy" if vv.get("shade_on_white") else "Black only, for print that cannot take navy" + (", no shading" if vv.get("shade") else "")}</div></div></div>
 <h2>With BYU Marriott (mockup)</h2>
 <div class="grid"><div class="card"><img src="svg/lockup.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup" style="display:block;width:100%;max-width:1000px"></div>
 <div class="card dark"><img src="svg/lockup-white.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup, reversed" style="display:block;width:100%;max-width:1000px"><div class="cap">Mockup: the BYU Marriott half is the official lockup's own pixels. The real lockup comes only from BYU Marriott Marketing.</div></div></div>

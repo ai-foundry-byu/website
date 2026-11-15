@@ -252,7 +252,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
       <section class="card white">
         <div id="bwB"></div>
         <div class="row" id="bwBs"></div>
-        <p class="cap">Black only, no shading</p>
+        <p class="cap">Black, with the same shading (the lockup's grey when two colours is on)</p>
       </section>
       <section class="card black">
         <div id="bwW"></div>
@@ -557,8 +557,8 @@ function render() {
   $("capLarge").textContent = st.compare ? "Navy on white · below: the same word with Archivo's own O" : "Navy on white";
   $("wmRev").innerHTML = wordmark(g, st, WHITE, { guides: st.guides });
   $("lkW").innerHTML = lockup(g, st, "navy"); $("lkN").innerHTML = lockup(g, st, "white");
-  $("bwB").innerHTML = wordmark(g, plain(st), "#000000", { bg: WHITE }); $("bwW").innerHTML = wordmark(g, plain(st), WHITE, { bg: "#000000" });
-  $("bwBs").innerHTML = [96, 40, 20].map(px => symbol(g, "#000000", px, plain(st), WHITE)).join("");
+  $("bwB").innerHTML = wordmark(g, st, "#000000", { bg: WHITE }); $("bwW").innerHTML = wordmark(g, plain(st), WHITE, { bg: "#000000" });
+  $("bwBs").innerHTML = [96, 40, 20].map(px => symbol(g, "#000000", px, st, WHITE)).join("");
   $("bwWs").innerHTML = [96, 40, 20].map(px => symbol(g, WHITE, px, plain(st), "#000000")).join("");
   $("symW").innerHTML = [160, 64, 32, 20].map(px => symbol(g, NAVY, px)).join("");
   $("symN").innerHTML = [160, 64, 32, 20].map(px => symbol(g, WHITE, px)).join("");

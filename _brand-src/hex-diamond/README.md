@@ -83,7 +83,7 @@ R in two colours only (Scott: "the same shade as the gray for Marriott School of
 colors, not three"). The grey is sampled from the official lockup files in public/brand: SCHOOL OF BUSINESS is #7C878E
 at 51% opacity on the navy lockup (shows as #BCC1C5 on white) and white at 67% on the white lockup (shows as #AAB9C9 on
 navy). The diamond's right half takes #BCC1C5 on white; on navy the grey is the lighter half, so it sits on the left
-(#AAB9C9) to keep the light coming from the left. Confirm the grey's official value with BYU Marriott Marketing.
+(#AAB9C9) to keep the light coming from the left. The black version keeps the same split in the lockup's grey (#BCC1C5); only the navy-only version is a single colour. Confirm the grey's official value with BYU Marriott Marketing.
 
 ## Notes on R
 
