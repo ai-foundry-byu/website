@@ -65,6 +65,9 @@ svg{{max-width:100%}} .card>svg{{align-self:flex-start}}
 
 def caption(v):
     """One line describing a direction's construction, for the comparison sheet."""
+    if v.get("cut_size"):
+        return (f"square diamond at {v['cut_size']:.2f} of the largest that fits, cut out of a flat-topped hexagon; "
+                f"right half shaded, navy at {v['shade']:.0%} over the ground")
     if v.get("white_diamond"):
         return (f"a solid white diamond with a {v['outline']:.2f}-stem navy border; a solid navy hexagon inscribed, its four "
                 "upper and lower corners on the diamond's sides; on navy, the diamond is solid white")
@@ -123,17 +126,21 @@ def preview(out, key):
     cut = vv.get("cut") or vv.get("facets") or vv.get("inverted")
     prim = ("Navy hexagon inscribed in a white diamond with a hairline navy border" if vv.get("white_diamond") else "Navy hexagon with a white border, inside a royal diamond outline" if vv.get("keyline") else "Navy hexagon, diamond outline in royal" if vv.get("solid_hex") else "All navy; the diamond is the O and the hexagon its counter" if vv.get("inverted") else "All navy; a square diamond set into the hexagon" if bl.VARIANTS[key].get("square") else "All navy; the diamond runs to the hexagon's edges" if bl.VARIANTS[key].get("facets") else "All navy; the diamond is the O's counter") if cut else "Navy, diamond in royal"
     symcap = ("Solid navy hexagon inscribed in a white diamond, hairline navy border" if vv.get("white_diamond") else "Solid navy hexagon, a white keyline, a royal diamond outline" if vv.get("keyline") else "Solid navy hexagon inside a royal diamond outline" if vv.get("solid_hex") else ("Navy diamond, hexagon cut out, weighted like the letters" if vv.get("hex_scale") else "Navy diamond, the largest hexagon cut out, touching its sides") if vv.get("inverted") else (("Navy hexagon, square diamond cut out, weighted like the letters" if vv.get("flat", 0) >= 0.5 else "Navy hexagon, square diamond cut out nearly to its edges") if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
+    if vv.get("cut_size"):
+        cut = True
+        prim = "All navy; a square diamond cut out of the hexagon, its right half lightly shaded"
+        symcap = "Navy hexagon, square diamond cut out, right half shaded (navy at 14% over white) for depth"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark.svg', height=96)}<div class="row">{inline(s / 'wordmark.svg', height=40)}{inline(s / 'wordmark.svg', height=20)}</div><div class="cap">{prim} · on white</div></div>
-<div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed, all white · on navy</div></div></div>
+<div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed{", white; the diamond's right half lightly shaded" if vv.get("shade") else ", all white"} · on navy</div></div></div>
 <h2>Symbol</h2>
 <div class="grid g2"><div class="card"><div class="row">{inline(s / 'glyph.svg', height=200)}{inline(s / 'glyph.svg', height=64)}{inline(s / 'glyph.svg', height=32)}{inline(s / 'glyph.svg', height=20)}</div><div class="cap">{symcap}</div></div>
 <div class="card dark"><div class="row">{inline(s / 'glyph-white.svg', height=200)}{inline(s / 'glyph-white.svg', height=64)}{inline(s / 'glyph-white.svg', height=32)}{inline(s / 'glyph-white.svg', height=20)}</div><div class="cap">White</div></div></div>
 <h2>Single color</h2>
-<div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only</div></div>
-<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black only, for print that cannot take navy</div></div></div>
+<div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only{", no shading" if vv.get("shade") else ""}</div></div>
+<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black only, for print that cannot take navy{", no shading" if vv.get("shade") else ""}</div></div></div>
 <h2>With BYU Marriott (mockup)</h2>
 <div class="grid"><div class="card"><img src="svg/lockup.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup" style="display:block;width:100%;max-width:1000px"></div>
 <div class="card dark"><img src="svg/lockup-white.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup, reversed" style="display:block;width:100%;max-width:1000px"><div class="cap">Mockup: the BYU Marriott half is the official lockup's own pixels. The real lockup comes only from BYU Marriott Marketing.</div></div></div>

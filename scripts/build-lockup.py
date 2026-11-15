@@ -40,7 +40,9 @@ def build(font, key, out):
         buf = io.BytesIO()
         left.save(buf, "PNG")
         uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
-        body, w, _h = bl.wordmark(tmp, f, gs, m, v, letters, letters, letters)
+        ground = bl.WHITE if letters == bl.NAVY else bl.NAVY
+        shade = bl.mix(letters, ground, v["shade"]) if v.get("shade") else letters  # O's shaded half, flat colour
+        body, w, _h = bl.wordmark(tmp, f, gs, m, v, letters, letters, shade)
         width = TEXT_LEFT + w * s
         pad = 0
         svg = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '

@@ -50,10 +50,11 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | I | Inverted, solid hexagon | a diamond outline (0.40 stem, royal in the primary) with white inside | the largest solid navy hexagon, its four upper and lower corners touching the outline's inner edge | n/a |
 | J | Inverted, keyline | a diamond outline (0.40 stem, royal in the primary) with white inside | a solid navy hexagon with a white keyline (0.20 stem): the hexagon plus its keyline touches the outline at four corners | n/a |
 | K | Inscribed | a solid white diamond with a hairline navy border (0.09 stem, about 1.5 pt at a 100 pt wordmark); on navy the diamond is solid white | a solid navy hexagon inscribed, its four upper and lower corners on the diamond's sides; only the diamond's four corners show | n/a |
+| O | Cut, shaded | solid, flat top | a square diamond at 0.65 of the largest that fits, cut out; its right half shaded at 14% | n/a |
 | L | Facets, balanced | solid, as F, with the band at 0.50 of the O's top so the O reads as a letter of the font (Scott, 2026-11-14, chosen by eye from 0.75 / 0.60 / 0.50 / 0.40) | a square diamond cut out, as F | n/a |
 | M | Inverted, balanced | none: a square diamond is the O, as H | the hexagon cut out at 0.75 of the largest that fits, so the navy forms one ring and the O carries the letters' weight (chosen by eye from 1.00 / 0.85 / 0.75 / 0.65) | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently L). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently O). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -72,7 +73,16 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/lockup.svg`, `svg/lockup-white.svg` | Mockups of the BYU Marriott lockup for review only; never ship them |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
-## Notes on L (chosen, 2026-11-14)
+## Notes on O (chosen, 2026-11-14)
+
+Dialed in by Scott on the tuner (`tuner.html`): a square diamond at 65% of the largest that fits, cut out of a
+flat-topped hexagon; thinnest wall 120 units (0.69 of a stem). The diamond's right half is shaded, navy at 14% over
+the ground (#DBE2E8 on white, #234B74 on navy), so it reads with a little depth, lit from the left. Files keep the
+shade as a flat colour, never transparency. The navy-only and black versions, and the 16 px favicon, drop the shading:
+BYU marks are one colour, so the shaded version is for display use and the navy-only file is the safe one beside a BYU
+mark. Rejected on the way: facet lines and a honeycomb texture (read as an engagement ring and as a hive).
+
+## Notes on L
 
 Scott, 2026-11-14, after seeing L and M side by side with the BYU Marriott lockup: "I like the diamond inscribed in the hex better." L is F with the band at 0.50 of the O's top: the hexagon is as wide as the font's O, so FOUNDRY keeps its letter spacing, and the band reads at every size down to the 16 px favicon.
 

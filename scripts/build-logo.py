@@ -66,6 +66,10 @@ VARIANTS = {
     # right, Application Architecture and AI Systems down the left; Launch and Learn at the bottom). Its vertical
     # sides keep `band` x stem beside the square diamond; its points overshoot like an O.
     "n": {"name": "Facets, point up", "facets": True, "square": True, "pointy": True, "band": 0.50, "overshoot": 0.03},
+    # Scott, 2026-11-14, dialed in on the tuner: a square diamond at 65% of the largest that fits, cut out of a
+    # flat-topped hexagon, its right half shaded (navy at 14% over the ground) for a hint of depth, lit from the left.
+    # Single-colour files drop the shading.
+    "o": {"name": "Cut, shaded", "cut_size": 0.65, "shade": 0.14},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
@@ -156,6 +160,12 @@ def poly_gap(inner_poly, outer_poly):
     return best
 
 
+def mix(fg, bg, a):
+    """fg laid over bg at opacity a, as one solid colour (files stay flat: no transparency)."""
+    f, b = (tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) for c in (fg, bg))
+    return "#" + "".join(f"{round(b[i] + (f[i] - b[i]) * a):02X}" for i in range(3))
+
+
 def sym_width(H, v):
     """Width of the symbol for a cap height H."""
     if v.get("inverted"):
@@ -208,6 +218,13 @@ def symbol(cx, cy, H, m, v):
         hole = [(cx + r, cy), (cx + r / 2, cy + r * math.sqrt(3) / 2), (cx - r / 2, cy + r * math.sqrt(3) / 2),
                 (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
         return poly(dia) + " " + poly(hole[::-1]), ""
+    if v.get("cut_size"):
+        R, h = H / math.sqrt(3), H / 2
+        outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
+        s = h * v["cut_size"]  # the largest square diamond in a flat-topped hexagon touches the flats: half-height h
+        T, Rt, B, L = (cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)
+        shade = poly([T, Rt, B]) if v.get("shade") else ""  # the right half, under the cut-out
+        return poly(outer) + " " + poly([T, Rt, B, L][::-1]), shade
     if v.get("pointy"):
         Rp = H / 2 * (1 + 2 * v["overshoot"])  # points at top and bottom, overshooting the cap height and baseline
         wp = Rp * math.sqrt(3) / 2
@@ -371,25 +388,30 @@ def build(font_path, key, out):
     files = {}
     wd = v.get("white_diamond")
     vr = dict(v, solid_dia=True) if wd else v  # the version drawn on navy
+    flat1 = dict(v, shade=0) if v.get("shade") else v  # single-colour files: no shading
+    if v.get("shade"):
+        on_white, on_navy = mix(NAVY, WHITE, v["shade"]), mix(WHITE, NAVY, v["shade"])
     for name, (letters, hexc, diac, bg) in {
-        "wordmark": (NAVY, NAVY, NAVY if wd else ROYAL, None),  # primary: navy, diamond in royal (K: all navy)
+        "wordmark": (NAVY, NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL, None),  # primary: navy, diamond in royal (K: all navy)
         "wordmark-navy": (NAVY, NAVY, NAVY, None),        # single colour
         "wordmark-black": (BLACK, BLACK, BLACK, None),    # single colour, print
-        "wordmark-white": (WHITE, NAVY if wd else WHITE, WHITE, None),  # reversed, for navy grounds
+        "wordmark-white": (WHITE, NAVY if wd else WHITE, on_navy if v.get("shade") else WHITE, None),  # reversed, for navy grounds
     }.items():
-        body, w, h = wordmark(tmp, font, gs, m, vr if name == "wordmark-white" else v, letters, hexc, diac)
+        body, w, h = wordmark(tmp, font, gs, m, vr if name == "wordmark-white" else flat1 if name in ("wordmark-navy", "wordmark-black") else v, letters, hexc, diac)
         files[name] = svg(body, -pad, -pad, w + 2 * pad, h + 2 * pad, "AI Foundry", bg)
     H = m["cap"]
     W = sym_width(H, v)
-    for name, (hexc, diac) in {"glyph": (NAVY, NAVY if wd else ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
-                               "glyph-white": (NAVY if wd else WHITE, WHITE)}.items():
-        hexp, diap = symbol(0, 0, H, m, vr if name == "glyph-white" else v)
+    for name, (hexc, diac) in {"glyph": (NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL), "glyph-navy": (NAVY, NAVY), "glyph-black": (BLACK, BLACK),
+                               "glyph-white": (NAVY if wd else WHITE, on_navy if v.get("shade") else WHITE)}.items():
+        hexp, diap = symbol(0, 0, H, m, vr if name == "glyph-white" else flat1 if name in ("glyph-navy", "glyph-black") else v)
         side = W * 1.16
         body = f'<path fill="{diac}" fill-rule="evenodd" d="{diap}"/><path fill="{hexc}" fill-rule="evenodd" d="{hexp}"/>'
         files[name] = svg(body, -side / 2, -side / 2, side, side, "AI Foundry symbol")
     # Compact mark for favicons and avatars: a navy tile, the symbol in white, weights raised so the
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
-    if v.get("cut"):
+    if v.get("cut_size"):
+        compact, compact16 = v, flat1  # 16 px drops the shading
+    elif v.get("cut"):
         compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)
     elif v.get("inverted"):
@@ -416,11 +438,12 @@ def build(font_path, key, out):
     hx = NAVY if wd else WHITE  # the hexagon's color on the navy tile
     t = W * 1.42
     tile = f'<rect x="{-t/2:.1f}" y="{-t/2:.1f}" width="{t:.1f}" height="{t:.1f}" rx="{t*5/32:.1f}" fill="{NAVY}"/>'
-    files["favicon"] = svg(tile + f'<path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
+    dfill = on_navy if v.get("shade") else WHITE  # the shaded half on the navy tile
+    files["favicon"] = svg(tile + f'<path fill="{dfill}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
                            -t / 2, -t / 2, t, t, "AI Foundry")
     a = W * 1.9  # avatar: square navy ground, symbol inside the circle a platform crops to
     files["avatar"] = svg(f'<rect x="{-a/2:.1f}" y="{-a/2:.1f}" width="{a:.1f}" height="{a:.1f}" fill="{NAVY}"/>'
-                          f'<path fill="{WHITE}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
+                          f'<path fill="{dfill}" fill-rule="evenodd" d="{diap}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp}"/>',
                           -a / 2, -a / 2, a, a, "AI Foundry")
     hexp16, diap16 = symbol(0, 0, H, m, compact16)
     files["favicon-16"] = svg(tile + f'<path fill="{WHITE}" d="{diap16}"/><path fill="{hx}" fill-rule="evenodd" d="{hexp16}"/>',
