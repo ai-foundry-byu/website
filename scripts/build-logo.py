@@ -70,6 +70,9 @@ VARIANTS = {
     # flat-topped hexagon, its right half shaded (navy at 14% over the ground) for a hint of depth, lit from the left.
     # Single-colour files drop the shading.
     "o": {"name": "Cut, shaded", "cut_size": 0.65, "shade": 0.14},
+    # Scott, 2026-11-14: O with the hexagon point up ("it actually looks really good with the vertical"); less like a
+    # hex nut. Points overshoot 6% as on the tuner; its vertical sides take the O's own side spacing.
+    "p": {"name": "Cut, shaded, point up", "cut_size": 0.65, "shade": 0.14, "pointy": True, "overshoot": 0.06, "sb": (0.80, 1.00)},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
     "h": {"name": "Inverted", "inverted": True, "overshoot": 0.03, "wall": 0},
@@ -219,9 +222,15 @@ def symbol(cx, cy, H, m, v):
                 (cx - r, cy), (cx - r / 2, cy - r * math.sqrt(3) / 2), (cx + r / 2, cy - r * math.sqrt(3) / 2)]
         return poly(dia) + " " + poly(hole[::-1]), ""
     if v.get("cut_size"):
-        R, h = H / math.sqrt(3), H / 2
-        outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
-        s = h * v["cut_size"]  # the largest square diamond in a flat-topped hexagon touches the flats: half-height h
+        if v.get("pointy"):
+            Rp = H / 2 * (1 + 2 * v["overshoot"])
+            w = Rp * math.sqrt(3) / 2
+            outer = [(cx, cy - Rp), (cx + w, cy - Rp / 2), (cx + w, cy + Rp / 2), (cx, cy + Rp), (cx - w, cy + Rp / 2), (cx - w, cy - Rp / 2)]
+            s = w * v["cut_size"]  # point up, the largest square diamond touches the vertical sides: half-width w
+        else:
+            R, h = H / math.sqrt(3), H / 2
+            outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
+            s = h * v["cut_size"]  # the largest square diamond in a flat-topped hexagon touches the flats: half-height h
         T, Rt, B, L = (cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)
         shade = poly([T, Rt, B]) if v.get("shade") else ""  # the right half, under the cut-out
         return poly(outer) + " " + poly([T, Rt, B, L][::-1]), shade
@@ -361,9 +370,9 @@ def wordmark(tmp, font, gs, m, v, letters, hexc, diac):
     run("F")
     H = cap
     W = sym_width(H, v)
-    x += m["o_lsb"] * SIDE_BEARING[0]
+    x += m["o_lsb"] * v.get("sb", SIDE_BEARING)[0]
     hexp, diap = symbol(x + W / 2, cap / 2, H, m, v)
-    x += W + m["o_rsb"] * SIDE_BEARING[1] + track
+    x += W + m["o_rsb"] * v.get("sb", SIDE_BEARING)[1] + track
     run("UNDRY")
     width = x - track - (gs["Y"].width - 866)  # trim Y's right bearing so the artwork ends at the letter
     body = (f'<path fill="{letters}" d="{" ".join(parts)}"/>'

@@ -66,7 +66,7 @@ svg{{max-width:100%}} .card>svg{{align-self:flex-start}}
 def caption(v):
     """One line describing a direction's construction, for the comparison sheet."""
     if v.get("cut_size"):
-        return (f"square diamond at {v['cut_size']:.2f} of the largest that fits, cut out of a flat-topped hexagon; "
+        return (f"square diamond at {v['cut_size']:.2f} of the largest that fits, cut out of a {'point-up' if v.get('pointy') else 'flat-topped'} hexagon; "
                 f"right half shaded, navy at {v['shade']:.0%} over the ground")
     if v.get("white_diamond"):
         return (f"a solid white diamond with a {v['outline']:.2f}-stem navy border; a solid navy hexagon inscribed, its four "
