@@ -129,7 +129,7 @@ def preview(out, key):
     if vv.get("cut_size"):
         cut = True
         prim = "All navy; a square diamond cut out of the hexagon, its right half lightly shaded"
-        symcap = "Navy hexagon, square diamond cut out, right half shaded (navy at 14% over white) for depth"
+        symcap = f"Navy hexagon, square diamond cut out, right half shaded (navy at {vv['shade']:.0%} over white) for depth"
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>

@@ -75,6 +75,8 @@ VARIANTS = {
     # Scott, 2026-11-14, from the tuner: O with the diamond at 90.5%, so the hexagon is a thin frame (thinnest wall
     # 0.19 stem) and the diamond carries the letter. Favicons use a smaller diamond so the frame survives.
     "q": {"name": "Cut, shaded, large diamond", "cut_size": 0.905, "shade": 0.14},
+    # Scott, 2026-11-14, from the tuner: between O and Q. Diamond at 80% (thinnest wall 0.40 stem), shading 16%.
+    "r": {"name": "Cut, shaded, balanced", "cut_size": 0.80, "shade": 0.16},
     "p": {"name": "Cut, shaded, point up", "cut_size": 0.65, "shade": 0.14, "pointy": True, "overshoot": 0.06, "sb": (0.80, 1.00)},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
