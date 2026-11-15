@@ -189,6 +189,27 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
         </div>
       </div>
 
+      <div class="label">Light rays</div>
+      <div class="seg seg4" id="rays">
+        <button data-v="0">None</button>
+        <button data-v="4">4</button>
+        <button data-v="8">8</button>
+        <button data-v="16">16</button>
+      </div>
+      <p class="hint" id="raysHint"></p>
+      <div class="sub" id="raysCtl">
+        <div class="seg" id="raim">
+          <button data-v="sides">From the sides</button>
+          <button data-v="tips">From the tips</button>
+        </div>
+        <label class="label" for="rlen"><span>Ray length</span><output id="rlenOut"></output></label>
+        <input type="range" id="rlen" min="15" max="95" step="1">
+        <label class="label" for="rw"><span>Ray width at the diamond</span><output id="rwOut"></output></label>
+        <input type="range" id="rw" min="1" max="30" step="0.5">
+        <label class="label" for="rgap"><span>Gap from the diamond</span><output id="rgapOut"></output></label>
+        <input type="range" id="rgap" min="0" max="40" step="1">
+      </div>
+
       <div class="label">Glint</div>
       <div class="seg seg4" id="glint">
         <button data-v="none">None</button>
@@ -320,7 +341,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, split: "left", pyr: 0, lg: false, bvw: 22, io: 10, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, lg: false, bvw: 22, io: 10, rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -458,6 +479,29 @@ function markup(g, p, cx, cy, ink, bg) {
     }
     s += `<clipPath id="${id}"><path d="${dia}"/></clipPath><path clip-path="url(#${id})" fill="none" stroke="${ink}" stroke-opacity="${a}" stroke-width="${w.toFixed(1)}" stroke-linecap="round" d="${path}"/>`;
   }
+  if (p.rays > 0) {
+    // thin tapered rays of light leaving the diamond and crossing the hexagon, cut through to the ground
+    const hit = (poly_, ang) => {  // distance from the center to a convex polygon's edge along an angle
+      const ux = Math.cos(ang), uy = Math.sin(ang); let best = Infinity;
+      for (let i = 0; i < poly_.length; i++) {
+        const [ax, ay] = poly_[i], [bx, by] = poly_[(i + 1) % poly_.length];
+        const ex = bx - ax, ey = by - ay, den = ux * ey - uy * ex; if (Math.abs(den) < 1e-9) continue;
+        const tt = ((ax - cx) * ey - (ay - cy) * ex) / den, uu = ((ax - cx) * uy - (ay - cy) * ux) / den;
+        if (tt > 0 && uu >= -1e-9 && uu <= 1 + 1e-9) best = Math.min(best, tt);
+      }
+      return best;
+    };
+    const outer = g.outer.map(([x, y]) => [x + cx, y + cy]);
+    const base = p.raim === "tips" ? 0 : Math.PI / 4, w = D.stem * p.rw / 100;
+    let path = "";
+    for (let i = 0; i < p.rays; i++) {
+      const ang = base + i * 2 * Math.PI / p.rays, r0 = hit([T, R, B, L], ang), r1 = hit(outer, ang);
+      const wall = r1 - r0, a0 = r0 + wall * p.rgap / 100, a1 = a0 + (wall - wall * p.rgap / 100) * p.rlen / 100;
+      const ux = Math.cos(ang), uy = Math.sin(ang), px = -uy * w / 2, py = ux * w / 2;
+      path += poly([[cx + ux * a0 + px, cy + uy * a0 + py], [cx + ux * a1, cy + uy * a1], [cx + ux * a0 - px, cy + uy * a0 - py]]);
+    }
+    s += `<path fill="${bg}" d="${path}"/>`;
+  }
   if (p.glint !== "none") {
     const gr = d * p.gsize / 100, c = gr * p.gwaist / 100;
     let gx, gy;
@@ -536,7 +580,7 @@ function fitRatio() {
 }
 // The proposed design (direction S): every setting, so the button restores all of them.
 const PROPOSAL = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 0, scale: 100, space: 100,
-  sheen: "split", split: "left", lg: true, sa: 16, pyr: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };
+  sheen: "split", split: "left", lg: true, sa: 16, pyr: 0, rays: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };
 function applyProposal(redraw = true) { st = Object.assign(st, PROPOSAL, { preset: "proposal" }); if (redraw) render(); }
 const isProposal = () => Object.keys(PROPOSAL).every(k => st[k] === PROPOSAL[k] || (typeof PROPOSAL[k] === "number" && Math.abs(st[k] - PROPOSAL[k]) < 1e-6));
 function applyPreset(name, redraw = true) {
@@ -569,6 +613,10 @@ function render() {
   $("lg").parentElement.hidden = !lgOK; $("sa").disabled = st.lg && lgOK;
   $("pyr").value = st.pyr; $("pyrOut").textContent = st.pyr === 0 ? "centered" : (st.pyr < 0 ? "toward the light " : "away from the light ") + Math.abs(st.pyr) + "%"; $("bandCtl").hidden = st.sheen !== "band"; $("linesCtl").hidden = st.sheen !== "lines";
   $("glintCtl").hidden = st.glint === "none";
+  setSeg("rays", String(st.rays)); setSeg("raim", st.raim); $("raysCtl").hidden = !st.rays;
+  $("raysHint").textContent = st.rays ? "Thin rays of light leave the diamond and cross the hexagon. They fade out below about 40 px." : "";
+  $("rlen").value = st.rlen; $("rw").value = st.rw; $("rgap").value = st.rgap;
+  $("rlenOut").textContent = st.rlen + "% of the wall"; $("rwOut").textContent = (st.rw / 100).toFixed(3) + " of a stem"; $("rgapOut").textContent = st.rgap + "% of the wall";
   $("sheenHint").textContent = { none: "", gradient: "The diamond darkens slightly from its upper-left edge, so that edge reads as lit.",
     soft: "The split with each half graded: darkest along the ridge, lighter toward the edges, so the faces read as gently curved.",
     bevel: "A raised stone: a flat top with four sloped edges, the lower-right edges in shadow.",
@@ -617,6 +665,7 @@ function render() {
     `Space beside the O: ${st.space}%`,
     ...(st.mode === "dih" ? [
       `Sheen: ${st.sheen}${st.sheen === "none" ? "" : ", strength " + st.sa + "%"}${st.sheen === "split" ? ", " + st.split + (st.split === "pyramid" ? ", peak " + st.pyr + "%" : "") : ""}${st.sheen === "bevel" ? ", bevel " + st.bvw + "%" : ""}${st.sheen === "inset" ? ", shadow " + st.io + "%" : ""}${st.lg && ((st.sheen === "split" && st.split !== "pyramid") || st.sheen === "bevel" || st.sheen === "inset") ? ", in the lockup's grey" : ""}${st.sheen === "band" ? ", band at " + st.bpos + "%, " + st.bw + "% wide" : ""}${st.sheen === "lines" ? `, ${st.scount} lines, length ${st.slen}%, weight ${(st.sw / 100).toFixed(3)} of a stem` : ""}`,
+      `Light rays: ${st.rays ? st.rays + " from the " + st.raim + ", length " + st.rlen + "%, width " + (st.rw / 100).toFixed(3) + " of a stem, gap " + st.rgap + "%" : "none"}`,
       `Glint: ${st.glint}${st.glint === "none" ? "" : `, ${st.gat === "edge" ? "off the edge" : "on the " + st.gat + " tip"}, ${st.gsize}% of the diamond, thickness ${st.gwaist}%`}`,
     ] : []),
     `Thinnest wall: ${g.wall.toFixed(0)} units = ${(g.wall / D.stem).toFixed(2)} of a stem (${(g.wall / D.oTop).toFixed(2)} of the O's top)`,
@@ -632,8 +681,9 @@ function bindSeg(id, key) {
     if (key === "mode" || key === "orient") { if (st.mode === "hid" && Math.abs(st.ratio - 1) > 0.2) st.ratio = 1; }
     render(); });
 }
-bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split");
-for (const [id, key] of [["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("raim", "raim");
+$("rays").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; st.rays = +b.dataset.v; st.preset = null; render(); });
+for (const [id, key] of [["rlen","rlen"],["rw","rw"],["rgap","rgap"],["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
 $("lg").addEventListener("change", e => { st.lg = e.target.checked; st.preset = null; render(); });
 $("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
