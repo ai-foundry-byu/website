@@ -67,7 +67,7 @@ def caption(v):
     """One line describing a direction's construction, for the comparison sheet."""
     if v.get("cut_size"):
         return (f"square diamond at {v['cut_size']:.2f} of the largest that fits, cut out of a {'point-up' if v.get('pointy') else 'flat-topped'} hexagon; "
-                f"right half shaded, navy at {v['shade']:.0%} over the ground")
+                f"" + (f"right half in the lockup's grey" if v.get("shade_on_white") else f"right half shaded, navy at {v['shade']:.0%} over the ground"))
     if v.get("white_diamond"):
         return (f"a solid white diamond with a {v['outline']:.2f}-stem navy border; a solid navy hexagon inscribed, its four "
                 "upper and lower corners on the diamond's sides; on navy, the diamond is solid white")
@@ -128,13 +128,16 @@ def preview(out, key):
     symcap = ("Solid navy hexagon inscribed in a white diamond, hairline navy border" if vv.get("white_diamond") else "Solid navy hexagon, a white keyline, a royal diamond outline" if vv.get("keyline") else "Solid navy hexagon inside a royal diamond outline" if vv.get("solid_hex") else ("Navy diamond, hexagon cut out, weighted like the letters" if vv.get("hex_scale") else "Navy diamond, the largest hexagon cut out, touching its sides") if vv.get("inverted") else (("Navy hexagon, square diamond cut out, weighted like the letters" if vv.get("flat", 0) >= 0.5 else "Navy hexagon, square diamond cut out nearly to its edges") if bl.VARIANTS[key].get("square") else "Four navy triangles around a full-size diamond") if bl.VARIANTS[key].get("facets") else "Navy hexagon, diamond cut out") if cut else "Navy hexagon, royal diamond"
     if vv.get("cut_size"):
         cut = True
-        prim = "All navy; a square diamond cut out of the hexagon, its right half lightly shaded"
-        symcap = f"Navy hexagon, square diamond cut out, right half shaded (navy at {vv['shade']:.0%} over white) for depth"
+        prim = ("Navy and the lockup's grey only; a square diamond cut out of the hexagon, its right half grey" if vv.get("shade_on_white")
+                else "All navy; a square diamond cut out of the hexagon, its right half lightly shaded")
+        symcap = (f"Navy hexagon, square diamond cut out, right half in the lockup's grey ({vv['shade_on_white']}) for depth"
+                  if vv.get("shade_on_white") else
+                  f"Navy hexagon, square diamond cut out, right half shaded (navy at {vv['shade']:.0%} over white) for depth")
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
 <h2>Primary wordmark</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark.svg', height=96)}<div class="row">{inline(s / 'wordmark.svg', height=40)}{inline(s / 'wordmark.svg', height=20)}</div><div class="cap">{prim} · on white</div></div>
-<div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed{", white; the diamond's right half lightly shaded" if vv.get("shade") else ", all white"} · on navy</div></div></div>
+<div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed{", white; the diamond's left half in the lockup's light grey, so the light still comes from the left" if vv.get("shade_on_navy") else ", white; the diamond's right half lightly shaded" if vv.get("shade") else ", all white"} · on navy</div></div></div>
 <h2>Symbol</h2>
 <div class="grid g2"><div class="card"><div class="row">{inline(s / 'glyph.svg', height=200)}{inline(s / 'glyph.svg', height=64)}{inline(s / 'glyph.svg', height=32)}{inline(s / 'glyph.svg', height=20)}</div><div class="cap">{symcap}</div></div>
 <div class="card dark"><div class="row">{inline(s / 'glyph-white.svg', height=200)}{inline(s / 'glyph-white.svg', height=64)}{inline(s / 'glyph-white.svg', height=32)}{inline(s / 'glyph-white.svg', height=20)}</div><div class="cap">White</div></div></div>

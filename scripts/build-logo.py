@@ -77,6 +77,10 @@ VARIANTS = {
     "q": {"name": "Cut, shaded, large diamond", "cut_size": 0.905, "shade": 0.14},
     # Scott, 2026-11-14, from the tuner: between O and Q. Diamond at 80% (thinnest wall 0.40 stem), shading 16%.
     "r": {"name": "Cut, shaded, balanced", "cut_size": 0.80, "shade": 0.16},
+    # Scott, 2026-11-14: R in two colours only. The shaded half takes the grey of SCHOOL OF BUSINESS in the official
+    # lockup (sampled from public/brand: #7C878E at 51% on white shows as #BCC1C5; white at 67% on navy as #AAB9C9).
+    # On navy the light half is the grey, so the lit half moves to the left to keep the light coming from the left.
+    "s": {"name": "Cut, two colour", "cut_size": 0.80, "shade": 1, "shade_on_white": "#BCC1C5", "shade_on_navy": "#AAB9C9"},
     "p": {"name": "Cut, shaded, point up", "cut_size": 0.65, "shade": 0.14, "pointy": True, "overshoot": 0.06, "sb": (0.80, 1.00)},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
@@ -237,7 +241,8 @@ def symbol(cx, cy, H, m, v):
             outer = [(cx + R, cy), (cx + R / 2, cy + h), (cx - R / 2, cy + h), (cx - R, cy), (cx - R / 2, cy - h), (cx + R / 2, cy - h)]
             s = h * v["cut_size"]  # the largest square diamond in a flat-topped hexagon touches the flats: half-height h
         T, Rt, B, L = (cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)
-        shade = poly([T, Rt, B]) if v.get("shade") else ""  # the right half, under the cut-out
+        half = [B, L, T] if v.get("shade_side") == "left" else [T, Rt, B]
+        shade = poly(half) if v.get("shade") else ""  # one half, under the cut-out
         return poly(outer) + " " + poly([T, Rt, B, L][::-1]), shade
     if v.get("pointy"):
         Rp = H / 2 * (1 + 2 * v["overshoot"])  # points at top and bottom, overshooting the cap height and baseline
@@ -404,7 +409,10 @@ def build(font_path, key, out):
     vr = dict(v, solid_dia=True) if wd else v  # the version drawn on navy
     flat1 = dict(v, shade=0) if v.get("shade") else v  # single-colour files: no shading
     if v.get("shade"):
-        on_white, on_navy = mix(NAVY, WHITE, v["shade"]), mix(WHITE, NAVY, v["shade"])
+        on_white = v.get("shade_on_white") or mix(NAVY, WHITE, v["shade"])
+        on_navy = v.get("shade_on_navy") or mix(WHITE, NAVY, v["shade"])
+        if v.get("shade_on_navy"):  # a light grey on navy is the lit half: put it on the left
+            vr = dict(v, shade_side="left")
     for name, (letters, hexc, diac, bg) in {
         "wordmark": (NAVY, NAVY, on_white if v.get("shade") else NAVY if wd else ROYAL, None),  # primary: navy, diamond in royal (K: all navy)
         "wordmark-navy": (NAVY, NAVY, NAVY, None),        # single colour
@@ -425,7 +433,7 @@ def build(font_path, key, out):
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
     if v.get("cut_size"):
         # favicons cap the diamond so the hexagon's frame stays visible in a browser tab; 16 px also drops the shading
-        compact = dict(v, cut_size=min(v["cut_size"], 0.80))
+        compact = dict(vr, cut_size=min(v["cut_size"], 0.80))  # drawn white on the navy tile
         compact16 = dict(flat1, cut_size=min(v["cut_size"], 0.70))
     elif v.get("cut"):
         compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)

@@ -50,6 +50,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | I | Inverted, solid hexagon | a diamond outline (0.40 stem, royal in the primary) with white inside | the largest solid navy hexagon, its four upper and lower corners touching the outline's inner edge | n/a |
 | J | Inverted, keyline | a diamond outline (0.40 stem, royal in the primary) with white inside | a solid navy hexagon with a white keyline (0.20 stem): the hexagon plus its keyline touches the outline at four corners | n/a |
 | K | Inscribed | a solid white diamond with a hairline navy border (0.09 stem, about 1.5 pt at a 100 pt wordmark); on navy the diamond is solid white | a solid navy hexagon inscribed, its four upper and lower corners on the diamond's sides; only the diamond's four corners show | n/a |
+| S | Cut, two colour | solid, flat top | as R; the shaded half in the lockup's grey | n/a |
 | R | Cut, shaded, balanced | solid, flat top | a square diamond at 0.80 of the largest that fits, right half shaded 16% | n/a |
 | Q | Cut, shaded, large diamond | solid, flat top | a square diamond at 0.905 of the largest that fits, right half shaded 14% | n/a |
 | P | Cut, shaded, point up | solid, point up, points overshoot 6% | as O | n/a |
@@ -57,7 +58,7 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | L | Facets, balanced | solid, as F, with the band at 0.50 of the O's top so the O reads as a letter of the font (Scott, 2026-11-14, chosen by eye from 0.75 / 0.60 / 0.50 / 0.40) | a square diamond cut out, as F | n/a |
 | M | Inverted, balanced | none: a square diamond is the O, as H | the hexagon cut out at 0.75 of the largest that fits, so the navy forms one ring and the O carries the letters' weight (chosen by eye from 1.00 / 0.85 / 0.75 / 0.65) | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently R). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently S). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -76,7 +77,15 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/lockup.svg`, `svg/lockup-white.svg` | Mockups of the BYU Marriott lockup for review only; never ship them |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
-## Notes on R (chosen, 2026-11-14)
+## Notes on S (chosen, 2026-11-14)
+
+R in two colours only (Scott: "the same shade as the gray for Marriott School of Business so I am only using two
+colors, not three"). The grey is sampled from the official lockup files in public/brand: SCHOOL OF BUSINESS is #7C878E
+at 51% opacity on the navy lockup (shows as #BCC1C5 on white) and white at 67% on the white lockup (shows as #AAB9C9 on
+navy). The diamond's right half takes #BCC1C5 on white; on navy the grey is the lighter half, so it sits on the left
+(#AAB9C9) to keep the light coming from the left. Confirm the grey's official value with BYU Marriott Marketing.
+
+## Notes on R
 
 Scott, from the tuner: between O (65%) and Q (90.5%). Diamond at 80% of the largest that fits, thinnest wall 69 units
 (0.40 of a stem, 0.51 of the O's top), right half shaded at 16% (#D6DEE5 on white). Favicons keep 0.80; 16 px uses
