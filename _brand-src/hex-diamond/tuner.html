@@ -41,8 +41,6 @@ header p { margin: 0; color: var(--muted) }
 .label output { font: 500 12px var(--mono); letter-spacing: 0; text-transform: none; color: var(--fg); font-variant-numeric: tabular-nums }
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden }
 .seg button { font: 500 13px var(--body); padding: 8px 6px; border: 0; background: transparent; color: var(--fg); cursor: pointer }
-.seg4 { grid-template-columns: repeat(4, 1fr) }
-.seg4 button { font-size: 12px; padding-inline: 2px }
 .sub { display: flex; flex-direction: column; gap: 8px; padding: 10px 0 0 10px; border-left: 2px solid var(--line) }
 .sub .seg button { font-size: 12px }
 .seg button + button { border-left: 1px solid var(--line) }
@@ -126,9 +124,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 
     <div class="group" id="detailGroup">
       <div class="label">Diamond detail</div>
-      <div class="seg seg4" id="detail">
-        <button data-v="honeycomb">Honeycomb</button>
-        <button data-v="facets">Facets</button>
+      <div class="seg" id="detail">
         <button data-v="sheen">Sheen</button>
         <button data-v="glint">Glint</button>
       </div>
@@ -136,24 +132,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
       <label class="label" for="alpha"><span>Detail strength</span><output id="alphaOut"></output></label>
       <input type="range" id="alpha" min="3" max="100" step="1">
       <p class="hint">Fades every detail toward the background. Low values give a tone-on-tone texture you notice up close.</p>
-      <div class="sub" id="combCtl">
-        <label class="label" for="cell"><span>Cell size</span><output id="cellOut"></output></label>
-        <input type="range" id="cell" min="6" max="40" step="0.5">
-        <label class="label" for="cw"><span>Cell line weight</span><output id="cwOut"></output></label>
-        <input type="range" id="cw" min="0.5" max="25" step="0.5">
-        <label class="label" for="rim"><span>Solid rim</span><output id="rimOut"></output></label>
-        <input type="range" id="rim" min="0" max="80" step="1">
-      </div>
-      <div class="sub" id="facetCtl">
-        <div class="seg" id="fstyle">
-          <button data-v="table">Table cut</button>
-          <button data-v="cross">Cross cut</button>
-        </div>
-        <label class="label" for="table" id="tableLbl"><span>Table size</span><output id="tableOut"></output></label>
-        <input type="range" id="table" min="20" max="80" step="1">
-        <label class="label" for="fw"><span>Facet line weight</span><output id="fwOut"></output></label>
-        <input type="range" id="fw" min="0.5" max="25" step="0.5">
-      </div>
       <div class="sub" id="sheenCtl">
         <label class="label" for="scount"><span>Sheen lines</span><output id="scountOut"></output></label>
         <input type="range" id="scount" min="1" max="8" step="1">
@@ -256,14 +234,14 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  detail: "", alpha: 18, cell: 24, cw: 3, rim: 35, scount: 2, slen: 55, sgap: 12, sw: 3, staper: true, fstyle: "table", table: 50, fw: 3, gplace: "hex", gsize: 16, gwaist: 10 };
+  detail: "sheen,glint", alpha: 30, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true, gplace: "hex", gsize: 14, gwaist: 10 };
 
 function load() {
-  try { const s = JSON.parse(localStorage.getItem("mark-tuner") || "null"); if (s) { if (s.alpha == null) for (const k of ["cw", "sw", "fw", "gsize", "gwaist"]) delete s[k]; st = Object.assign(st, s); } else applyPreset("L", false); }
+  try { const s = JSON.parse(localStorage.getItem("mark-tuner") || "null"); if (s) { if (!s.v4) for (const k of ["detail", "alpha", "sw", "gsize", "gwaist"]) delete s[k]; st = Object.assign(st, s); } else applyPreset("L", false); }
   catch (e) { applyPreset("L", false); }
 }
 function fixOld() {
-  if (st.detail === "none") st.detail = ""; if (st.detail === "both") st.detail = "facets,glint"; }
+  st.detail = (st.detail || "").split(",").filter(k => k === "sheen" || k === "glint").join(","); st.v4 = true; }
 function save() { try { localStorage.setItem("mark-tuner", JSON.stringify(st)); } catch (e) {} }
 
 /* ---------- geometry (font units, y down, centered on 0,0) ---------- */
@@ -318,28 +296,8 @@ function markup(g, p, cx, cy, ink, bg) {
   let s = `<path fill="${ink}" fill-rule="evenodd" d="${symPath(g, cx, cy)}"/>`;
   const on = k => (p.detail || "").split(",").includes(k);
   if (p.mode !== "dih" || !p.detail) return s;
-  if (on("honeycomb")) {
-    // thin cells cut through the hexagon in the ground color, inside a solid rim; aligned to the hexagon and its center
-    const flat = p.orient === "flat", c = Math.max(g.W, g.Hs) / 2 * p.cell / 100;
-    const rim = D.stem * p.rim / 100;
-    const sc = 1 - rim / (Math.min(g.W, g.Hs) / 2);
-    const id = "h" + Math.random().toString(36).slice(2, 8);
-    s += `<clipPath id="${id}"><path d="${poly(g.outer.map(([x, y]) => [cx + x * sc, cy + y * sc]))}"/></clipPath>`;
-    const unit = flat ? [[1,0],[.5,S3/2],[-.5,S3/2],[-1,0],[-.5,-S3/2],[.5,-S3/2]] : [[0,-1],[S3/2,-.5],[S3/2,.5],[0,1],[-S3/2,.5],[-S3/2,-.5]];
-    const n = Math.ceil(Math.max(g.W, g.Hs) / c) + 2;
-    let path = "";
-    for (let i = -n; i <= n; i++) for (let j = -n; j <= n; j++) {
-      let x, y;
-      if (flat) { x = 1.5 * c * i; y = S3 * c * (j + (Math.abs(i) % 2) / 2); }
-      else { y = 1.5 * c * i; x = S3 * c * (j + (Math.abs(i) % 2) / 2); }
-      if (Math.abs(x) > g.W || Math.abs(y) > g.Hs) continue;
-      path += poly(unit.map(([ux, uy]) => [cx + x + ux * c, cy + y + uy * c]));
-    }
-    s += `<path clip-path="url(#${id})" fill="none" stroke="${bg}" stroke-opacity="${p.alpha / 100}" stroke-width="${(D.stem * p.cw / 100).toFixed(1)}" d="${path}"/>`;
-  }
   const [T, R, B, L] = g.inner.map(([x, y]) => [x + cx, y + cy]);
   const d = (B[1] - T[1]) / 2, dk = (R[0] - L[0]) / 2;
-  const sw = D.stem * p.fw / 100;
   const clip = () => { const id = "c" + Math.random().toString(36).slice(2, 8); s += `<clipPath id="${id}"><path d="${poly([T, R, B, L])}"/></clipPath>`; return id; };
   if (on("sheen")) {
     // short strokes parallel to the upper-left edge, stepping in toward the center: light catching a facet
@@ -354,25 +312,13 @@ function markup(g, p, cx, cy, ink, bg) {
     }
     s += `<path clip-path="url(#${clip()})" fill="none" stroke="${ink}" stroke-opacity="${p.alpha / 100}" stroke-width="${w.toFixed(1)}" stroke-linecap="butt" d="${path}"/>`;
   }
-  if (on("facets")) {
-    let lines;
-    if (p.fstyle === "table") {
-      const f = p.table / 100;
-      const tb = [T, R, B, L].map(([x, y]) => [cx + (x - cx) * f, cy + (y - cy) * f]);
-      lines = poly(tb) + [T, R, B, L].map((q, i) => `M${q[0].toFixed(1)},${q[1].toFixed(1)}L${tb[i][0].toFixed(1)},${tb[i][1].toFixed(1)}`).join("");
-    } else {
-      lines = `M${T[0]},${T[1]}L${B[0]},${B[1]}M${L[0]},${L[1]}L${R[0]},${R[1]}`;
-    }
-    // clip to the diamond so the lines never thicken the hexagon's wall
-    s += `<path clip-path="url(#${clip()})" fill="none" stroke="${ink}" stroke-opacity="${p.alpha / 100}" stroke-width="${sw.toFixed(1)}" stroke-linejoin="miter" d="${lines}"/>`;
-  }
   if (on("glint")) {
     const gr = d * p.gsize / 100, c = gr * p.gwaist / 100;
     let gx, gy, col;
     if (p.gplace === "hex") {
       // just outside the diamond's upper-right edge, cut through the hexagon to the ground
       const nx = 1 / dk, ny = -1 / d, n = Math.hypot(nx, ny);
-      const off = gr * 0.55 + sw;
+      const off = gr * 0.55 + D.stem * 0.04;
       gx = cx + dk / 2 + nx / n * off; gy = cy - d / 2 + ny / n * off; col = bg;
     } else {
       gx = cx - dk * 0.28; gy = cy - d * 0.28; col = ink;
@@ -441,23 +387,16 @@ function render() {
   for (const b of $("presets").querySelectorAll("button")) b.style.outline = st.preset === b.dataset.p ? "2px solid var(--accent)" : "";
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
   for (const b of $("detail").querySelectorAll("button")) b.setAttribute("aria-pressed", String((st.detail || "").split(",").includes(b.dataset.v)));
-  setSeg("fstyle", st.fstyle); setSeg("gplace", st.gplace);
+  setSeg("gplace", st.gplace);
   $("detailGroup").hidden = st.mode !== "dih";
   const on = k => (st.detail || "").split(",").includes(k);
   $("alpha").value = st.alpha; $("alphaOut").textContent = st.alpha + "%";
   $("alpha").hidden = $("alpha").previousElementSibling.hidden = !st.detail;
-  $("combCtl").hidden = !on("honeycomb");
-  $("cell").value = st.cell; $("cw").value = st.cw; $("rim").value = st.rim;
-  $("cellOut").textContent = st.cell + "% of the hexagon"; $("cwOut").textContent = (st.cw / 100).toFixed(3) + " of a stem";
-  $("rimOut").textContent = (st.rim / 100).toFixed(2) + " of a stem";
-  $("facetCtl").hidden = !on("facets"); $("sheenCtl").hidden = !on("sheen"); $("glintCtl").hidden = !on("glint");
+$("sheenCtl").hidden = !on("sheen"); $("glintCtl").hidden = !on("glint");
   $("scount").value = st.scount; $("slen").value = st.slen; $("sgap").value = st.sgap; $("sw").value = st.sw; $("staper").checked = st.staper;
   $("scountOut").textContent = st.scount; $("slenOut").textContent = st.slen + "% of the edge";
   $("sgapOut").textContent = st.sgap + "% of the diamond"; $("swOut").textContent = (st.sw / 100).toFixed(3) + " of a stem";
-  $("table").value = st.table; $("fw").value = st.fw; $("gsize").value = st.gsize; $("gwaist").value = st.gwaist;
-  $("table").hidden = $("tableLbl").hidden = st.fstyle !== "table";
-  $("tableOut").textContent = st.table + "% of the diamond";
-  $("fwOut").textContent = (st.fw / 100).toFixed(3) + " of a stem";
+  $("gsize").value = st.gsize; $("gwaist").value = st.gwaist;
   $("gsizeOut").textContent = st.gsize + "% of the diamond";
   $("gwaistOut").textContent = st.gwaist + "%";
   $("guides").checked = st.guides; $("compare").checked = st.compare;
@@ -492,9 +431,7 @@ function render() {
     `Space beside the O: ${st.space}%`,
     ...(st.mode === "dih" && st.detail ? [
       `Diamond detail: ${st.detail.split(",").join(" + ")}, strength ${st.alpha}%`,
-      ...(on("honeycomb") ? [`Honeycomb: cells ${st.cell}% of the hexagon, line ${(st.cw / 100).toFixed(3)} of a stem, rim ${(st.rim / 100).toFixed(2)} of a stem`] : []),
       ...(on("sheen") ? [`Sheen: ${st.scount} lines, length ${st.slen}% of the edge${st.staper ? ", tapering" : ""}, spacing ${st.sgap}%, line ${(st.sw / 100).toFixed(3)} of a stem`] : []),
-      ...(on("facets") ? [`Facets: ${st.fstyle === "table" ? "table cut, table " + st.table + "%" : "cross cut"}, line ${(st.fw / 100).toFixed(3)} of a stem`] : []),
       ...(on("glint") ? [`Glint: ${st.gplace === "hex" ? "light, on the hexagon" : "dark, in the diamond"}, ${st.gsize}% of the diamond, thickness ${st.gwaist}%`] : []),
     ] : []),
     `Thinnest wall: ${g.wall.toFixed(0)} units = ${(g.wall / D.stem).toFixed(2)} of a stem (${(g.wall / D.oTop).toFixed(2)} of the O's top)`,
@@ -512,9 +449,9 @@ function bindSeg(id, key) {
 }
 bindSeg("mode", "mode"); bindSeg("orient", "orient"); $("detail").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
   const set = new Set((st.detail || "").split(",").filter(Boolean)); set.has(b.dataset.v) ? set.delete(b.dataset.v) : set.add(b.dataset.v);
-  st.detail = ["honeycomb", "facets", "sheen", "glint"].filter(k => set.has(k)).join(","); st.preset = null; render(); });
-bindSeg("fstyle", "fstyle"); bindSeg("gplace", "gplace");
-for (const [id, key] of [["alpha","alpha"],["cell","cell"],["cw","cw"],["rim","rim"],["scount","scount"],["slen","slen"],["sgap","sgap"],["sw","sw"],["table","table"],["fw","fw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+  st.detail = ["sheen", "glint"].filter(k => set.has(k)).join(","); st.preset = null; render(); });
+bindSeg("gplace", "gplace");
+for (const [id, key] of [["alpha","alpha"],["scount","scount"],["slen","slen"],["sgap","sgap"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
 $("staper").addEventListener("change", e => { st.staper = e.target.checked; render(); });
 $("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
