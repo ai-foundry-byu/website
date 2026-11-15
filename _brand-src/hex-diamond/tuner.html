@@ -43,7 +43,8 @@ header p { margin: 0; color: var(--muted) }
 .seg button { font: 500 13px var(--body); padding: 8px 6px; border: 0; background: transparent; color: var(--fg); cursor: pointer }
 .sub { display: flex; flex-direction: column; gap: 8px; padding: 10px 0 0 10px; border-left: 2px solid var(--line) }
 .sub .seg button { font-size: 12px }
-.seg4 { grid-template-columns: repeat(4, 1fr) } .seg5 { grid-template-columns: repeat(5, 1fr) }
+.seg4 { grid-template-columns: repeat(4, 1fr) }
+.seg.wrap button:nth-child(4n+1) { border-left: 0 } .seg.wrap button:nth-child(n+5) { border-top: 1px solid var(--line) } .seg5 { grid-template-columns: repeat(5, 1fr) }
 .seg4 button, .seg5 button { font-size: 12px; padding-inline: 2px }
 .sub0 { display: flex; flex-direction: column; gap: 8px }
 .seg button + button { border-left: 1px solid var(--line) }
@@ -139,17 +140,29 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 
     <div class="group" id="detailGroup">
       <div class="label">Sheen</div>
-      <div class="seg seg5" id="sheen">
+      <div class="seg seg4 wrap" id="sheen">
         <button data-v="none">None</button>
+        <button data-v="split">Split</button>
+        <button data-v="soft">Soft split</button>
+        <button data-v="bevel">Bevel</button>
+        <button data-v="inset">Inset</button>
         <button data-v="gradient">Gradient</button>
         <button data-v="band">Band</button>
-        <button data-v="split">Split</button>
         <button data-v="lines">Lines</button>
       </div>
       <p class="hint" id="sheenHint"></p>
       <div class="sub" id="sheenCtl">
         <label class="label" for="sa"><span>Sheen strength</span><output id="saOut"></output></label>
         <input type="range" id="sa" min="2" max="40" step="1">
+        <label class="check"><input type="checkbox" id="lg"> Use the lockup's grey (two colours only)</label>
+        <div id="bevelCtl" class="sub0">
+          <label class="label" for="bvw"><span>Bevel width</span><output id="bvwOut"></output></label>
+          <input type="range" id="bvw" min="6" max="45" step="1">
+        </div>
+        <div id="insetCtl" class="sub0">
+          <label class="label" for="io"><span>Shadow depth</span><output id="ioOut"></output></label>
+          <input type="range" id="io" min="2" max="30" step="0.5">
+        </div>
         <div id="splitCtl" class="sub0">
           <div class="seg seg4" id="split">
             <button data-v="left">Left lit</button>
@@ -157,7 +170,6 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
             <button data-v="top">Top lit</button>
             <button data-v="pyramid">Pyramid</button>
           </div>
-          <label class="check"><input type="checkbox" id="lg"> Use the lockup's grey (two colours only)</label>
           <label class="label" for="pyr" id="pyrLbl"><span>Peak position</span><output id="pyrOut"></output></label>
           <input type="range" id="pyr" min="-40" max="40" step="1">
         </div>
@@ -308,7 +320,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, split: "left", pyr: 0, lg: false, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, lg: false, bvw: 22, io: 10, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -395,6 +407,31 @@ function markup(g, p, cx, cy, ink, bg) {
     const q = (o, sgn) => [mx + nx * o + ux * k * sgn, my + ny * o + uy * k * sgn];
     s += `<clipPath id="${id}"><path d="${dia}"/></clipPath><path fill="${ink}" fill-opacity="${a}" d="${dia}"/>` +
          `<path clip-path="url(#${id})" fill="${bg}" d="${poly([q(o1, -1), q(o1, 1), q(o2, 1), q(o2, -1)])}"/>`;
+  } else if (p.sheen === "soft") {
+    // the split, softened: each half graded across its width, darkest along the ridge, so the faces read as curved
+    const g1 = uid(), g2 = uid();
+    s += `<linearGradient id="${g1}" gradientUnits="userSpaceOnUse" x1="${L[0]}" y1="0" x2="${cx}" y2="0"><stop offset="0" stop-color="${ink}" stop-opacity="0"/><stop offset="1" stop-color="${ink}" stop-opacity="${(a * 0.35).toFixed(3)}"/></linearGradient>` +
+         `<linearGradient id="${g2}" gradientUnits="userSpaceOnUse" x1="${cx}" y1="0" x2="${R[0]}" y2="0"><stop offset="0" stop-color="${ink}" stop-opacity="${a.toFixed(3)}"/><stop offset="1" stop-color="${ink}" stop-opacity="${(a * 0.45).toFixed(3)}"/></linearGradient>` +
+         `<path fill="url(#${g1})" d="${poly([B, L, T])}"/><path fill="url(#${g2})" d="${poly([T, R, B])}"/>`;
+  } else if (p.sheen === "bevel" || p.sheen === "inset") {
+    const dark = ink !== NAVY && ink !== "#000000", grey = dark ? "#AAB9C9" : "#BCC1C5";
+    // faces as [polygon, darkness 0..1]; with the lockup grey, light grounds grey the dark faces, dark grounds the lit ones
+    const paint = faces => faces.map(([pts, k]) => p.lg
+      ? ((dark ? k === 0 : k >= 0.45) ? `<path fill="${grey}" d="${poly(pts)}"/>` : "")
+      : (k > 0 ? `<path fill="${ink}" fill-opacity="${(a * k).toFixed(3)}" d="${poly(pts)}"/>` : "")).join("");
+    if (p.sheen === "bevel") {
+      // a raised stone: a flat table with four sloped edges, lit from the upper left
+      const f = 1 - p.bvw / 100, sc = ([x, y]) => [cx + (x - cx) * f, cy + (y - cy) * f];
+      const [t2, r2, b2, l2] = [T, R, B, L].map(sc);
+      s += paint([[[L, T, t2, l2], 0], [[T, R, r2, t2], 0.5], [[R, B, b2, r2], 1], [[B, L, l2, b2], 0.5], [[t2, r2, b2, l2], 0.12]]);
+    } else {
+      // set into the hexagon: the hexagon's edge casts a shadow along the diamond's upper-left sides
+      // light falls from above and a little left; on a dark ground the lit lip along the lower sides shows instead
+      const o = d * p.io / 100, sg = dark ? -1 : 1, sh = ([x, y]) => [x + sg * o * 0.35, y + sg * o], D2 = [T, R, B, L].map(sh), id = uid();
+      s += `<clipPath id="${id}"><path d="${dia}"/></clipPath>` +
+           (p.lg ? `<path fill="${grey}" d="${dia}"/>` : `<path fill="${ink}" fill-opacity="${a.toFixed(3)}" d="${dia}"/>`) +
+           `<path clip-path="url(#${id})" fill="${bg}" d="${poly(D2)}"/>`;
+    }
   } else if (p.sheen === "split") {
     // depth from shading alone, no drawn lines: a ridge (two faces) or a pyramid (four faces), lit from the upper left
     const C = [cx + dk * p.pyr / 100, cy + d * p.pyr / 100];  // the peak, moved along the light's diagonal
@@ -524,12 +561,18 @@ function render() {
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
   setSeg("sheen", st.sheen); setSeg("glint", st.glint); setSeg("gat", st.gat);
   $("detailGroup").hidden = st.mode !== "dih";
-  $("sheenCtl").hidden = st.sheen === "none"; $("splitCtl").hidden = st.sheen !== "split"; setSeg("split", st.split);
+  $("sheenCtl").hidden = st.sheen === "none"; $("splitCtl").hidden = st.sheen !== "split";
+  $("bevelCtl").hidden = st.sheen !== "bevel"; $("insetCtl").hidden = st.sheen !== "inset";
+  $("bvw").value = st.bvw; $("bvwOut").textContent = st.bvw + "% of the diamond"; $("io").value = st.io; $("ioOut").textContent = st.io + "% of the diamond"; setSeg("split", st.split);
   $("pyr").hidden = $("pyrLbl").hidden = !(st.sheen === "split" && st.split === "pyramid");
-  $("lg").checked = st.lg; $("lg").parentElement.hidden = st.split === "pyramid"; $("sa").disabled = st.lg && st.sheen === "split" && st.split !== "pyramid";
+  $("lg").checked = st.lg; const lgOK = (st.sheen === "split" && st.split !== "pyramid") || st.sheen === "bevel" || st.sheen === "inset";
+  $("lg").parentElement.hidden = !lgOK; $("sa").disabled = st.lg && lgOK;
   $("pyr").value = st.pyr; $("pyrOut").textContent = st.pyr === 0 ? "centered" : (st.pyr < 0 ? "toward the light " : "away from the light ") + Math.abs(st.pyr) + "%"; $("bandCtl").hidden = st.sheen !== "band"; $("linesCtl").hidden = st.sheen !== "lines";
   $("glintCtl").hidden = st.glint === "none";
   $("sheenHint").textContent = { none: "", gradient: "The diamond darkens slightly from its upper-left edge, so that edge reads as lit.",
+    soft: "The split with each half graded: darkest along the ridge, lighter toward the edges, so the faces read as gently curved.",
+    bevel: "A raised stone: a flat top with four sloped edges, the lower-right edges in shadow.",
+    inset: "The diamond set into the hexagon: the hexagon's edge casts a thin shadow along the diamond's upper-left sides.",
     band: "A faint tint with one clean diagonal stripe of light across it, like a reflection on glass.",
     split: "Depth from shading alone: two faces like a ridge, or four faces like a pyramid lit from the upper left.",
     lines: "Short strokes along the upper-left edge." }[st.sheen];
@@ -573,7 +616,7 @@ function render() {
     `Symbol height: ${st.scale.toFixed(1)}% of cap`,
     `Space beside the O: ${st.space}%`,
     ...(st.mode === "dih" ? [
-      `Sheen: ${st.sheen}${st.sheen === "none" ? "" : ", strength " + st.sa + "%"}${st.sheen === "split" ? ", " + st.split + (st.split === "pyramid" ? ", peak " + st.pyr + "%" : "") + (st.lg && st.split !== "pyramid" ? ", in the lockup's grey" : "") : ""}${st.sheen === "band" ? ", band at " + st.bpos + "%, " + st.bw + "% wide" : ""}${st.sheen === "lines" ? `, ${st.scount} lines, length ${st.slen}%, weight ${(st.sw / 100).toFixed(3)} of a stem` : ""}`,
+      `Sheen: ${st.sheen}${st.sheen === "none" ? "" : ", strength " + st.sa + "%"}${st.sheen === "split" ? ", " + st.split + (st.split === "pyramid" ? ", peak " + st.pyr + "%" : "") : ""}${st.sheen === "bevel" ? ", bevel " + st.bvw + "%" : ""}${st.sheen === "inset" ? ", shadow " + st.io + "%" : ""}${st.lg && ((st.sheen === "split" && st.split !== "pyramid") || st.sheen === "bevel" || st.sheen === "inset") ? ", in the lockup's grey" : ""}${st.sheen === "band" ? ", band at " + st.bpos + "%, " + st.bw + "% wide" : ""}${st.sheen === "lines" ? `, ${st.scount} lines, length ${st.slen}%, weight ${(st.sw / 100).toFixed(3)} of a stem` : ""}`,
       `Glint: ${st.glint}${st.glint === "none" ? "" : `, ${st.gat === "edge" ? "off the edge" : "on the " + st.gat + " tip"}, ${st.gsize}% of the diamond, thickness ${st.gwaist}%`}`,
     ] : []),
     `Thinnest wall: ${g.wall.toFixed(0)} units = ${(g.wall / D.stem).toFixed(2)} of a stem (${(g.wall / D.oTop).toFixed(2)} of the O's top)`,
@@ -590,7 +633,7 @@ function bindSeg(id, key) {
     render(); });
 }
 bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split");
-for (const [id, key] of [["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+for (const [id, key] of [["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
 $("lg").addEventListener("change", e => { st.lg = e.target.checked; st.preset = null; render(); });
 $("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
