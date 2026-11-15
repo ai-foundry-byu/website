@@ -1,0 +1,371 @@
+<title>Foundry Mark Tuner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a sticky control column on the left, live proofs on the right; stacks to one column on a phone. */
+:root {
+  --navy: #002E5D;          /* the mark's own color, fixed in both themes */
+  --royal: #003DA5;
+  --bg: #F5F7FA;
+  --panel: #FFFFFF;
+  --fg: #0E2238;
+  --muted: #5B6B7C;
+  --line: #D8DFE7;
+  --accent: #003DA5;
+  --accent-fg: #FFFFFF;
+  --chip: #E9EEF4;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0B1622; --panel: #112233; --fg: #E6EDF5; --muted: #93A4B6; --line: #23384D;
+  --accent: #7FA8E8; --accent-fg: #0B1622; --chip: #1A2E43; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0B1622; --panel: #112233; --fg: #E6EDF5; --muted: #93A4B6; --line: #23384D;
+  --accent: #7FA8E8; --accent-fg: #0B1622; --chip: #1A2E43; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px }
+.wrap { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: start }
+header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px }
+h1 { font: 700 26px/1.1 var(--display); font-stretch: 125%; text-transform: uppercase; letter-spacing: -0.01em; margin: 0; text-wrap: balance }
+header p { margin: 0; color: var(--muted) }
+
+.controls { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 18px }
+.group { display: flex; flex-direction: column; gap: 8px }
+.label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px }
+.label output { font: 500 12px var(--mono); letter-spacing: 0; text-transform: none; color: var(--fg); font-variant-numeric: tabular-nums }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden }
+.seg button { font: 500 13px var(--body); padding: 8px 6px; border: 0; background: transparent; color: var(--fg); cursor: pointer }
+.seg button + button { border-left: 1px solid var(--line) }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg) }
+.seg button:focus-visible, .presets button:focus-visible, .btn:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
+.ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted) }
+.ticks button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px }
+.presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px }
+.presets button { font: 600 13px var(--body); padding: 7px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--chip); color: var(--fg); cursor: pointer }
+.presets button small { display: block; font-weight: 400; font-size: 10.5px; color: var(--muted) }
+.check { display: flex; gap: 8px; align-items: center; font-size: 13px; cursor: pointer }
+.check input { accent-color: var(--accent); margin: 0 }
+.readout { font: 12px/1.55 var(--mono); background: var(--chip); border-radius: 6px; padding: 10px 12px; white-space: pre-wrap; word-break: break-word; font-variant-numeric: tabular-nums }
+.btn { font: 600 13px var(--body); padding: 9px 12px; border-radius: 6px; border: 0; background: var(--accent); color: var(--accent-fg); cursor: pointer }
+.btn:active { transform: translateY(1px) }
+.hint { font-size: 12px; color: var(--muted); margin: 0 }
+
+.proofs { display: flex; flex-direction: column; gap: 16px; min-width: 0 }
+.card { border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.card.white { background: #FFFFFF; border: 1px solid var(--line) }
+.card.navy { background: var(--navy) }
+.card .cap { font-size: 12px; color: #5B6B7C; margin: 0 }
+.card.navy .cap { color: #B9C7D6 }
+.card svg { display: block; max-width: 100% }
+.row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px 28px }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+.sizes { display: flex; flex-direction: column; gap: 14px }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr) }
+  .controls { position: static }
+  .pair { grid-template-columns: 1fr }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Foundry Mark Tuner</h1>
+    <p>Adjust the O of AI FOUNDRY. Every proof redraws as you move a control.</p>
+  </header>
+
+  <aside class="controls" aria-label="Controls">
+    <div class="group">
+      <div class="label">Start from</div>
+      <div class="presets" id="presets">
+        <button data-p="L">L<small>flat, cut</small></button>
+        <button data-p="N">N<small>point up</small></button>
+        <button data-p="M">M<small>hex inside</small></button>
+        <button data-p="H">H<small>largest hex</small></button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Construction</div>
+      <div class="seg" id="mode">
+        <button data-v="dih">Diamond in hexagon</button>
+        <button data-v="hid">Hexagon in diamond</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Hexagon</div>
+      <div class="seg" id="orient">
+        <button data-v="flat">Flat top</button>
+        <button data-v="pointy">Point up</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <label class="label" for="size"><span id="sizeLabel">Diamond size</span><output id="sizeOut"></output></label>
+      <input type="range" id="size" min="30" max="100" step="0.5">
+      <div class="ticks"><span>smaller</span><span>touching</span></div>
+    </div>
+
+    <div class="group">
+      <label class="label" for="ratio"><span>Diamond width ÷ height</span><output id="ratioOut"></output></label>
+      <input type="range" id="ratio" min="0.75" max="1.30" step="0.005">
+      <div class="ticks"><button type="button" id="square">Square (1.00)</button><button type="button" id="fit">Reach every corner</button></div>
+    </div>
+
+    <div class="group">
+      <label class="label" for="os"><span>Point overshoot</span><output id="osOut"></output></label>
+      <input type="range" id="os" min="0" max="6" step="0.25">
+      <p class="hint">How far a point pokes past the cap height and baseline. Round letters overshoot about 2 to 3%.</p>
+    </div>
+
+    <div class="group">
+      <label class="label" for="scale"><span>Symbol height</span><output id="scaleOut"></output></label>
+      <input type="range" id="scale" min="85" max="115" step="0.5">
+    </div>
+
+    <div class="group">
+      <label class="label" for="space"><span>Space beside the O</span><output id="spaceOut"></output></label>
+      <input type="range" id="space" min="40" max="180" step="5">
+    </div>
+
+    <div class="group">
+      <label class="check"><input type="checkbox" id="guides"> Show cap height and baseline</label>
+      <label class="check"><input type="checkbox" id="compare"> Compare with Archivo's own O</label>
+    </div>
+
+    <div class="group">
+      <div class="label">Settings</div>
+      <div class="readout" id="readout" tabindex="0"></div>
+      <button class="btn" id="copy" type="button">Copy settings</button>
+      <p class="hint" id="copyNote">Paste them to Claude to build the final files.</p>
+    </div>
+  </aside>
+
+  <main class="proofs">
+    <section class="card white">
+      <div id="wmLarge"></div>
+      <div id="wmCompare" hidden></div>
+      <p class="cap" id="capLarge">Navy on white</p>
+    </section>
+
+    <section class="card navy">
+      <div id="wmRev"></div>
+      <p class="cap">Reversed on navy</p>
+    </section>
+
+    <div class="pair">
+      <section class="card white">
+        <div class="row" id="symW"></div>
+        <p class="cap" id="capSym">Symbol</p>
+      </section>
+      <section class="card navy">
+        <div class="row" id="symN"></div>
+        <p class="cap">Symbol, white</p>
+      </section>
+    </div>
+
+    <div class="pair">
+      <section class="card white">
+        <div class="sizes" id="small"></div>
+        <p class="cap">Wordmark at 40, 24 and 16 px tall</p>
+      </section>
+      <section class="card white">
+        <div class="row" id="fav"></div>
+        <p class="cap">Favicon and app icon at 96, 48, 32 and 16 px</p>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+const D = {"aif": "M21 687 362 0H556L897 687H709L649 563H258L198 687ZM321 430H586L513 273Q509 263 500.0 243.0Q491 223 482.5 202.0Q474 181 467.0 164.0Q460 147 458 143H450Q442 163 431.0 188.0Q420 213 410.5 236.5Q401 260 394 274Z M995.0 687V0H1168.0V687Z M1602.4 687V0H2265.4V136H1775.4V291H2215.4V428H1775.4V687Z", "afterF": 2288.4, "undry": "M477 699Q345 699 258.5 659.0Q172 619 129.5 545.0Q87 471 87 369V0H260V361Q260 457 316.5 509.5Q373 562 477 562Q581 562 637.5 509.5Q694 457 694 361V0H866V369Q866 471 824.0 545.0Q782 619 695.5 659.0Q609 699 477 699Z M1031.0 687V0H1190.0L1558.0 345Q1569.0 354 1585.5 371.0Q1602.0 388 1620.0 406.5Q1638.0 425 1651.0 439H1660.0Q1659.0 419 1657.5 389.0Q1656.0 359 1656.0 339V0H1821.0V687H1665.0L1300.0 342Q1274.0 318 1246.0 289.0Q1218.0 260 1201.0 242H1193.0Q1194.0 255 1195.0 286.0Q1196.0 317 1196.0 356V687Z M1990.0 687V0H2363.0Q2490.0 0 2581.0 39.5Q2672.0 79 2721.0 155.5Q2770.0 232 2770.0 344Q2770.0 455 2721.0 531.5Q2672.0 608 2581.0 647.5Q2490.0 687 2363.0 687ZM2163.0 550H2354.0Q2406.0 550 2449.5 537.5Q2493.0 525 2525.0 500.5Q2557.0 476 2574.0 439.5Q2591.0 403 2591.0 355V332Q2591.0 284 2574.0 247.5Q2557.0 211 2525.0 186.5Q2493.0 162 2449.5 149.0Q2406.0 136 2354.0 136H2163.0Z M2909.0 687V0H3464.0Q3538.0 0 3585.5 30.0Q3633.0 60 3657.0 109.0Q3681.0 158 3681.0 218Q3681.0 280 3649.5 333.5Q3618.0 387 3554.0 418L3697.0 687H3503.0L3382.0 449H3082.0V687ZM3082.0 313H3413.0Q3455.0 313 3479.5 287.5Q3504.0 262 3504.0 222Q3504.0 194 3493.0 175.0Q3482.0 156 3462.0 146.0Q3442.0 136 3413.0 136H3082.0Z M4060.0 687V411L3723.0 0H3929.0L4146.0 275H4156.0L4375.0 0H4571.0L4233.0 411V687Z", "undryW": 4571.0, "O": "M508 699Q371 699 270.5 657.0Q170 615 116.0 535.5Q62 456 62 343Q62 230 116.0 150.5Q170 71 270.5 29.5Q371 -12 508 -12Q646 -12 746.0 29.5Q846 71 900.0 150.5Q954 230 954 343Q954 456 900.0 535.5Q846 615 746.0 657.0Q646 699 508 699ZM508 562Q567 562 616.0 548.5Q665 535 701.0 509.0Q737 483 756.5 443.5Q776 404 776 354V331Q776 281 756.5 242.0Q737 203 701.0 177.0Q665 151 616.0 137.5Q567 124 508 124Q449 124 400.0 137.5Q351 151 315.0 177.0Q279 203 259.5 242.0Q240 281 240 331V354Q240 404 259.5 443.5Q279 483 315.0 509.0Q351 535 400.0 548.5Q449 562 508 562Z", "oAdv": 1016.0, "cap": 687, "stem": 173, "oTop": 136, "oLsb": 62, "oRsb": 62, "track": -15.0, "sb": [0.4, 0.62]};
+const NAVY = "#002E5D", WHITE = "#FFFFFF";
+const S3 = Math.sqrt(3);
+
+const PRESETS = {
+  L: { mode: "dih", orient: "flat", ratio: 1, os: 3, scale: 100, space: 100, band: { kind: "flat", v: 0.50 } },
+  N: { mode: "dih", orient: "pointy", ratio: 1, os: 3, scale: 100, space: 100, band: { kind: "stem", v: 0.50 } },
+  M: { mode: "hid", orient: "flat", ratio: 1, os: 3, scale: 100, space: 100, size: 75 },
+  H: { mode: "hid", orient: "flat", ratio: 1, os: 3, scale: 100, space: 100, size: 100 },
+};
+
+let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L" };
+
+function load() {
+  try { const s = JSON.parse(localStorage.getItem("mark-tuner") || "null"); if (s) st = Object.assign(st, s); else applyPreset("L", false); }
+  catch (e) { applyPreset("L", false); }
+}
+function save() { try { localStorage.setItem("mark-tuner", JSON.stringify(st)); } catch (e) {} }
+
+/* ---------- geometry (font units, y down, centered on 0,0) ---------- */
+function geom(p) {
+  const H = D.cap * p.scale / 100, os = p.os / 100, k = p.ratio, f = p.size / 100;
+  let outer, inner, W, Hs, dmax, pointedSides;
+  if (p.mode === "dih") {
+    if (p.orient === "flat") {
+      const R = H / S3, h = H / 2;
+      outer = [[R,0],[R/2,h],[-R/2,h],[-R,0],[-R/2,-h],[R/2,-h]];
+      dmax = Math.min(h, R / k); W = 2 * R; Hs = H; pointedSides = true;
+    } else {
+      const Rp = H / 2 * (1 + 2 * os), w = Rp * S3 / 2;
+      outer = [[0,-Rp],[w,-Rp/2],[w,Rp/2],[0,Rp],[-w,Rp/2],[-w,-Rp/2]];
+      dmax = Math.min(Rp, w / k); W = 2 * w; Hs = 2 * Rp; pointedSides = false;
+    }
+    const d = f * dmax;
+    inner = [[0,-d],[d*k,0],[0,d],[-d*k,0]];
+  } else {
+    const a = H / 2 * (1 + 2 * os), ax = a * k;
+    outer = [[0,-a],[ax,0],[0,a],[-ax,0]];
+    W = 2 * ax; Hs = 2 * a; pointedSides = true;
+    const unit = p.orient === "flat"
+      ? [[1,0],[.5,S3/2],[-.5,S3/2],[-1,0],[-.5,-S3/2],[.5,-S3/2]]
+      : [[0,-1],[S3/2,-.5],[S3/2,.5],[0,1],[-S3/2,.5],[-S3/2,-.5]];
+    dmax = Math.min(...unit.map(([x,y]) => 1 / (Math.abs(x)/ax + Math.abs(y)/a)));
+    const r = f * dmax;
+    inner = unit.map(([x,y]) => [x*r, y*r]);
+  }
+  return { outer, inner, W, Hs, H, dmax, pointedSides, wall: minGap(inner, outer) };
+}
+function segDist(p, a, b) {
+  const dx = b[0]-a[0], dy = b[1]-a[1], L = dx*dx + dy*dy;
+  let t = L ? ((p[0]-a[0])*dx + (p[1]-a[1])*dy) / L : 0; t = Math.max(0, Math.min(1, t));
+  return Math.hypot(p[0]-a[0]-t*dx, p[1]-a[1]-t*dy);
+}
+function minGap(A, B) {
+  let best = Infinity;
+  for (const [P, Q] of [[A, B], [B, A]])
+    for (const p of P) for (let i = 0; i < Q.length; i++) best = Math.min(best, segDist(p, Q[i], Q[(i+1) % Q.length]));
+  return best;
+}
+const poly = pts => "M" + pts.map(([x,y]) => x.toFixed(1) + "," + y.toFixed(1)).join("L") + "Z";
+function symPath(g, cx = 0, cy = 0) {
+  const sh = pts => pts.map(([x,y]) => [x+cx, y+cy]);
+  return poly(sh(g.outer)) + poly(sh(g.inner).reverse());
+}
+
+/* ---------- drawing ---------- */
+function wordmark(g, p, color, opts = {}) {
+  const sb = g.pointedSides ? D.sb : [0.8, 1.0];
+  const m = p.space / 100;
+  let x = D.afterF + D.oLsb * sb[0] * m;
+  const cx = x + g.W / 2;
+  x += g.W + D.oRsb * sb[1] * m + D.track;
+  const width = x + D.undryW;
+  const pad = D.cap * 0.14;
+  const top = Math.min(0, D.cap/2 - g.Hs/2) - pad, bottom = Math.max(D.cap, D.cap/2 + g.Hs/2) + pad;
+  let guides = "";
+  if (opts.guides) guides = `<g stroke="#E0457B" stroke-width="5" opacity=".75"><line x1="${-pad}" x2="${width+pad}" y1="0" y2="0"/><line x1="${-pad}" x2="${width+pad}" y1="${D.cap}" y2="${D.cap}"/></g>`;
+  const body = `<path fill="${color}" d="${D.aif}"/><path fill="${color}" fill-rule="evenodd" d="${symPath(g, cx, D.cap/2)}"/><path fill="${color}" transform="translate(${x.toFixed(1)} 0)" d="${D.undry}"/>`;
+  return svgWrap(-pad, top, width + 2*pad, bottom - top, guides + body, opts.h, opts.label || "AI FOUNDRY wordmark");
+}
+function fontO(color, opts = {}) {
+  const x = D.afterF;
+  const ux = x + D.oAdv;
+  const pad = D.cap * 0.14, width = ux + D.undryW;
+  const body = `<path fill="${color}" d="${D.aif}"/><path fill="${color}" transform="translate(${x} 0)" d="${D.O}"/><path fill="${color}" transform="translate(${ux} 0)" d="${D.undry}"/>`;
+  return svgWrap(-pad, -pad, width + 2*pad, D.cap + 2*pad, body, opts.h, "AI FOUNDRY set with Archivo's O");
+}
+function svgWrap(x, y, w, h, body, height, label) {
+  const hs = height ? ` height="${height}" width="${(w/h*height).toFixed(1)}"` : ` width="100%"`;
+  return `<svg viewBox="${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}"${hs} role="img" aria-label="${label}">${body}</svg>`;
+}
+function symbol(g, color, px) {
+  const s = Math.max(g.W, g.Hs) * 1.1;
+  return svgWrap(-s/2, -s/2, s, s, `<path fill="${color}" fill-rule="evenodd" d="${symPath(g)}"/>`, px, "Symbol");
+}
+function favicon(g, px) {
+  const t = Math.max(g.W, g.Hs) * 1.42;
+  const body = `<rect x="${-t/2}" y="${-t/2}" width="${t}" height="${t}" rx="${t*5/32}" fill="${NAVY}"/><path fill="${WHITE}" fill-rule="evenodd" d="${symPath(g)}"/>`;
+  return svgWrap(-t/2, -t/2, t, t, body, px, `Favicon at ${px} px`);
+}
+
+/* ---------- UI ---------- */
+const $ = id => document.getElementById(id);
+function fitRatio() {
+  if (st.mode !== "dih") return 1;
+  return st.orient === "flat" ? 2 / S3 : S3 / 2;
+}
+function applyPreset(name, redraw = true) {
+  const p = PRESETS[name];
+  st = Object.assign(st, { mode: p.mode, orient: p.orient, ratio: p.ratio, os: p.os, scale: p.scale, space: p.space, preset: name });
+  if (p.size != null) st.size = p.size;
+  else {
+    const g = geom(Object.assign({}, st, { size: 100 }));
+    const band = p.band.kind === "flat" ? D.oTop * p.band.v : D.stem * p.band.v;
+    st.size = Math.round((1 - band / g.dmax) * 1000) / 10;
+  }
+  if (redraw) render();
+}
+function setSeg(id, v) { for (const b of $(id).querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === v)); }
+
+function render() {
+  setSeg("mode", st.mode); setSeg("orient", st.orient);
+  for (const b of $("presets").querySelectorAll("button")) b.style.outline = st.preset === b.dataset.p ? "2px solid var(--accent)" : "";
+  $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
+  $("guides").checked = st.guides; $("compare").checked = st.compare;
+  const inner = st.mode === "dih" ? "Diamond" : "Hexagon";
+  $("sizeLabel").textContent = inner + " size";
+  const g = geom(st);
+  $("sizeOut").textContent = st.size.toFixed(1) + "% of touching";
+  $("ratioOut").textContent = st.ratio.toFixed(3);
+  $("osOut").textContent = st.os.toFixed(2) + "%";
+  $("scaleOut").textContent = st.scale.toFixed(1) + "% of cap";
+  $("spaceOut").textContent = st.space + "%";
+  $("fit").textContent = st.mode === "dih" ? `Reach every corner (${fitRatio().toFixed(3)})` : "";
+  $("fit").hidden = st.mode !== "dih";
+
+  $("wmLarge").innerHTML = wordmark(g, st, NAVY, { guides: st.guides });
+  $("wmCompare").hidden = !st.compare;
+  if (st.compare) $("wmCompare").innerHTML = fontO(NAVY);
+  $("capLarge").textContent = st.compare ? "Navy on white · below: the same word with Archivo's own O" : "Navy on white";
+  $("wmRev").innerHTML = wordmark(g, st, WHITE, { guides: st.guides });
+  $("symW").innerHTML = [160, 64, 32, 20].map(px => symbol(g, NAVY, px)).join("");
+  $("symN").innerHTML = [160, 64, 32, 20].map(px => symbol(g, WHITE, px)).join("");
+  $("small").innerHTML = [40, 24, 16].map(px => wordmark(g, st, NAVY, { h: px * 1.28 })).join("");
+  $("fav").innerHTML = [96, 48, 32, 16].map(px => favicon(g, px)).join("");
+
+  const shape = st.mode === "dih" ? `Diamond cut out of a ${st.orient === "flat" ? "flat-top" : "point-up"} hexagon` : `${st.orient === "flat" ? "Flat-top" : "Point-up"} hexagon cut out of a diamond`;
+  const lines = [
+    shape,
+    `${inner} size: ${st.size.toFixed(1)}% of touching`,
+    `Diamond width ÷ height: ${st.ratio.toFixed(3)}`,
+    `Point overshoot: ${st.os.toFixed(2)}%`,
+    `Symbol height: ${st.scale.toFixed(1)}% of cap`,
+    `Space beside the O: ${st.space}%`,
+    `Thinnest wall: ${g.wall.toFixed(0)} units = ${(g.wall / D.stem).toFixed(2)} of a stem (${(g.wall / D.oTop).toFixed(2)} of the O's top)`,
+    `Symbol: ${g.W.toFixed(0)} wide × ${g.Hs.toFixed(0)} tall (Archivo's O is ${(D.oAdv - D.oLsb - D.oRsb).toFixed(0)} wide)`,
+  ];
+  $("readout").textContent = lines.join("\n");
+  $("capSym").textContent = shape;
+  save();
+}
+
+function bindSeg(id, key) {
+  $(id).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; st[key] = b.dataset.v; st.preset = null;
+    if (key === "mode" || key === "orient") { if (st.mode === "hid" && Math.abs(st.ratio - 1) > 0.2) st.ratio = 1; }
+    render(); });
+}
+bindSeg("mode", "mode"); bindSeg("orient", "orient");
+for (const [id, key] of [["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+  $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
+$("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
+$("compare").addEventListener("change", e => { st.compare = e.target.checked; render(); });
+$("square").addEventListener("click", () => { st.ratio = 1; st.preset = null; render(); });
+$("fit").addEventListener("click", () => { st.ratio = Math.round(fitRatio() * 1000) / 1000; st.preset = null; render(); });
+$("presets").addEventListener("click", e => { const b = e.target.closest("button"); if (b) applyPreset(b.dataset.p); });
+$("copy").addEventListener("click", () => {
+  const text = $("readout").textContent;
+  const done = () => { $("copyNote").textContent = "Copied. Paste them to Claude to build the final files."; };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents($("readout")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("copyNote").textContent = "Selected. Copy it with your device's copy command."; };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+});
+
+load(); render();
+</script>
