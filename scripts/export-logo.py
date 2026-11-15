@@ -146,7 +146,7 @@ def preview(out, key):
 <div class="card dark"><img src="svg/lockup-white.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup, reversed" style="display:block;width:100%;max-width:1000px"><div class="cap">Mockup: the BYU Marriott half is the official lockup's own pixels. The real lockup comes only from BYU Marriott Marketing.</div></div></div>
 <h2>Compact: favicon and avatar</h2>
 <div class="card"><div class="row">{inline(s / 'avatar.svg', height=160)}<div style="border-radius:50%;overflow:hidden;width:160px;height:160px">{inline(s / 'avatar.svg', height=160)}</div>{inline(s / 'favicon.svg', height=96)}{inline(s / 'favicon.svg', height=48)}{inline(s / 'favicon.svg', height=32)}{inline(s / 'favicon-16.svg', height=16)}</div>
-<div class="cap">Avatar (square and circle crop) · favicon at 96, 48, 32 and 16 px{" · the same cut shape at every size" if cut else " · the 16 px favicon fills the diamond"}</div></div>
+<div class="cap">Avatar (square and circle crop) · favicon at 96, 48, 32 and 16 px{" · favicons use a smaller diamond (0.80, and 0.70 unshaded at 16 px) so the frame shows" if vv.get("cut_size", 0) > 0.8 else " · the same cut shape at every size" if cut else " · the 16 px favicon fills the diamond"}</div></div>
 <p class="note">Brand rule: the Foundry is never shown as a standalone "AI Foundry" without BYU identification. Use this wordmark where BYU Marriott is identified nearby; the co-branded BYU Marriott lockup itself comes only from BYU Marriott Marketing and is never recreated.</p>"""
     (out / "preview.html").write_text(PAGE.format(title="AI Foundry logo preview", body=body))
 

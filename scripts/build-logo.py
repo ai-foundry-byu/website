@@ -72,6 +72,9 @@ VARIANTS = {
     "o": {"name": "Cut, shaded", "cut_size": 0.65, "shade": 0.14},
     # Scott, 2026-11-14: O with the hexagon point up ("it actually looks really good with the vertical"); less like a
     # hex nut. Points overshoot 6% as on the tuner; its vertical sides take the O's own side spacing.
+    # Scott, 2026-11-14, from the tuner: O with the diamond at 90.5%, so the hexagon is a thin frame (thinnest wall
+    # 0.19 stem) and the diamond carries the letter. Favicons use a smaller diamond so the frame survives.
+    "q": {"name": "Cut, shaded, large diamond", "cut_size": 0.905, "shade": 0.14},
     "p": {"name": "Cut, shaded, point up", "cut_size": 0.65, "shade": 0.14, "pointy": True, "overshoot": 0.06, "sb": (0.80, 1.00)},
     "g": {"name": "Facets, stretched", "facets": True},
     # Scott, 2026-11-14: inverted. The diamond is the O; the hexagon is cut out of it as the counter.
@@ -419,7 +422,9 @@ def build(font_path, key, out):
     # Compact mark for favicons and avatars: a navy tile, the symbol in white, weights raised so the
     # diamond and the gap survive at 16 px. Rounded at the brand box radius (5 of 32).
     if v.get("cut_size"):
-        compact, compact16 = v, flat1  # 16 px drops the shading
+        # favicons cap the diamond so the hexagon's frame stays visible in a browser tab; 16 px also drops the shading
+        compact = dict(v, cut_size=min(v["cut_size"], 0.80))
+        compact16 = dict(flat1, cut_size=min(v["cut_size"], 0.70))
     elif v.get("cut"):
         compact = dict(v, hex_flat=v["hex_flat"] * 1.2, wall=v["wall"] * 1.1)
         compact16 = dict(v, hex_flat=v["hex_flat"] * 1.35, wall=v["wall"] * 1.2)

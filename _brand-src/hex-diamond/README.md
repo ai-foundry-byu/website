@@ -50,12 +50,13 @@ All geometry is computed from the typeface by `scripts/build-logo.py`, so it sta
 | I | Inverted, solid hexagon | a diamond outline (0.40 stem, royal in the primary) with white inside | the largest solid navy hexagon, its four upper and lower corners touching the outline's inner edge | n/a |
 | J | Inverted, keyline | a diamond outline (0.40 stem, royal in the primary) with white inside | a solid navy hexagon with a white keyline (0.20 stem): the hexagon plus its keyline touches the outline at four corners | n/a |
 | K | Inscribed | a solid white diamond with a hairline navy border (0.09 stem, about 1.5 pt at a 100 pt wordmark); on navy the diamond is solid white | a solid navy hexagon inscribed, its four upper and lower corners on the diamond's sides; only the diamond's four corners show | n/a |
+| Q | Cut, shaded, large diamond | solid, flat top | a square diamond at 0.905 of the largest that fits, right half shaded 14% | n/a |
 | P | Cut, shaded, point up | solid, point up, points overshoot 6% | as O | n/a |
 | O | Cut, shaded | solid, flat top | a square diamond at 0.65 of the largest that fits, cut out; its right half shaded at 14% | n/a |
 | L | Facets, balanced | solid, as F, with the band at 0.50 of the O's top so the O reads as a letter of the font (Scott, 2026-11-14, chosen by eye from 0.75 / 0.60 / 0.50 / 0.40) | a square diamond cut out, as F | n/a |
 | M | Inverted, balanced | none: a square diamond is the O, as H | the hexagon cut out at 0.75 of the largest that fits, so the navy forms one ring and the O carries the letters' weight (chosen by eye from 1.00 / 0.85 / 0.75 / 0.65) | n/a |
 
-`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently P). To rebuild with another:
+`svg/`, `png/`, `favicon.ico` and `preview.html` are the chosen direction (currently Q). To rebuild with another:
 
     python3 scripts/export-logo.py --font <Archivo[wdth,wght].ttf> --choose d
 
@@ -74,7 +75,13 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/lockup.svg`, `svg/lockup-white.svg` | Mockups of the BYU Marriott lockup for review only; never ship them |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
-## Notes on P (chosen, 2026-11-14)
+## Notes on Q (chosen, 2026-11-14)
+
+Scott, from the tuner: O with the diamond at 90.5% of the largest that fits, so the hexagon becomes a thin frame
+(thinnest wall 33 units, 0.19 of a stem, at the top and bottom points) and the shaded diamond carries the letter.
+The frame thins out below about 24 px, so favicons and avatars use a smaller diamond (0.80; 0.70 and unshaded at 16 px).
+
+## Notes on P
 
 O with the hexagon turned point up. Scott asked whether O read as a hex nut (a solid flat-topped hexagon with a centred
 hole is the standard nut icon); point up, it reads as a badge or cell instead ("it actually looks really good with the
