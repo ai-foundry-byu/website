@@ -9,16 +9,16 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * (AccountMenu), and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * Runout, system v3 (brand/runout-2026-11; Scott Murff's logo brief): the
- * first thing on every page is the official BYU Marriott logo, at least
- * 250px wide with one B of clear space (B = 38.26/396 of the logo's width,
- * about 24px) plus a 3px margin, on every side:
+ * Facets L preview (brand/facets-2026-11; Scott Murff's direction L and
+ * logo brief): the first thing on every page is the official BYU Marriott
+ * logo, at least 250px wide with one B of clear space (B = 38.26/396 of the
+ * logo's width, about 24px) plus a 3px margin, on every side:
  * - from 768px: the draft co-brand lockup (the official logo, unchanged, a
- *   rule, the Runout mark and AI FOUNDRY), 540px wide, so the Marriott logo
+ *   rule, the Facets AI FOUNDRY wordmark), 550px wide, so the Marriott logo
  *   is 251px, with 28px of clear space round the whole lockup;
  * - under 768px: the official BYU Marriott logo alone (msb_left_white.svg,
- *   the school's own file, unchanged), 251px wide, 28px clear; the Runout
- *   mark is in the hero below it.
+ *   the school's own file, unchanged), 251px wide, 28px clear; the AI
+ *   FOUNDRY wordmark is built across the hero right below it.
  * The draft label is a strip across the top of the bar, so it travels with
  * the bar and never floats over a logo (the old fixed chip slid over the
  * footer lockup). Heights, widths and breakpoints: globals.css.
@@ -44,10 +44,10 @@ export function SiteHeader() {
         <CurtainNavLink href="/" className="af-header-home flex shrink-0 items-center no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element -- brand artwork is served unchanged */}
           <img
-            src="/brand/runout/cobrand/lockup-runout-white-web.svg"
+            src="/brand/facets/cobrand/lockup-wordmark-white-web.svg"
             alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup for BYU Marriott approval`}
-            width={645}
-            height={74}
+            width={657}
+            height={57}
             className="af-header-lockup"
           />
           {/* eslint-disable-next-line @next/next/no-img-element -- the school's own file, unchanged */}
@@ -86,7 +86,7 @@ export function SiteHeader() {
 
         {/* mobile and tablet nav: native disclosure, no script. The bar
             switches at xl (1280px): the lockup and its clear space take
-            596px, which leaves the inline nav no room below 1280. */}
+            606px, which leaves the inline nav no room below 1280. */}
         <details className="af-header-menu xl:hidden">
           <summary
             className="flex min-h-[44px] min-w-[44px] cursor-pointer list-none items-center justify-center px-3 [&::-webkit-details-marker]:hidden"

@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { HeroBuild } from "@/components/HeroBuild"
+import { FacetsBuild } from "@/components/FacetsBuild"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,13 +36,14 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* Runout retheme, system v3 (brand/runout-2026-11, draft for BYU Marriott
-   approval): the hero is flat Navy with the one soft tonal lift behind the
-   mark, the headline is flat White (type is never a gradient), the mark is
-   built on the right like a builder builds it (HeroBuild: grid, set-out,
-   level line, members placed and locked, then it holds, all White on
-   navy), and the primary on this surface is White with a Navy label. The shader field
-   (HeroMotionLayer) is retired on this branch: the build is the motion. */
+/* Facets L preview (brand/facets-2026-11, Scott Murff's direction L, draft
+   for BYU Marriott approval): the hero is flat Navy with one soft tonal lift
+   behind the wordmark, and the AI FOUNDRY wordmark is built across the top of
+   it in three beats (FacetsBuild: the letters rise in, the hexagon drops into
+   the O, the diamond is cut), White on navy. It is the first thing under the
+   bar at every width, so a phone names AI Foundry in its first viewport.
+   Below it the headline is flat White (type is never a gradient) and the
+   primary on this surface is White with a Navy label (system v3). */
 const HERO_FACTS = [
   { value: "5 weeks", label: "engagements, extendable" },
   { value: "1 or 2", label: "builders per team" },
@@ -53,6 +54,9 @@ function Hero() {
   return (
     <section className="af-hero" data-ground="navy">
       <div className="af-hero-inner">
+        <div className="af-hero-art">
+          <FacetsBuild theme="dark" id="af-hero-wn" />
+        </div>
         <div className="af-hero-copy">
           <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
             {HERO_SUPPORT.replace(/\.$/, "")}
@@ -94,20 +98,6 @@ function Hero() {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="af-hero-art">
-          <HeroBuild theme="dark" />
-          {/* Phones: the bar carries the BYU Marriott logo alone, so the
-              program's name rides under the hero mark here (the secondary
-              version: mark and AI FOUNDRY). */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/runout/wordmark-white.svg"
-            alt="AI Foundry"
-            className="af-hero-name md:hidden"
-            width={218}
-            height={28}
-          />
         </div>
       </div>
     </section>

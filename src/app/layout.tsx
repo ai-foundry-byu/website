@@ -3,7 +3,7 @@ import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { RouteTransitions } from "@/components/RouteTransitions";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
-import "./hero-build.css";
+import "./facets-build.css";
 
 /**
  * The three families of the design system, and no others. Spec:
@@ -57,12 +57,12 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // Runout preview (brand/runout-2026-11): the favicon set, system v3, draft
-  // for BYU Marriott approval. icon.svg is the 32px drawing hand-placed on the
-  // pixel grid (round 9 refine-runout), navy, white when the browser is dark;
-  // favicon-32.png is the same drawing, favicon.ico carries the 16px drawing
-  // too, and the 180/512 app icons are the v3 tile (flat Navy, the whole
-  // round 9 master in White, no orange). Concept, pending release. The SVG is listed first
+  // Facets L preview (brand/facets-2026-11): the favicon set from the round
+  // 17 kit, draft for BYU Marriott approval. icon.svg is the 32px tile drawn
+  // on the pixel grid (a Navy tile, the white hexagon with the diamond cut
+  // out), favicon-32.png is the same drawing, favicon.ico carries the 16px
+  // drawing too, and the 180/512 app icons are the kit's app icon (flat
+  // Navy, the symbol in White). The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Runout preview: the browser chrome on phones matches the navy bar.
+// The browser chrome on phones matches the navy bar.
 export const viewport: Viewport = { themeColor: "#002e5d" };
 
 export default function RootLayout({
@@ -106,7 +106,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      {/* RouteTransitions (Runout preview) runs internal navigations through
+      {/* RouteTransitions runs internal navigations through
           the View Transitions API; it replaces the curtain experiment here.
           Pages stay server-rendered: children cross the boundary as a
           ReactNode prop. Remove the wrapper to go back to plain routing. */}

@@ -22,7 +22,7 @@ const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LI
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="af-footer mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
-      {/* Runout: a Slate set-out line runs across the top of the footer
+      {/* A Slate set-out line runs across the top of the footer
           and draws itself in as it scrolls into view (CSS scroll-driven, globals.css). */}
       <div aria-hidden="true" className="af-horizon-rule" />
       <div style={{ position: "relative", maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
@@ -30,23 +30,23 @@ export function SiteFooter() {
             of clear space (B = 38.26/396 of the logo's width, 24.3px
             here) plus 3px on every side, and opposite it who the Foundry
             belongs to (each sponsor's own logo, white on navy).
-            From 640px: the draft co-brand lockup (system v3, white on navy:
-            the official BYU Marriott logo, a rule, the Runout mark and AI
-            FOUNDRY), 540px wide, so the Marriott logo is 251px. Under
+            From 640px: the draft co-brand lockup (Facets L, white on navy:
+            the official BYU Marriott logo, a rule and the AI FOUNDRY
+            wordmark), 550px wide, so the Marriott logo is 251px. Under
             640px the horizontal lockup cannot hold a 250px logo plus its
             clear space inside the gutters (it needs about
             590px), so phones get the official BYU Marriott logo alone,
             the school's own file unchanged, 251px wide (the header
-            carries the same file at 251px, and the hero the Runout mark).
+            carries the same file at 251px, and the hero the wordmark).
             The 4px inset keeps 28px (one B plus 3px) from the screen edge.
             Widths: globals.css; measured at 390 to 1440px. */}
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div className="af-footer-brand">
             <Image
-              src="/brand/runout/cobrand/lockup-runout-white-web.svg"
-              alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup`}
-              width={645}
-              height={74}
+              src="/brand/facets/cobrand/lockup-wordmark-white-web.svg"
+              alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup (draft for BYU Marriott approval)`}
+              width={657}
+              height={57}
               unoptimized
               className="af-footer-lockup"
             />
