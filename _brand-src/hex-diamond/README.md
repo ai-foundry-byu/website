@@ -77,6 +77,23 @@ The font is OFL, from github.com/google/fonts (`ofl/archivo`); it is not stored 
 | `svg/lockup.svg`, `svg/lockup-white.svg` | Mockups of the BYU Marriott lockup for review only; never ship them |
 | `svg/avatar.svg`, `png/avatar-*.png` | Social avatars; the symbol sits inside the circle platforms crop to |
 
+## Which version to use (decided 2026-11-16)
+
+One shape, two fills. The shape (flat-topped hexagon, square diamond at 80%) never changes.
+
+| Version | Files | Use it for |
+|---|---|---|
+| **Primary, two colours**: navy, with the diamond split white and the lockup's grey | `wordmark.svg`, `glyph.svg`; reversed `wordmark-white.svg`, `glyph-white.svg`; `favicon.svg` (32 px and up), `avatar.svg` | Anywhere two colours print or display: the website, slides, documents, signage, the lockup |
+| **One colour, flat**: the same shape with no split | `wordmark-navy.svg`, `wordmark-black.svg`, `wordmark-white-flat.svg` and the matching `glyph-*` files; `favicon-16.svg` | Embroidery, engraving and etching, single-colour print, small swag, the 16 px favicon |
+
+Rules:
+
+- The split is two flat colours (white and the lockup's grey), never a tint, gradient or transparency, and never imitated
+  with hatching, dots or lines in a one-colour job. If only one colour is available, use the flat version.
+- On navy the grey is the lit half and sits on the left; on white it is the shaded half and sits on the right. The light
+  always comes from the left.
+- Nothing else is added to the mark: no rays, glints, bevels or textures (all tried on the tuner and set aside).
+
 ## Notes on S (chosen, 2026-11-14)
 
 R in two colours only (Scott: "the same shade as the gray for Marriott School of Business so I am only using two

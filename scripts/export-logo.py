@@ -135,15 +135,18 @@ def preview(out, key):
                   f"Navy hexagon, square diamond cut out, right half shaded (navy at {vv['shade']:.0%} over white) for depth")
     body = f"""<h1>AI Foundry logo · direction {key.upper()} ({bl.VARIANTS[key]['name']})</h1>
 <p class="lede">Proposed. Not yet in public/ or on the live site.</p>
-<h2>Primary wordmark</h2>
+<h2>{"Primary: two colours" if vv.get("shade") else "Primary wordmark"}</h2>
 <div class="grid g2"><div class="card">{inline(s / 'wordmark.svg', height=96)}<div class="row">{inline(s / 'wordmark.svg', height=40)}{inline(s / 'wordmark.svg', height=20)}</div><div class="cap">{prim} · on white</div></div>
 <div class="card dark">{inline(s / 'wordmark-white.svg', height=96)}<div class="row">{inline(s / 'wordmark-white.svg', height=40)}{inline(s / 'wordmark-white.svg', height=20)}</div><div class="cap">Reversed{", white; the diamond's left half in the lockup's light grey, so the light still comes from the left" if vv.get("shade_on_navy") else ", white; the diamond's right half lightly shaded" if vv.get("shade") else ", all white"} · on navy</div></div></div>
 <h2>Symbol</h2>
 <div class="grid g2"><div class="card"><div class="row">{inline(s / 'glyph.svg', height=200)}{inline(s / 'glyph.svg', height=64)}{inline(s / 'glyph.svg', height=32)}{inline(s / 'glyph.svg', height=20)}</div><div class="cap">{symcap}</div></div>
 <div class="card dark"><div class="row">{inline(s / 'glyph-white.svg', height=200)}{inline(s / 'glyph-white.svg', height=64)}{inline(s / 'glyph-white.svg', height=32)}{inline(s / 'glyph-white.svg', height=20)}</div><div class="cap">White</div></div></div>
-<h2>Single color</h2>
-<div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy only{", no shading" if vv.get("shade") else ""}</div></div>
-<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">{"Black and the lockup's grey, for print that cannot take navy" if vv.get("shade_on_white") else "Black only, for print that cannot take navy" + (", no shading" if vv.get("shade") else "")}</div></div></div>
+<h2>{"One colour: the same shape, flat" if vv.get("shade") else "Single color"}</h2>
+<p class="note">{"For embroidery, engraving and etching, single-colour print, small swag and the 16 px favicon. The shape never changes; only the split is dropped. Never imitate the split with a tint." if vv.get("shade") else ""}</p>
+<div class="grid g2"><div class="card">{inline(s / 'wordmark-navy.svg', height=64)}{inline(s / 'glyph-navy.svg', height=80)}<div class="cap">Navy</div></div>
+<div class="card">{inline(s / 'wordmark-black.svg', height=64)}{inline(s / 'glyph-black.svg', height=80)}<div class="cap">Black, for print that cannot take navy</div></div>
+{f"""<div class="card dark">{inline(s / 'wordmark-white-flat.svg', height=64)}{inline(s / 'glyph-white-flat.svg', height=80)}<div class="cap">White, on navy or any dark ground</div></div>
+<div class="card" style="background:#000;border-color:#000">{inline(s / 'wordmark-white-flat.svg', height=64)}{inline(s / 'glyph-white-flat.svg', height=80)}<div class="cap" style="color:#b5b5b5">White, on black</div></div>""" if vv.get("shade") else ""}</div>
 <h2>With BYU Marriott (mockup)</h2>
 <div class="grid"><div class="card"><img src="svg/lockup.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup" style="display:block;width:100%;max-width:1000px"></div>
 <div class="card dark"><img src="svg/lockup-white.svg" alt="BYU Marriott School of Business | AI Foundry lockup mockup, reversed" style="display:block;width:100%;max-width:1000px"><div class="cap">Mockup: the BYU Marriott half is the official lockup's own pixels. The real lockup comes only from BYU Marriott Marketing.</div></div></div>
@@ -167,10 +170,10 @@ def main():
     p = out / "png"
     p.mkdir(parents=True, exist_ok=True)
     s = out / "svg"
-    for name in ("wordmark", "wordmark-navy", "wordmark-black", "wordmark-white"):
+    for name in ("wordmark", "wordmark-navy", "wordmark-black", "wordmark-white") + (("wordmark-white-flat",) if bl.VARIANTS[a.choose].get("shade") else ()):
         for w in (600, 1200, 2400):
             png(s / f"{name}.svg", p / f"{name}-{w}.png", w=w)
-    for name in ("glyph", "glyph-navy", "glyph-black", "glyph-white"):
+    for name in ("glyph", "glyph-navy", "glyph-black", "glyph-white") + (("glyph-white-flat",) if bl.VARIANTS[a.choose].get("shade") else ()):
         for w in (256, 512, 1024):
             png(s / f"{name}.svg", p / f"{name}-{w}.png", w=w)
     for w in (32, 48, 180, 192, 512):

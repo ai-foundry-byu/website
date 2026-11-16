@@ -15,10 +15,11 @@ def run(text, x0):
     return " ".join(parts), x
 a, x = run("AI", 0)
 x += gs["space"].width * bl.WORD_SPACE - track
+fStart = x
 f, x = run("F", x)
 u, xu = run("UNDRY", 0)
 uw = xu - track - (gs["Y"].width - 866)
 o, ow = run("O", 0)
-print(json.dumps({"aif": a + " " + f, "afterF": x, "undry": u, "undryW": uw, "O": o, "oAdv": ow - track,
+print(json.dumps({"aif": a + " " + f, "ai": a, "f": f, "fStart": fStart, "afterF": x, "undry": u, "undryW": uw, "O": o, "oAdv": ow - track,
   "cap": cap, "stem": m["stem"], "oTop": m["o_top"], "oLsb": m["o_lsb"], "oRsb": m["o_rsb"], "track": track,
   "sb": bl.SIDE_BEARING}))

@@ -44,6 +44,7 @@ header p { margin: 0; color: var(--muted) }
 .sub { display: flex; flex-direction: column; gap: 8px; padding: 10px 0 0 10px; border-left: 2px solid var(--line) }
 .sub .seg button { font-size: 12px }
 .seg4 { grid-template-columns: repeat(4, 1fr) }
+.seg { width: 100% }
 .seg.wrap button:nth-child(4n+1) { border-left: 0 } .seg.wrap button:nth-child(n+5) { border-top: 1px solid var(--line) } .seg5 { grid-template-columns: repeat(5, 1fr) }
 .seg4 button, .seg5 button { font-size: 12px; padding-inline: 2px }
 .sub0 { display: flex; flex-direction: column; gap: 8px }
@@ -98,6 +99,14 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
     <div class="group proposal">
       <button class="btn" id="proposal" type="button">Proposed design</button>
       <p class="hint" id="proposalNote">Puts every control back to the proposal (direction S). Change anything below; this button always returns to it.</p>
+    </div>
+
+    <div class="group">
+      <div class="label">Name</div>
+      <div class="seg" id="name">
+        <button data-v="ai">AI FOUNDRY</button>
+        <button data-v="foundry">FOUNDRY</button>
+      </div>
     </div>
 
     <div class="group">
@@ -302,12 +311,12 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
       <section class="card white">
         <div id="bwB"></div>
         <div class="row" id="bwBs"></div>
-        <p class="cap">Black, with the same shading (the lockup's grey when two colours is on)</p>
+        <p class="cap">Black only: the one-colour version, flat</p>
       </section>
       <section class="card black">
         <div id="bwW"></div>
         <div class="row" id="bwWs"></div>
-        <p class="cap">White only: shows the one-colour styles; tinted shading is left off</p>
+        <p class="cap">White only: the one-colour version, flat</p>
       </section>
     </div>
 
@@ -346,7 +355,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 </div>
 
 <script>
-const D = {"aif": "M21 687 362 0H556L897 687H709L649 563H258L198 687ZM321 430H586L513 273Q509 263 500.0 243.0Q491 223 482.5 202.0Q474 181 467.0 164.0Q460 147 458 143H450Q442 163 431.0 188.0Q420 213 410.5 236.5Q401 260 394 274Z M995.0 687V0H1168.0V687Z M1602.4 687V0H2265.4V136H1775.4V291H2215.4V428H1775.4V687Z", "afterF": 2288.4, "undry": "M477 699Q345 699 258.5 659.0Q172 619 129.5 545.0Q87 471 87 369V0H260V361Q260 457 316.5 509.5Q373 562 477 562Q581 562 637.5 509.5Q694 457 694 361V0H866V369Q866 471 824.0 545.0Q782 619 695.5 659.0Q609 699 477 699Z M1031.0 687V0H1190.0L1558.0 345Q1569.0 354 1585.5 371.0Q1602.0 388 1620.0 406.5Q1638.0 425 1651.0 439H1660.0Q1659.0 419 1657.5 389.0Q1656.0 359 1656.0 339V0H1821.0V687H1665.0L1300.0 342Q1274.0 318 1246.0 289.0Q1218.0 260 1201.0 242H1193.0Q1194.0 255 1195.0 286.0Q1196.0 317 1196.0 356V687Z M1990.0 687V0H2363.0Q2490.0 0 2581.0 39.5Q2672.0 79 2721.0 155.5Q2770.0 232 2770.0 344Q2770.0 455 2721.0 531.5Q2672.0 608 2581.0 647.5Q2490.0 687 2363.0 687ZM2163.0 550H2354.0Q2406.0 550 2449.5 537.5Q2493.0 525 2525.0 500.5Q2557.0 476 2574.0 439.5Q2591.0 403 2591.0 355V332Q2591.0 284 2574.0 247.5Q2557.0 211 2525.0 186.5Q2493.0 162 2449.5 149.0Q2406.0 136 2354.0 136H2163.0Z M2909.0 687V0H3464.0Q3538.0 0 3585.5 30.0Q3633.0 60 3657.0 109.0Q3681.0 158 3681.0 218Q3681.0 280 3649.5 333.5Q3618.0 387 3554.0 418L3697.0 687H3503.0L3382.0 449H3082.0V687ZM3082.0 313H3413.0Q3455.0 313 3479.5 287.5Q3504.0 262 3504.0 222Q3504.0 194 3493.0 175.0Q3482.0 156 3462.0 146.0Q3442.0 136 3413.0 136H3082.0Z M4060.0 687V411L3723.0 0H3929.0L4146.0 275H4156.0L4375.0 0H4571.0L4233.0 411V687Z", "undryW": 4571.0, "O": "M508 699Q371 699 270.5 657.0Q170 615 116.0 535.5Q62 456 62 343Q62 230 116.0 150.5Q170 71 270.5 29.5Q371 -12 508 -12Q646 -12 746.0 29.5Q846 71 900.0 150.5Q954 230 954 343Q954 456 900.0 535.5Q846 615 746.0 657.0Q646 699 508 699ZM508 562Q567 562 616.0 548.5Q665 535 701.0 509.0Q737 483 756.5 443.5Q776 404 776 354V331Q776 281 756.5 242.0Q737 203 701.0 177.0Q665 151 616.0 137.5Q567 124 508 124Q449 124 400.0 137.5Q351 151 315.0 177.0Q279 203 259.5 242.0Q240 281 240 331V354Q240 404 259.5 443.5Q279 483 315.0 509.0Q351 535 400.0 548.5Q449 562 508 562Z", "oAdv": 1016.0, "cap": 687, "stem": 173, "oTop": 136, "oLsb": 62, "oRsb": 62, "track": -15.0, "sb": [0.4, 0.62]};
+const D = {"aif": "M21 687 362 0H556L897 687H709L649 563H258L198 687ZM321 430H586L513 273Q509 263 500.0 243.0Q491 223 482.5 202.0Q474 181 467.0 164.0Q460 147 458 143H450Q442 163 431.0 188.0Q420 213 410.5 236.5Q401 260 394 274Z M995.0 687V0H1168.0V687Z M1602.4 687V0H2265.4V136H1775.4V291H2215.4V428H1775.4V687Z", "ai": "M21 687 362 0H556L897 687H709L649 563H258L198 687ZM321 430H586L513 273Q509 263 500.0 243.0Q491 223 482.5 202.0Q474 181 467.0 164.0Q460 147 458 143H450Q442 163 431.0 188.0Q420 213 410.5 236.5Q401 260 394 274Z M995.0 687V0H1168.0V687Z", "f": "M1602.4 687V0H2265.4V136H1775.4V291H2215.4V428H1775.4V687Z", "fStart": 1510.4, "afterF": 2288.4, "undry": "M477 699Q345 699 258.5 659.0Q172 619 129.5 545.0Q87 471 87 369V0H260V361Q260 457 316.5 509.5Q373 562 477 562Q581 562 637.5 509.5Q694 457 694 361V0H866V369Q866 471 824.0 545.0Q782 619 695.5 659.0Q609 699 477 699Z M1031.0 687V0H1190.0L1558.0 345Q1569.0 354 1585.5 371.0Q1602.0 388 1620.0 406.5Q1638.0 425 1651.0 439H1660.0Q1659.0 419 1657.5 389.0Q1656.0 359 1656.0 339V0H1821.0V687H1665.0L1300.0 342Q1274.0 318 1246.0 289.0Q1218.0 260 1201.0 242H1193.0Q1194.0 255 1195.0 286.0Q1196.0 317 1196.0 356V687Z M1990.0 687V0H2363.0Q2490.0 0 2581.0 39.5Q2672.0 79 2721.0 155.5Q2770.0 232 2770.0 344Q2770.0 455 2721.0 531.5Q2672.0 608 2581.0 647.5Q2490.0 687 2363.0 687ZM2163.0 550H2354.0Q2406.0 550 2449.5 537.5Q2493.0 525 2525.0 500.5Q2557.0 476 2574.0 439.5Q2591.0 403 2591.0 355V332Q2591.0 284 2574.0 247.5Q2557.0 211 2525.0 186.5Q2493.0 162 2449.5 149.0Q2406.0 136 2354.0 136H2163.0Z M2909.0 687V0H3464.0Q3538.0 0 3585.5 30.0Q3633.0 60 3657.0 109.0Q3681.0 158 3681.0 218Q3681.0 280 3649.5 333.5Q3618.0 387 3554.0 418L3697.0 687H3503.0L3382.0 449H3082.0V687ZM3082.0 313H3413.0Q3455.0 313 3479.5 287.5Q3504.0 262 3504.0 222Q3504.0 194 3493.0 175.0Q3482.0 156 3462.0 146.0Q3442.0 136 3413.0 136H3082.0Z M4060.0 687V411L3723.0 0H3929.0L4146.0 275H4156.0L4375.0 0H4571.0L4233.0 411V687Z", "undryW": 4571.0, "O": "M508 699Q371 699 270.5 657.0Q170 615 116.0 535.5Q62 456 62 343Q62 230 116.0 150.5Q170 71 270.5 29.5Q371 -12 508 -12Q646 -12 746.0 29.5Q846 71 900.0 150.5Q954 230 954 343Q954 456 900.0 535.5Q846 615 746.0 657.0Q646 699 508 699ZM508 562Q567 562 616.0 548.5Q665 535 701.0 509.0Q737 483 756.5 443.5Q776 404 776 354V331Q776 281 756.5 242.0Q737 203 701.0 177.0Q665 151 616.0 137.5Q567 124 508 124Q449 124 400.0 137.5Q351 151 315.0 177.0Q279 203 259.5 242.0Q240 281 240 331V354Q240 404 259.5 443.5Q279 483 315.0 509.0Q351 535 400.0 548.5Q449 562 508 562Z", "oAdv": 1016.0, "cap": 687, "stem": 173, "oTop": 136, "oLsb": 62, "oRsb": 62, "track": -15.0, "sb": [0.4, 0.62]};
 const NAVY = "#002E5D", WHITE = "#FFFFFF";
 const S3 = Math.sqrt(3);
 
@@ -358,7 +367,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, split: "left", pyr: 0, lg: false, bvw: 22, io: 10, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, name: "ai", lg: false, bvw: 22, io: 10, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -567,7 +576,9 @@ function wmParts(g, p, color, bg) {
   let x = D.afterF + D.oLsb * sb[0] * m;
   const cx = x + g.W / 2;
   x += g.W + D.oRsb * sb[1] * m + D.track;
-  return { width: x + D.undryW, body: `<path fill="${color}" d="${D.aif}"/>${markup(g, p, cx, D.cap/2, color, bg)}<path fill="${color}" transform="translate(${x.toFixed(1)} 0)" d="${D.undry}"/>` };
+  const sx = p.name === "foundry" ? -D.fStart : 0;  // FOUNDRY alone: drop AI and start at the F
+  const lead = p.name === "foundry" ? `<path fill="${color}" d="${D.f}"/>` : `<path fill="${color}" d="${D.aif}"/>`;
+  return { width: x + D.undryW + sx, body: `<g transform="translate(${sx.toFixed(1)} 0)">${lead}${markup(g, p, cx, D.cap/2, color, bg)}<path fill="${color}" transform="translate(${x.toFixed(1)} 0)" d="${D.undry}"/></g>` };
 }
 // The official lockup's left half (BYU MARRIOTT / SCHOOL OF BUSINESS and the divider), cropped from public/brand at
 // half resolution; the new wordmark is set where the original AI FOUNDRY sits (x 2159, cap 91 to baseline 268, of 360).
@@ -588,7 +599,7 @@ function wordmark(g, p, color, opts = {}) {
   let x = D.afterF + D.oLsb * sb[0] * m;
   const cx = x + g.W / 2;
   x += g.W + D.oRsb * sb[1] * m + D.track;
-  const width = x + D.undryW;
+  const width = wmParts(g, p, color, WHITE).width;  // follows the name toggle
   const pad = D.cap * 0.14;
   const top = Math.min(0, D.cap/2 - g.Hs/2) - pad, bottom = Math.max(D.cap, D.cap/2 + g.Hs/2) + pad;
   let guides = "";
@@ -645,6 +656,7 @@ function render() {
   const prop = isProposal();
   $("proposal").setAttribute("aria-pressed", String(prop));
   $("proposal").textContent = prop ? "Showing the proposed design" : "Back to the proposed design";
+  setSeg("name", st.name || "ai");
   setSeg("mode", st.mode); setSeg("orient", st.orient);
   for (const b of $("presets").querySelectorAll("button")) b.style.outline = st.preset === b.dataset.p ? "2px solid var(--accent)" : "";
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
@@ -702,8 +714,8 @@ function render() {
   $("capLarge").textContent = st.compare ? "Navy on white · below: the same word with Archivo's own O" : "Navy on white";
   $("wmRev").innerHTML = wordmark(g, st, WHITE, { guides: st.guides });
   $("lkW").innerHTML = lockup(g, st, "navy"); $("lkN").innerHTML = lockup(g, st, "white");
-  $("bwB").innerHTML = wordmark(g, st, "#000000", { bg: WHITE }); $("bwW").innerHTML = wordmark(g, one1(st), WHITE, { bg: "#000000" });
-  $("bwBs").innerHTML = [96, 40, 20].map(px => symbol(g, "#000000", px, st, WHITE)).join("");
+  $("bwB").innerHTML = wordmark(g, one1(st), "#000000", { bg: WHITE }); $("bwW").innerHTML = wordmark(g, one1(st), WHITE, { bg: "#000000" });
+  $("bwBs").innerHTML = [96, 40, 20].map(px => symbol(g, "#000000", px, one1(st), WHITE)).join("");
   $("bwWs").innerHTML = [96, 40, 20].map(px => symbol(g, WHITE, px, one1(st), "#000000")).join("");
   $("symW").innerHTML = [160, 64, 32, 20].map(px => symbol(g, NAVY, px)).join("");
   $("symN").innerHTML = [160, 64, 32, 20].map(px => symbol(g, WHITE, px)).join("");
@@ -712,7 +724,7 @@ function render() {
 
   const shape = st.mode === "dih" ? `Diamond cut out of a ${st.orient === "flat" ? "flat-top" : "point-up"} hexagon` : `${st.orient === "flat" ? "Flat-top" : "Point-up"} hexagon cut out of a diamond`;
   const lines = [
-    shape,
+    shape + (st.name === "foundry" ? " · name: FOUNDRY (no AI)" : ""),
     `${inner} size: ${st.size.toFixed(1)}% of touching`,
     `Diamond width ÷ height: ${st.ratio.toFixed(3)}`,
     `Point overshoot: ${st.os.toFixed(2)}%`,
@@ -736,7 +748,7 @@ function bindSeg(id, key) {
     if (key === "mode" || key === "orient") { if (st.mode === "hid" && Math.abs(st.ratio - 1) > 0.2) st.ratio = 1; }
     render(); });
 }
-bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("sheen1", "sheen"); bindSeg("hdir", "hdir"); bindSeg("raim", "raim");
+bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("name", "name"); bindSeg("sheen1", "sheen"); bindSeg("hdir", "hdir"); bindSeg("raim", "raim");
 $("rays").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; st.rays = +b.dataset.v; st.preset = null; render(); });
 for (const [id, key] of [["ow","ow"],["osp","osp"],["rlen","rlen"],["rw","rw"],["rgap","rgap"],["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
