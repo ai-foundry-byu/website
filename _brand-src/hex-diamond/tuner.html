@@ -170,6 +170,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
         <button data-v="pyrdark">Pyramid: shadow face</button>
         <button data-v="pyrlit">Pyramid: lit face</button>
       </div>
+      <div class="seg" id="sheen3">
+        <button data-v="ticks">Partial lines</button>
+        <button data-v="ticksout">Partial lines, from the tips</button>
+      </div>
       <p class="hint" id="sheenHint"></p>
       <div class="sub" id="sheenCtl">
         <label class="label" for="sa"><span>Sheen strength</span><output id="saOut"></output></label>
@@ -188,6 +192,10 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
           <input type="range" id="ow" min="1" max="40" step="0.5">
           <label class="label" for="osp" id="ospLbl"><span>Spacing</span><output id="ospOut"></output></label>
           <input type="range" id="osp" min="4" max="30" step="0.5">
+          <label class="label" for="tk0" id="tk0Lbl"><span>Gap from the centre</span><output id="tk0Out"></output></label>
+          <input type="range" id="tk0" min="0" max="70" step="1">
+          <label class="label" for="tk1" id="tk1Lbl"><span>Line length</span><output id="tk1Out"></output></label>
+          <input type="range" id="tk1" min="5" max="80" step="1">
           <label class="label" for="pyr2" id="pyr2Lbl"><span>Peak position</span><output id="pyr2Out"></output></label>
           <input type="range" id="pyr2" min="-40" max="40" step="1">
           <div class="seg" id="hdir">
@@ -373,7 +381,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, split: "left", pyr: 0, name: "ai", lg: false, bvw: 22, io: 10, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, name: "ai", lg: false, bvw: 22, io: 10, tk0: 22, tk1: 28, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -460,13 +468,23 @@ function markup(g, p, cx, cy, ink, bg) {
     const q = (o, sgn) => [mx + nx * o + ux * k * sgn, my + ny * o + uy * k * sgn];
     s += `<clipPath id="${id}"><path d="${dia}"/></clipPath><path fill="${ink}" fill-opacity="${a}" d="${dia}"/>` +
          `<path clip-path="url(#${id})" fill="${bg}" d="${poly([q(o1, -1), q(o1, 1), q(o2, 1), q(o2, -1)])}"/>`;
-  } else if (["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit"].includes(p.sheen)) {
+  } else if (["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit", "ticks", "ticksout"].includes(p.sheen)) {
     // one colour only: shape from line and space, the way engraving and screen printing shade
     // on a dark ground the marks are the light, so they go on the lit (left) half
     const dk1 = ink !== NAVY && ink !== "#000000", sg = dk1 ? -1 : 1;
     const id = uid(), RH = dk1 ? [B, L, T] : [T, R, B], w = D.stem * p.ow / 100, sp = d * p.osp / 100, edge = dk1 ? L[0] : R[0];
     s += `<clipPath id="${id}"><path d="${dia}"/></clipPath>`;
-    if (p.sheen === "pyrdark" || p.sheen === "pyrlit") {
+    if (p.sheen === "ticks" || p.sheen === "ticksout") {
+      // short strokes on the lines from the centre to each tip, touching neither: they suggest the facets without drawing them
+      const C = [cx + dk * p.pyr / 100, cy + d * p.pyr / 100];
+      const seg = q => {
+        const f0 = p.sheen === "ticks" ? p.tk0 / 100 : 1 - (p.tk0 + p.tk1) / 100, f1 = p.sheen === "ticks" ? (p.tk0 + p.tk1) / 100 : 1 - p.tk0 / 100;
+        const at = f => [C[0] + (q[0] - C[0]) * f, C[1] + (q[1] - C[1]) * f];
+        const [a0, a1] = [at(Math.max(0, f0)), at(Math.min(1, f1))];
+        return `M${a0[0].toFixed(1)},${a0[1].toFixed(1)}L${a1[0].toFixed(1)},${a1[1].toFixed(1)}`;
+      };
+      s += `<path clip-path="url(#${id})" fill="none" stroke="${ink}" stroke-width="${w.toFixed(1)}" stroke-linecap="butt" d="${[T, R, B, L].map(seg).join("")}"/>`;
+    } else if (p.sheen === "pyrdark" || p.sheen === "pyrlit") {
       // the pyramid in one colour: whole faces filled, separated by gaps the width of the weight, lit from the upper left
       const C = [cx + dk * p.pyr / 100, cy + d * p.pyr / 100];
       const faces = [[[L, T, C], 0], [[T, R, C], 0.45], [[R, B, C], 1], [[B, L, C], 0.6]];
@@ -607,7 +625,7 @@ function lockup(g, p, which) {
 }
 const plain = p => Object.assign({}, p, { sheen: "none", glint: "none" });
 // single-colour cards keep the one-colour styles (and rays, which are cut out) and drop any tinted shading
-const one1 = p => ["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit"].includes(p.sheen) ? p : Object.assign({}, p, { sheen: "none", glint: "none" });
+const one1 = p => ["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit", "ticks", "ticksout"].includes(p.sheen) ? p : Object.assign({}, p, { sheen: "none", glint: "none" });
 function wordmark(g, p, color, opts = {}) {
   const sb = g.pointedSides ? D.sb : [0.8, 1.0];
   const m = p.space / 100;
@@ -675,14 +693,18 @@ function render() {
   setSeg("mode", st.mode); setSeg("orient", st.orient);
   for (const b of $("presets").querySelectorAll("button")) b.style.outline = st.preset === b.dataset.p ? "2px solid var(--accent)" : "";
   $("size").value = st.size; $("ratio").value = st.ratio; $("os").value = st.os; $("scale").value = st.scale; $("space").value = st.space;
-  setSeg("sheen", st.sheen); setSeg("sheen1", st.sheen); setSeg("sheen2", st.sheen); setSeg("hdir", st.hdir);
-  const one = ["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit"].includes(st.sheen);
+  setSeg("sheen", st.sheen); setSeg("sheen1", st.sheen); setSeg("sheen2", st.sheen); setSeg("sheen3", st.sheen);
+  const tk = st.sheen === "ticks" || st.sheen === "ticksout";
+  for (const k of ["tk0", "tk1"]) { $(k).hidden = $(k + "Lbl").hidden = !tk; $(k).value = st[k]; }
+  $("tk0Out").textContent = st.tk0 + "% of the way"; $("tk1Out").textContent = st.tk1 + "% of the way";
+  $("tk0Lbl").firstElementChild.textContent = st.sheen === "ticksout" ? "Gap from the tips" : "Gap from the centre"; setSeg("hdir", st.hdir);
+  const one = ["ridge", "half", "hatch", "dots", "pyrdark", "pyrlit", "ticks", "ticksout"].includes(st.sheen);
   $("oneCtl").hidden = !one; $("sa").hidden = $("sa").previousElementSibling.hidden = one; $("hdir").hidden = st.sheen !== "hatch";
   $("ospLbl").hidden = $("osp").hidden = !(st.sheen === "hatch" || st.sheen === "dots");
   $("ow").min = st.sheen === "dots" ? 30 : 1; $("ow").max = st.sheen === "dots" ? 130 : 40; $("ow").step = st.sheen === "dots" ? 1 : 0.5;
   $("osp").min = st.sheen === "dots" ? 8 : 4;
   $("ow").value = st.ow; $("osp").value = st.osp;
-  $("pyr2").hidden = $("pyr2Lbl").hidden = !st.sheen.startsWith("pyr"); $("pyr2").value = st.pyr;
+  $("pyr2").hidden = $("pyr2Lbl").hidden = !(st.sheen.startsWith("pyr") || tk); $("pyr2").value = st.pyr;
   $("pyr2Out").textContent = st.pyr === 0 ? "centered" : (st.pyr < 0 ? "toward the light " : "away from the light ") + Math.abs(st.pyr) + "%";
   $("owLbl").textContent = st.sheen === "half" || st.sheen.startsWith("pyr") ? "Gap between faces" : st.sheen === "dots" ? "Dot size" : "Line weight";
   $("owOut").textContent = st.sheen === "dots" ? st.ow + "% of full size" : (st.ow / 100).toFixed(3) + " of a stem"; $("ospOut").textContent = st.osp + "% of the diamond"; setSeg("glint", st.glint); setSeg("gat", st.gat);
@@ -709,6 +731,8 @@ function render() {
     ridge: "One colour: a single line down the middle, the ridge where two faces meet. Survives embroidery and small print.",
     half: "One colour: the shaded half solid, held off the hexagon by a thin gap so the diamond still reads.",
     hatch: "One colour: fine parallel lines across the shaded half, the way engravings and banknotes shade.",
+    ticks: "One colour: four short strokes on the lines from the centre to the tips, touching neither, so the facets are suggested and never drawn.",
+    ticksout: "One colour: four short strokes running in from the tips, stopping short of the centre and the edges.",
     pyrdark: "One colour: the pyramid with only its shadow face filled; gaps separate the faces.",
     pyrlit: "One colour: the pyramid with every face filled except the lit one, upper left; gaps separate the faces.",
     dots: "One colour: a halftone, dots that grow toward the far edge, the way screen printing shades." }[st.sheen];
@@ -772,6 +796,8 @@ function bindSeg(id, key) {
 bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("name", "name"); bindSeg("hdir", "hdir"); bindSeg("raim", "raim");
 // the one-colour row shares one weight slider; halftone needs its own range, so switching in and out resets it
 $("pyr2").addEventListener("input", e => { st.pyr = parseFloat(e.target.value); st.preset = null; render(); });
+$("sheen3").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+  if (st.sheen === "dots") { st.ow = 8; st.osp = 12; } st.sheen = b.dataset.v; st.preset = null; render(); });
 $("sheen2").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
   if (st.sheen === "dots") { st.ow = 8; st.osp = 12; } st.sheen = b.dataset.v; st.preset = null; render(); });
 $("sheen1").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
@@ -779,7 +805,7 @@ $("sheen1").addEventListener("click", e => { const b = e.target.closest("button"
   else if (b.dataset.v !== "dots" && st.sheen === "dots") { st.ow = 8; st.osp = 12; }
   st.sheen = b.dataset.v; st.preset = null; render(); });
 $("rays").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; st.rays = +b.dataset.v; st.preset = null; render(); });
-for (const [id, key] of [["ow","ow"],["osp","osp"],["rlen","rlen"],["rw","rw"],["rgap","rgap"],["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
+for (const [id, key] of [["tk0","tk0"],["tk1","tk1"],["ow","ow"],["osp","osp"],["rlen","rlen"],["rw","rw"],["rgap","rgap"],["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
 $("lg").addEventListener("change", e => { st.lg = e.target.checked; st.preset = null; render(); });
 $("guides").addEventListener("change", e => { st.guides = e.target.checked; render(); });
