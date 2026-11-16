@@ -475,7 +475,8 @@ function markup(g, p, cx, cy, ink, bg) {
       const hid = uid(); let dots = "";
       for (let x = cx + sg * sp / 2; sg * (edge - x) > 0; x += sg * sp) for (let y = T[1]; y < B[1]; y += sp) {
         const tt = Math.abs(x - cx) / dk, yy = y + ((Math.round(Math.abs(x - cx) / sp) % 2) ? sp / 2 : 0);
-        const r = sp * 0.5 * (0.25 + 0.6 * tt) * p.ow / 10;  // largest at the outer edge: shadow on light grounds, light on dark
+        // largest at the outer edge (shadow on light grounds, light on dark); at 100% the outer dots just touch
+        const r = Math.min(sp * 0.62, sp * 0.5 * (0.2 + 0.8 * tt) * p.ow / 100);
         dots += `M${(x - r).toFixed(1)},${yy.toFixed(1)}a${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(2 * r).toFixed(1)},0a${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(-2 * r).toFixed(1)},0`;
       }
       s += `<clipPath id="${hid}"><path d="${poly(RH)}"/></clipPath><path clip-path="url(#${hid})" fill="${ink}" d="${dots}"/>`;
@@ -664,9 +665,11 @@ function render() {
   const one = ["ridge", "half", "hatch", "dots"].includes(st.sheen);
   $("oneCtl").hidden = !one; $("sa").hidden = $("sa").previousElementSibling.hidden = one; $("hdir").hidden = st.sheen !== "hatch";
   $("ospLbl").hidden = $("osp").hidden = !(st.sheen === "hatch" || st.sheen === "dots");
+  $("ow").min = st.sheen === "dots" ? 30 : 1; $("ow").max = st.sheen === "dots" ? 130 : 40; $("ow").step = st.sheen === "dots" ? 1 : 0.5;
+  $("osp").min = st.sheen === "dots" ? 8 : 4;
   $("ow").value = st.ow; $("osp").value = st.osp;
   $("owLbl").textContent = st.sheen === "half" ? "Gap from the hexagon" : st.sheen === "dots" ? "Dot size" : "Line weight";
-  $("owOut").textContent = st.sheen === "dots" ? st.ow * 10 + "%" : (st.ow / 100).toFixed(3) + " of a stem"; $("ospOut").textContent = st.osp + "% of the diamond"; setSeg("glint", st.glint); setSeg("gat", st.gat);
+  $("owOut").textContent = st.sheen === "dots" ? st.ow + "% of full size" : (st.ow / 100).toFixed(3) + " of a stem"; $("ospOut").textContent = st.osp + "% of the diamond"; setSeg("glint", st.glint); setSeg("gat", st.gat);
   $("detailGroup").hidden = st.mode !== "dih";
   $("sheenCtl").hidden = st.sheen === "none"; $("splitCtl").hidden = st.sheen !== "split";
   $("bevelCtl").hidden = st.sheen !== "bevel"; $("insetCtl").hidden = st.sheen !== "inset";
@@ -748,7 +751,12 @@ function bindSeg(id, key) {
     if (key === "mode" || key === "orient") { if (st.mode === "hid" && Math.abs(st.ratio - 1) > 0.2) st.ratio = 1; }
     render(); });
 }
-bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("name", "name"); bindSeg("sheen1", "sheen"); bindSeg("hdir", "hdir"); bindSeg("raim", "raim");
+bindSeg("mode", "mode"); bindSeg("orient", "orient"); bindSeg("sheen", "sheen"); bindSeg("glint", "glint"); bindSeg("gat", "gat"); bindSeg("split", "split"); bindSeg("name", "name"); bindSeg("hdir", "hdir"); bindSeg("raim", "raim");
+// the one-colour row shares one weight slider; halftone needs its own range, so switching in and out resets it
+$("sheen1").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.v === "dots" && st.sheen !== "dots") { st.ow = 90; st.osp = 16; }
+  else if (b.dataset.v !== "dots" && st.sheen === "dots") { st.ow = 8; st.osp = 12; }
+  st.sheen = b.dataset.v; st.preset = null; render(); });
 $("rays").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; st.rays = +b.dataset.v; st.preset = null; render(); });
 for (const [id, key] of [["ow","ow"],["osp","osp"],["rlen","rlen"],["rw","rw"],["rgap","rgap"],["bvw","bvw"],["io","io"],["pyr","pyr"],["sa","sa"],["bpos","bpos"],["bw","bw"],["scount","scount"],["slen","slen"],["sw","sw"],["gsize","gsize"],["gwaist","gwaist"],["size","size"],["ratio","ratio"],["os","os"],["scale","scale"],["space","space"]])
   $(id).addEventListener("input", e => { st[key] = parseFloat(e.target.value); st.preset = null; render(); });
