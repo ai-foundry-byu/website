@@ -76,7 +76,13 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 .mkt-art { display: flex; align-items: center; justify-content: flex-start; min-height: 120px; background: #FFFFFF; border-radius: 4px; padding: 8px }
 .mkt-art svg { display: block; width: 100%; height: auto }
 .mkt-secondary svg { max-width: 360px } .mkt-icon svg { max-width: 200px }
-.fmt { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px }
+.fmt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px }
+.fbtn { font: 600 12px var(--body); padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--chip); color: var(--fg); cursor: pointer }
+.fbtn:hover { border-color: var(--accent) } .fbtn:disabled { opacity: .7; cursor: default }
+.fbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.eps { font-size: 12px; color: var(--muted) }
+.no-dl .fbtn, .no-dl #dlAll { display: none }
+.dl-all { display: flex; flex-wrap: wrap; align-items: center; gap: 12px }
 .mkt-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 16px }
 .mkt-notes p, .mkt-notes ul, .mkt-notes ol { margin: 0 0 8px; padding-left: 0 } .mkt-notes ul, .mkt-notes ol { padding-left: 18px }
 .mkt-symbol { display: flex; gap: 10px; align-items: center }
@@ -126,10 +132,11 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
       <button role="tab" id="tabI" aria-selected="false" data-tab="icon">Icon Only</button>
     </div>
     <div class="mkt-grid" id="mktGrid"></div>
+    <div class="dl-all"><button type="button" class="btn" id="dlAll">Download all (ZIP)</button><span class="hint" id="dlNote">Every version above as SVG, PNG and JPG. Your browser asks before saving.</span></div>
     <div class="mkt-notes">
       <div>
         <h3>The mark</h3>
-        <p>The O of FOUNDRY is a navy hexagon with a square diamond cut out of it: the hexagon is the AI Foundry's Builder Profile, the diamond its Consultant Profile. In full colour the diamond's right half is the grey of SCHOOL OF BUSINESS, which gives it depth; the navy, white and black versions are flat.</p>
+        <p>The O of FOUNDRY is a navy hexagon with a square diamond cut out of it: the hexagon is the AI Foundry's Builder Profile, the diamond its Consultant Profile. The mark is one flat colour in every version.</p>
       </div>
       <div>
         <h3>Specifications</h3>
@@ -139,8 +146,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
         <h3>Questions for Marketing</h3>
         <ol>
           <li>May a program lockup carry a wordmark with a graphic letter in it? The Marriott logo rules say a lockup is never paired with graphic iconography.</li>
-          <li>Is the grey split acceptable as the full-colour version, using the grey of SCHOOL OF BUSINESS?</li>
-          <li>Can Marketing produce the final files for the primary, secondary and icon-only logos, in the versions and formats listed under each?</li>
+                    <li>Can Marketing produce the final files for the primary, secondary and icon-only logos, in the versions and formats listed under each?</li>
         </ol>
       </div>
     </div>
@@ -151,7 +157,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
   <aside class="controls" aria-label="Controls">
     <div class="group proposal">
       <button class="btn" id="proposal" type="button">Proposed design</button>
-      <p class="hint" id="proposalNote">Puts every control back to the proposal (direction S). Change anything below; this button always returns to it.</p>
+      <p class="hint" id="proposalNote">Puts every control back to the proposal: Libre Franklin, flat, diamond at 70%. Change anything below; this button always returns to it.</p>
     </div>
 
     <div class="group">
@@ -432,6 +438,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
   </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 // Each typeface outlined by scripts/tuner-fonts.py: gothic and grotesque faces that sit with BYU Marriott's type
 // (Ringside Narrow, Franklin Gothic as its substitute) and BYU's web face (IBM Plex Sans).
@@ -736,9 +743,9 @@ function fitRatio() {
   if (st.mode !== "dih") return 1;
   return st.orient === "flat" ? 2 / S3 : S3 / 2;
 }
-// The proposed design (direction S): every setting, so the button restores all of them.
-const PROPOSAL = { font: "librefranklin", name: "ai", lksz: 105, mode: "dih", orient: "flat", size: 80, ratio: 1, os: 0, scale: 100, space: 100,
-  sheen: "split", split: "left", lg: true, sa: 16, pyr: 0, rays: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };
+// The proposed design (Scott, 2026-11-17: Libre Franklin, flat, diamond 70%): every setting, so the button restores all of them.
+const PROPOSAL = { font: "librefranklin", name: "ai", lksz: 105, mode: "dih", orient: "flat", size: 70, ratio: 1, os: 0, scale: 100, space: 100,
+  sheen: "none", split: "left", lg: false, sa: 16, pyr: 0, rays: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };  // Scott, 2026-11-17
 function applyProposal(redraw = true) { st = Object.assign(st, PROPOSAL, { preset: "proposal" }); if (redraw) render(); }
 const isProposal = () => Object.keys(PROPOSAL).every(k => st[k] === PROPOSAL[k] || (typeof PROPOSAL[k] === "number" && Math.abs(st[k] - PROPOSAL[k]) < 1e-6));
 function applyPreset(name, redraw = true) {
@@ -906,7 +913,7 @@ let gid = 0;
 // a recolouring filter: every pixel of the official artwork in one colour, alpha raised so the grey line becomes solid
 const solid = (col) => { const id = "f" + (++gid); return [id, `<filter id="${id}"><feComponentTransfer in="SourceAlpha" result="a"><feFuncA type="linear" slope="2.2"/></feComponentTransfer><feFlood flood-color="${col}"/><feComposite in2="a" operator="in"/></filter>`]; };
 function lockupVariant(g, p, v) {
-  // v: full (navy, grey split, official two-colour art), navy (all navy, flat), white (all white on black, flat)
+  // v: full (official two-colour BYU Marriott art, the name as proposed), navy (all navy), white (all white on black)
   const ink = v === "white" ? WHITE : NAVY, ground = v === "white" ? "#000000" : WHITE, pp = v === "full" ? p : one1(p);
   const { width, body } = wmParts(g, pp, ink, ground);
   const art = LOCKUP[v === "white" ? "white" : "navy"];
@@ -929,29 +936,79 @@ function secondaryVariant(g, p, v) {
     (v === "white" ? `<rect x="${-pad}" y="${top - pad}" width="${width + 2 * pad}" height="${bot - top + 2 * pad}" fill="${NAVY}"/>` : "") + body + `</svg>`;
 }
 function iconVariant(g, p, v) {
-  // the symbol alone: colour (navy with the grey split), black, and white on a dark tile
+  // the symbol alone: colour (navy, as proposed), black, and white on a dark tile
   const ink = v === "white" ? WHITE : v === "black" ? "#000000" : NAVY, ground = v === "white" ? "#000000" : WHITE;
   const pp = v === "color" ? p : one1(p), side = Math.max(g.W, g.Hs) * (v === "white" ? 1.5 : 1.12);
   return `<svg viewBox="${-side / 2} ${-side / 2} ${side} ${side}" role="img" aria-label="AI Foundry icon, ${v}">` +
     (v === "white" ? `<rect x="${-side / 2}" y="${-side / 2}" width="${side}" height="${side}" fill="#000"/>` : "") + markup(g, pp, 0, 0, ink, ground) + `</svg>`;
 }
+// every version on the Marketing page, so the ZIP holds all of them whichever tab is open
+let MKT_ART = [];
+function allArt(g, p) {
+  const out = [];
+  const add = (tab, v, label, svg, formats) => out.push({ tab, v, label, svg, formats, key: tab + "-" + v,
+    name: `ai-foundry_${tab === "icon" ? "icon-only" : tab}_${label.toLowerCase().replace(/ /g, "-")}` });
+  for (const [v, label, f] of [["full", "Full Color", ["svg", "png", "jpg"]], ["navy", "Navy", ["svg", "png", "jpg"]], ["white", "White", ["svg", "png"]]]) add("primary", v, label, lockupVariant(g, p, v), f);
+  for (const [v, label, f] of [["full", "Full Color", ["svg", "png", "jpg"]], ["navy", "Navy", ["svg", "png", "jpg"]], ["white", "White", ["svg", "png"]]]) add("secondary", v, label, secondaryVariant(g, p, v), f);
+  for (const [v, label, f] of [["color", "Color", ["svg", "png", "jpg"]], ["black", "Black", ["svg", "png"]], ["white", "White", ["svg", "png", "jpg"]]]) add("icon", v, label, iconVariant(g, p, v), f);
+  return out;
+}
+// files: the SVG as drawn, standalone; PNG and JPG rasterised from it (2400 px wide, icons 1200)
+const standalone = s => '<?xml version="1.0" encoding="UTF-8"?>\n' + s.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ');
+function raster(a, fmt) {
+  return new Promise((resolve, reject) => {
+    const vb = a.svg.match(/viewBox="([^"]+)"/)[1].split(/[ ,]+/).map(Number);
+    const w = a.tab === "icon" ? 1200 : 2400, h = Math.round(w * vb[3] / vb[2]);
+    const url = URL.createObjectURL(new Blob([standalone(a.svg)], { type: "image/svg+xml" }));
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      const x = c.getContext("2d");
+      if (fmt === "jpg") { x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, w, h); }  // JPG has no transparency: white ground
+      x.drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url);
+      c.toBlob(b => b ? resolve(b) : reject(new Error("render failed")), fmt === "jpg" ? "image/jpeg" : "image/png", 0.95);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("render failed")); };
+    img.src = url;
+  });
+}
+const fileData = async (a, fmt) => fmt === "svg" ? standalone(a.svg) : raster(a, fmt);
+let DL = null;
+async function save(filename, data, btn) {
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = "Preparing";
+  try { await DL.save({ filename, data }); btn.textContent = "Saved"; }
+  catch (e) { btn.textContent = e && e.code === "declined" ? label : "Not saved"; }
+  setTimeout(() => { btn.textContent = label; btn.disabled = false; }, 1600);
+}
+async function saveOne(btn) {
+  const a = MKT_ART.find(x => x.key === btn.dataset.art), fmt = btn.dataset.fmt;
+  try { await save(`${a.name}.${fmt}`, await fileData(a, fmt), btn); } catch (e) { btn.textContent = "Not saved"; }
+}
+async function saveAll(btn) {
+  if (!window.JSZip) { btn.textContent = "ZIP unavailable"; return; }
+  btn.disabled = true; btn.textContent = "Preparing";
+  try {
+    const zip = new JSZip();
+    for (const a of MKT_ART) for (const f of a.formats) zip.folder(a.tab === "icon" ? "icon-only" : a.tab).file(`${a.name}.${f}`, await fileData(a, f));
+    btn.disabled = false; btn.textContent = "Download all (ZIP)";
+    await save("ai-foundry-logos.zip", await zip.generateAsync({ type: "blob" }), btn);
+  } catch (e) { btn.textContent = "Not saved"; setTimeout(() => { btn.textContent = "Download all (ZIP)"; btn.disabled = false; }, 1600); }
+}
 function renderMarketing() {
   const keep = D, p = Object.assign({}, DEFAULTS, PROPOSAL);
   D = FONTS[p.font];
   const g = geom(p);
-  const formats = f => `<ul class="fmt">${f.map(x => `<li>${x}</li>`).join("")}</ul>`;
-  const cols = mktTab === "icon"
-    ? [["color", "Color", iconVariant(g, p, "color"), ["EPS (RGB, CMYK)", "PNG", "JPG"]], ["black", "Black", iconVariant(g, p, "black"), ["EPS (RGB, CMYK)", "PNG"]], ["white", "White", iconVariant(g, p, "white"), ["EPS (RGB, CMYK)", "PNG", "JPG"]]]
-    : mktTab === "secondary"
-    ? [["full", "Full Color", secondaryVariant(g, p, "full"), ["EPS", "PNG", "JPG"]], ["navy", "Navy", secondaryVariant(g, p, "navy"), ["EPS", "PNG", "JPG"]], ["white", "White", secondaryVariant(g, p, "white"), ["EPS", "PNG"]]]
-    : [["full", "Full Color", lockupVariant(g, p, "full"), ["EPS", "PNG", "JPG"]], ["navy", "Navy", lockupVariant(g, p, "navy"), ["EPS", "PNG", "JPG"]], ["white", "White", lockupVariant(g, p, "white"), ["EPS", "PNG"]]];
-  $("mktGrid").innerHTML = cols.map(([v, label, art, f]) =>
-    `<figure><figcaption>${label}</figcaption><div class="mkt-art mkt-${mktTab}">${art}</div>${formats(f)}</figure>`).join("");
+  MKT_ART = allArt(g, p);
+  const btns = a => `<div class="fmt">${a.formats.map(f => `<button type="button" class="fbtn" data-art="${a.key}" data-fmt="${f}">${f.toUpperCase()}</button>`).join("")}<span class="eps">EPS${a.tab === "icon" ? " (RGB, CMYK)" : ""}: from Marketing</span></div>`;
+  $("mktGrid").innerHTML = MKT_ART.filter(a => a.tab === mktTab).map(a =>
+    `<figure><figcaption>${a.label}</figcaption><div class="mkt-art mkt-${mktTab}">${a.svg}</div>${btns(a)}</figure>`).join("");
+  for (const b of $("mktGrid").querySelectorAll(".fbtn")) b.addEventListener("click", () => saveOne(b));
   $("mktSpecs").innerHTML = [
     `Typeface: ${D.label.replace(/ \(.*\)$/, "")} Bold, all capitals (free, SIL Open Font License)`,
     `Size: the name's capitals are ${p.lksz}% of MARRIOTT's, as in the AI Foundry lockup Marketing issued, centred on the BYU MARRIOTT block`,
-    `Colours: navy #002E5D; full colour adds the grey of SCHOOL OF BUSINESS (#BCC1C5 on white, as it appears in the official file)`,
-    `The O: hexagon top and bottom on the cap height and baseline; diamond at 80% of the largest that fits`,
+    `Colours: navy #002E5D, white or black, one colour at a time; in the full-colour lockup only SCHOOL OF BUSINESS is grey, as in every Marriott lockup`,
+    `The O: hexagon top and bottom on the cap height and baseline; square diamond at ${p.size}% of the largest that fits`,
     `Secondary: the name alone; Icon Only: the hexagon and diamond, which also serves as the favicon and social avatar`,
   ].map(x => `<li>${x}</li>`).join("");
   for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === mktTab));
@@ -959,4 +1016,12 @@ function renderMarketing() {
 }
 for (const b of document.querySelectorAll(".tabs button")) b.addEventListener("click", () => { mktTab = b.dataset.tab; renderMarketing(); });
 load(); fixOld(); render(); renderMarketing();
+// downloads only exist inside the claude.ai viewer: without them, hide the buttons and say so
+document.body.classList.add("no-dl");
+(window.claude && window.claude.use ? window.claude.use("downloads") : Promise.resolve(null)).then(d => {
+  DL = d;
+  if (d) document.body.classList.remove("no-dl");
+  else $("dlNote").textContent = "Downloads work when this page is opened on claude.ai.";
+}, () => { $("dlNote").textContent = "Downloads work when this page is opened on claude.ai."; });
+$("dlAll").addEventListener("click", e => saveAll(e.currentTarget));
 </script>
