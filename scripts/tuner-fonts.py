@@ -89,7 +89,7 @@ def data(path, axes, tracking):
     return {"aif": a + " " + f, "ai": a, "f": f, "fStart": r(fStart), "afterF": r(x), "undry": u,
             "undryW": r(xu - track - (gs[cmap[ord("Y")]].width - yb[2])), "O": O, "oAdv": r(ow - track),
             "cap": cap, "stem": stem(gs, cmap, cap), "oTop": max(tops) - min(tops),
-            "oLsb": o[0], "oRsb": gs[cmap[ord("O")]].width - o[2], "track": r(track), "sb": list(bl.SIDE_BEARING)}
+            "oLsb": o[0], "aLsb": bounds("A")[0], "fLsb": bounds("F")[0], "oRsb": gs[cmap[ord("O")]].width - o[2], "track": r(track), "sb": list(bl.SIDE_BEARING)}
 
 
 if __name__ == "__main__":
