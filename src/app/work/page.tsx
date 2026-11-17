@@ -31,9 +31,9 @@ export const metadata: Metadata = {
  * Honesty rules: every entry states where the build actually is, and no
  * client is claimed.
  *
- * Below it, the open-source toolkit (content.ts TOOLKIT): same grid and
- * cards, no images, so every card is the typographic plate. It gets an h2
- * and its own filter bar, so a chip on one grid never empties the other.
+ * Below it, the open-source toolkit (content.ts TOOLKIT): the same grid and
+ * cards in their compact form (no image well), three across at desktop, and
+ * no filter bar, since 11 entries need none. It gets its own h2.
  */
 export default function WorkPage() {
   return (
@@ -83,7 +83,7 @@ export default function WorkPage() {
             </p>
           </Reveal>
           <div style={{ paddingTop: "40px" }}>
-            <WorkShowcaseGrid items={TOOLKIT} />
+            <WorkShowcaseGrid items={TOOLKIT} compact filterable={false} />
           </div>
         </section>
       </main>
