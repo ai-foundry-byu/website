@@ -10,9 +10,11 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The mark is the locked BYU Marriott + AI Foundry lockup file, never a
- * typographic recreation. White bar, so the navy variant is the
- * sanctioned one here.
+ * The mark is the BYU Marriott + AI Foundry lockup file. Since 2026-11-17 its
+ * AI FOUNDRY half is the hexagon-and-diamond wordmark (Archivo Expanded, see
+ * _brand-src/hex-diamond); the BYU Marriott half and the bar are the official
+ * file's own pixels, and the final artwork is with BYU Marriott Marketing.
+ * White bar, so the navy variant is the one used here.
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -33,9 +35,9 @@ export function SiteHeader() {
       >
         <CurtainNavLink href="/" className="flex items-center no-underline">
           <Image
-            src="/byu-marriott-ai-foundry.png"
+            src="/lockup-ai-foundry.png"
             alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
+            width={4091}
             height={360}
             priority
             className="h-6 w-auto md:h-8"

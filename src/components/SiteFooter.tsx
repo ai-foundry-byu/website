@@ -28,9 +28,9 @@ export function SiteFooter() {
             sponsor joins the same row). */}
         <div className="flex flex-wrap items-end justify-between gap-8">
           <Image
-            src="/byu-marriott-ai-foundry-light.png"
+            src="/lockup-ai-foundry-white.png"
             alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={3305}
+            width={4091}
             height={360}
             className="h-8 w-auto"
           />
