@@ -56,9 +56,8 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // A plain BYU navy square, a deliberate placeholder: the anvil mark is
-  // under consideration and no official logo is approved yet (2026-08-01).
-  // When one is, regenerate this whole set from it. The SVG is listed first
+  // The hexagon-and-diamond icon, white on a navy tile (2026-11-17; source in
+  // _brand-src/hex-diamond). The SVG is listed first
   // because browsers that understand it prefer it and it stays sharp at any
   // size; the PNG is the fallback for those that do not. src/app/favicon.ico
   // is picked up by Next automatically and covers everything older.
