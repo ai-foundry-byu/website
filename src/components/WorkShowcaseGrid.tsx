@@ -13,6 +13,11 @@ import type { ShowcaseItem } from "@/lib/content"
  *
  * Deliberately no search box and no sort: under a few dozen items those are
  * furniture. Filters are category chips only.
+ *
+ * `filterable={false}` drops the chip bar and its count: the toolkit section
+ * has 11 entries, few enough to read without filtering. `compact` passes
+ * through to ShowcaseCard (no image well) and narrows the column minimum so
+ * the text-only cards sit three across at desktop width.
  */
 const CHIP_BASE: React.CSSProperties = {
   fontFamily: "var(--font-body)",
@@ -60,49 +65,59 @@ function Chip({
   )
 }
 
-export function WorkShowcaseGrid({ items }: { items: ShowcaseItem[] }) {
+export function WorkShowcaseGrid({
+  items,
+  compact = false,
+  filterable = true,
+}: {
+  items: ShowcaseItem[]
+  compact?: boolean
+  filterable?: boolean
+}) {
   const tags = Array.from(new Set(items.flatMap((i) => i.tags)))
   const [active, setActive] = useState<string | null>(null)
   const shown = active ? items.filter((i) => i.tags.includes(active)) : items
 
   return (
     <>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto 24px" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
-          <Chip selected={active === null} onClick={() => setActive(null)}>
-            All
-          </Chip>
-          {tags.map((tag) => (
-            <Chip key={tag} selected={active === tag} onClick={() => setActive(tag === active ? null : tag)}>
-              {tag}
+      {filterable ? (
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto 24px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
+            <Chip selected={active === null} onClick={() => setActive(null)}>
+              All
             </Chip>
-          ))}
+            {tags.map((tag) => (
+              <Chip key={tag} selected={active === tag} onClick={() => setActive(tag === active ? null : tag)}>
+                {tag}
+              </Chip>
+            ))}
+          </div>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "13px",
+              lineHeight: 1.2,
+              color: "var(--text-meta)",
+              margin: "12px 0 0",
+            }}
+          >
+            {shown.length} {shown.length === 1 ? "build" : "builds"}
+          </p>
         </div>
-        <p
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "13px",
-            lineHeight: 1.2,
-            color: "var(--text-meta)",
-            margin: "12px 0 0",
-          }}
-        >
-          {shown.length} {shown.length === 1 ? "build" : "builds"}
-        </p>
-      </div>
+      ) : null}
       <Stagger
         style={{
           maxWidth: "var(--container)",
           margin: "0 auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))",
+          gridTemplateColumns: `repeat(auto-fit, minmax(min(${compact ? 320 : 420}px, 100%), 1fr))`,
           gap: "20px",
           alignItems: "stretch",
         }}
       >
         {shown.map((s) => (
           <StaggerItem key={s.name}>
-            <ShowcaseCard name={s.name} blurb={s.blurb} tags={s.tags} links={s.links} image={s.image} />
+            <ShowcaseCard name={s.name} blurb={s.blurb} tags={s.tags} links={s.links} image={s.image} compact={compact} />
           </StaggerItem>
         ))}
       </Stagger>

@@ -9,19 +9,25 @@ import { Icon } from "./Icon"
    motion-plan #7 treatment: hover swaps the border to royal, slides four
    registration ticks in at the corners, and raises a caption bar over the
    image's bottom edge. All CSS (globals: .reg-card/.reg-tick/.reg-bar);
-   devices without hover keep the bar visible. */
+   devices without hover keep the bar visible.
+   `compact` (the /work toolkit) drops the browser-chrome bar and the image
+   well, caption bar included, leaving name, tags, blurb and links. A repo has
+   no honest picture, and an empty plate reads as unfinished. The royal border
+   and the corner ticks need no image, so compact keeps them. */
 export function ShowcaseCard({
   name,
   blurb,
   tags = [],
   links = [],
   image,
+  compact = false,
 }: {
   name: string
   blurb?: string
   tags?: string[]
   links?: { href: string; label: string }[]
   image?: string
+  compact?: boolean
 }) {
   return (
     <div
@@ -34,68 +40,85 @@ export function ShowcaseCard({
         display: "flex",
         flexDirection: "column",
         position: "relative",
+        // Compact rows are text-only and uneven, so fill the grid cell: every
+        // card in a row ends on one line and the links sit along it.
+        ...(compact ? { height: "100%" } : {}),
       }}
     >
       <span aria-hidden="true" className="reg-tick tl" />
       <span aria-hidden="true" className="reg-tick tr" />
       <span aria-hidden="true" className="reg-tick bl" />
       <span aria-hidden="true" className="reg-tick br" />
-      {/* Linear's rule (Measured Color Tier 3): the screenshot is the only
-          saturated object, presented in one monochrome frame — a flat
-          browser-chrome bar with three navy-alpha dots, hairlines, no
-          shadow — so its color reads intentional. */}
-      <div
-        aria-hidden="true"
-        style={{
-          display: "flex",
-          gap: "5px",
-          alignItems: "center",
-          padding: "8px 12px",
-          background: "#fff",
-          borderBottom: "1px solid var(--border-hairline)",
-        }}
-      >
-        {[0, 1, 2].map((i) => (
-          <span key={i} style={{ width: "7px", height: "7px", borderRadius: "50%", background: "rgba(0,46,93,.25)" }} />
-        ))}
-      </div>
-      <div
-        style={{
-          aspectRatio: "16 / 10",
-          background: image ? "transparent" : "rgba(0,46,93,.06)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-          borderBottom: "1px solid var(--border-hairline)",
-          position: "relative",
-        }}
-      >
-        {image ? (
-          <Image src={image} alt={name} fill sizes="(max-width: 900px) 100vw, 580px" style={{ objectFit: "cover" }} />
-        ) : (
-          <span
+      {compact ? null : (
+        <>
+          {/* Linear's rule (Measured Color Tier 3): the screenshot is the only
+              saturated object, presented in one monochrome frame — a flat
+              browser-chrome bar with three navy-alpha dots, hairlines, no
+              shadow — so its color reads intentional. */}
+          <div
+            aria-hidden="true"
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontStretch: "var(--w-plate)",
-              fontSize: "22px",
-              color: "var(--slate)",
-              padding: "0 20px",
-              textAlign: "center",
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              padding: "8px 12px",
+              background: "#fff",
+              borderBottom: "1px solid var(--border-hairline)",
             }}
           >
-            {name}
-          </span>
-        )}
-        <span aria-hidden="true" className="reg-bar">
-          {name} <span style={{ color: "var(--royal)" }}>→</span>
-        </span>
-      </div>
+            {[0, 1, 2].map((i) => (
+              <span key={i} style={{ width: "7px", height: "7px", borderRadius: "50%", background: "rgba(0,46,93,.25)" }} />
+            ))}
+          </div>
+          <div
+            style={{
+              aspectRatio: "16 / 10",
+              background: image ? "transparent" : "rgba(0,46,93,.06)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              borderBottom: "1px solid var(--border-hairline)",
+              position: "relative",
+            }}
+          >
+            {image ? (
+              <Image src={image} alt={name} fill sizes="(max-width: 900px) 100vw, 580px" style={{ objectFit: "cover" }} />
+            ) : (
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontStretch: "var(--w-plate)",
+                  fontSize: "22px",
+                  color: "var(--slate)",
+                  padding: "0 20px",
+                  textAlign: "center",
+                }}
+              >
+                {name}
+              </span>
+            )}
+            <span aria-hidden="true" className="reg-bar">
+              {name} <span style={{ color: "var(--royal)" }}>→</span>
+            </span>
+          </div>
+        </>
+      )}
       <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
         {/* Both rows wrap: two long badges beside a long name ("Claude Code" +
-            "Developer tools") overflowed a 390px card. Where they fit, nothing moves. */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "8px 12px" }}>
+            "Developer tools") overflowed a 390px card. Where they fit, nothing moves.
+            Compact cards sit three across, too narrow for name and tags to share
+            a line reliably, so they always stack: every card in the row matches. */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            ...(compact ? { flexDirection: "column", alignItems: "flex-start" } : { alignItems: "center" }),
+            justifyContent: "space-between",
+            gap: "8px 12px",
+          }}
+        >
           <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "18px", margin: 0 }}>{name}</h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
             {tags.map((t) => (
