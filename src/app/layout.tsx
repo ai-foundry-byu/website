@@ -3,7 +3,7 @@ import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { RouteTransitions } from "@/components/RouteTransitions";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
-import "./facets-build.css";
+import "./af-build.css";
 
 /**
  * The three families of the design system, and no others. Spec:
@@ -57,8 +57,8 @@ export const metadata: Metadata = {
     template: "%s | AI Foundry, BYU Marriott School of Business",
   },
   description: DESCRIPTION,
-  // Facets L preview (brand/facets-2026-11): the favicon set from the round
-  // 17 kit, draft for BYU Marriott approval. icon.svg is the 32px tile drawn
+  // The locked logo (brand/final-2026-11): the favicon set from the round
+  // 18 kit, draft for BYU Marriott approval. icon.svg is the 32px tile drawn
   // on the pixel grid (a Navy tile, the white hexagon with the diamond cut
   // out), favicon-32.png is the same drawing, favicon.ico carries the 16px
   // drawing too, and the 180/512 app icons are the kit's app icon (flat

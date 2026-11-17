@@ -59,7 +59,7 @@
   --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1); /* a member on the crane */
   --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1); /* the last of the approach */
   --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1); /* construction lines, the level */
-  /* Mark ink (FacetsBuild), Navy by default, White under
+  /* Mark ink (AFBuild), Navy by default, White under
      [data-theme="dark"] below. The other three are left from the Runout
      build and no longer drawn. */
   --af-mark-ink: var(--af-navy);
@@ -926,7 +926,7 @@ html {
   --cta-ink: var(--navy);
 }
 
-/* The Facets build on navy (FacetsBuild): the whole wordmark White. */
+/* The logo build on navy (AFBuild): the whole wordmark White. */
 [data-theme="dark"] {
   --af-mark-ink: var(--white);
   --af-mark-accent: var(--white);
@@ -951,7 +951,7 @@ html {
 }
 @media (min-width: 768px) {
   :root {
-    --af-header-h: calc(var(--af-strip-h) + 2 * var(--af-clear) + 550px * 56.818 / 657.415);
+    --af-header-h: calc(var(--af-strip-h) + 2 * var(--af-clear) + 489px * 56.818 / 583.624);
   }
 }
 body {
@@ -970,10 +970,10 @@ body {
    screen edge on its left and the nearest control on its right.
    Under 768px: the official BYU Marriott logo alone, 251px wide (B 24.3px;
    its ink fills its 396 x 75 viewBox), and the Menu button.
-   From 768px: the draft co-brand lockup, Facets L (the official logo,
-   unchanged, the rule, AI FOUNDRY), the -web file (657.415 x 56.818, the
-   drawing only), 550px wide, so the Marriott logo is 550 x 300/657.415 =
-   251.0px (B 24.3px), with 28px round the whole lockup. */
+   From 768px: the draft co-brand lockup, the locked logo (the official
+   logo, unchanged, the rule, AI FOUNDRY), the -web file (583.624 x 56.818,
+   the drawing only), 489px wide, so the Marriott logo is 489 x 300/583.624 =
+   251.4px (B 24.3px), with 28px round the whole lockup. */
 .af-header-row {
   padding: 0 4px 0 calc(var(--af-clear) - 4px);
 }
@@ -988,7 +988,7 @@ body {
 }
 .af-header-lockup {
   display: none;
-  width: 550px;
+  width: 489px;
 }
 .af-header-marriott {
   width: 251px;
@@ -1034,10 +1034,10 @@ body {
 /* The footer carries the BYU Marriott logo at 250px or more on every
    viewport (Scott Murff's brief: at least 250px in every version, one B of
    clear space all round; B = 38.26/396 of the logo's width).
-   From 640px: the draft co-brand lockup, Facets L. The -web file is
-   657.415 x 56.818 (the drawing only) and the Marriott logo is
-   300/657.415 = 45.6% of its width, so 550px of lockup puts the logo at
-   251.0px (B 24.3px).
+   From 640px: the draft co-brand lockup, the locked logo. The -web file is
+   583.624 x 56.818 (the drawing only) and the Marriott logo is
+   300/583.624 = 51.4% of its width, so 489px of lockup puts the logo at
+   251.4px (B 24.3px).
    Under 640px: the official BYU Marriott logo alone (the school's file,
    unchanged; its ink fills its 396 x 75 viewBox), 251px wide (B 24.3px).
    Both sizes match the header's. The 4px inset plus the 24px gutter keeps
@@ -1057,7 +1057,7 @@ body {
 @media (min-width: 640px) {
   .af-footer-lockup {
     display: block;
-    width: 550px;
+    width: 489px;
     height: auto;
   }
   .af-footer-marriott {
@@ -1101,15 +1101,15 @@ body {
   position: relative;
   overflow: hidden;
   background-color: var(--navy);
-  /* the one tonal lift, behind the wordmark (Facets L: it is built across
-     the top of the hero) */
+  /* the one tonal lift, behind the wordmark (it is built across the top
+     of the hero) */
   background-image: radial-gradient(46% 40% at 34% 24%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
   color: var(--white);
   padding: 80px 24px 104px;
   isolation: isolate;
 }
-/* Facets L: one column. The AI FOUNDRY wordmark is built across the top
-   (FacetsBuild), then the copy under it on the same left edge. The copy
+/* One column. The AI FOUNDRY wordmark is built across the top
+   (AFBuild), then the copy under it on the same left edge. The copy
    column stops at 780px, so the headline (6.8cqi) tops out near 53px; the
    wordmark runs the full container (cap about 107px at 1200px) and leads. */
 .af-hero-inner {
@@ -1148,7 +1148,7 @@ body {
   justify-self: start;
   margin: 0 0 64px;
 }
-.af-hero-art .afL-build {
+.af-hero-art .af-build {
   display: block;
   width: 100%;
   height: auto;
@@ -1159,7 +1159,7 @@ body {
    buttons and the figures seat. No blur, no fade-from-glow. */
 @media (prefers-reduced-motion: no-preference) {
   /* The copy sets while the wordmark's hexagon and diamond land (the
-     letters rise 0 to 0.9s, FacetsBuild), so the two never compete. */
+     letters rise 0 to 0.9s, AFBuild), so the two never compete. */
   .af-line {
     animation: af-line-set 0.62s var(--af-ease-draw) both;
     animation-delay: calc(0.78s + var(--i, 0) * 0.12s);

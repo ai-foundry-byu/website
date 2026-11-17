@@ -30,9 +30,9 @@ export function SiteFooter() {
             of clear space (B = 38.26/396 of the logo's width, 24.3px
             here) plus 3px on every side, and opposite it who the Foundry
             belongs to (each sponsor's own logo, white on navy).
-            From 640px: the draft co-brand lockup (Facets L, white on navy:
+            From 640px: the draft co-brand lockup (the locked logo, white on navy:
             the official BYU Marriott logo, a rule and the AI FOUNDRY
-            wordmark), 550px wide, so the Marriott logo is 251px. Under
+            wordmark), 489px wide, so the Marriott logo is 251px. Under
             640px the horizontal lockup cannot hold a 250px logo plus its
             clear space inside the gutters (it needs about
             590px), so phones get the official BYU Marriott logo alone,
@@ -43,9 +43,9 @@ export function SiteFooter() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div className="af-footer-brand">
             <Image
-              src="/brand/facets/cobrand/lockup-wordmark-white-web.svg"
+              src="/brand/ai-foundry/cobrand/lockup-white-web.svg"
               alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup (draft for BYU Marriott approval)`}
-              width={657}
+              width={584}
               height={57}
               unoptimized
               className="af-footer-lockup"

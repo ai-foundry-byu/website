@@ -1,0 +1,25 @@
+/* AI Foundry logo (Scott Murff, locked 2026-11-17): the build. Draft for BYU Marriott approval.
+   Base styles are the FINAL mark. The animations bind only under .af-build.is-building, so no class,
+   no CSS, print and prefers-reduced-motion all show the static mark. Timing: timing.json. */
+.af-build{overflow:visible}
+.af-ink{fill:var(--af-mark-ink,#002E5D)}
+.af-build[data-theme=dark] .af-ink,[data-theme=dark] .af-build .af-ink{fill:var(--af-mark-ink,#FFFFFF)}
+.af-letter,.af-hex,.af-cut{transform-box:fill-box;transform-origin:50% 50%}
+@keyframes af-letter{0%{opacity:0;transform:translateY(16.0px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes af-hex{0%{opacity:0;transform:translateY(-42.0px) scale(1.16)}30%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes af-hex-sym{0%{opacity:0;transform:translateY(-24.96px) scale(1.1)}30%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes af-cut{0%{transform:scale(0)}100%{transform:scale(1)}}
+.af-build.is-building .af-letter-A{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 0ms backwards}
+.af-build.is-building .af-letter-I{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 55ms backwards}
+.af-build.is-building .af-letter-F{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 110ms backwards}
+.af-build.is-building .af-letter-U{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 165ms backwards}
+.af-build.is-building .af-letter-N{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 220ms backwards}
+.af-build.is-building .af-letter-D{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 275ms backwards}
+.af-build.is-building .af-letter-R{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 330ms backwards}
+.af-build.is-building .af-letter-Y{animation:af-letter 520ms cubic-bezier(.22,1,.36,1) 385ms backwards}
+.af-build.is-building .af-hex{animation:af-hex 660ms cubic-bezier(.2,.75,.25,1) 820ms backwards}
+.af-build.is-building .af-cut{animation:af-cut 640ms cubic-bezier(.45,0,.2,1) 1480ms backwards}
+.af-build.af-symbol.is-building .af-hex{animation:af-hex-sym 660ms cubic-bezier(.2,.75,.25,1) 0ms backwards}
+.af-build.af-symbol.is-building .af-cut{animation:af-cut 640ms cubic-bezier(.45,0,.2,1) 640ms backwards}
+@media (prefers-reduced-motion:reduce){.af-build *{animation:none!important}}
+@media print{.af-build *{animation:none!important}}

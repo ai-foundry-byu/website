@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { FacetsBuild } from "@/components/FacetsBuild"
+import { AFBuild } from "@/components/AFBuild"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,11 +36,11 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* Facets L preview (brand/facets-2026-11, Scott Murff's direction L, draft
+/* The locked logo (brand/final-2026-11, Scott Murff, locked 2026-11-17, draft
    for BYU Marriott approval): the hero is flat Navy with one soft tonal lift
    behind the wordmark, and the AI FOUNDRY wordmark is built across the top of
-   it in three beats (FacetsBuild: the letters rise in, the hexagon drops into
-   the O, the diamond is cut), White on navy. It is the first thing under the
+   it in three beats (AFBuild: the letters rise in, the hexagon seats in
+   the O slot, the diamond is cut open), White on navy. It is the first thing under the
    bar at every width, so a phone names AI Foundry in its first viewport.
    Below it the headline is flat White (type is never a gradient) and the
    primary on this surface is White with a Navy label (system v3). */
@@ -55,7 +55,7 @@ function Hero() {
     <section className="af-hero" data-ground="navy">
       <div className="af-hero-inner">
         <div className="af-hero-art">
-          <FacetsBuild theme="dark" id="af-hero-wn" />
+          <AFBuild theme="dark" id="af-hero-wn" />
         </div>
         <div className="af-hero-copy">
           <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>

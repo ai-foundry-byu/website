@@ -9,12 +9,12 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * (AccountMenu), and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * Facets L preview (brand/facets-2026-11; Scott Murff's direction L and
- * logo brief): the first thing on every page is the official BYU Marriott
+ * The locked logo (brand/final-2026-11; Scott Murff's logo, locked
+ * 2026-11-17, and his logo brief): the first thing on every page is the official BYU Marriott
  * logo, at least 250px wide with one B of clear space (B = 38.26/396 of the
  * logo's width, about 24px) plus a 3px margin, on every side:
  * - from 768px: the draft co-brand lockup (the official logo, unchanged, a
- *   rule, the Facets AI FOUNDRY wordmark), 550px wide, so the Marriott logo
+ *   rule, the AI FOUNDRY wordmark), 489px wide, so the Marriott logo
  *   is 251px, with 28px of clear space round the whole lockup;
  * - under 768px: the official BYU Marriott logo alone (msb_left_white.svg,
  *   the school's own file, unchanged), 251px wide, 28px clear; the AI
@@ -44,9 +44,9 @@ export function SiteHeader() {
         <CurtainNavLink href="/" className="af-header-home flex shrink-0 items-center no-underline">
           {/* eslint-disable-next-line @next/next/no-img-element -- brand artwork is served unchanged */}
           <img
-            src="/brand/facets/cobrand/lockup-wordmark-white-web.svg"
+            src="/brand/ai-foundry/cobrand/lockup-white-web.svg"
             alt={`${SCHOOL_FULL} and ${PROGRAM}, draft co-brand lockup for BYU Marriott approval`}
-            width={657}
+            width={584}
             height={57}
             className="af-header-lockup"
           />
