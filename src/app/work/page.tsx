@@ -4,14 +4,24 @@ import { SiteFooter } from "@/components/SiteFooter"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { Reveal } from "@/components/motion/MotionPrimitives"
 import { WorkShowcaseGrid } from "@/components/WorkShowcaseGrid"
-import { SCHOOL_FULL, SHOWCASE, SHOWCASE_EYEBROW, WORK_HEADING, WORK_LEAD } from "@/lib/content"
+import {
+  SCHOOL_FULL,
+  SHOWCASE,
+  SHOWCASE_EYEBROW,
+  TOOLKIT,
+  TOOLKIT_EYEBROW,
+  TOOLKIT_HEADING,
+  TOOLKIT_LEAD,
+  WORK_HEADING,
+  WORK_LEAD,
+} from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Our work",
   description:
     "Products shipped by AI Foundry, an experiential learning program of the " +
     SCHOOL_FULL +
-    ". Every entry is a real product, shipped and running.",
+    ", and the open-source toolkit its builders use on client work.",
   alternates: { canonical: "/work" },
 }
 
@@ -20,6 +30,10 @@ export const metadata: Metadata = {
  * over the lead, then the showcase grid of 16:10 product screenshots.
  * Honesty rules: every entry states where the build actually is, and no
  * client is claimed.
+ *
+ * Below it, the open-source toolkit (content.ts TOOLKIT): same grid and
+ * cards, no images, so every card is the typographic plate. It gets an h2
+ * and its own filter bar, so a chip on one grid never empties the other.
  */
 export default function WorkPage() {
   return (
@@ -50,6 +64,27 @@ export default function WorkPage() {
         </section>
         <section style={{ padding: "40px 24px 64px" }}>
           <WorkShowcaseGrid items={SHOWCASE} />
+        </section>
+        <section aria-labelledby="toolkit-heading" style={{ padding: "0 24px 64px" }}>
+          <Reveal
+            style={{
+              maxWidth: "var(--container)",
+              margin: "0 auto",
+              paddingTop: "56px",
+              borderTop: "1px solid var(--border-hairline)",
+            }}
+          >
+            <Eyebrow>{TOOLKIT_EYEBROW}</Eyebrow>
+            <h2 id="toolkit-heading" style={{ margin: "14px 0 0", color: "var(--navy)" }}>
+              {TOOLKIT_HEADING}
+            </h2>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "56ch", margin: "16px 0 0" }}>
+              {TOOLKIT_LEAD}
+            </p>
+          </Reveal>
+          <div style={{ paddingTop: "40px" }}>
+            <WorkShowcaseGrid items={TOOLKIT} />
+          </div>
         </section>
       </main>
       <SiteFooter />

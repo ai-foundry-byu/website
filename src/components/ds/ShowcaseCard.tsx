@@ -93,9 +93,11 @@ export function ShowcaseCard({
         </span>
       </div>
       <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+        {/* Both rows wrap: two long badges beside a long name ("Claude Code" +
+            "Developer tools") overflowed a 390px card. Where they fit, nothing moves. */}
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "8px 12px" }}>
           <h3 style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "18px", margin: 0 }}>{name}</h3>
-          <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
             {tags.map((t) => (
               <Badge key={t}>{t}</Badge>
             ))}
