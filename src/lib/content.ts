@@ -225,7 +225,8 @@ export type ShowcaseItem = {
   blurb: string
   tags: string[]
   links: { href: string; label: string }[]
-  image: string
+  /** Omit for the typographic plate (ShowcaseCard draws the name instead). */
+  image?: string
 }
 
 export const SHOWCASE_EYEBROW = "Reference builds"
@@ -289,6 +290,120 @@ export const SHOWCASE: ShowcaseItem[] = [
       { href: "https://new.writegrader.com", label: "new.writegrader.com" },
     ],
     image: "/showcase/lawgrader.jpg",
+  },
+]
+
+/* ────────────────────────────────────────────────────────────
+   TOOLKIT: the second section on /work, below the shipped products.
+
+   SHOWCASE is client-grade products; this is the open-source kit the
+   builders use to make them. It lives on /work only. The landing band stays
+   products, because a tool is not proof that we can ship for a client.
+
+   Honesty rules, the same as SHOWCASE plus one: every entry is a public repo
+   under github.com/ai-foundry-byu under an open licence, checked against the
+   GitHub API before it was listed. Ten are MIT; the Software Design Canon is
+   CC BY 4.0, because it is a curated index rather than code, which is why the
+   lead says "openly licensed" and not "MIT". Each blurb describes what the
+   tool does and claims nothing its own README does not. No person is named:
+   these are the Foundry's tools, not anyone's portfolio.
+
+   Agent Team Kit was proposed for this list and is held back because its
+   repo carries no licence file, so it is public but not open source, and
+   choosing a licence is its author's call, not ours. When a LICENSE lands it
+   joins as the second entry.
+
+   No images. Every card renders the typographic plate, which is the honest
+   picture of a repo: a screenshot of a README would be furniture.
+   ──────────────────────────────────────────────────────────── */
+
+export const TOOLKIT_EYEBROW = "Open source"
+
+export const TOOLKIT_HEADING = "The toolkit we build with."
+
+export const TOOLKIT_LEAD =
+  "The tools, plugins and reference agents Foundry builders use on client work. Every one is public and openly licensed, so you can install it and check how we work."
+
+export const TOOLKIT: ShowcaseItem[] = [
+  {
+    name: "AI Foundry Marketplace",
+    blurb:
+      "Installable Claude Code plugins for the way we build: an eight-stage SDLC from requirements to ship, plus QA, guardrails, design, evals and device-testing plugins. Every skill is labelled by how well it has been tested.",
+    tags: ["Claude Code", "Plugins"],
+    links: [
+      { href: "https://github.com/ai-foundry-byu/foundry-marketplace", label: "GitHub" },
+      { href: "https://ai-foundry-byu.github.io/foundry-marketplace/", label: "Catalog" },
+    ],
+  },
+  {
+    name: "Claude Bug Squash",
+    blurb:
+      "Report a bug and an agent triages it, fixes it in an isolated worktree, proves the test goes from red to green, and passes a three-reviewer check before anything can merge. Merging stays off until a person turns it on.",
+    tags: ["Claude Code", "Autonomous fixes"],
+    links: [{ href: "https://github.com/ai-foundry-byu/claude-bug-squash", label: "GitHub" }],
+  },
+  {
+    name: "Ethos Gate",
+    blurb:
+      "A safety gate for autonomous agents: it blocks any irreversible or outward-facing action, such as a send, a deploy or a payment, unless a person approved that exact content.",
+    tags: ["Agent safety", "Hooks"],
+    links: [{ href: "https://github.com/ai-foundry-byu/ethos-gate", label: "GitHub" }],
+  },
+  {
+    name: "Claude Deploy Kit",
+    blurb:
+      "The controls a company needs before it lets Claude agents act: one policy checkpoint, a block on destructive commands, an evaluation gate and an audit log that redacts secrets.",
+    tags: ["Agent safety", "Enterprise"],
+    links: [{ href: "https://github.com/ai-foundry-byu/claude-deploy-kit", label: "GitHub" }],
+  },
+  {
+    name: "Agent Evals Starter",
+    blurb:
+      "Learn agent evaluation by running it: a support agent, 24 tasks, code graders, an LLM judge and do-nothing controls, all offline.",
+    tags: ["Evals", "Course"],
+    links: [{ href: "https://github.com/ai-foundry-byu/agent-evals-starter", label: "GitHub" }],
+  },
+  {
+    name: "MCP Judge",
+    blurb:
+      "A calibrated LLM judge served over MCP, shipped with the evaluation harness that proves its scores agree with known-good and known-bad examples.",
+    tags: ["Evals", "MCP"],
+    links: [{ href: "https://github.com/ai-foundry-byu/mcp-judge", label: "GitHub" }],
+  },
+  {
+    name: "Orchestra Agents",
+    blurb:
+      "Production patterns for multi-agent systems on Claude: bounded fan-out, a durable message bus, circuit breakers, and best-of-N with an adversarial judge.",
+    tags: ["Multi-agent", "Claude API"],
+    links: [{ href: "https://github.com/ai-foundry-byu/orchestra-agents", label: "GitHub" }],
+  },
+  {
+    name: "Deep Research Agent",
+    blurb:
+      "A research agent that searches several sources, finds the gaps in its own answer, argues the other side, and checks each claim before it reports.",
+    tags: ["Agents", "Research"],
+    links: [{ href: "https://github.com/ai-foundry-byu/deep-research-agent", label: "GitHub" }],
+  },
+  {
+    name: "AI Phone Desk",
+    blurb:
+      "Gives agents a phone line through a voice AI that says it is an AI, and dials only after a person approves the exact request.",
+    tags: ["Agents", "Voice"],
+    links: [{ href: "https://github.com/ai-foundry-byu/ai-phone-desk", label: "GitHub" }],
+  },
+  {
+    name: "Harnessview",
+    blurb:
+      "Maps a Claude Code project's agents, skills, hooks, MCP servers and settings into one live graph, with broken wiring flagged as an error.",
+    tags: ["Claude Code", "Developer tools"],
+    links: [{ href: "https://github.com/ai-foundry-byu/harnessview", label: "GitHub" }],
+  },
+  {
+    name: "Software Design Canon",
+    blurb:
+      "A link-checked index of the genuinely free primary sources on software design and architecture, for builders who want the originals rather than summaries.",
+    tags: ["Research", "Learning"],
+    links: [{ href: "https://github.com/ai-foundry-byu/software-design-canon", label: "GitHub" }],
   },
 ]
 
