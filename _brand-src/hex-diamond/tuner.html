@@ -83,9 +83,9 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
 .eps { font-size: 12px; color: var(--muted) }
 .no-dl .fbtn, .no-dl #dlAll { display: none }
 .dl-all { display: flex; flex-wrap: wrap; align-items: center; gap: 12px }
-.mkt-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 16px }
+.mkt-notes { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 16px }
 .mkt-notes p, .mkt-notes ul, .mkt-notes ol { margin: 0 0 8px; padding-left: 0 } .mkt-notes ul, .mkt-notes ol { padding-left: 18px }
-.mkt-symbol { display: flex; gap: 10px; align-items: center }
+.mkt-story p { max-width: 70ch }
 @media (max-width: 860px) { .mkt-grid, .mkt-notes { grid-template-columns: minmax(0, 1fr) } }
 .proposal .btn { font-size: 14px; padding: 11px 12px }
 .proposal .btn[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent-fg) }
@@ -134,20 +134,17 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
     <div class="mkt-grid" id="mktGrid"></div>
     <div class="dl-all"><button type="button" class="btn" id="dlAll">Download all (ZIP)</button><span class="hint" id="dlNote">Every version above as SVG, PNG and JPG. Your browser asks before saving.</span></div>
     <div class="mkt-notes">
-      <div>
-        <h3>The mark</h3>
-        <p>The O of FOUNDRY is a navy hexagon with a square diamond cut out of it: the hexagon is the AI Foundry's Builder Profile, the diamond its Consultant Profile. The mark is one flat colour in every version.</p>
+      <div class="mkt-story">
+        <h3>About the mark</h3>
+        <p>The AI Foundry's purpose is "to develop disciple-leaders who use AI to enhance human flourishing." Students build working AI products for real clients: undergraduates build, and MBA students also lead the teams.</p>
+        <p>The mark puts both sides of that work into one letter. The O of FOUNDRY is a hexagon with a diamond cut from its centre.</p>
+        <p><strong>The hexagon is the builder.</strong> Its six corners are the six skills on the Foundry's Builder Profile. It is also the cell of a honeycomb: Brigham Young adopted the beehive as a symbol of industry and cooperative work, and the hexagon is one cell of that hive, the builder's share of the work.</p>
+        <p><strong>The diamond is the consultant and leader.</strong> Its four corners are the Consultant Profile: Judgment, Ownership, Communication and Collaboration. A diamond makes no light of its own; it reflects the light that falls on it, as the Foundry's leaders seek to reflect the Light of Christ in their work.</p>
+        <p>The mark is deliberately simple. It is one flat colour, it reads at favicon size, and it holds up in embroidery and engraving. The letters are Libre Franklin, an open-licence Franklin Gothic, chosen to sit with the BYU Marriott lockup.</p>
       </div>
       <div>
         <h3>Specifications</h3>
         <ul id="mktSpecs"></ul>
-      </div>
-      <div>
-        <h3>Questions for Marketing</h3>
-        <ol>
-          <li>May a program lockup carry a wordmark with a graphic letter in it? The Marriott logo rules say a lockup is never paired with graphic iconography.</li>
-                    <li>Can Marketing produce the final files for the primary, secondary and icon-only logos, in the versions and formats listed under each?</li>
-        </ol>
       </div>
     </div>
   </section>
@@ -924,7 +921,10 @@ function lockupVariant(g, p, v) {
     const W = 2159 + width * s + 60, top = 179.5 - capPx / 2;
     return `<svg viewBox="-60 -40 ${(W + 60).toFixed(0)} 440" role="img" aria-label="AI Foundry primary lockup, ${v}"><defs>${defs}</defs>` +
       (v === "white" ? `<rect x="-60" y="-40" width="${W + 60}" height="440" fill="#000"/>` : "") +
-      `<image href="${art}" x="0" y="0" width="2032" height="360"${filt}/><g transform="translate(2159 ${top.toFixed(1)}) scale(${s.toFixed(5)})">${body}</g></svg>`;
+      `<image href="${art}" x="0" y="0" width="2032" height="360"${filt}/>` +
+      // the vertical bar between BYU MARRIOTT and the name, drawn solid: grey in full colour, otherwise the ink
+      `<rect x="2025" y="21" width="7" height="317" fill="${v === "full" ? "#BCC1C5" : ink}"/>` +
+      `<g transform="translate(2159 ${top.toFixed(1)}) scale(${s.toFixed(5)})">${body}</g></svg>`;
   }
 }
 function secondaryVariant(g, p, v) {
