@@ -10,9 +10,10 @@
    Phone and tablet: the Builder sits right under the wordmark, so with no scrolling at all the
    hexagon is seen leaving the O at 3.55 s and being drawn up (outline traced, rings, spokes drawn
    out, corners, labels in ring order) by about 5.45 s; if the reader has scrolled it out of view
-   it waits just before the lift (AFStoryReplay, .is-held). The Consultant follows the facts and is
-   drawn up on its own 1.9 s clock the moment it scrolls into view (html.io, .is-telling); with no
-   script it is simply there. prefers-reduced-motion binds nothing: the end state is the base style. */
+   it waits just before the lift (AFStoryReplay, .is-held). The Consultant follows the facts: the moment
+   it scrolls into view the diamond lifts out of its cut (in the O, or in the Builder once that has
+   played), drops down the 40 px rule into the Consultant's box (.tk-dtrav), and the Consultant is
+   constructed on its own 2.5 s clock (html.io, .is-telling); with no script it is simply there. prefers-reduced-motion binds nothing: the end state is the base style. */
 /* ── the O, told: the hexagon and the diamond lift out of the mark and teach ──
    Geometry: the O slot is the hexagon's box in the wordmark's viewBox (254.333..369.781 x 0..100 of
    869.023 x 101.332), expressed in cqw of .af-hero-inner, the box the wordmark spans. The
@@ -32,14 +33,16 @@
   --lab:14px; --off:12px;
   min-height:calc(var(--sy) + var(--stage-h) + 8px);align-content:start;
 }
-/* short desktop screens (1280x800): a tighter stage so the link stays near the fold */
-@media (min-width:1200px) and (max-height:860px){
-  .af-hero-inner{--R:58px;--bcy:164px;--bh:262px;--gap:10px;--Rd:46px;--dcy:143px;--ch:222px;--off:11px}
+/* desktop screens 920 px tall and under (1440x900, 1536x864): a tighter stage, so the whole diamond,
+   its labels and the link are built above the fold (measured: the link ends about 845 px down) */
+@media (min-width:1200px) and (max-height:920px){
+  .af-hero{padding-top:40px}
+  .af-hero-inner{--cgap:40px;--R:58px;--bcy:156px;--bh:252px;--gap:8px;--Rd:46px;--dcy:136px;--ch:210px;--off:10px}
 }
-/* 1280x800 and other short laptops: about 40 px back, so the diamond and its link clear the fold */
-@media (max-height:820px) and (min-width:1200px){
-  .af-hero{padding-top:48px}
-  .af-hero-inner{--R:58px;--bcy:154px;--bh:250px;--gap:10px;--Rd:48px;--dcy:140px;--ch:218px;--off:10px;--lab:14px}
+/* 1280x800 and other short laptops: smaller still, so the link clears the 800 px fold */
+@media (min-width:1200px) and (max-height:820px){
+  .af-hero{padding-top:24px}
+  .af-hero-inner{--cgap:26px;--R:48px;--bcy:150px;--bh:232px;--gap:2px;--Rd:40px;--dcy:136px;--ch:202px;--off:9px;--lab:13px}
 }
 @media (max-width:1199px){
   .af-hero-inner{
@@ -82,6 +85,11 @@
 .tk-hl.tk-vm{transform:translate(0,-50%)}.tk-hr.tk-vm{transform:translate(-100%,-50%)}
 .tk-hl.tk-vt{transform:translate(0,-100%)}.tk-hr.tk-vt{transform:translate(-100%,-100%)}.tk-hc.tk-vt{transform:translate(-50%,-100%)}
 .tk-hl.tk-vb{transform:translate(0,0)}.tk-hr.tk-vb{transform:translate(-100%,0)}.tk-hc.tk-vb{transform:translate(-50%,0)}
+/* the diamond that leaves the cut on a phone and drops into the Consultant (AFStoryReplay moves it).
+   It rests hidden: with no script, or reduced motion, it never shows. */
+.tk-dtrav{position:absolute;z-index:6;left:0;top:0;width:100px;height:100px;margin:0;opacity:0;pointer-events:none;transform-origin:0 0}
+.tk-dtrav svg{display:block;width:100%;height:100%}
+.tk-dtrav path{fill:#fff}
 .tk-more{display:block;width:max-content;margin:4px auto 0;font-family:var(--font-body);font-size:14px;line-height:20px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.5)}
 .tk-more::after{content:" \2192"}
 
@@ -146,16 +154,16 @@
 @keyframes sm-cap-b{0.000%{opacity:0;translate:0 4px}75.893%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}81.250%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @keyframes sm-lab-b{0.000%{opacity:0;translate:0 4px}84.821%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}90.179%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @keyframes sm-after{0.000%{opacity:0;visibility:hidden}94.643%{opacity:0;visibility:visible;animation-timing-function:cubic-bezier(.3,0,.3,1)}100.000%{opacity:1;visibility:visible}}
-@keyframes sc-rule{0.000%{clip-path:inset(0 0 100% 0);animation-timing-function:cubic-bezier(.45,0,.2,1)}18.421%{clip-path:inset(0 0 0 0)}100.000%{clip-path:inset(0 0 0 0)}}
-@keyframes sc-cap{0.000%{opacity:0;translate:0 4px}5.263%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}23.684%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
-@keyframes sc-trace{0.000%{opacity:0;stroke-dashoffset:1}13.158%{opacity:1;stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}39.474%{opacity:1;stroke-dashoffset:0}44.737%{opacity:1;stroke-dashoffset:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}52.632%{opacity:0;stroke-dashoffset:0}100.000%{opacity:0;stroke-dashoffset:0}}
-@keyframes sc-frame{0.000%{opacity:0}39.474%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}44.737%{opacity:1}100.000%{opacity:1}}
-@keyframes sc-fill{0.000%{fill-opacity:0}26.316%{fill-opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}47.368%{fill-opacity:0.08}100.000%{fill-opacity:0.08}}
-@keyframes sc-ring{0.000%{opacity:0}34.211%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}52.632%{opacity:1}100.000%{opacity:1}}
-@keyframes sc-spoke{0.000%{stroke-dashoffset:1}36.842%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}55.263%{stroke-dashoffset:0}100.000%{stroke-dashoffset:0}}
-@keyframes sc-dot{0.000%{opacity:0}44.737%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}52.632%{opacity:1}100.000%{opacity:1}}
-@keyframes sc-lab{0.000%{opacity:0;translate:0 4px}50.000%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}65.789%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
-@keyframes sc-more{0.000%{opacity:0;translate:0 4px}78.947%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}97.368%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
+@keyframes sc-rule{0.000%{clip-path:inset(0 0 100% 0)}18.000%{clip-path:inset(0 0 100% 0);animation-timing-function:cubic-bezier(.45,0,.2,1)}28.800%{clip-path:inset(0 0 0 0)}100.000%{clip-path:inset(0 0 0 0)}}
+@keyframes sc-cap{0.000%{opacity:0;translate:0 4px}22.000%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}34.000%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
+@keyframes sc-trace{0.000%{opacity:0;stroke-dashoffset:1}38.000%{opacity:1;stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}56.000%{opacity:1;stroke-dashoffset:0}60.000%{opacity:1;stroke-dashoffset:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}66.000%{opacity:0;stroke-dashoffset:0}100.000%{opacity:0;stroke-dashoffset:0}}
+@keyframes sc-frame{0.000%{opacity:0}56.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}60.000%{opacity:1}100.000%{opacity:1}}
+@keyframes sc-fill{0.000%{fill-opacity:0}35.960%{fill-opacity:0}36.000%{fill-opacity:1}40.000%{fill-opacity:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}54.000%{fill-opacity:0.08}100.000%{fill-opacity:0.08}}
+@keyframes sc-ring{0.000%{opacity:0}48.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}62.000%{opacity:1}100.000%{opacity:1}}
+@keyframes sc-spoke{0.000%{stroke-dashoffset:1}50.000%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}64.000%{stroke-dashoffset:0}100.000%{stroke-dashoffset:0}}
+@keyframes sc-dot{0.000%{opacity:0}56.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}62.000%{opacity:1}100.000%{opacity:1}}
+@keyframes sc-lab{0.000%{opacity:0;translate:0 4px}60.000%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}72.000%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
+@keyframes sc-more{0.000%{opacity:0;translate:0 4px}82.000%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}96.000%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @media (prefers-reduced-motion:no-preference) and (min-width:1200px){
 .af-hero.is-playing .af-after{animation:st-after 6200ms linear 0ms both}
 .af-hero.is-playing .o-ink{animation:st-o-ink 6200ms linear 0ms both}
@@ -192,19 +200,20 @@
 .af-hero.is-playing .tk-hex .tk-dots circle{animation:sm-dot 5600ms linear calc(var(--i) * 70ms) both}
 .af-hero.is-playing .tk-builder .tk-cap{animation:sm-cap-b 5600ms linear 0ms both}
 .af-hero.is-playing .tk-lb{animation:sm-lab-b 5600ms linear calc(var(--i) * 80ms) both}
-/* the phone Builder waits (paused just before the lift) while it is scrolled out of view (AFStoryReplay) */
-.af-hero.is-held .o-ink,.af-hero.is-held .o-ghost,.af-hero.is-held .tk-builder,.af-hero.is-held .tk-builder *{animation-play-state:paused}
+/* the phone Builder waits (paused just before the lift) while it is scrolled out of view (AFStoryReplay).
+   !important: the animation shorthands above reset the play state, and some outrank any plain selector here */
+.af-hero.is-held .o-ink,.af-hero.is-held .o-ghost,.af-hero.is-held .af-after,.af-hero.is-held .tk-builder,.af-hero.is-held .tk-builder *{animation-play-state:paused!important}
 /* the Consultant: blank until it scrolls into view (html.io, AFStoryReplay), then drawn up on its own clock */
 html.io .tk-consult:not(.is-telling) .tk-cap,html.io .tk-consult:not(.is-telling) .tk-trav,html.io .tk-consult:not(.is-telling) .tk-lab,html.io .tk-consult:not(.is-telling) + .tk-more{opacity:0}
 html.io .tk-consult:not(.is-telling)::before{clip-path:inset(0 0 100% 0)}
-.tk-consult.is-telling::before{animation:sc-rule 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-cap{animation:sc-cap 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-trace{animation:sc-trace 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-frame{animation:sc-frame 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-fill{animation:sc-fill 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-ring{animation:sc-ring 1900ms linear 0ms both}
-.tk-consult.is-telling .tk-spoke{animation:sc-spoke 1900ms linear calc(var(--i) * 60ms) both}
-.tk-consult.is-telling .tk-dots circle{animation:sc-dot 1900ms linear calc(var(--i) * 90ms) both}
-.tk-consult.is-telling .tk-lc{animation:sc-lab 1900ms linear calc(var(--i) * 110ms) both}
-.tk-consult.is-telling + .tk-more{animation:sc-more 1900ms linear 0ms both}
+.tk-consult.is-telling::before{animation:sc-rule 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-cap{animation:sc-cap 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-trace{animation:sc-trace 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-frame{animation:sc-frame 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-fill{animation:sc-fill 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-ring{animation:sc-ring 2500ms linear 0ms both}
+.tk-consult.is-telling .tk-spoke{animation:sc-spoke 2500ms linear calc(var(--i) * 60ms) both}
+.tk-consult.is-telling .tk-dots circle{animation:sc-dot 2500ms linear calc(var(--i) * 90ms) both}
+.tk-consult.is-telling .tk-lc{animation:sc-lab 2500ms linear calc(var(--i) * 110ms) both}
+.tk-consult.is-telling + .tk-more{animation:sc-more 2500ms linear 0ms both}
 }

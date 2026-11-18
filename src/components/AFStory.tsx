@@ -26,9 +26,10 @@ import "@/app/o-story.css"
  * button and the phone Consultant's in-view start are AFStoryReplay. The Builder is its own box
  * beside the stage: on desktop both sit in the right-hand column; below 1200 px the Builder sits
  * right under the wordmark, so the hexagon is seen leaving the O and being drawn up in the first
- * screen, and the stage (the Consultant and the link) follows the facts and draws itself up when it
- * scrolls into view. Labels are HTML text in the body font, placed at each
- * corner by its angle (the same ring order as ToolkitDiagram on /approach).
+ * screen, and the stage (the Consultant and the link) follows the facts: when it scrolls into view
+ * the diamond leaves its cut, drops down into the Consultant (.tk-dtrav) and the Consultant is built.
+ * Labels are HTML text in the body font, placed at each corner by its angle (the same ring order as
+ * ToolkitDiagram on /approach).
  */
 
 const CX = 312.067 // the hexagon's centre and circumradius, in mark units
@@ -159,6 +160,12 @@ export function AFStory({ id = "af-hero-story" }: { id?: string }) {
           {O_STORY_LINK.label}
         </Link>
       </aside>
+      {/* phones: the diamond that leaves the cut and drops into the Consultant (AFStoryReplay moves it) */}
+      <div className="tk-dtrav" aria-hidden="true">
+        <svg viewBox="277.074 14.997 69.986 69.986">
+          <path d={CUT} />
+        </svg>
+      </div>
     </>
   )
 }
