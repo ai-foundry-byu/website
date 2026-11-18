@@ -22,17 +22,15 @@ import "@/app/o-story.css"
  * carry the locked HEX and CUT paths from AFBuild unchanged: only their box moves and grows.
  *
  * Render it inside .af-hero-inner, after the copy, with <AFBuild story /> as the mark and
- * .is-playing on the .af-hero section. The first play is CSS only (src/app/o-story.css); the replay
- * button and the phone Consultant's in-view start are AFStoryReplay. The Builder is its own box
- * beside the stage: on desktop both sit in the right-hand column; below 1200 px the Builder sits
- * right under the wordmark, so the hexagon is seen leaving the O and being drawn up in the first
- * screen, and the stage (the Consultant and the link) follows the facts: when it scrolls into view
- * the diamond flies in (.tk-dtrav) out of the O of a small copy of the mark that heads the stage (or
- * from the top edge, when the reader already saw it leave the big O) and the Consultant is built.
- * Labels are HTML text in the body font, placed at each corner by its angle (the same ring order as
- * ToolkitDiagram on /approach).
+ * .is-playing on the .af-hero section. On desktop (>= 1200 px) the story is CSS only
+ * (src/app/o-story.css): the stage sits in the right-hand column and plays on the hero clock.
+ * Below 1200 px the big O only builds and stays whole; the stage (the Builder, the Consultant and
+ * the link) follows the facts as one section, headed by a small copy of the locked mark. When the
+ * section comes into view the hexagon lifts out of the small O and builds the Builder, the small O
+ * re-inks, then the diamond (.tk-dtrav) lifts out of the Builder's cut and builds the Consultant
+ * (AFStoryReplay). Labels are HTML text in the body font, placed at each corner by its
+ * angle (the same ring order as ToolkitDiagram on /approach).
  */
-
 const CX = 312.067 // the hexagon's centre and circumradius, in mark units
 const CY = 49.99
 const R = 57.724
@@ -113,33 +111,9 @@ export function AFStory({ id = "af-hero-story" }: { id?: string }) {
       <div className="tk-lead tk-lead-a" aria-hidden="true" />
       <div className="tk-lead tk-lead-b" aria-hidden="true" />
       <div className="tk-lead tk-lead-c" aria-hidden="true" />
-      <figure
-        className="tk-box tk-builder"
-        aria-label={`${BUILDER_TITLE}, the hexagon, six axes: ${BUILDER_RING.join(", ")}. ${BUILDER_SUMMARY}`}
-      >
-        <figcaption className="tk-cap">
-          <span className="tk-eye">{O_STORY_HEX_EYEBROW}</span>
-          <span className="tk-name">{BUILDER_TITLE}.</span> <span className="tk-sum">{BUILDER_SUMMARY}</span>
-        </figcaption>
-        <div className="tk-trav tk-hex">
-          <svg className="tk-svg" viewBox="254.333 0 115.448 100" aria-hidden="true">
-            <mask id={cut} maskUnits="userSpaceOnUse" x="240" y="-14" width="144" height="128">
-              <rect x="240" y="-14" width="144" height="128" fill="#fff" />
-              <path fill="#000" d={CUT} />
-            </mask>
-            <path className="tk-fill" mask={`url(#${cut})`} d={HEX} />
-            <Rings n={6} start={0} r={R} />
-            <path className="tk-frame" d={HEX} />
-            <path className="tk-trace" pathLength={1} d={HEX} />
-            <path className="tk-hole" d={CUT} />
-            <Dots n={6} start={0} r={R} rr={2.6} />
-          </svg>
-        </div>
-        <Labels names={BUILDER_RING} start={0} cls="tk-lb" />
-      </figure>
       <aside className="tk-stage" aria-label={O_STORY_HEADING}>
-        {/* phones: a small copy of the locked mark heads the stage, its O on the rule's line, so the
-            diamond is seen leaving the O on screen even when the wordmark is far above (AFStoryReplay) */}
+        {/* phones: a small copy of the locked mark heads the section, its O on the rule's line, so the
+            hexagon is seen leaving the O on screen (AFStoryReplay); its ghost holds the O meanwhile */}
         <svg className="tk-src" viewBox="0 0 869.023 101.332" aria-hidden="true">
           <mask id={`${id}-src`} maskUnits="userSpaceOnUse" x="240" y="-14" width="144" height="128">
             <rect x="240" y="-14" width="144" height="128" fill="#fff" />
@@ -148,9 +122,38 @@ export function AFStory({ id = "af-hero-story" }: { id?: string }) {
           {LETTERS.map(([k, d]) => (
             <path key={k} d={d} />
           ))}
-          <path mask={`url(#${id}-src)`} d={HEX} />
-          <path className="tk-src-cut" d={CUT} />
+          <g className="tk-src-o" mask={`url(#${id}-src)`}>
+            <path d={HEX} />
+          </g>
+          <g className="tk-src-ghost">
+            <path d={HEX} />
+            <path d={CUT} />
+          </g>
         </svg>
+        <figure
+          className="tk-box tk-builder"
+          aria-label={`${BUILDER_TITLE}, the hexagon, six axes: ${BUILDER_RING.join(", ")}. ${BUILDER_SUMMARY}`}
+        >
+          <figcaption className="tk-cap">
+            <span className="tk-eye">{O_STORY_HEX_EYEBROW}</span>
+            <span className="tk-name">{BUILDER_TITLE}.</span> <span className="tk-sum">{BUILDER_SUMMARY}</span>
+          </figcaption>
+          <div className="tk-trav tk-hex">
+            <svg className="tk-svg" viewBox="254.333 0 115.448 100" aria-hidden="true">
+              <mask id={cut} maskUnits="userSpaceOnUse" x="240" y="-14" width="144" height="128">
+                <rect x="240" y="-14" width="144" height="128" fill="#fff" />
+                <path fill="#000" d={CUT} />
+              </mask>
+              <path className="tk-fill" mask={`url(#${cut})`} d={HEX} />
+              <Rings n={6} start={0} r={R} />
+              <path className="tk-frame" d={HEX} />
+              <path className="tk-trace" pathLength={1} d={HEX} />
+              <path className="tk-hole" d={CUT} />
+              <Dots n={6} start={0} r={R} rr={2.6} />
+            </svg>
+          </div>
+          <Labels names={BUILDER_RING} start={0} cls="tk-lb" />
+        </figure>
         <figure
           className="tk-box tk-consult"
           aria-label={`${CONSULTANT_TITLE}, the diamond, four axes: ${CONSULTANT_RING.join(", ")}. ${CONSULTANT_SUMMARY}`}
@@ -174,7 +177,7 @@ export function AFStory({ id = "af-hero-story" }: { id?: string }) {
           {O_STORY_LINK.label}
         </Link>
       </aside>
-      {/* phones: the diamond that leaves the cut and drops into the Consultant (AFStoryReplay moves it) */}
+      {/* phones: the diamond that leaves the Builder's cut and drops into the Consultant (AFStoryReplay moves it) */}
       <div className="tk-dtrav" aria-hidden="true">
         <svg viewBox="277.074 14.997 69.986 69.986">
           <path d={CUT} />
