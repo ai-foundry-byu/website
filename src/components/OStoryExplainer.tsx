@@ -27,9 +27,10 @@ import "@/app/o-story-approach.css"
  * Then each profile's summary, then the line that ties them together.
  *
  * The h1 comes first in the DOM (readers and search meet the claim first); CSS places it after
- * the story. The motion is CSS on a view timeline (src/app/o-story-approach.css); the inline
- * script only measures where the O sits so the frames can start inside it. Everything outside the
- * motion block is the end state, which is what reduced motion and older browsers show.
+ * the story. The motion is CSS keyframes (src/app/o-story-approach.css) held paused and seeked by
+ * the inline script from the section's scroll progress, so WebKit and Chromium play it the same;
+ * the script also measures where the O sits so the frames can start inside it. Everything outside
+ * the motion block is the end state, which is what reduced motion and no-script show.
  */
 
 const VBW = 520
@@ -45,7 +46,8 @@ const pt = (start: number, n: number, i: number, r: number) => {
 const poly = (start: number, n: number, r: number) =>
   Array.from({ length: n }, (_, i) => pt(start, n, i, r).map((v) => v.toFixed(2)).join(",")).join(" ")
 
-/** One on-navy profile frame. t0 is the scroll progress (percent) where its corners begin. */
+/** One on-navy profile frame. t0 is the scroll progress (percent) where its corners begin; each
+ *  corner's delay is on the story's 1000 ms clock (o-story-approach.css). */
 function Profile({ axes, start, kind, title, t0 }: { axes: string[]; start: number; kind: "builder" | "consultant"; title: string; t0: number }) {
   const n = axes.length
   const step = n === 6 ? 1.6 : 2.4
@@ -78,7 +80,7 @@ function Profile({ axes, start, kind, title, t0 }: { axes: string[]; start: numb
           const m = lines.length - 1
           const dy0 = Math.abs(ly) < 1 ? 0.32 - m * 0.575 : ly < 0 ? -m * 1.15 : 0.95
           const a = t0 + i * step
-          const style = { "--a": `${a.toFixed(1)}%`, "--b": `${(a + 6).toFixed(1)}%` } as React.CSSProperties
+          const style = { "--a": `${Math.round(a * 10)}ms` } as React.CSSProperties
           return (
             <g key={name} className="oa-dg-corner" style={style}>
               <circle className="oa-dg-dot" cx={x.toFixed(2)} cy={y.toFixed(2)} r="4" />

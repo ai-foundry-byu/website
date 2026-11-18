@@ -980,6 +980,13 @@ body {
 .af-header-home {
   padding: var(--af-clear) var(--af-clear) var(--af-clear) 4px;
 }
+/* 360px phones: the lockup's clear space plus the Menu button ran 2px past the screen; the
+   clear space on the menu side gives up 8px so nothing scrolls sideways */
+@media (max-width: 374px) {
+  .af-header-home {
+    padding-right: calc(var(--af-clear) - 8px);
+  }
+}
 .af-header-lockup,
 .af-header-marriott {
   display: block;

@@ -4,15 +4,19 @@ import { useEffect, useRef } from "react"
 import { O_STORY_REPLAY } from "@/lib/content"
 
 /**
- * The hero story's one bit of script (AFStory). The first desktop play is CSS alone: .is-playing on
- * the hero and .is-building on the mark ship in the server HTML. This adds two things:
- *   - Replay: restarts the build and the story from the top.
- *   - Below 1200 px the profiles sit in their own band under the facts, so they wait until that
- *     band is 35% in view (and never before the build and its hold are done) to tell their part.
- *     html.io arms that wait; with no script it is never set and the band shows its end state.
+ * The hero story's one bit of script (AFStory). The first play is CSS alone: .is-playing on the hero
+ * and .is-building on the mark ship in the server HTML. This adds three things:
+ *   - Replay: restarts the build and the story from the top (on a phone it scrolls the wordmark back
+ *     into view first, since the button sits below the Builder).
+ *   - Below 1200 px the Consultant sits after the facts: it is drawn up on its own short clock the
+ *     moment any of it is in view (.is-telling), whether the reader scrolls slowly, fast, or jumps.
+ *     html.io arms that wait; with no script it is never set and the Consultant shows its end state.
+ *   - Below 1200 px the Builder sits under the wordmark and plays on the hero clock. If the reader
+ *     has already scrolled it out of view when the lift is due, it waits just before the lift
+ *     (.is-held) and plays as soon as it is back in view.
  * The button shows only when motion is allowed and the story has played (o-story.css).
  */
-const HOLD = 4800 // ms: the blueprint build (3.85 s) and its hold, before the phone stage may start
+const LIFT = 3450 // ms on the hero clock: just before the O lifts (3.55 s)
 
 export function AFStoryReplay() {
   const ref = useRef<HTMLDivElement>(null)
@@ -21,48 +25,74 @@ export function AFStoryReplay() {
   useEffect(() => {
     const hero = ref.current?.closest(".af-hero")
     const mark = hero?.querySelector(".af-build")
-    const stage = hero?.querySelector(".tk-stage")
-    if (!hero || !mark || !stage) return
+    const builder = hero?.querySelector(".tk-builder")
+    const consult = hero?.querySelector(".tk-consult")
+    if (!hero || !mark || !builder || !consult || !("IntersectionObserver" in window)) return
     const narrow = window.matchMedia("(max-width: 1199px)")
     const root = document.documentElement
-    let t0 = performance.now()
+    root.classList.add("io")
     let timer = 0
-    let io: IntersectionObserver | null = null
+    let builderSeen = true
 
-    const tell = () => {
-      stage.classList.add("is-telling")
-      io?.disconnect()
+    /* the hero clock's position, read from the O's own animation (CSS started it at first paint) */
+    const clock = () => {
+      const a = mark.querySelector(".o-ink")?.getAnimations?.()[0]
+      const t = a?.currentTime
+      return typeof t === "number" ? t : 0
     }
-    const watch = () => {
-      if (!("IntersectionObserver" in window)) return
-      io = new IntersectionObserver(
+    const armHold = () => {
+      window.clearTimeout(timer)
+      const wait = LIFT - clock()
+      if (wait < 0) return
+      timer = window.setTimeout(() => {
+        if (narrow.matches && !builderSeen) hero.classList.add("is-held")
+      }, wait)
+    }
+
+    const bio = new IntersectionObserver(
+      (entries) => {
+        builderSeen = entries[entries.length - 1].isIntersecting
+        if (builderSeen) hero.classList.remove("is-held")
+      },
+      { threshold: 0.2 },
+    )
+    bio.observe(builder)
+
+    let cio: IntersectionObserver | null = null
+    const watchConsult = () => {
+      cio?.disconnect()
+      cio = new IntersectionObserver(
         (entries) => {
           if (!narrow.matches || !entries.some((e) => e.isIntersecting)) return
-          window.clearTimeout(timer)
-          timer = window.setTimeout(tell, Math.max(0, t0 + HOLD - performance.now()))
+          consult.classList.add("is-telling")
+          cio?.disconnect()
         },
-        { threshold: 0.35 },
+        { threshold: 0, rootMargin: "0px 0px -8% 0px" },
       )
-      io.observe(stage)
+      cio.observe(consult)
     }
-    if ("IntersectionObserver" in window) root.classList.add("io")
-    watch()
+    watchConsult()
+    armHold()
 
     replay.current = () => {
       window.clearTimeout(timer)
-      io?.disconnect()
-      stage.classList.remove("is-telling")
+      hero.classList.remove("is-held")
+      consult.classList.remove("is-telling")
       hero.classList.remove("is-playing")
       mark.classList.remove("is-building")
       void (hero as HTMLElement).offsetWidth
       hero.classList.add("is-playing")
       mark.classList.add("is-building")
-      t0 = performance.now()
-      watch()
+      watchConsult()
+      armHold()
+      /* on a phone the button sits at the foot of the hero, below the Builder: bring the wordmark
+         back up so the replay is seen (else the Builder would wait out of view) */
+      if (narrow.matches && !builderSeen) hero.scrollIntoView({ behavior: "smooth", block: "start" })
     }
     return () => {
       window.clearTimeout(timer)
-      io?.disconnect()
+      bio.disconnect()
+      cio?.disconnect()
       root.classList.remove("io")
     }
   }, [])
