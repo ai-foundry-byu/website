@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CUT, HEX } from "@/components/AFBuild"
+import { CUT, HEX, LETTERS } from "@/components/AFBuild"
 import {
   BUILDER_RING,
   BUILDER_SUMMARY,
@@ -27,7 +27,8 @@ import "@/app/o-story.css"
  * beside the stage: on desktop both sit in the right-hand column; below 1200 px the Builder sits
  * right under the wordmark, so the hexagon is seen leaving the O and being drawn up in the first
  * screen, and the stage (the Consultant and the link) follows the facts: when it scrolls into view
- * the diamond leaves its cut, drops down into the Consultant (.tk-dtrav) and the Consultant is built.
+ * the diamond flies in (.tk-dtrav) out of the O of a small copy of the mark that heads the stage (or
+ * from the top edge, when the reader already saw it leave the big O) and the Consultant is built.
  * Labels are HTML text in the body font, placed at each corner by its angle (the same ring order as
  * ToolkitDiagram on /approach).
  */
@@ -137,6 +138,19 @@ export function AFStory({ id = "af-hero-story" }: { id?: string }) {
         <Labels names={BUILDER_RING} start={0} cls="tk-lb" />
       </figure>
       <aside className="tk-stage" aria-label={O_STORY_HEADING}>
+        {/* phones: a small copy of the locked mark heads the stage, its O on the rule's line, so the
+            diamond is seen leaving the O on screen even when the wordmark is far above (AFStoryReplay) */}
+        <svg className="tk-src" viewBox="0 0 869.023 101.332" aria-hidden="true">
+          <mask id={`${id}-src`} maskUnits="userSpaceOnUse" x="240" y="-14" width="144" height="128">
+            <rect x="240" y="-14" width="144" height="128" fill="#fff" />
+            <path fill="#000" d={CUT} />
+          </mask>
+          {LETTERS.map(([k, d]) => (
+            <path key={k} d={d} />
+          ))}
+          <path mask={`url(#${id}-src)`} d={HEX} />
+          <path className="tk-src-cut" d={CUT} />
+        </svg>
         <figure
           className="tk-box tk-consult"
           aria-label={`${CONSULTANT_TITLE}, the diamond, four axes: ${CONSULTANT_RING.join(", ")}. ${CONSULTANT_SUMMARY}`}
