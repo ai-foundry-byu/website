@@ -86,8 +86,8 @@ export function AFStoryReplay() {
 
     /* the hexagon: out of the small O, down the rule, into the Builder's box (its own box, moved).
        A reader already past the small mark (a jump, a fast flick: its O is under the sticky header or
-       above the viewport) never sees that O, so the hexagon enters by the top edge instead; and when
-       the Consultant is in view too, the Builder is finished at once so neither box waits empty. */
+       above the viewport) never sees that O, so the hexagon enters by the top edge instead; when the
+       Consultant is in view too it waits for the Builder (wait), so the reader still sees both build. */
     const build = () => {
       if (phase) return
       phase = 1
@@ -96,8 +96,6 @@ export function AFStoryReplay() {
         const v = view()
         const sr = srcO.getBoundingClientRect()
         const fromEdge = !v.onScreen(sr)
-        /* the Consultant's own trigger: 60% of its diagram in view */
-        if (fromEdge && (consultSeen || visible(dm, 0.6))) return finish()
         const own = v.box(hex.getBoundingClientRect())
         const from = v.box(sr)
         const b = builder.getBoundingClientRect()
@@ -232,7 +230,7 @@ export function AFStoryReplay() {
       bio.observe(builder)
       cio = new IntersectionObserver(
         (entries) => {
-          if (!narrow.matches || !entries.some((e) => e.isIntersecting)) return
+          if (!narrow.matches || !entries.some((e) => e.isIntersecting && e.intersectionRatio >= 0.24)) return
           cio?.disconnect()
           consultSeen = true
           /* both in view at once (a tall phone, a jump): the observers can report in either order, so
@@ -244,9 +242,11 @@ export function AFStoryReplay() {
           if (phase === 1) return wait()
           arrive()
         },
-        { threshold: 0.6 },
+        /* the whole Consultant (caption, diagram, labels), a quarter in view below the header: the caption
+           never sits over an empty box */
+        { threshold: [0, 0.25], rootMargin: `-${Math.round(top)}px 0px 0px 0px` },
       )
-      cio.observe(dm)
+      cio.observe(consult)
     }
     watch()
 
