@@ -2,6 +2,8 @@ import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
 import { AFBuild } from "@/components/AFBuild"
+import { AFStory } from "@/components/AFStory"
+import { AFStoryReplay } from "@/components/AFStoryReplay"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -52,10 +54,10 @@ const HERO_FACTS = [
 
 function Hero() {
   return (
-    <section className="af-hero" data-ground="navy">
+    <section className="af-hero is-playing" data-ground="navy">
       <div className="af-hero-inner">
         <div className="af-hero-art">
-          <AFBuild theme="dark" id="af-hero-wn" />
+          <AFBuild theme="dark" id="af-hero-wn" story />
         </div>
         <div className="af-hero-copy">
           <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
@@ -99,7 +101,11 @@ function Hero() {
             ))}
           </ul>
         </div>
+        {/* Then the O tells its story: the hexagon and the diamond lift out of the mark and show
+            the Builder and Consultant profiles (AFStory, o-story.css). */}
+        <AFStory />
       </div>
+      <AFStoryReplay />
     </section>
   )
 }
