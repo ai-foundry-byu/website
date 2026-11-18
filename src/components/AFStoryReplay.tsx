@@ -12,7 +12,9 @@ import { O_STORY_REPLAY } from "@/lib/content"
  *   - Below 1200 px the big O only builds, and the story is told by the section after the facts.
  *     When the Builder is in view the hexagon lifts out of the small mark's O (.tk-src.is-out), rides
  *     the 40 px rule down and grows into the Builder's box, which is drawn up on its own clock
- *     (.is-telling, o-story.css); once it is built the small O re-inks (.is-whole). When the
+ *     (.is-telling, o-story.css); once it is built the small O re-inks (.is-whole). A reader who
+ *     lands past the small mark (its O under the sticky header) sees the hexagon enter by the top
+ *     edge instead, or, with the Consultant in view as well, the Builder already built. When the
  *     Consultant's diagram is in view and the Builder is built, a solid diamond (.tk-dtrav) lifts out
  *     of the Builder's cut (or enters by the top edge when that cut is above the viewport), rides the
  *     Consultant's rule into its box and the Consultant is drawn up. A reader who arrives at the Consultant without having
@@ -68,10 +70,10 @@ export function AFStoryReplay() {
       const onScreen = (r: DOMRect) => r.width > 0 && r.top >= top && r.bottom <= window.innerHeight
       return { o, box, onScreen, vTop: top - o.top }
     }
-    const visible = (el: Element) => {
+    const visible = (el: Element, min = 0.3) => {
       const r = el.getBoundingClientRect()
       const seen = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, top)
-      return r.height > 0 && seen / r.height >= 0.3
+      return r.height > 0 && seen / r.height >= min
     }
     const canFly = () => !still.matches && typeof hex.animate === "function"
     /* the diamond traveller is a 100 px square (transform-origin 0 0) moved to a box */
@@ -82,35 +84,45 @@ export function AFStoryReplay() {
       hero.classList.add("is-told")
     }
 
-    /* the hexagon: out of the small O, down the rule, into the Builder's box (its own box, moved) */
+    /* the hexagon: out of the small O, down the rule, into the Builder's box (its own box, moved).
+       A reader already past the small mark (a jump, a fast flick: its O is under the sticky header or
+       above the viewport) never sees that O, so the hexagon enters by the top edge instead; and when
+       the Consultant is in view too, the Builder is finished at once so neither box waits empty. */
     const build = () => {
       if (phase) return
       phase = 1
       builder.classList.add("is-telling")
       if (canFly()) {
         const v = view()
+        const sr = srcO.getBoundingClientRect()
+        const fromEdge = !v.onScreen(sr)
+        /* the Consultant's own trigger: 60% of its diagram in view */
+        if (fromEdge && (consultSeen || visible(dm, 0.6))) return finish()
         const own = v.box(hex.getBoundingClientRect())
-        const from = v.box(srcO.getBoundingClientRect())
+        const from = v.box(sr)
         const b = builder.getBoundingClientRect()
         const rx = b.left - v.o.left + b.width / 2
         const ruleTop = b.top - v.o.top - RULE
+        const edge = [rx, v.vTop + RIDE, RIDE] as const
         /* the hexagon box is 2R x 1.732R: centre offsets move it, its width scales it */
         const go = ([x, y, w]: readonly [number, number, number]) =>
           `translate(${(x - own[0]).toFixed(1)}px, ${(y - own[1]).toFixed(1)}px) scale(${(w / own[2]).toFixed(4)})`
+        const keys: Keyframe[] = fromEdge
+          ? [
+              { offset: 0, transform: go(edge), opacity: 0, easing: "linear" },
+              { offset: 0.06, transform: go([rx, edge[1] + 6, RIDE]), opacity: 1, easing: EASE },
+              { offset: 0.42, transform: go([rx, Math.max(ruleTop, edge[1] + 6), RIDE]), opacity: 1, easing: "linear" },
+              { offset: 0.7, transform: go([rx, Math.max(ruleTop + 40, edge[1] + 6), RIDE]), opacity: 1, easing: EASE },
+            ]
+          : [
+              { offset: 0, transform: go(from), opacity: 1, easing: "cubic-bezier(.3,0,.3,1)" },
+              { offset: 0.16, transform: go([from[0], from[1] - 6, from[2]]), opacity: 1, easing: EASE },
+              { offset: 0.42, transform: go([rx, ruleTop, RIDE]), opacity: 1, easing: "linear" },
+              { offset: 0.7, transform: go([rx, ruleTop + 40, RIDE]), opacity: 1, easing: EASE },
+            ]
         src.classList.remove("is-whole")
         src.classList.add("is-out")
-        flights.push(
-          hex.animate(
-            [
-              { offset: 0, transform: go(from), easing: "cubic-bezier(.3,0,.3,1)" },
-              { offset: 0.16, transform: go([from[0], from[1] - 6, from[2]]), easing: EASE },
-              { offset: 0.42, transform: go([rx, ruleTop, RIDE]), easing: "linear" },
-              { offset: 0.7, transform: go([rx, ruleTop + 40, RIDE]), easing: EASE },
-              { offset: 1, transform: "none" },
-            ],
-            { duration: FLY, fill: "backwards" },
-          ),
-        )
+        flights.push(hex.animate([...keys, { offset: 1, transform: "none", opacity: 1 }], { duration: FLY, fill: "backwards" }))
       }
       later(
         () => {
@@ -130,7 +142,10 @@ export function AFStoryReplay() {
     }
     /* the Builder, finished at once (the reader is past it) */
     const finish = () => {
-      if (!phase) build()
+      if (!phase) {
+        phase = 1
+        builder.classList.add("is-telling")
+      }
       if (phase !== 1) return
       flights.forEach((a) => a.finish())
       builder.getAnimations?.({ subtree: true }).forEach((a) => a.finish())
