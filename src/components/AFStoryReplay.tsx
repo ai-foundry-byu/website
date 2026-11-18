@@ -16,7 +16,7 @@ import { O_STORY_REPLAY } from "@/lib/content"
  *     Consultant's diagram is in view and the Builder is built, a solid diamond (.tk-dtrav) lifts out
  *     of the Builder's cut (or enters by the top edge when that cut is above the viewport), rides the
  *     Consultant's rule into its box and the Consultant is drawn up. A reader who arrives at the Consultant without having
- *     seen the Builder build (a fast scroll, a jump) gets the Builder finished at once, so the
+ *     seen the Builder build (a fast scroll, a jump past it) gets the Builder finished at once, so the
  *     Consultant never waits on a diagram that is off screen. html.io arms the waits; with no
  *     script it is never set and both profiles show their end state.
  * The button shows only when motion is allowed and the story has played (o-story.css).
@@ -220,7 +220,12 @@ export function AFStoryReplay() {
           if (!narrow.matches || !entries.some((e) => e.isIntersecting)) return
           cio?.disconnect()
           consultSeen = true
-          if (phase === 0) finish()
+          /* both in view at once (a tall phone, a jump): the observers can report in either order, so
+             build the Builder while it is on screen and finish it only when it is not */
+          if (phase === 0) {
+            if (visible(builder)) build()
+            else finish()
+          }
           if (phase === 1) return wait()
           arrive()
         },
