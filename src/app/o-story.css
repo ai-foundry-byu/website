@@ -95,7 +95,7 @@
 .tk-dtrav path{fill:#fff}
 /* the small copy of the mark that heads the phone stage (AFStory): the O sits on the rule's line */
 .tk-src{display:none}
-.tk-src path{fill:rgba(255,255,255,.82)}
+.tk-src > path{fill:rgba(255,255,255,.82)}
 .tk-src .tk-src-cut{fill:none}
 .tk-more{display:block;width:max-content;margin:4px auto 0;font-family:var(--font-body);font-size:14px;line-height:20px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.5)}
 .tk-more::after{content:" \2192"}

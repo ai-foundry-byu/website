@@ -208,12 +208,12 @@ export function AFStoryReplay() {
       hero.classList.add("is-playing")
       mark.classList.add("is-building")
       armHold()
-      if (!narrow.matches || window.scrollY <= 2) {
+      if (window.scrollY <= 2) {
         watchConsult()
         watchDepart()
         return
       }
-      /* on a phone the button sits at the foot of the hero, below the Consultant: go back to the very
+      /* the button sits below the fold (on a phone, below the Consultant too): go back to the very
          top (scrollIntoView would leave the wordmark under the sticky header), and wait for the page
          to get there before the Consultant listens again, so it is not set off on the way up */
       window.scrollTo({ top: 0, behavior: still.matches ? "auto" : "smooth" })
