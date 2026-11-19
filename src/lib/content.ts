@@ -484,7 +484,7 @@ export const WORK: WorkItem[] = [
       "Maps a Claude Code project's agents, skills, hooks, MCP servers and settings into one live graph, with broken wiring flagged as an error.",
     tags: ["Claude Code", "Developer tools"],
     links: [{ href: GH + "harnessview", label: "View repo" }],
-    image: "/showcase/harnessview.jpg",
+    image: "/showcase/harnessview-demo.jpg",
     imageAlt:
       "Demo run: harnessview mapping a sample helpdesk harness of three subagents and three MCP servers, with the billing server flagged as an error because its script path does not exist.",
     repo: "harnessview",
