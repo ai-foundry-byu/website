@@ -505,12 +505,12 @@ html {
   transform: translateX(4px);
 }
 
-/* ── Card hover: registration marks + caption bar (motion plan #7) ──
+/* ── Card hover: registration marks (motion plan #7) ──
    Hovering a .reg-card swaps its hairline border to royal and slides
    four 1px corner ticks in at a 2px offset — print registration marks;
-   the card reads as indexed for machining. .reg-bar (inside the image
-   well of a showcase card) slides up from the bottom edge behind its
-   hairline. Devices without hover keep the bar visible. */
+   the card reads as indexed for machining. (The .reg-bar caption bar
+   that rode the old showcase image well went with the 2026-11-19 /work
+   rebuild: the library card already prints the name under the image.) */
 .reg-card {
   transition: border-color var(--dur-fast) var(--ease-stamp);
 }
@@ -527,32 +527,315 @@ html {
 .reg-tick.tr { top: 5px; right: 5px; border-top: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, 2px); }
 .reg-tick.bl { bottom: 5px; left: 5px; border-bottom: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, -2px); }
 .reg-tick.br { bottom: 5px; right: 5px; border-bottom: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, -2px); }
-.reg-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #fff;
-  border-top: 1px solid var(--border-hairline);
-  padding: 8px 14px;
+@media (hover: hover) {
+  .reg-card:hover { border-color: var(--royal); }
+  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
+}
+
+/* ── /work portfolio (content.ts WORK) ─────────────────────
+   One grid ladder for both the featured row and the library: 3 across at
+   desktop, 2 at tablet, 1 on a phone. Fixed columns, not auto-fit, so a
+   card keeps one width whatever a filter leaves. Six featured and fifteen
+   library entries both divide by three, so the unfiltered desktop grids
+   end on a full row. */
+.work-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+@media (min-width: 640px) {
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .work-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.work-h1 {
+  font-size: clamp(40px, 7vw, var(--size-hero));
+  line-height: 1.02;
+  color: var(--navy);
+  margin: 0;
+}
+.work-h2 { color: var(--navy); margin: 0; }
+.work-lead {
+  font-size: var(--size-body);
+  line-height: 1.55;
+  color: var(--text-meta);
+  max-width: 60ch;
+  margin: 18px 0 0;
+}
+.work-sublead {
+  font-size: var(--size-ui);
+  line-height: 1.5;
+  color: var(--text-meta);
+  margin: 8px 0 0;
+}
+.work-count span { white-space: nowrap; }
+.work-count {
+  font-family: var(--font-mono);
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+  margin: 16px 0 0;
+}
+
+/* Card shell. Hairline, white, the reg-card hover; the body fills the cell
+   so links sit on one line across a row. */
+.work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--white);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.work-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-hairline);
+  background: var(--surface-subtle);
+}
+/* Screenshots anchor at the top: the top of a product is its headline. */
+.work-thumb img { object-position: center top; }
+.work-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 20px;
+  flex: 1;
+}
+.work-card__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
+}
+.work-card__name {
+  font-size: 18px;
+  margin: 0;
+  color: var(--navy);
+}
+.work-card__rank {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--royal);
+  margin-right: 10px;
+}
+.work-card__blurb {
+  font-size: var(--size-ui);
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
+.work-card__tags {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-meta);
+  margin: 0;
+}
+.work-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-hairline);
+}
+.work-card__primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: var(--size-ui);
+  color: var(--royal);
+  text-decoration: none;
+}
+.work-card__secondary {
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+  text-decoration: none;
+}
+.work-card--featured .work-card__blurb { color: var(--text-meta); }
+/* On a phone the featured six become rows (thumbnail left, text right):
+   six full-height cards above a fifteen-card library made the page a
+   scroll marathon, and the row only has to say "start here". */
+@media (max-width: 639px) {
+  .work-card--featured { flex-direction: row; align-items: stretch; }
+  .work-card--featured .work-thumb {
+    flex: 0 0 112px;
+    aspect-ratio: auto;
+    border-bottom: 0;
+    border-right: 1px solid var(--border-hairline);
+  }
+  /* A 112px slice of a 16:10 shot: anchor top-left, where the product's
+     name and headline sit, not the middle of the page. */
+  .work-card--featured .work-thumb img { object-position: left top; }
+  .work-card--featured .work-card__body { padding: 12px 14px; gap: 6px; }
+  .work-card--featured .work-card__name { font-size: 16px; }
+  .work-card--featured .work-card__rank { font-size: 13px; margin-right: 6px; }
+  .work-card--featured .work-card__blurb { font-size: 13px; line-height: 1.45; }
+  .work-card--featured .work-plate { padding: 10px; }
+  .work-card--featured .work-plate__host { display: none; }
+  .work-card--featured .work-plate__repo { font-size: 14px; }
+}
+.work-card--featured:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The plate: the honest picture of a repo. Kind sets the ground (see
+   ShowcaseCard.tsx PLATE_TONE); every ink is a declared pairing. */
+.work-plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 20px;
+}
+/* The pattern sits on ::before, masked so it fades out from the top-right
+   corner before it reaches either line of text: a rule through a word costs
+   legibility, and the pattern is only there to tell kinds apart. */
+.work-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle at 100% 0%, #000 0%, transparent 62%);
+}
+.work-plate--navy { background-color: var(--navy); color: var(--white); }
+.work-plate--navy::before {
+  background-image:
+    linear-gradient(var(--border-on-inverse) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-on-inverse) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.work-plate--royal { background-color: var(--royal); color: var(--white); }
+.work-plate--royal::before {
+  background-image: radial-gradient(var(--border-on-inverse) 1.5px, transparent 2px);
+  background-size: 14px 14px;
+}
+.work-plate--light { background-color: var(--surface-subtle); color: var(--navy); }
+.work-plate--light::before {
+  background-image: repeating-linear-gradient(135deg, var(--border-hairline) 0 1px, transparent 1px 12px);
+}
+.work-plate__kind {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: var(--w-rail);
+  font-size: var(--size-eyebrow);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.work-plate__name {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.work-plate__host {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.work-plate--navy .work-plate__host { color: var(--text-on-dark-soft); }
+.work-plate__repo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-plate);
+  font-size: 26px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+/* Library controls. */
+.work-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.work-controls__search { flex: 1 1 320px; max-width: 560px; display: flex; flex-direction: column; gap: 8px; }
+.work-controls__sort { flex: 0 0 200px; margin-left: auto; display: flex; flex-direction: column; gap: 8px; }
+.work-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--size-ui);
+  line-height: 1.2;
+  color: var(--navy);
+}
+@media (max-width: 639px) {
+  .work-controls__sort { flex: 1 1 100%; margin-left: 0; }
+}
+.work-facet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+.work-facet__label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--size-ui);
+  color: var(--navy);
+  min-width: 52px;
+}
+.work-facet__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.work-chip {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  cursor: pointer;
+  background: transparent;
   color: var(--navy);
-  z-index: 1;
+  border: 1px solid var(--border-input);
+  transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
 }
-@media (hover: hover) {
-  .reg-bar {
-    transform: translateY(100%);
-    transition: transform var(--dur-fast) var(--ease-stamp);
-  }
-  .reg-card:hover { border-color: var(--royal); }
-  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
-  .reg-card:hover .reg-bar { transform: translateY(0); }
+.work-chip__count { font-family: var(--font-mono); font-size: 12px; color: var(--text-meta); margin-left: 4px; }
+.work-chip:hover { border-color: var(--navy); }
+.work-chip[aria-pressed="true"] { background: var(--royal); border-color: var(--royal); color: var(--white); }
+.work-chip[aria-pressed="true"] .work-chip__count { color: var(--white); }
+.work-chip:disabled { cursor: default; color: var(--slate); border-color: var(--border-hairline); }
+.work-chip:disabled .work-chip__count { color: var(--slate); }
+.work-chip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.work-showing {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 8px 0 20px;
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+}
+.work-clear {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--royal);
+  cursor: pointer;
+}
+.work-empty {
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius);
+  padding: 48px 32px;
+  text-align: center;
+  color: var(--text-meta);
 }
 
 ::selection {
