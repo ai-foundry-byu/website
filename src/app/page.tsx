@@ -172,8 +172,7 @@ function Build() {
         {/* minmax(min(300px, 100%), …) rather than a bare minmax(300px, …):
             a hard 300px track cannot shrink, so on a 320px viewport the
             card sat 24px in and ran 4px past the right edge and the whole
-            document scrolled sideways. Same guard WorkShowcaseGrid already
-            uses on its 420px tracks. */}
+            document scrolled sideways. */}
         <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "16px", alignItems: "stretch" }}>
           {OFFERINGS.map((o) => (
             <StaggerItem key={o.name}>

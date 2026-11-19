@@ -196,216 +196,288 @@ export const BUILDERS_HEADLINE =
   "."
 
 /* ────────────────────────────────────────────────────────────
-   Showcase: reference builds
+   WORK: the /work portfolio, one list.
 
-   The gallery that backs the proof band with artifacts. Same honesty rules
-   as the employer list: these are products built by people on /about, stated
-   as exactly that, no client claimed. When a client agrees to be named
-   (Breckenridge is the likely first), it joins the grid the same way.
+   Until 2026-11-19 this was two lists on two halves of the page: SHOWCASE
+   (four products with screenshots) and TOOLKIT (eleven open-source repos as
+   text-only boxes). They are one portfolio now, the way a builder's own
+   /projects page is: a numbered "Start with these" row, then one library
+   with search, Kind and Status facets and a sort, every card the same shape.
 
-   Order is alphabetical, and the landing band shows the first three. Nothing
-   else about the sequence is meaningful, so a build that should be seen on
-   the landing page has to earn its place by name, not by being newest.
+   Honesty rules, carried over from both lists, unchanged:
+   - These are products built by Foundry builders, stated as exactly that.
+     No client is claimed. When a client agrees to be named (Breckenridge is
+     the likely first) it joins this list the same way.
+   - No person is named anywhere. This is the Foundry's work, not anyone's
+     portfolio.
+   - Every blurb states where the build actually is. CareBridge Connect is a
+     shipped product that has not yet gone live inside a facility, so its
+     status is Onboarding, never Live, and it repeats none of the outcome
+     numbers on its own marketing site: those are the product's claims to
+     its buyers, not results we have watched.
+   - Every repo entry is a public repo under github.com/ai-foundry-byu under
+     an open licence, checked against the GitHub API before it was listed.
+     All are MIT except the Software Design Canon, CC BY 4.0 because it is a
+     curated index rather than code. Each blurb claims nothing its own README
+     does not.
+   - Agent Team Kit is held back: its repo carries no licence file, so it is
+     public but not open source, and choosing a licence is its author's call.
+     When a LICENSE lands it joins as a Tool.
 
-   Every blurb states where the build actually is. CareBridge Connect is a
-   live product that has not yet gone live inside a facility, so its blurb
-   says it is onboarding rather than implying residents are on it today, and
-   it repeats none of the outcome numbers on its own marketing site: those
-   are the product's claims to its buyers, not results we have watched.
+   status is where the thing is TODAY, not how proud we are of it: Live means
+   people use it now, Onboarding means shipped and not yet in service, Open
+   source means a public, licensed repo anyone can install.
 
-   Images are cropped screenshots of the live products in public/showcase/,
-   1200x750 (16:10). The French 80/20 shot is deliberately cropped to the
-   product panel so no account name or personal data appears. The CareBridge
-   shot is the marketing hero, whose in-app panel is an illustration, so no
-   real PHI can ever ride along in the image.
+   featured is the "Start with these" rank (1 = first). Six, three across, so
+   the row has no empty slot at desktop. The pick alternates products and the
+   strongest tools so a stranger can click every one and land on something
+   real: a live product, the marketplace's public catalog, a repo whose
+   README runs. `line` is the one-line blurb that row shows; it may only
+   shorten the full blurb, never add to it.
+
+   Array order is the library's "Featured first" order after the six: the
+   rest interleave kinds (tool, agent, learning) so their plates, which are
+   colored by kind, never stack three of one color in a row.
+
+   Images are 1200x750 (16:10) crops in public/showcase/. The French 80/20
+   shot is cropped to the product panel so no account name or personal data
+   appears. The CareBridge shot is the marketing hero, whose in-app panel is
+   an illustration, so no real PHI can ride along. The marketplace shot is
+   its public GitHub Pages catalog. Every other repo renders the typographic
+   plate: a screenshot of a README would be furniture.
    ──────────────────────────────────────────────────────────── */
 
-export type ShowcaseItem = {
+export const WORK_KINDS = ["Product", "Marketplace", "Tool", "Agent", "Course", "Spec", "Reference"] as const
+export type WorkKind = (typeof WORK_KINDS)[number]
+
+export const WORK_STATUSES = ["Live", "Onboarding", "Open source"] as const
+export type WorkStatus = (typeof WORK_STATUSES)[number]
+
+export type WorkLink = { href: string; label: string }
+
+export type WorkItem = {
   name: string
+  kind: WorkKind
+  status: WorkStatus
   blurb: string
+  /** Featured-row copy. Only for featured entries; shortens `blurb`, adds nothing. */
+  line?: string
+  /** "Start with these" rank, 1 first. Omit to stay library-only. */
+  featured?: number
+  /** Stack and topic tags. Kind and status are fields, so never repeat them here. */
   tags: string[]
-  links: { href: string; label: string }[]
-  /** Omit for the typographic plate (ShowcaseCard draws the name instead). */
+  /** First link is the primary action on the card. */
+  links: WorkLink[]
+  /** 16:10 screenshot in public/showcase/. Omit for the typographic plate. */
   image?: string
+  /** Repo slug under github.com/ai-foundry-byu, printed on the plate. */
+  repo?: string
 }
 
-export const SHOWCASE_EYEBROW = "Reference builds"
+const GH = "https://github.com/ai-foundry-byu/"
 
-export const SHOWCASE_HEADING = "Products we have shipped."
+export const WORK_HEADING = "What we've built."
 
 /**
- * "Live and in use today" was true of every entry until CareBridge Connect
- * joined, which is a shipped product still onboarding its first facilities.
- * The lead now claims shipped rather than in-service, which covers all four
- * without overstating any one, and each card says where its build actually
- * stands.
+ * Not "Everything we have shipped": client builds that have not agreed to be
+ * named are not here, and neither is Agent Team Kit, so "everything" would
+ * overstate. The lead says what IS here and why the rest is not.
  */
-export const SHOWCASE_LEAD =
-  "Built by the people on the About page. Real products, shipped and running."
-
-/** /work page copy. The landing band highlights; /work holds everything. */
-export const WORK_HEADING = "Everything we have shipped."
-
 export const WORK_LEAD =
-  "Every entry is a real product, shipped and running, built by the people on the About page."
+  "Products and the open-source tools behind them, built by Foundry builders. Every card links to the real thing. Client work joins when the client agrees to be named."
+
+export const WORK_FEATURED_HEADING = "Start with these"
+
+export const WORK_FEATURED_LEAD = "Six picked so a stranger can click every one."
+
+export const WORK_LIBRARY_HEADING = "The library"
 
 export const WORK_CTA = { label: "See all our work", href: "/work" }
 
-export const SHOWCASE: ShowcaseItem[] = [
-  {
-    name: "App Feedback Loop",
-    blurb:
-      "Open-source build spec for an AI-native feedback widget: one click captures a screenshot and the machine context around it, Claude Code fixes with that context loaded, and the fix commit is reported back to the person who filed it. Built into every app we ship.",
-    tags: ["Open source", "AI-native dev"],
-    links: [
-      { href: "https://github.com/ai-foundry-byu/app-feedback-loop", label: "GitHub" },
-    ],
-    image: "/showcase/app-feedback-loop.jpg",
-  },
-  {
-    name: "CareBridge Connect",
-    blurb:
-      "An AI-native administration system for skilled nursing and acute care. It turns the notes staff already write in the EHR into plain-language updates for approved family members: changes of condition, appointments, events. HIPAA-compliant architecture throughout, with role-based access, encryption, and audit logging on every PHI access. Onboarding its first five facilities, each over 100 residents.",
-    tags: ["Web", "Healthcare"],
-    links: [
-      { href: "https://carebridgeconnect.ai", label: "carebridgeconnect.ai" },
-    ],
-    image: "/showcase/carebridge-connect.jpg",
-  },
-  {
-    name: "French 80/20",
-    blurb:
-      "An AI-native French learning app for web and iPhone, built around the words you actually use and measured progress toward 80% of everyday French.",
-    tags: ["Web", "iOS app"],
-    links: [{ href: "https://french8020.com", label: "french8020.com" }],
-    image: "/showcase/french8020.jpg",
-  },
+export const WORK: WorkItem[] = [
   {
     name: "LawGrader / WriteGrader",
+    kind: "Product",
+    status: "Live",
+    featured: 1,
     blurb:
       "Agentic grading for legal and academic writing. It drafts the scores and the margin comments; the instructor decides every final grade.",
+    line: "Agentic grading for legal and academic writing. The instructor decides every final grade.",
     tags: ["Web", "AI grading"],
     links: [
-      { href: "https://lawgrader.ai", label: "lawgrader.ai" },
+      { href: "https://lawgrader.ai", label: "Visit lawgrader.ai" },
       { href: "https://new.writegrader.com", label: "new.writegrader.com" },
     ],
     image: "/showcase/lawgrader.jpg",
   },
-]
-
-/* ────────────────────────────────────────────────────────────
-   TOOLKIT: the second section on /work, below the shipped products.
-
-   SHOWCASE is client-grade products; this is the open-source kit the
-   builders use to make them. It lives on /work only. The landing band stays
-   products, because a tool is not proof that we can ship for a client.
-
-   Honesty rules, the same as SHOWCASE plus one: every entry is a public repo
-   under github.com/ai-foundry-byu under an open licence, checked against the
-   GitHub API before it was listed. Ten are MIT; the Software Design Canon is
-   CC BY 4.0, because it is a curated index rather than code, which is why the
-   lead says "openly licensed" and not "MIT". Each blurb describes what the
-   tool does and claims nothing its own README does not. No person is named:
-   these are the Foundry's tools, not anyone's portfolio.
-
-   Agent Team Kit was proposed for this list and is held back because its
-   repo carries no licence file, so it is public but not open source, and
-   choosing a licence is its author's call, not ours. When a LICENSE lands it
-   joins as the second entry.
-
-   No images. Every card renders the typographic plate, which is the honest
-   picture of a repo: a screenshot of a README would be furniture.
-   ──────────────────────────────────────────────────────────── */
-
-export const TOOLKIT_EYEBROW = "Open source"
-
-export const TOOLKIT_HEADING = "The toolkit we build with."
-
-export const TOOLKIT_LEAD =
-  "The tools, plugins and reference agents Foundry builders use on client work. Every one is public and openly licensed, so you can install it and check how we work."
-
-export const TOOLKIT: ShowcaseItem[] = [
   {
     name: "AI Foundry Marketplace",
+    kind: "Marketplace",
+    status: "Open source",
+    featured: 2,
     blurb:
       "Installable Claude Code plugins for the way we build: an eight-stage SDLC from requirements to ship, plus QA, guardrails, design, evals and device-testing plugins. Every skill is labelled by how well it has been tested.",
-    tags: ["Claude Code", "Plugins"],
+    line: "Installable Claude Code plugins for the way we build, each skill labelled by how well it has been tested.",
+    tags: ["Claude Code", "Plugins", "SDLC"],
     links: [
-      { href: "https://github.com/ai-foundry-byu/foundry-marketplace", label: "GitHub" },
-      { href: "https://ai-foundry-byu.github.io/foundry-marketplace/", label: "Catalog" },
+      { href: "https://ai-foundry-byu.github.io/foundry-marketplace/", label: "Open the catalog" },
+      { href: GH + "foundry-marketplace", label: "View repo" },
     ],
+    image: "/showcase/foundry-marketplace.jpg",
+    repo: "foundry-marketplace",
+  },
+  {
+    name: "CareBridge Connect",
+    kind: "Product",
+    status: "Onboarding",
+    featured: 3,
+    blurb:
+      "An AI-native administration system for skilled nursing and acute care. It turns the notes staff already write in the EHR into plain-language updates for approved family members: changes of condition, appointments, events. HIPAA-compliant architecture throughout, with role-based access, encryption, and audit logging on every PHI access. Onboarding its first five facilities, each over 100 residents.",
+    line: "Turns the notes staff already write in the EHR into plain-language updates for approved family members.",
+    tags: ["Web", "Healthcare"],
+    links: [{ href: "https://carebridgeconnect.ai", label: "Visit carebridgeconnect.ai" }],
+    image: "/showcase/carebridge-connect.jpg",
+  },
+  {
+    name: "App Feedback Loop",
+    kind: "Spec",
+    status: "Open source",
+    featured: 4,
+    blurb:
+      "Open-source build spec for an AI-native feedback widget: one click captures a screenshot and the machine context around it, Claude Code fixes with that context loaded, and the fix commit is reported back to the person who filed it. Built into every app we ship.",
+    line: "One click captures a screenshot and its context, Claude Code fixes it, and the fix is reported back.",
+    tags: ["AI-native dev", "Claude Code"],
+    links: [{ href: GH + "app-feedback-loop", label: "View repo" }],
+    image: "/showcase/app-feedback-loop.jpg",
+    repo: "app-feedback-loop",
+  },
+  {
+    name: "French 80/20",
+    kind: "Product",
+    status: "Live",
+    featured: 5,
+    blurb:
+      "An AI-native French learning app for web and iPhone, built around the words you actually use and measured progress toward 80% of everyday French.",
+    line: "An AI-native French learning app for web and iPhone, built around the words you actually use.",
+    tags: ["Web", "iOS app"],
+    links: [{ href: "https://french8020.com", label: "Visit french8020.com" }],
+    image: "/showcase/french8020.jpg",
   },
   {
     name: "Claude Bug Squash",
+    kind: "Tool",
+    status: "Open source",
+    featured: 6,
     blurb:
       "Report a bug and an agent triages it, fixes it in an isolated worktree, proves the test goes from red to green, and passes a three-reviewer check before anything can merge. Merging stays off until a person turns it on.",
+    line: "An agent fixes a reported bug, proves the test goes red to green, and cannot merge until a person allows it.",
     tags: ["Claude Code", "Autonomous fixes"],
-    links: [{ href: "https://github.com/ai-foundry-byu/claude-bug-squash", label: "GitHub" }],
+    links: [{ href: GH + "claude-bug-squash", label: "View repo" }],
+    repo: "claude-bug-squash",
   },
   {
     name: "Ethos Gate",
+    kind: "Tool",
+    status: "Open source",
     blurb:
       "A safety gate for autonomous agents: it blocks any irreversible or outward-facing action, such as a send, a deploy or a payment, unless a person approved that exact content.",
     tags: ["Agent safety", "Hooks"],
-    links: [{ href: "https://github.com/ai-foundry-byu/ethos-gate", label: "GitHub" }],
-  },
-  {
-    name: "Claude Deploy Kit",
-    blurb:
-      "The controls a company needs before it lets Claude agents act: one policy checkpoint, a block on destructive commands, an evaluation gate and an audit log that redacts secrets.",
-    tags: ["Agent safety", "Enterprise"],
-    links: [{ href: "https://github.com/ai-foundry-byu/claude-deploy-kit", label: "GitHub" }],
-  },
-  {
-    name: "Agent Evals Starter",
-    blurb:
-      "Learn agent evaluation by running it: a support agent, 24 tasks, code graders, an LLM judge and do-nothing controls, all offline.",
-    tags: ["Evals", "Course"],
-    links: [{ href: "https://github.com/ai-foundry-byu/agent-evals-starter", label: "GitHub" }],
-  },
-  {
-    name: "MCP Judge",
-    blurb:
-      "A calibrated LLM judge served over MCP, shipped with the evaluation harness that proves its scores agree with known-good and known-bad examples.",
-    tags: ["Evals", "MCP"],
-    links: [{ href: "https://github.com/ai-foundry-byu/mcp-judge", label: "GitHub" }],
+    links: [{ href: GH + "ethos-gate", label: "View repo" }],
+    repo: "ethos-gate",
   },
   {
     name: "Orchestra Agents",
+    kind: "Agent",
+    status: "Open source",
     blurb:
       "Production patterns for multi-agent systems on Claude: bounded fan-out, a durable message bus, circuit breakers, and best-of-N with an adversarial judge.",
     tags: ["Multi-agent", "Claude API"],
-    links: [{ href: "https://github.com/ai-foundry-byu/orchestra-agents", label: "GitHub" }],
+    links: [{ href: GH + "orchestra-agents", label: "View repo" }],
+    repo: "orchestra-agents",
+  },
+  {
+    name: "Agent Evals Starter",
+    kind: "Course",
+    status: "Open source",
+    blurb:
+      "Learn agent evaluation by running it: a support agent, 24 tasks, code graders, an LLM judge and do-nothing controls, all offline.",
+    tags: ["Evals"],
+    links: [{ href: GH + "agent-evals-starter", label: "View repo" }],
+    repo: "agent-evals-starter",
   },
   {
     name: "Deep Research Agent",
+    kind: "Agent",
+    status: "Open source",
     blurb:
       "A research agent that searches several sources, finds the gaps in its own answer, argues the other side, and checks each claim before it reports.",
-    tags: ["Agents", "Research"],
-    links: [{ href: "https://github.com/ai-foundry-byu/deep-research-agent", label: "GitHub" }],
-  },
-  {
-    name: "AI Phone Desk",
-    blurb:
-      "Gives agents a phone line through a voice AI that says it is an AI, and dials only after a person approves the exact request.",
-    tags: ["Agents", "Voice"],
-    links: [{ href: "https://github.com/ai-foundry-byu/ai-phone-desk", label: "GitHub" }],
-  },
-  {
-    name: "Harnessview",
-    blurb:
-      "Maps a Claude Code project's agents, skills, hooks, MCP servers and settings into one live graph, with broken wiring flagged as an error.",
-    tags: ["Claude Code", "Developer tools"],
-    links: [{ href: "https://github.com/ai-foundry-byu/harnessview", label: "GitHub" }],
+    tags: ["Research"],
+    links: [{ href: GH + "deep-research-agent", label: "View repo" }],
+    repo: "deep-research-agent",
   },
   {
     name: "Software Design Canon",
+    kind: "Reference",
+    status: "Open source",
     blurb:
       "A link-checked index of the genuinely free primary sources on software design and architecture, for builders who want the originals rather than summaries.",
     tags: ["Research", "Learning"],
-    links: [{ href: "https://github.com/ai-foundry-byu/software-design-canon", label: "GitHub" }],
+    links: [{ href: GH + "software-design-canon", label: "View repo" }],
+    repo: "software-design-canon",
+  },
+  {
+    name: "Claude Deploy Kit",
+    kind: "Tool",
+    status: "Open source",
+    blurb:
+      "The controls a company needs before it lets Claude agents act: one policy checkpoint, a block on destructive commands, an evaluation gate and an audit log that redacts secrets.",
+    tags: ["Agent safety", "Enterprise"],
+    links: [{ href: GH + "claude-deploy-kit", label: "View repo" }],
+    repo: "claude-deploy-kit",
+  },
+  {
+    name: "MCP Judge",
+    kind: "Tool",
+    status: "Open source",
+    blurb:
+      "A calibrated LLM judge served over MCP, shipped with the evaluation harness that proves its scores agree with known-good and known-bad examples.",
+    tags: ["Evals", "MCP"],
+    links: [{ href: GH + "mcp-judge", label: "View repo" }],
+    repo: "mcp-judge",
+  },
+  {
+    name: "AI Phone Desk",
+    kind: "Agent",
+    status: "Open source",
+    blurb:
+      "Gives agents a phone line through a voice AI that says it is an AI, and dials only after a person approves the exact request.",
+    tags: ["Voice"],
+    links: [{ href: GH + "ai-phone-desk", label: "View repo" }],
+    repo: "ai-phone-desk",
+  },
+  {
+    name: "Harnessview",
+    kind: "Tool",
+    status: "Open source",
+    blurb:
+      "Maps a Claude Code project's agents, skills, hooks, MCP servers and settings into one live graph, with broken wiring flagged as an error.",
+    tags: ["Claude Code", "Developer tools"],
+    links: [{ href: GH + "harnessview", label: "View repo" }],
+    repo: "harnessview",
   },
 ]
+
+/** The featured row, in rank order. */
+export const WORK_FEATURED: WorkItem[] = WORK.filter((w) => w.featured).sort(
+  (a, b) => (a.featured ?? 0) - (b.featured ?? 0),
+)
+
+/**
+ * Shipped products only, for any landing-page band. A tool is not proof we
+ * can ship for a client, so a band about client-grade work reads from here,
+ * never from WORK.
+ */
+export const PRODUCTS: WorkItem[] = WORK.filter((w) => w.kind === "Product")
 
 /**
  * "Velocity pods" is Brandon's term and is used deliberately. It is internal
