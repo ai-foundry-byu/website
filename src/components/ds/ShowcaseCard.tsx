@@ -53,7 +53,7 @@ function Thumb({ item, eager = false }: { item: WorkItem; eager?: boolean }) {
       {item.image ? (
         <Image
           src={item.image}
-          alt=""
+          alt={item.imageAlt ?? ""}
           fill
           sizes={IMG_SIZES}
           loading={eager ? "eager" : "lazy"}
@@ -83,7 +83,16 @@ export function ShowcaseCard({ item }: { item: WorkItem }) {
     <article className="reg-card work-card">
       <Ticks />
       {primary ? (
-        <a href={primary.href} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true">
+        // Mouse-only shortcut to the primary link (tabIndex -1, so keyboard
+        // order is unchanged). Hidden from screen readers unless the image
+        // carries its own alt text (the demo-run captures), which then names it.
+        <a
+          href={primary.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={-1}
+          aria-hidden={item.imageAlt ? undefined : true}
+        >
           <Thumb item={item} />
         </a>
       ) : (
