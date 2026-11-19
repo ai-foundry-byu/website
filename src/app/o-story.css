@@ -50,7 +50,7 @@
   .af-hero-inner{
     --art-top:0px; --cgap:64px;
     --sw:min(100cqw,384px); --sx:calc((100cqw - var(--sw)) / 2);
-    --R:54px; --bcx:calc(var(--sw) / 2 + 18px); --bcy:157px; --bh:250px; --gap:12px;
+    --R:54px; --bcx:calc(var(--sw) / 2); --bcy:157px; --bh:250px; --gap:12px;
     --Rd:56px; --dcx:calc(var(--sw) / 2); --dcy:172px; --ch:260px;
     --lab:13px; --off:10px;
     min-height:0;
@@ -115,13 +115,17 @@
   .af-hero-art{grid-row:1;margin-bottom:var(--cgap)}
   .af-hero-copy{grid-row:2}
   .tk-stage{position:relative;left:auto;top:auto;grid-row:3;height:auto;justify-self:center;margin-top:56px}
-  .tk-src{display:block;width:176px;height:auto;overflow:visible;margin:0 0 58px calc(50% - 63.2px)}
+  .tk-src{display:block;width:176px;height:auto;overflow:visible;margin:0 auto 58px}
   .tk-builder{position:relative;left:auto;top:auto}
   .tk-consult{margin-top:58px}
   .tk-hex{transform-origin:50% 50%}
   .tk-lead{display:none}
   /* a 40 px rule above each profile: from the small mark's O to the Builder, from the Builder to the Consultant */
   .tk-box::before{content:"";position:absolute;left:50%;top:-52px;width:0;height:40px;border-left:1px solid rgba(255,255,255,.26)}
+  /* the small mark is centred, so its O sits 24.5 px left of the axis: the Builder's rule leaves the O,
+     steps across to the axis and drops, as the desktop leader does */
+  .tk-builder::before{left:calc(50% - 24.5px);width:24.5px;height:20px;border-bottom:1px solid rgba(255,255,255,.26)}
+  .tk-builder::after{content:"";position:absolute;left:50%;top:-32px;width:0;height:20px;border-left:1px solid rgba(255,255,255,.26)}
   /* the spokes are drawn out from the centre: dashed by pathLength, widths in svg units (about 1 px) */
   .tk-grid .tk-spoke{vector-effect:none;stroke-dasharray:1 1;stroke-width:1.07}
   .tk-dm .tk-grid .tk-spoke{stroke-width:.63}
