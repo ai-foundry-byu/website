@@ -1424,23 +1424,23 @@ export const CONSULTANT_MEASURE =
 
 export const PEDAGOGY_EYEBROW = "Our pedagogy"
 
-export const PEDAGOGY_HEADING = "Two classes, then real clients."
+export const PEDAGOGY_HEADING = "One prerequisite. Two profiles. Real clients."
 
 export const PEDAGOGY_STEPS: { title: string; blurb: string; points: string[] }[] = [
   {
-    title: "1. Build",
+    title: "1. Build, the prerequisite",
     blurb:
       "You are the customer. Students learn the six Builder skills by building their own " +
       "product with AI coding agents, two weeks per skill. Each week we teach a technique and " +
-      "students apply it to their project.",
+      "students apply it to their project. This is where the Builder profile starts.",
     points: ["MSB 341 · IS 693R · CS 498R", "Mondays, fall and winter"],
   },
   {
     title: "2. The Foundry Lab",
     blurb:
       "You are the vendor. Class time is delivery: problem solving and collaboration on " +
-      "live client engagements. The Lab teaches the Consultant toolkit and tests the " +
-      "Builder toolkit.",
+      "live client engagements. The Lab builds the Consultant profile and puts the " +
+      "Builder profile to work for a client.",
     points: ["MBA 693R · STRAT 490R", "Fridays, 8:00 to 11:50 AM"],
   },
   {
