@@ -54,3 +54,4 @@ supabase/.temp/
 _brand-src/proposed/
 _brand-src/variants/
 _brand-src/pass2/
+__pycache__/

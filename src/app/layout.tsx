@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
-import { CurtainRouteProvider } from "@/components/CurtainRoute";
+import { RouteTransitions } from "@/components/RouteTransitions";
 import { MotionRoot } from "@/components/motion/MotionPrimitives";
 import "./globals.css";
+import "./af-build.css";
 
 /**
  * The three families of the design system, and no others. Spec:
@@ -98,17 +99,17 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      {/* CurtainRouteProvider is the corbin-curtain-site preview experiment:
-          header-nav route changes run behind a curtain. Pages stay server-
-          rendered — children cross the boundary as a ReactNode prop. Remove
-          this wrapper (and CurtainRoute.tsx) to kill the experiment. */}
+      {/* RouteTransitions runs internal navigations through
+          the View Transitions API; it replaces the curtain experiment here.
+          Pages stay server-rendered: children cross the boundary as a
+          ReactNode prop. Remove the wrapper to go back to plain routing. */}
       <body className="min-h-full flex flex-col">
-        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important}'}</style></noscript>
+        <noscript><style>{'.m-reveal{opacity:1 !important;transform:none !important;filter:none !important}'}</style></noscript>
         {/* MotionRoot sets reducedMotion="user" for the scroll-entrance
             system; the curtain handles reduced motion itself, outside it. */}
-        <CurtainRouteProvider effect="fade">
+        <RouteTransitions>
           <MotionRoot>{children}</MotionRoot>
-        </CurtainRouteProvider>
+        </RouteTransitions>
       </body>
     </html>
   );

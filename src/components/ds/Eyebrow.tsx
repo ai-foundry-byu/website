@@ -19,11 +19,13 @@ export function Eyebrow({
     <span
       style={{
         fontFamily: "var(--font-display)",
+        /* Runout: the kit's label, Archivo at full width with open
+           tracking, in place of the condensed Rail 62. */
         fontWeight: 600,
-        fontStretch: "var(--w-rail)",
+        fontStretch: "125%",
         fontSize: "var(--size-eyebrow)",
         textTransform: "uppercase",
-        letterSpacing: "0.10em",
+        letterSpacing: "0.14em",
         lineHeight: 1.2,
         color: COLORS[tone] || COLORS.accent,
         display: "inline-block",

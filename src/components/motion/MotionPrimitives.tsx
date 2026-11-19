@@ -17,7 +17,15 @@ import { motion, MotionConfig, type Variants } from "motion/react"
  * always appears.
  */
 export const STAMP: [number, number, number, number] = [0.2, 0.9, 0.3, 1]
-const TWEEN = { duration: 0.3, ease: STAMP } as const
+/* Runout retheme, system v2: sections are set in the way the hero mark is
+   built, on the kit's travel easing (--af-ease-travel: lift, travel, slow
+   final approach), a short slide with no blur, and grid children are placed
+   one after another like members off a crane. Reduced motion still strips
+   the transform (MotionRoot); the fade remains, so content always appears. */
+export const TRAVEL: [number, number, number, number] = [0.65, 0, 0.25, 1]
+const TWEEN = { duration: 0.55, ease: TRAVEL } as const
+const HIDDEN = { opacity: 0, y: 16 }
+const SHOWN = { opacity: 1, y: 0 }
 
 export function MotionRoot({ children }: { children: React.ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>
@@ -35,8 +43,8 @@ export function Reveal({
   return (
     <motion.div
       className="m-reveal"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={HIDDEN}
+      whileInView={SHOWN}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ ...TWEEN, delay }}
       style={style}
@@ -48,12 +56,12 @@ export function Reveal({
 
 const STAGGER_PARENT: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
+  show: { transition: { staggerChildren: 0.08 } },
 }
 
 const STAGGER_CHILD: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: TWEEN },
+  hidden: HIDDEN,
+  show: { ...SHOWN, transition: TWEEN },
 }
 
 /** Grid wrapper: children (StaggerItem) land in sequence, once. */

@@ -1446,6 +1446,36 @@ export const CONSULTANT_MEASURE =
   "themselves here: the faculty advisor, teammates, and clients rate observed behavior " +
   "at midterm and at the end of each term."
 
+/* The O tells its story (mockup for Scott Murff, 2026-11-17). The O in the logo is the two
+   toolkits: the hexagon is the Builder profile, the diamond cut out of it the Consultant profile.
+   The home hero lifts them out of the mark after the blueprint build (AFStory), and /approach opens
+   with a scroll story that splits the O into the two profiles (OStoryExplainer). Axis names and
+   summaries are the toolkit constants above; these are only the new captions. */
+export const BUILDER_TITLE = "The Builder"
+
+export const CONSULTANT_TITLE = "The Consultant"
+
+/** The link from the hero story to /approach, and the cue that opens the /approach story. */
+export const O_STORY_LINK: NavLink = { label: "What the O means", href: "/approach" }
+
+export const O_STORY_HEADING = "The O in AI Foundry holds two profiles"
+
+/** Hero eyebrows (short: they sit over a 384 px column). */
+export const O_STORY_HEX_EYEBROW = "The hexagon: six axes"
+
+export const O_STORY_DIAMOND_EYEBROW = "The diamond: four axes"
+
+/** /approach eyebrows. */
+export const O_STORY_HEX_SKILLS = "The hexagon: six builder skills"
+
+export const O_STORY_DIAMOND_SKILLS = "The diamond: four consultant skills"
+
+export const O_STORY_CAPTION =
+  "One O, two profiles: the hexagon is what you can build; the diamond at its center is how you " +
+  "build for someone else."
+
+export const O_STORY_REPLAY = "Replay"
+
 export const PEDAGOGY_EYEBROW = "Our pedagogy"
 
 export const PEDAGOGY_HEADING = "One prerequisite. Two profiles. Real clients."
