@@ -34,3 +34,18 @@ export function showFirstError(form: HTMLFormElement | null) {
   field.focus({ preventScroll: true })
   window.requestAnimationFrame(() => underHeader(field.closest("label") ?? field))
 }
+
+/**
+ * The same for a send the server refused: the "Error:" line sits under the submit row, so with the
+ * button at the bottom of a phone screen it renders below the fold and the send looks as if nothing
+ * happened. This scrolls just far enough to show it, keeping the button in view above it.
+ */
+export function showAlert(el: HTMLElement | null) {
+  if (!el) return
+  window.requestAnimationFrame(() => {
+    const over = el.getBoundingClientRect().bottom + 24 - window.innerHeight
+    if (over <= 0) return
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    window.scrollBy({ top: over, behavior: still ? "auto" : "smooth" })
+  })
+}

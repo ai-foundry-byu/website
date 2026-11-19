@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ds/Button"
 import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
-import { showConfirmation, showFirstError } from "@/lib/showConfirmation"
+import { showAlert, showConfirmation, showFirstError } from "@/lib/showConfirmation"
 import { QUOTE_CTA, STAY_CONFIRM, STAY_INTERESTS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -29,6 +29,7 @@ export function StayInTouchForm() {
   const [serverError, setServerError] = useState<string | null>(null)
   const done = useRef<HTMLDivElement>(null)
   const form = useRef<HTMLFormElement>(null)
+  const alert = useRef<HTMLParagraphElement>(null)
   /* counts refused sends: each one brings the first error into view, once it has rendered */
   const [refused, setRefused] = useState(0)
 
@@ -39,6 +40,10 @@ export function StayInTouchForm() {
   useEffect(() => {
     if (refused) showFirstError(form.current)
   }, [refused])
+
+  useEffect(() => {
+    if (serverError) showAlert(alert.current)
+  }, [serverError])
 
   useEffect(() => {
     setFrom(new URLSearchParams(window.location.search).get("from"))
@@ -141,6 +146,7 @@ export function StayInTouchForm() {
         </span>
         {serverError ? (
           <p
+            ref={alert}
             role="alert"
             style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-caption)", lineHeight: 1.4, color: "var(--royal)", margin: 0, flexBasis: "100%" }}
           >

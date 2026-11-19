@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
 import { Select } from "@/components/ds/Select"
 import { Textarea } from "@/components/ds/Textarea"
-import { showConfirmation, showFirstError } from "@/lib/showConfirmation"
+import { showAlert, showConfirmation, showFirstError } from "@/lib/showConfirmation"
 import { QUOTE_CONFIRM, QUOTE_CTA, QUOTE_CTA_NOTE, QUOTE_FIELDS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -45,6 +45,7 @@ export function QuoteForm() {
   const [serverError, setServerError] = useState<string | null>(null)
   const done = useRef<HTMLDivElement>(null)
   const form = useRef<HTMLFormElement>(null)
+  const alert = useRef<HTMLParagraphElement>(null)
   /* counts refused sends: each one brings the first error into view, once it has rendered */
   const [refused, setRefused] = useState(0)
 
@@ -55,6 +56,10 @@ export function QuoteForm() {
   useEffect(() => {
     if (refused) showFirstError(form.current)
   }, [refused])
+
+  useEffect(() => {
+    if (serverError) showAlert(alert.current)
+  }, [serverError])
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -149,6 +154,7 @@ export function QuoteForm() {
         </span>
         {serverError ? (
           <p
+            ref={alert}
             role="alert"
             style={{
               fontFamily: "var(--font-body)",
