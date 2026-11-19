@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ds/Button"
 import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
 import { Select } from "@/components/ds/Select"
 import { Textarea } from "@/components/ds/Textarea"
+import { showConfirmation } from "@/lib/showConfirmation"
 import { QUOTE_CONFIRM, QUOTE_CTA, QUOTE_CTA_NOTE, QUOTE_FIELDS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -42,6 +43,11 @@ export function QuoteForm() {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
+  const done = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (sent) showConfirmation(done.current)
+  }, [sent])
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -91,13 +97,15 @@ export function QuoteForm() {
 
   if (sent) {
     return (
-      <EmptyState eyebrow={QUOTE_CONFIRM.eyebrow} title={QUOTE_CONFIRM.title} detail={QUOTE_CONFIRM.detail}>
-        <div style={{ marginTop: "8px" }}>
-          <Button variant="secondary" onClick={() => setSent(false)}>
-            Back to the form
-          </Button>
-        </div>
-      </EmptyState>
+      <div ref={done} tabIndex={-1} style={{ outline: "none" }}>
+        <EmptyState eyebrow={QUOTE_CONFIRM.eyebrow} title={QUOTE_CONFIRM.title} detail={QUOTE_CONFIRM.detail}>
+          <div style={{ marginTop: "8px" }}>
+            <Button variant="secondary" onClick={() => setSent(false)}>
+              Back to the form
+            </Button>
+          </div>
+        </EmptyState>
+      </div>
     )
   }
 

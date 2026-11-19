@@ -1074,6 +1074,22 @@ html {
   }
 }
 
+/* The Button's capitals are wide: below 380 px a long label ("Take the self-assessment") would run
+   past a 360 px screen, so there it tracks tighter, sets a large label at 13 px and sheds some
+   padding, and a label longer still may wrap to two lines.
+   The Button's look is inline, hence the !important. */
+@media (max-width: 379.98px) {
+  .ds-btn {
+    white-space: normal !important;
+    letter-spacing: 0.05em !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .ds-btn[data-size="lg"] {
+    font-size: 13px !important;
+  }
+}
+
 /* ═══ LEGACY CLASSES ════════════════════════════════════════
    Used by /network, /ops, and /lab/* only. The redesigned
    routes do not use these. Values read the new tokens (the

@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ds/Button"
 import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
+import { showConfirmation } from "@/lib/showConfirmation"
 import { QUOTE_CTA, STAY_CONFIRM, STAY_INTERESTS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -26,6 +27,11 @@ export function StayInTouchForm() {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState<string[] | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
+  const done = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (sent) showConfirmation(done.current)
+  }, [sent])
 
   useEffect(() => {
     setFrom(new URLSearchParams(window.location.search).get("from"))
@@ -71,15 +77,17 @@ export function StayInTouchForm() {
 
   if (sent) {
     return (
-      <EmptyState eyebrow={STAY_CONFIRM.eyebrow} title={STAY_CONFIRM.title} detail={STAY_CONFIRM.detail}>
-        {sent.includes("project") ? (
-          <div style={{ marginTop: "8px" }}>
-            <Button variant="primary" href={QUOTE_CTA.href}>
-              {QUOTE_CTA.label}
-            </Button>
-          </div>
-        ) : null}
-      </EmptyState>
+      <div ref={done} tabIndex={-1} style={{ outline: "none" }}>
+        <EmptyState eyebrow={STAY_CONFIRM.eyebrow} title={STAY_CONFIRM.title} detail={STAY_CONFIRM.detail}>
+          {sent.includes("project") ? (
+            <div style={{ marginTop: "8px" }}>
+              <Button variant="primary" href={QUOTE_CTA.href}>
+                {QUOTE_CTA.label}
+              </Button>
+            </div>
+          ) : null}
+        </EmptyState>
+      </div>
     )
   }
 

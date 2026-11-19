@@ -19,8 +19,10 @@ import { O_STORY_REPLAY } from "@/lib/content"
  *     of the Builder's cut (or enters by the top edge when that cut is above the viewport), rides the
  *     Consultant's rule into its box and the Consultant is drawn up. A reader who arrives at the Consultant without having
  *     seen the Builder build (a fast scroll, a jump past it) gets the Builder finished at once, so the
- *     Consultant never waits on a diagram that is off screen. html.io arms the waits; with no
- *     script it is never set and both profiles show their end state.
+ *     Consultant never waits on a diagram that is off screen or mostly under the header. Each
+ *     flight is measured afresh on every frame, so one set off mid-scroll still rides the page as it
+ *     settles. html.io arms the waits; with no script it is never set and both profiles show their
+ *     end state.
  * The button shows only when motion is allowed and the story has played (o-story.css).
  */
 const FLY = 820 // ms: a traveller's flight from its source into its profile's box
@@ -28,7 +30,31 @@ const BUILT = 2120 // ms from the hexagon's lift: the Builder's last label is se
 const TOLD = 1500 // ms from the diamond's landing: the Consultant is drawn up (the sc- clock)
 const RIDE = 22 // px: a traveller's width while it rides down a rule
 const RULE = 52 // px: each 40 px rule starts this far above its profile's box (.tk-box::before)
-const EASE = "cubic-bezier(.45,0,.2,1)"
+/* the Consultant waits on a Builder still being built only while this share of its diagram is in view */
+const KEEP = 0.75
+
+type Pt = readonly [number, number, number] // centre x, centre y, width (viewport px)
+type Leg = { at: number; to: () => Pt; opacity: number; ease: (t: number) => number; free?: boolean }
+
+/* a CSS cubic-bezier timing function (solved for x by bisection) */
+const bezier = (x1: number, y1: number, x2: number, y2: number) => {
+  const c = (a: number, b: number, u: number) => 3 * (1 - u) * (1 - u) * u * a + 3 * (1 - u) * u * u * b + u * u * u
+  return (t: number) => {
+    if (t <= 0 || t >= 1) return t <= 0 ? 0 : 1
+    let lo = 0
+    let hi = 1
+    let u = t
+    for (let i = 0; i < 24; i++) {
+      u = (lo + hi) / 2
+      if (c(x1, x2, u) < t) lo = u
+      else hi = u
+    }
+    return c(y1, y2, u)
+  }
+}
+const linear = (t: number) => t
+const ease = bezier(0.45, 0, 0.2, 1)
+const lift = bezier(0.3, 0, 0.3, 1)
 
 export function AFStoryReplay() {
   const ref = useRef<HTMLDivElement>(null)
@@ -57,28 +83,74 @@ export function AFStoryReplay() {
     let phase = 0
     let consultSeen = false
     let timers: number[] = []
-    let flights: Animation[] = []
+    let flights: { finish: () => void; cancel: () => void }[] = []
     let frame = 0
     const later = (f: () => void, ms: number) => timers.push(window.setTimeout(f, ms))
 
-    /* boxes (centre x, centre y, width) in .af-hero-inner coordinates, so a flight rides with the page */
+    /* every point of a flight is measured on each frame, in viewport coordinates, so a flight that
+       starts while the page is still moving (a flick, a smooth jump) follows the page and the sticky
+       header as they really are, not as they were when the observer fired */
     const header = document.querySelector("header")
     const top = header && getComputedStyle(header).position === "sticky" ? header.getBoundingClientRect().height : 0
-    const view = () => {
-      const o = inner.getBoundingClientRect()
-      const box = (r: DOMRect) => [r.left - o.left + r.width / 2, r.top - o.top + r.height / 2, r.width] as const
-      const onScreen = (r: DOMRect) => r.width > 0 && r.top >= top && r.bottom <= window.innerHeight
-      return { o, box, onScreen, vTop: top - o.top }
-    }
+    const box = (r: DOMRect): Pt => [r.left + r.width / 2, r.top + r.height / 2, r.width]
+    const onScreen = (r: DOMRect) => r.width > 0 && r.top >= top && r.bottom <= window.innerHeight
     const visible = (el: Element, min = 0.3) => {
       const r = el.getBoundingClientRect()
       const seen = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, top)
       return r.height > 0 && seen / r.height >= min
     }
-    const canFly = () => !still.matches && typeof hex.animate === "function"
-    /* the diamond traveller is a 100 px square (transform-origin 0 0) moved to a box */
-    const at = ([x, y, w]: readonly [number, number, number]) =>
-      `translate(${(x - w / 2).toFixed(1)}px, ${(y - w / 2).toFixed(1)}px) scale(${(w / 100).toFixed(4)})`
+    /* the share of the Builder's diagram (below its caption) in view under the sticky header */
+    const cap = builder.querySelector(".tk-cap")
+    const shown = () => {
+      const r = builder.getBoundingClientRect()
+      const t = cap ? cap.getBoundingClientRect().bottom : r.top
+      const h = r.bottom - t
+      return h > 0 ? (Math.min(r.bottom, window.innerHeight) - Math.max(t, top)) / h : 0
+    }
+    const canFly = () => !still.matches
+    const ruleOf = (el: Element) => {
+      const r = el.getBoundingClientRect()
+      return [r.left + r.width / 2, r.top - RULE] as const
+    }
+    const edgeY = () => top + RIDE
+
+    /* one flight: legs of live points, eased like keyframes; every point but the landing (free) is
+       held below the sticky header, so the traveller is never hidden under it on its way */
+    const fly = (legs: Leg[], duration: number, place: (p: Pt, opacity: number) => void, done: () => void) => {
+      const t0 = performance.now()
+      let id = 0
+      let live = true
+      const hold = (l: Leg): Pt => {
+        const p = l.to()
+        return l.free ? p : [p[0], Math.max(p[1], top + p[2] / 2), p[2]]
+      }
+      const end = () => {
+        if (!live) return
+        live = false
+        window.cancelAnimationFrame(id)
+        done()
+      }
+      const step = () => {
+        const k = Math.min(1, (performance.now() - t0) / duration)
+        let i = 0
+        while (i < legs.length - 2 && k > legs[i + 1].at) i++
+        const a = legs[i]
+        const b = legs[i + 1]
+        const e = a.ease(Math.min(1, Math.max(0, (k - a.at) / (b.at - a.at || 1))))
+        const pa = hold(a)
+        const pb = hold(b)
+        place(
+          [pa[0] + (pb[0] - pa[0]) * e, pa[1] + (pb[1] - pa[1]) * e, pa[2] + (pb[2] - pa[2]) * e],
+          a.opacity + (b.opacity - a.opacity) * e,
+        )
+        if (k < 1) id = window.requestAnimationFrame(step)
+        else end()
+      }
+      step()
+      const f = { finish: end, cancel: end }
+      flights.push(f)
+      return f
+    }
 
     const told = () => {
       hero.classList.add("is-told")
@@ -93,34 +165,50 @@ export function AFStoryReplay() {
       phase = 1
       builder.classList.add("is-telling")
       if (canFly()) {
-        const v = view()
-        const sr = srcO.getBoundingClientRect()
-        const fromEdge = !v.onScreen(sr)
-        const own = v.box(hex.getBoundingClientRect())
-        const from = v.box(sr)
-        const b = builder.getBoundingClientRect()
-        const rx = b.left - v.o.left + b.width / 2
-        const ruleTop = b.top - v.o.top - RULE
-        const edge = [rx, v.vTop + RIDE, RIDE] as const
-        /* the hexagon box is 2R x 1.732R: centre offsets move it, its width scales it */
-        const go = ([x, y, w]: readonly [number, number, number]) =>
-          `translate(${(x - own[0]).toFixed(1)}px, ${(y - own[1]).toFixed(1)}px) scale(${(w / own[2]).toFixed(4)})`
-        const keys: Keyframe[] = fromEdge
+        hex.style.transform = ""
+        const o0 = inner.getBoundingClientRect()
+        const h0 = box(hex.getBoundingClientRect())
+        /* the hexagon's own box, in .af-hero-inner coordinates: it moves with the page */
+        const own = [h0[0] - o0.left, h0[1] - o0.top, h0[2]] as const
+        const ownAt = (): Pt => {
+          const o = inner.getBoundingClientRect()
+          return [o.left + own[0], o.top + own[1], own[2]]
+        }
+        const fromEdge = !onScreen(srcO.getBoundingClientRect())
+        const from = () => box(srcO.getBoundingClientRect())
+        const rule = (dy: number, min = -Infinity): Pt => {
+          const [x, y] = ruleOf(builder)
+          return [x, Math.max(y + dy, min), RIDE]
+        }
+        const legs: Leg[] = fromEdge
           ? [
-              { offset: 0, transform: go(edge), opacity: 0, easing: "linear" },
-              { offset: 0.06, transform: go([rx, edge[1] + 6, RIDE]), opacity: 1, easing: EASE },
-              { offset: 0.42, transform: go([rx, Math.max(ruleTop, edge[1] + 6), RIDE]), opacity: 1, easing: "linear" },
-              { offset: 0.7, transform: go([rx, Math.max(ruleTop + 40, edge[1] + 6), RIDE]), opacity: 1, easing: EASE },
+              { at: 0, to: () => [ruleOf(builder)[0], edgeY(), RIDE], opacity: 0, ease: linear },
+              { at: 0.06, to: () => [ruleOf(builder)[0], edgeY() + 6, RIDE], opacity: 1, ease: ease },
+              { at: 0.42, to: () => rule(0, edgeY() + 6), opacity: 1, ease: linear },
+              { at: 0.7, to: () => rule(40, edgeY() + 6), opacity: 1, ease: ease },
             ]
           : [
-              { offset: 0, transform: go(from), opacity: 1, easing: "cubic-bezier(.3,0,.3,1)" },
-              { offset: 0.16, transform: go([from[0], from[1] - 6, from[2]]), opacity: 1, easing: EASE },
-              { offset: 0.42, transform: go([rx, ruleTop, RIDE]), opacity: 1, easing: "linear" },
-              { offset: 0.7, transform: go([rx, ruleTop + 40, RIDE]), opacity: 1, easing: EASE },
+              { at: 0, to: from, opacity: 1, ease: lift },
+              { at: 0.16, to: () => { const f = from(); return [f[0], f[1] - 6, f[2]] }, opacity: 1, ease: ease },
+              { at: 0.42, to: () => rule(0), opacity: 1, ease: linear },
+              { at: 0.7, to: () => rule(40), opacity: 1, ease: ease },
             ]
         src.classList.remove("is-whole")
         src.classList.add("is-out")
-        flights.push(hex.animate([...keys, { offset: 1, transform: "none", opacity: 1 }], { duration: FLY, fill: "backwards" }))
+        /* the hexagon box is 2R x 1.732R: centre offsets move it, its width scales it */
+        fly(
+          [...legs, { at: 1, to: ownAt, opacity: 1, ease: linear, free: true }],
+          FLY,
+          (p, op) => {
+            const [x, y, w] = ownAt()
+            hex.style.transform = `translate(${(p[0] - x).toFixed(1)}px, ${(p[1] - y).toFixed(1)}px) scale(${(p[2] / w).toFixed(4)})`
+            hex.style.opacity = op < 1 ? op.toFixed(3) : ""
+          },
+          () => {
+            hex.style.transform = ""
+            hex.style.opacity = ""
+          },
+        )
       }
       later(
         () => {
@@ -151,12 +239,13 @@ export function AFStoryReplay() {
       whole()
     }
     /* the Consultant is in view while the Builder is still being built: wait for it while the reader
-       can see it, and finish it the moment they cannot (an observer's report can lag a fast scroll) */
+       can see its diagram, and finish it the moment most of it is under the header or off screen (a
+       flick that stops between the two must not leave the Consultant empty behind a half-hidden Builder) */
     const wait = () => {
       window.cancelAnimationFrame(frame)
       const tick = () => {
         if (phase !== 1) return
-        if (!visible(builder)) {
+        if (shown() < KEEP) {
           finish()
           return arrive()
         }
@@ -174,40 +263,45 @@ export function AFStoryReplay() {
       if (phase !== 2) return
       phase = 3
       if (!canFly()) return tell()
-      const v = view()
-      const c = consult.getBoundingClientRect()
-      const to = v.box(dm.getBoundingClientRect())
-      const rx = c.left - v.o.left + c.width / 2
-      const ruleTop = c.top - v.o.top - RULE
-      const ruleFoot = ruleTop + 40
-      const hr = hole.getBoundingClientRect()
-      const cut = v.box(hr)
-      const edge = [rx, v.vTop + RIDE, RIDE] as const
+      const to = () => box(dm.getBoundingClientRect())
+      const cut = () => box(hole.getBoundingClientRect())
+      const rule = (dy: number, min = -Infinity): Pt => {
+        const [x, y] = ruleOf(consult)
+        return [x, Math.max(y + dy, min), RIDE]
+      }
       /* from the top edge when the Builder's cut is not on screen, else straight out of it */
-      const fromEdge = !v.onScreen(hr)
-      const keys: Keyframe[] = fromEdge
+      const fromEdge = !onScreen(hole.getBoundingClientRect())
+      const legs: Leg[] = fromEdge
         ? [
-            { offset: 0, transform: at(edge), opacity: 0, easing: "linear" },
-            { offset: 0.06, transform: at([rx, edge[1] + 6, RIDE]), opacity: 1, easing: EASE },
-            { offset: 0.6, transform: at([rx, Math.max(ruleTop, edge[1] + 6), RIDE]), opacity: 1, easing: "linear" },
+            { at: 0, to: () => [ruleOf(consult)[0], edgeY(), RIDE], opacity: 0, ease: linear },
+            { at: 0.06, to: () => [ruleOf(consult)[0], edgeY() + 6, RIDE], opacity: 1, ease: ease },
+            { at: 0.6, to: () => rule(0, edgeY() + 6), opacity: 1, ease: linear },
           ]
         : [
-            { offset: 0, transform: at(cut), opacity: 0, easing: "cubic-bezier(.3,0,.3,1)" },
-            { offset: 0.16, transform: at([cut[0], cut[1] - 6, cut[2]]), opacity: 1, easing: EASE },
-            { offset: 0.42, transform: at([rx, ruleTop, RIDE]), opacity: 1, easing: "linear" },
+            { at: 0, to: cut, opacity: 0, ease: lift },
+            { at: 0.16, to: () => { const c = cut(); return [c[0], c[1] - 6, c[2]] }, opacity: 1, ease: ease },
+            { at: 0.42, to: () => rule(0), opacity: 1, ease: linear },
           ]
-      const dist = fromEdge ? Math.max(0, ruleTop - edge[1]) : 0
+      const dist = fromEdge ? Math.max(0, ruleOf(consult)[1] - edgeY()) : 0
       const duration = fromEdge ? Math.min(1200, 480 + dist * 0.6) : FLY
-      flights.push(
-        trav.animate(
-          [
-            ...keys,
-            { offset: fromEdge ? 0.78 : 0.7, transform: at([rx, ruleFoot, RIDE]), opacity: 1, easing: EASE },
-            { offset: 0.94, transform: at(to), opacity: 1, easing: "linear" },
-            { offset: 1, transform: at(to), opacity: 0 },
-          ],
-          { duration, fill: "both" },
-        ),
+      /* the diamond traveller is a 100 px square (transform-origin 0 0) moved to a box */
+      fly(
+        [
+          ...legs,
+          { at: fromEdge ? 0.78 : 0.7, to: () => rule(40), opacity: 1, ease: ease },
+          { at: 0.94, to, opacity: 1, ease: linear, free: true },
+          { at: 1, to, opacity: 0, ease: linear, free: true },
+        ],
+        duration,
+        ([x, y, w], op) => {
+          const o = inner.getBoundingClientRect()
+          trav.style.transform = `translate(${(x - o.left - w / 2).toFixed(1)}px, ${(y - o.top - w / 2).toFixed(1)}px) scale(${(w / 100).toFixed(4)})`
+          trav.style.opacity = op.toFixed(3)
+        },
+        () => {
+          trav.style.transform = ""
+          trav.style.opacity = ""
+        },
       )
       later(tell, Math.round(duration * 0.94) - 20)
     }
@@ -236,7 +330,7 @@ export function AFStoryReplay() {
           /* both in view at once (a tall phone, a jump): the observers can report in either order, so
              build the Builder while it is on screen and finish it only when it is not */
           if (phase === 0) {
-            if (visible(builder)) build()
+            if (visible(builder) && shown() >= KEEP) build()
             else finish()
           }
           if (phase === 1) return wait()

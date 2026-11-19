@@ -89,6 +89,8 @@ export function Button({
     textDecoration: "none",
     userSelect: "none",
     whiteSpace: "nowrap",
+    maxWidth: "100%",
+    textAlign: "center",
     flex: "none",
     transform: press && !off ? "translateY(1px)" : "none",
     transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), transform 110ms var(--af-ease-seat)",
@@ -110,12 +112,14 @@ export function Button({
   // buttons that live there.
   // Runout v2: flat buttons, no splash ring unless a caller asks for one.
   const ringTone = ring ?? "none"
+  /* ds-btn (globals.css): below 380 px a long capital label may wrap and tracks tighter, so it never
+     runs past a 360 px screen */
   const className =
     ringTone === "none"
-      ? undefined
+      ? "ds-btn"
       : ringTone === "royal"
-        ? styles.splash
-        : `${styles.splash} ${styles.splashWhite}`
+        ? `ds-btn ${styles.splash}`
+        : `ds-btn ${styles.splash} ${styles.splashWhite}`
   const inner = (
     <>
       {loading ? (
@@ -136,17 +140,17 @@ export function Button({
   )
   if (href) {
     return href.startsWith("/") && !download ? (
-      <Link href={href} className={className} style={s} {...handlers}>
+      <Link href={href} className={className} data-size={size} style={s} {...handlers}>
         {inner}
       </Link>
     ) : (
-      <a href={href} download={download} className={className} style={s} {...handlers}>
+      <a href={href} download={download} className={className} data-size={size} style={s} {...handlers}>
         {inner}
       </a>
     )
   }
   return (
-    <button type={type} disabled={off} className={className} style={s} {...handlers}>
+    <button type={type} disabled={off} className={className} data-size={size} style={s} {...handlers}>
       {inner}
     </button>
   )
