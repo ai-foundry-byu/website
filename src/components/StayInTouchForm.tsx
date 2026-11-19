@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ds/Button"
 import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
-import { showConfirmation } from "@/lib/showConfirmation"
+import { showConfirmation, showFirstError } from "@/lib/showConfirmation"
 import { QUOTE_CTA, STAY_CONFIRM, STAY_INTERESTS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -28,10 +28,17 @@ export function StayInTouchForm() {
   const [sent, setSent] = useState<string[] | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
   const done = useRef<HTMLDivElement>(null)
+  const form = useRef<HTMLFormElement>(null)
+  /* counts refused sends: each one brings the first error into view, once it has rendered */
+  const [refused, setRefused] = useState(0)
 
   useEffect(() => {
     if (sent) showConfirmation(done.current)
   }, [sent])
+
+  useEffect(() => {
+    if (refused) showFirstError(form.current)
+  }, [refused])
 
   useEffect(() => {
     setFrom(new URLSearchParams(window.location.search).get("from"))
@@ -44,7 +51,10 @@ export function StayInTouchForm() {
     const email = String(f.get("email") || "").trim()
     const err = !email ? "Email is required." : !EMAIL.test(email) ? "Enter a valid email address." : undefined
     setError(err)
-    if (err) return
+    if (err) {
+      setRefused((n) => n + 1)
+      return
+    }
     const interests = STAY_INTERESTS.map((i) => i.key).filter((k) => f.get(k) === "on")
     setSending(true)
     setServerError(null)
@@ -92,7 +102,7 @@ export function StayInTouchForm() {
   }
 
   return (
-    <form onSubmit={submit} noValidate className={styles.grid}>
+    <form ref={form} onSubmit={submit} noValidate className={styles.grid}>
       <Input label="First name" name="first" autoComplete="given-name" />
       <Input label="Last name" name="last" autoComplete="family-name" />
       <Input label="Email" name="email" type="email" required autoComplete="email" error={error} />

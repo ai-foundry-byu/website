@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/ds/EmptyState"
 import { Input } from "@/components/ds/Input"
 import { Select } from "@/components/ds/Select"
 import { Textarea } from "@/components/ds/Textarea"
-import { showConfirmation } from "@/lib/showConfirmation"
+import { showConfirmation, showFirstError } from "@/lib/showConfirmation"
 import { QUOTE_CONFIRM, QUOTE_CTA, QUOTE_CTA_NOTE, QUOTE_FIELDS } from "@/lib/content"
 import styles from "./QuoteForm.module.css"
 
@@ -44,10 +44,17 @@ export function QuoteForm() {
   const [sent, setSent] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const done = useRef<HTMLDivElement>(null)
+  const form = useRef<HTMLFormElement>(null)
+  /* counts refused sends: each one brings the first error into view, once it has rendered */
+  const [refused, setRefused] = useState(0)
 
   useEffect(() => {
     if (sent) showConfirmation(done.current)
   }, [sent])
+
+  useEffect(() => {
+    if (refused) showFirstError(form.current)
+  }, [refused])
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -64,7 +71,10 @@ export function QuoteForm() {
       errs.website = "Enter a valid website address."
     }
     setErrors(errs)
-    if (Object.keys(errs).length) return
+    if (Object.keys(errs).length) {
+      setRefused((n) => n + 1)
+      return
+    }
     setSending(true)
     setServerError(null)
     try {
@@ -110,7 +120,7 @@ export function QuoteForm() {
   }
 
   return (
-    <form onSubmit={submit} noValidate className={styles.grid}>
+    <form ref={form} onSubmit={submit} noValidate className={styles.grid}>
       <Input label="First name" name="first" required autoComplete="given-name" error={errors.first} />
       <Input label="Last name" name="last" required autoComplete="family-name" error={errors.last} />
       <Input label="Email" name="email" type="email" required autoComplete="email" error={errors.email} />

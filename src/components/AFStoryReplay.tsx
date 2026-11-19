@@ -13,13 +13,15 @@ import { O_STORY_REPLAY } from "@/lib/content"
  *     When the Builder is in view the hexagon lifts out of the small mark's O (.tk-src.is-out), rides
  *     the 40 px rule down and grows into the Builder's box, which is drawn up on its own clock
  *     (.is-telling, o-story.css); once it is built the small O re-inks (.is-whole). A reader who
- *     lands past the small mark (its O under the sticky header) sees the hexagon enter by the top
- *     edge instead, or, with the Consultant in view as well, the Builder already built. When the
- *     Consultant's diagram is in view and the Builder is built, a solid diamond (.tk-dtrav) lifts out
- *     of the Builder's cut (or enters by the top edge when that cut is above the viewport), rides the
- *     Consultant's rule into its box and the Consultant is drawn up. A reader who arrives at the Consultant without having
- *     seen the Builder build (a fast scroll, a jump past it) gets the Builder finished at once, so the
- *     Consultant never waits on a diagram that is off screen or mostly under the header. Each
+ *     lands past the small mark (its O under the sticky header) sees the hexagon come in just under
+ *     the Builder's caption instead, or, with the Consultant in view as well, the Builder already
+ *     built. When the Consultant's diagram is in view and the Builder is built, a solid diamond
+ *     (.tk-dtrav) lifts out of the Builder's cut, rides the Consultant's rule into its box and the
+ *     Consultant is drawn up; when that cut is not on screen it comes in just under the Consultant's
+ *     caption, never parked on it. A reader who arrives at the Consultant without having seen the
+ *     Builder build (a fast scroll, a jump past it) gets the Builder finished at once, so the
+ *     Consultant never waits on a diagram that is off screen, mostly under the header, or whose
+ *     caption is under the header. Each
  *     flight is measured afresh on every frame, so one set off mid-scroll still rides the page as it
  *     settles. html.io arms the waits; with no script it is never set and both profiles show their
  *     end state.
@@ -30,7 +32,8 @@ const BUILT = 2120 // ms from the hexagon's lift: the Builder's last label is se
 const TOLD = 1500 // ms from the diamond's landing: the Consultant is drawn up (the sc- clock)
 const RIDE = 22 // px: a traveller's width while it rides down a rule
 const RULE = 52 // px: each 40 px rule starts this far above its profile's box (.tk-box::before)
-/* the Consultant waits on a Builder still being built only while this share of its diagram is in view */
+const DIVE = 360 // ms: a traveller whose way the page has moved under the sticky header goes straight to its landing in this time
+/* the Consultant waits on a Builder still being built only while this share of it is in view */
 const KEEP = 0.75
 
 type Pt = readonly [number, number, number] // centre x, centre y, width (viewport px)
@@ -99,30 +102,61 @@ export function AFStoryReplay() {
       const seen = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, top)
       return r.height > 0 && seen / r.height >= min
     }
-    /* the share of the Builder's diagram (below its caption) in view under the sticky header */
+    /* the share of the whole Builder (caption, diagram and labels) in view under the sticky header */
     const cap = builder.querySelector(".tk-cap")
     const shown = () => {
       const r = builder.getBoundingClientRect()
-      const t = cap ? cap.getBoundingClientRect().bottom : r.top
-      const h = r.bottom - t
-      return h > 0 ? (Math.min(r.bottom, window.innerHeight) - Math.max(t, top)) / h : 0
+      let t = r.top
+      let b = r.bottom
+      builder.querySelectorAll(".tk-lab").forEach((l) => {
+        const q = l.getBoundingClientRect()
+        t = Math.min(t, q.top)
+        b = Math.max(b, q.bottom)
+      })
+      const h = b - t
+      return h > 0 ? (Math.min(b, window.innerHeight) - Math.max(t, top)) / h : 0
     }
+    /* the Consultant waits on the Builder only while the reader can read it: its caption (its name)
+       clear of the sticky header and most of it in view */
+    const keep = () => (!cap || cap.getBoundingClientRect().top >= top - 2) && shown() >= KEEP
     const canFly = () => !still.matches
     const ruleOf = (el: Element) => {
       const r = el.getBoundingClientRect()
       return [r.left + r.width / 2, r.top - RULE] as const
     }
     const edgeY = () => top + RIDE
+    /* a traveller that cannot leave its source on screen comes in on the axis just under its
+       profile's caption (and never higher than the header's edge), so it is never parked on the
+       caption's words while the page settles */
+    const under = (el: Element): Pt => {
+      const c = el.querySelector(".tk-cap")
+      const b = c ? c.getBoundingClientRect().bottom : el.getBoundingClientRect().top
+      return [ruleOf(el)[0], Math.max(edgeY(), b + RIDE / 2 + 6), RIDE]
+    }
+    const settle = (p: Pt): Pt => [p[0], p[1] + 6, p[2]]
 
     /* one flight: legs of live points, eased like keyframes; every point but the landing (free) is
-       held below the sticky header, so the traveller is never hidden under it on its way */
+       held below the sticky header, so the traveller is never hidden under it on its way. When the
+       page moves its way under the header after it set off (a flick that goes on), it is not held
+       there, where a caption scrolling up would run under it and it would sit on the words: it goes
+       straight to its landing instead, on the same clock, so the landing and the drawing that
+       follows keep their time */
     const fly = (legs: Leg[], duration: number, place: (p: Pt, opacity: number) => void, done: () => void) => {
       const t0 = performance.now()
       let id = 0
       let live = true
+      let path = legs
+      let dived = false
+      let last: Pt | null = null
+      let lastOp = 1
       const hold = (l: Leg): Pt => {
         const p = l.to()
         return l.free ? p : [p[0], Math.max(p[1], top + p[2] / 2), p[2]]
+      }
+      const held = (l: Leg) => {
+        if (l.free) return false
+        const p = l.to()
+        return p[1] < top + p[2] / 2 - 0.5
       }
       const end = () => {
         if (!live) return
@@ -133,16 +167,26 @@ export function AFStoryReplay() {
       const step = () => {
         const k = Math.min(1, (performance.now() - t0) / duration)
         let i = 0
-        while (i < legs.length - 2 && k > legs[i + 1].at) i++
-        const a = legs[i]
-        const b = legs[i + 1]
+        while (i < path.length - 2 && k > path[i + 1].at) i++
+        let a = path[i]
+        let b = path[i + 1]
+        const j = path.findIndex((l) => l.free)
+        if (!dived && j > i && (held(a) || held(b))) {
+          dived = true
+          const from = last ?? hold(a)
+          const land = path[j]
+          const at = Math.min(land.at, k + DIVE / duration)
+          path = [{ at: k, to: () => from, opacity: lastOp, ease: ease }, ...(at < land.at ? [{ ...land, at }] : []), ...path.slice(j)]
+          i = 0
+          a = path[0]
+          b = path[1]
+        }
         const e = a.ease(Math.min(1, Math.max(0, (k - a.at) / (b.at - a.at || 1))))
         const pa = hold(a)
         const pb = hold(b)
-        place(
-          [pa[0] + (pb[0] - pa[0]) * e, pa[1] + (pb[1] - pa[1]) * e, pa[2] + (pb[2] - pa[2]) * e],
-          a.opacity + (b.opacity - a.opacity) * e,
-        )
+        last = [pa[0] + (pb[0] - pa[0]) * e, pa[1] + (pb[1] - pa[1]) * e, pa[2] + (pb[2] - pa[2]) * e]
+        lastOp = a.opacity + (b.opacity - a.opacity) * e
+        place(last, lastOp)
         if (k < 1) id = window.requestAnimationFrame(step)
         else end()
       }
@@ -158,7 +202,7 @@ export function AFStoryReplay() {
 
     /* the hexagon: out of the small O, down the rule, into the Builder's box (its own box, moved).
        A reader already past the small mark (a jump, a fast flick: its O is under the sticky header or
-       above the viewport) never sees that O, so the hexagon enters by the top edge instead; when the
+       above the viewport) never sees that O, so the hexagon comes in under the caption instead; when the
        Consultant is in view too it waits for the Builder (wait), so the reader still sees both build. */
     const build = () => {
       if (phase) return
@@ -176,16 +220,14 @@ export function AFStoryReplay() {
         }
         const fromEdge = !onScreen(srcO.getBoundingClientRect())
         const from = () => box(srcO.getBoundingClientRect())
-        const rule = (dy: number, min = -Infinity): Pt => {
+        const rule = (dy: number): Pt => {
           const [x, y] = ruleOf(builder)
-          return [x, Math.max(y + dy, min), RIDE]
+          return [x, y + dy, RIDE]
         }
         const legs: Leg[] = fromEdge
           ? [
-              { at: 0, to: () => [ruleOf(builder)[0], edgeY(), RIDE], opacity: 0, ease: linear },
-              { at: 0.06, to: () => [ruleOf(builder)[0], edgeY() + 6, RIDE], opacity: 1, ease: ease },
-              { at: 0.42, to: () => rule(0, edgeY() + 6), opacity: 1, ease: linear },
-              { at: 0.7, to: () => rule(40, edgeY() + 6), opacity: 1, ease: ease },
+              { at: 0, to: () => under(builder), opacity: 0, ease: linear },
+              { at: 0.12, to: () => settle(under(builder)), opacity: 1, ease: ease },
             ]
           : [
               { at: 0, to: from, opacity: 1, ease: lift },
@@ -239,13 +281,14 @@ export function AFStoryReplay() {
       whole()
     }
     /* the Consultant is in view while the Builder is still being built: wait for it while the reader
-       can see its diagram, and finish it the moment most of it is under the header or off screen (a
-       flick that stops between the two must not leave the Consultant empty behind a half-hidden Builder) */
+       can read it, and finish it the moment its caption or most of it is under the header or off
+       screen (a flick that stops between the two must not leave the Consultant empty behind a
+       half-hidden Builder) */
     const wait = () => {
       window.cancelAnimationFrame(frame)
       const tick = () => {
         if (phase !== 1) return
-        if (shown() < KEEP) {
+        if (!keep()) {
           finish()
           return arrive()
         }
@@ -265,30 +308,29 @@ export function AFStoryReplay() {
       if (!canFly()) return tell()
       const to = () => box(dm.getBoundingClientRect())
       const cut = () => box(hole.getBoundingClientRect())
-      const rule = (dy: number, min = -Infinity): Pt => {
+      const rule = (dy: number): Pt => {
         const [x, y] = ruleOf(consult)
-        return [x, Math.max(y + dy, min), RIDE]
+        return [x, y + dy, RIDE]
       }
-      /* from the top edge when the Builder's cut is not on screen, else straight out of it */
+      /* just under the Consultant's caption when the Builder's cut is not on screen, else straight out of it */
       const fromEdge = !onScreen(hole.getBoundingClientRect())
       const legs: Leg[] = fromEdge
         ? [
-            { at: 0, to: () => [ruleOf(consult)[0], edgeY(), RIDE], opacity: 0, ease: linear },
-            { at: 0.06, to: () => [ruleOf(consult)[0], edgeY() + 6, RIDE], opacity: 1, ease: ease },
-            { at: 0.6, to: () => rule(0, edgeY() + 6), opacity: 1, ease: linear },
+            { at: 0, to: () => under(consult), opacity: 0, ease: linear },
+            { at: 0.12, to: () => settle(under(consult)), opacity: 1, ease: ease },
           ]
         : [
             { at: 0, to: cut, opacity: 0, ease: lift },
             { at: 0.16, to: () => { const c = cut(); return [c[0], c[1] - 6, c[2]] }, opacity: 1, ease: ease },
             { at: 0.42, to: () => rule(0), opacity: 1, ease: linear },
+            { at: 0.7, to: () => rule(40), opacity: 1, ease: ease },
           ]
-      const dist = fromEdge ? Math.max(0, ruleOf(consult)[1] - edgeY()) : 0
+      const dist = fromEdge ? Math.max(0, to()[1] - under(consult)[1]) : 0
       const duration = fromEdge ? Math.min(1200, 480 + dist * 0.6) : FLY
       /* the diamond traveller is a 100 px square (transform-origin 0 0) moved to a box */
       fly(
         [
           ...legs,
-          { at: fromEdge ? 0.78 : 0.7, to: () => rule(40), opacity: 1, ease: ease },
           { at: 0.94, to, opacity: 1, ease: linear, free: true },
           { at: 1, to, opacity: 0, ease: linear, free: true },
         ],
@@ -330,7 +372,7 @@ export function AFStoryReplay() {
           /* both in view at once (a tall phone, a jump): the observers can report in either order, so
              build the Builder while it is on screen and finish it only when it is not */
           if (phase === 0) {
-            if (visible(builder) && shown() >= KEEP) build()
+            if (visible(builder) && keep()) build()
             else finish()
           }
           if (phase === 1) return wait()
