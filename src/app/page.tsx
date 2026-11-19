@@ -1,7 +1,9 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { HeroMotionLayer } from "@/components/HeroMotionLayer"
+import { AFBuild } from "@/components/AFBuild"
+import { AFStory } from "@/components/AFStory"
+import { AFStoryReplay } from "@/components/AFStoryReplay"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -36,67 +38,73 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/** Subtle white halo for the hero text over the shader field. A knowing
- *  exception to "shadows: none" — that rule is about elevation; this is
- *  legibility against a moving ground. */
-const HERO_TEXT_GLOW =
-  "0 0 6px rgba(255,255,255,0.45), 0 0 22px rgba(255,255,255,0.55)"
+/* Scott Murff's AI Foundry logo (shipped 2026-11-17): the hero is flat Navy with one soft tonal lift
+   behind the wordmark, and the AI FOUNDRY wordmark is built across the top of
+   it in three beats (AFBuild: the letters rise in, the hexagon seats in
+   the O slot, the diamond is cut open), White on navy. It is the first thing under the
+   bar at every width, so a phone names AI Foundry in its first viewport.
+   Below it the headline is flat White (type is never a gradient) and the
+   primary on this surface is White with a Navy label (system v3). */
+const HERO_FACTS = [
+  { value: "5 weeks", label: "engagements, extendable" },
+  { value: "1 or 2", label: "builders per team" },
+  { value: "30", label: "students, many disciplines" },
+]
 
-/* Vertical rhythm tightened site-hero through CTA band per Corbin
-   2026-08-16: the kit's 96px+ section paddings read too airy — bands now
-   run 64px, the hero 80/64. */
 function Hero() {
   return (
-    <section style={{ padding: "80px 24px 64px", position: "relative", overflow: "hidden" }}>
-      {/* The one exception to flat solids: the shader motion field.
-          HeroMotionLayer paints the CSS stand-in instantly, then fades in
-          the real ShaderGradient; reduced motion keeps the still CSS. */}
-      <HeroMotionLayer />
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* A whisper of white outer glow lifts the text off the shader
-            field where it runs dark (Corbin, 2026-08-16). Text only —
-            the buttons carry their own grounds. */}
-        <Eyebrow style={{ textShadow: HERO_TEXT_GLOW }}>{HERO_SUPPORT.replace(/\.$/, "")}</Eyebrow>
-        <h1
-          className="hero"
-          style={{
-            /* The clamp's 48px FLOOR was clipping the headline on every
-               phone: "PRODUCTION-GRADE." needs 436px at 48px, and a 390px
-               viewport only offers 342px of line box. The section's
-               overflow:hidden then swallowed the tail, so it read as a
-               design choice rather than a bug — measured 2026-08-20 at
-               +164px over at 320px, +94px at 390px, +54px at 430px, clean
-               from 480px up.
-
-               The min() caps the existing curve by what actually fits:
-               "PRODUCTION-GRADE." occupies 436px of width per 48px of
-               font-size, i.e. 0.110 px of font per px of line box, and the
-               line box is the viewport less this section's 24px gutters.
-               0.105 leaves a little slack for font loading. At every width
-               where the old value already fit (>=480px) min() returns the
-               old value unchanged, so desktop is untouched. */
-            fontSize: "min(clamp(48px, 5.6vw, 80px), calc((100vw - 48px) * 0.105))",
-            textTransform: "uppercase",
-            margin: "18px 0 0",
-            color: "var(--navy)",
-            textShadow: HERO_TEXT_GLOW,
-          }}
-        >
-          {HERO_STACK[0]}
-          <br />
-          {HERO_STACK[1]}
-          <br />
-          <span style={{ color: "var(--royal)" }}>{HERO_STACK[2]}</span>
-        </h1>
-        <div style={{ display: "flex", gap: "12px", marginTop: "36px", flexWrap: "wrap" }}>
-          <Button variant="primary" size="lg" href={NAV_CTA.href}>
-            {NAV_CTA.label}
-          </Button>
-          <Button variant="secondary" size="lg" ring="white" href="/network">
-            Join the network
-          </Button>
+    <section className="af-hero is-playing" data-ground="navy">
+      <div className="af-hero-inner">
+        <div className="af-hero-art">
+          <AFBuild theme="dark" id="af-hero-wn" story />
         </div>
+        <div className="af-hero-copy">
+          <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
+            {HERO_SUPPORT.replace(/\.$/, "")}
+          </Eyebrow>
+          <h1
+            className="hero af-hero-title"
+            style={{
+              /* Each line is one unbroken phrase (white-space: nowrap), so the
+                 size is set by the copy column's own width through a container
+                 query: in Archivo Cast, "PRODUCTION-GRADE." measures about 14.3
+                 px of line per px of font, so 6.8cqi always fits it. */
+              fontSize: "min(60px, 6.8cqi)",
+              textTransform: "uppercase",
+              margin: "22px 0 0",
+            }}
+          >
+            {HERO_STACK.map((line, i) => (
+              <span key={line} className="af-line" style={{ ["--i" as string]: i } as React.CSSProperties}>
+                {line}
+              </span>
+            ))}
+          </h1>
+          <div className="af-hero-ctas">
+            <Button variant="primary" size="lg" href={NAV_CTA.href}>
+              {NAV_CTA.label}
+            </Button>
+            <Button variant="outline" size="lg" href="/network">
+              Join the network
+            </Button>
+          </div>
+          {/* The guide's three figures (Website: hero), each a fact already on
+              the site: five-week engagements (/approach), teams of one or two
+              and 30 students (/about). Static facts, never a live counter. */}
+          <ul className="af-hero-facts">
+            {HERO_FACTS.map((f) => (
+              <li key={f.value}>
+                <strong>{f.value}</strong>
+                <span>{f.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Then the O tells its story: the hexagon and the diamond lift out of the mark and show
+            the Builder and Consultant profiles (AFStory, o-story.css). */}
+        <AFStory />
       </div>
+      <AFStoryReplay />
     </section>
   )
 }
@@ -194,10 +202,13 @@ function QuoteBand() {
   return (
     <section
       data-ground="navy"
-      style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+      className="af-band"
+      style={{ background: "var(--surface-inverse)", padding: "72px 24px 64px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
     >
+      <div aria-hidden="true" className="af-horizon-rule" />
       <Reveal
         style={{
+          position: "relative",
           maxWidth: "var(--container)",
           margin: "0 auto",
           display: "flex",
@@ -208,19 +219,20 @@ function QuoteBand() {
         }}
       >
         <h2
+          className="af-head-dark"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontStretch: "var(--w-plate)",
-            fontSize: "40px",
+            fontStretch: "var(--w-cast)",
+            fontSize: "clamp(30px, 4vw, 44px)",
             lineHeight: 1.1,
             margin: 0,
-            color: "#fff",
+            textTransform: "uppercase",
           }}
         >
           {QUOTE_HEADLINE}
         </h2>
-        <Button variant="inverse" size="lg" ring="white" href={QUOTE_CTA.href}>
+        <Button variant="primary" size="lg" href={QUOTE_CTA.href}>
           {QUOTE_CTA.label}
         </Button>
       </Reveal>

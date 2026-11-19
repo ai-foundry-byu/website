@@ -2,27 +2,21 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
-import { ToolkitDiagram } from "@/components/ToolkitDiagram"
+import { OStoryExplainer } from "@/components/OStoryExplainer"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
-import { Eyebrow } from "@/components/ds/Eyebrow"
 import { SectionHeader } from "@/components/ds/SectionHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import {
   APPROACH_CLIENT_HEADING,
   APPROACH_CLIENT_LEAD,
   APPROACH_CULTURE_LINK,
-  APPROACH_EYEBROW,
-  APPROACH_HEADING,
-  APPROACH_LEAD,
   BUILDER_AXES,
   BUILDER_MEASURE,
-  BUILDER_RING,
-  BUILDER_SUMMARY,
+  BUILDER_TITLE,
   CONSULTANT_AXES,
   CONSULTANT_MEASURE,
-  CONSULTANT_RING,
-  CONSULTANT_SUMMARY,
+  CONSULTANT_TITLE,
   PEDAGOGY_EYEBROW,
   PEDAGOGY_HEADING,
   PEDAGOGY_PRINCIPLES,
@@ -47,21 +41,16 @@ export const metadata: Metadata = {
  * Our approach: the curriculum and pedagogy for everyone who reads the site
  * (clients, students, donors, faculty). The two toolkits are the center of
  * the page; the course books are their source (see the note in content.ts).
+ * The page opens with the O's story (OStoryExplainer), which draws the two profiles, so the
+ * Toolkits section below keeps only each toolkit's axes and how it is measured.
  * Culture is not repeated here; it lives on About and this page links to it.
  */
-function Toolkit({ title, summary, ring, start, axes, measure }: { title: string; summary: string; ring: string[]; start: number; axes: Axis[]; measure: string }) {
+function Toolkit({ title, axes, measure }: { title: string; axes: Axis[]; measure: string }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <ToolkitDiagram axes={ring} start={start} title={title} />
-      </div>
-      {/* Centered under its diagram so each column reads as one unit. */}
-      <div style={{ textAlign: "center" }}>
-        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--size-h3)", textTransform: "uppercase", letterSpacing: "0.02em", margin: 0, color: "var(--navy)" }}>
-          {title}
-        </h3>
-        <p style={{ fontSize: "var(--size-body)", lineHeight: 1.5, color: "var(--text-meta)", margin: "6px 0 0" }}>{summary}</p>
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+      <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--size-h3)", textTransform: "uppercase", letterSpacing: "0.02em", margin: 0, color: "var(--navy)" }}>
+        {title}
+      </h3>
       <dl style={{ margin: 0, borderBottom: "1px solid var(--border-hairline)" }}>
         {axes.map((a) => (
           <div key={a.name} style={{ borderTop: "1px solid var(--border-hairline)", padding: "11px 0" }}>
@@ -82,28 +71,9 @@ export default function ApproachPage() {
     <>
       <SiteHeader />
       <main>
-        <section style={{ padding: "64px 24px 48px" }}>
-          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-            <Eyebrow>{APPROACH_EYEBROW}</Eyebrow>
-            <h1
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontStretch: "var(--w-plate)",
-                fontSize: "var(--size-h1)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.005em",
-                margin: "14px 0 0",
-                color: "var(--navy)",
-              }}
-            >
-              {APPROACH_HEADING}
-            </h1>
-            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-meta)", maxWidth: "62ch", margin: "16px 0 0" }}>
-              {APPROACH_LEAD}
-            </p>
-          </Reveal>
-        </section>
+        {/* The O tells its story first (OStoryExplainer): the page claim sits under a scroll
+            story that splits the O into the Builder hexagon and the Consultant diamond. */}
+        <OStoryExplainer />
 
         <section style={{ padding: "56px 24px 64px", position: "relative" }}>
           <DrawRule bleed />
@@ -113,10 +83,10 @@ export default function ApproachPage() {
             </Reveal>
             <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(380px, 100%), 1fr))", gap: "56px" }}>
               <StaggerItem>
-                <Toolkit title="The Builder" summary={BUILDER_SUMMARY} ring={BUILDER_RING} start={0} axes={BUILDER_AXES} measure={BUILDER_MEASURE} />
+                <Toolkit title={BUILDER_TITLE} axes={BUILDER_AXES} measure={BUILDER_MEASURE} />
               </StaggerItem>
               <StaggerItem>
-                <Toolkit title="The Consultant" summary={CONSULTANT_SUMMARY} ring={CONSULTANT_RING} start={-90} axes={CONSULTANT_AXES} measure={CONSULTANT_MEASURE} />
+                <Toolkit title={CONSULTANT_TITLE} axes={CONSULTANT_AXES} measure={CONSULTANT_MEASURE} />
               </StaggerItem>
             </Stagger>
           </div>
@@ -150,18 +120,22 @@ export default function ApproachPage() {
           </div>
         </section>
 
+        {/* Same navy terminal as the landing page quote band: the
+            set-out rule draws in at its top edge. */}
         <section
           data-ground="navy"
-          style={{ background: "var(--surface-inverse)", padding: "56px 24px 48px", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+          className="af-band"
+          style={{ background: "var(--surface-inverse)", padding: "64px 24px 56px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
         >
-          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", textAlign: "center" }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0, color: "#fff" }}>
+          <div aria-hidden="true" className="af-horizon-rule" />
+          <Reveal style={{ position: "relative", maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", textAlign: "center" }}>
+            <h2 className="af-head-dark" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontStretch: "var(--w-plate)", fontSize: "var(--size-h2)", lineHeight: 1.15, margin: 0 }}>
               {APPROACH_CLIENT_HEADING}
             </h2>
             <p style={{ fontWeight: 300, fontSize: "var(--size-body)", lineHeight: 1.6, color: "var(--text-on-dark-body)", margin: "0 0 8px", maxWidth: "56ch" }}>
               {APPROACH_CLIENT_LEAD}
             </p>
-            <Button variant="inverse" size="lg" ring="white" href={NAV_CTA.href}>
+            <Button variant="primary" size="lg" href={NAV_CTA.href}>
               {NAV_CTA.label}
             </Button>
           </Reveal>

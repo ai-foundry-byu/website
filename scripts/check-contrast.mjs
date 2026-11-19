@@ -32,10 +32,10 @@ const APCA_LEDGER = [
   ["text-primary", "surface-default", 99.6],
   ["text-accent", "surface-default", 91.0],
   ["text-meta", "surface-default", 76.8],
-  ["text-muted", "surface-default", 64.4],
+  ["text-muted", "surface-default", 86.1],
   ["text-on-inverse", "surface-inverse", -102.8],
   ["text-on-dark-body", "surface-inverse", -77.8],
-  ["text-on-dark-soft", "surface-inverse", -69.0],
+  ["text-on-dark-soft", "surface-inverse", -84.7],
   ["text-primary", "surface-recessed", 94.6],
   ["text-accent", "surface-recessed", 86.0],
   ["text-on-accent", "surface-accent", -95.4],
@@ -61,11 +61,12 @@ const CONTRACT = {
   large: [
     ["text-muted", "surface-default"],
     ["text-muted", "surface-subtle"],
-    ["text-muted", "surface-inverse"],
     ["text-accent", "surface-subtle"],
   ],
   prohibited: [
     ["text-accent", "surface-inverse"],
+    // system v3 Slate (#4a5663) is a light-ground ink: 1.81:1 on navy
+    ["text-muted", "surface-inverse"],
     ["text-primary", "surface-inverse"],
   ],
 }
