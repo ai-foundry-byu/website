@@ -243,8 +243,17 @@ export const BUILDERS_HEADLINE =
    shot is cropped to the product panel so no account name or personal data
    appears. The CareBridge shot is the marketing hero, whose in-app panel is
    an illustration, so no real PHI can ride along. The marketplace shot is
-   its public GitHub Pages catalog. Every other repo renders the typographic
-   plate: a screenshot of a README would be furniture.
+   its public GitHub Pages catalog.
+
+   Three repos carry a DEMO RUN capture instead of a plate (2026-11-19).
+   Each one is the tool actually run from its ai-foundry-byu repo, never a
+   mock: claude-bug-squash in its default shadow mode on its own quickstart
+   sample repo (no remote, nothing merged), ethos-gate's irreversible_guard
+   fed real Claude Code PreToolUse events, and harnessview's UI pointed at a
+   small fictional helpdesk harness. Terminal captures are the commands' own
+   output, printed verbatim into a Plex Mono frame; the only styling is per
+   line. Their alt text says "Demo run". Every other repo renders the
+   typographic plate: a screenshot of a README would be furniture.
    ──────────────────────────────────────────────────────────── */
 
 export const WORK_KINDS = ["Product", "Marketplace", "Tool", "Agent", "Course", "Spec", "Reference"] as const
@@ -270,6 +279,12 @@ export type WorkItem = {
   links: WorkLink[]
   /** 16:10 screenshot in public/showcase/. Omit for the typographic plate. */
   image?: string
+  /**
+   * Alt text, for images that say something the card text does not. Every
+   * demo-run capture has one and it starts "Demo run:". Product screenshots
+   * leave it out (decorative: the name is right under them).
+   */
+  imageAlt?: string
   /** Repo slug under github.com/ai-foundry-byu, printed on the plate. */
   repo?: string
 }
@@ -373,6 +388,9 @@ export const WORK: WorkItem[] = [
     line: "An agent fixes a reported bug, proves the test goes red to green, and cannot merge until a person allows it.",
     tags: ["Claude Code", "Autonomous fixes"],
     links: [{ href: GH + "claude-bug-squash", label: "View repo" }],
+    image: "/showcase/claude-bug-squash.jpg",
+    imageAlt:
+      "Demo run: claude-bug-squash in shadow mode on its quickstart sample repo. The test fails, the tool proposes a one-line fix on a branch and records it without merging, and the same test then passes.",
     repo: "claude-bug-squash",
   },
   {
@@ -380,9 +398,12 @@ export const WORK: WorkItem[] = [
     kind: "Tool",
     status: "Open source",
     blurb:
-      "A safety gate for autonomous agents: it blocks any irreversible or outward-facing action, such as a send, a deploy or a payment, unless a person approved that exact content.",
+      "Safety hooks for Claude Code agents: they block irreversible commands such as a push, a production deploy or an rm -rf until the action is explicitly verified, block access to credential stores, and gate outbound GitHub actions.",
     tags: ["Agent safety", "Hooks"],
     links: [{ href: GH + "ethos-gate", label: "View repo" }],
+    image: "/showcase/ethos-gate.jpg",
+    imageAlt:
+      "Demo run: ethos-gate's irreversible_guard hook denies git push origin main, allows git status, and allows the push once the command carries VERIFY_OK=1.",
     repo: "ethos-gate",
   },
   {
@@ -463,6 +484,9 @@ export const WORK: WorkItem[] = [
       "Maps a Claude Code project's agents, skills, hooks, MCP servers and settings into one live graph, with broken wiring flagged as an error.",
     tags: ["Claude Code", "Developer tools"],
     links: [{ href: GH + "harnessview", label: "View repo" }],
+    image: "/showcase/harnessview.jpg",
+    imageAlt:
+      "Demo run: harnessview mapping a sample helpdesk harness of three subagents and three MCP servers, with the billing server flagged as an error because its script path does not exist.",
     repo: "harnessview",
   },
 ]
