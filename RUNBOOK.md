@@ -4,31 +4,41 @@ The public site at **https://aifoundry.byu.edu** (Vercel, Next.js).
 Repo: `git@github.com:ai-foundry-byu/website.git` — an **org** repo, not a
 `JDDavenport/*` repo. That one fact is behind most of the trouble agents hit here.
 
-## Pushing (read this before you push)
+## Changes reach `main` by pull request (read this before you push)
 
-`origin` is SSH, and SSH on this box authenticates as **JDDavenport**, which has
-**no push access** to `ai-foundry-byu/*`. A push over `origin` fails with:
+Since 2026-11-19 `main` is protected. Every change goes out as a pull request
+that someone other than its author approves (Scott, or another collaborator),
+with two checks passing: **Build & Lint** (`ci.yml`) and **Demo video**
+(`pr-demo.yml`). A direct push to `main` is refused; only the repo admins can
+bypass it. Merging is what deploys: Vercel builds production from `main`.
 
-```
-ERROR: Permission to ai-foundry-byu/website.git denied to JDDavenport.
-```
+1. **Branch**, never `main`: `git switch -c <short-name>`.
+2. **Push the branch.** `origin` is SSH, and SSH on this box authenticates as
+   **JDDavenport**, which has **no push access** to `ai-foundry-byu/*`
+   (`ERROR: Permission to ai-foundry-byu/website.git denied to JDDavenport.`).
+   Push access is held by **jddavenportOpen**. Use its token:
 
-Push access is held by **jddavenportOpen**. Use its token:
+   ```bash
+   cd ~/clawd/projects/ai-foundry-byu-website
+   T=$(grep -E '^GH_OPEN_TOKEN=' ~/agent-system/.env | cut -d= -f2- | tr -d '"'"'"'')
+   git push "https://jddavenportOpen:${T}@github.com/ai-foundry-byu/website.git" <branch>
+   ```
 
-```bash
-cd ~/clawd/projects/ai-foundry-byu-website
-T=$(grep -E '^GH_OPEN_TOKEN=' ~/agent-system/.env | cut -d= -f2- | tr -d '"'"'"'')
-git push "https://jddavenportOpen:${T}@github.com/ai-foundry-byu/website.git" main
-```
-
-Do **not** bake the token into `.git/config` via `git remote set-url` — it ends
-up in a plaintext file that gets read by every agent and every `git remote -v`.
-Pass the URL on the command line; the token stays in `.env`.
-
-Merging is ordinary local git — `git merge --no-ff <branch>` on `main`. There is
-no branch protection and no ruleset on this repo, so there is no reason to open a
-PR for a change JD has already authorized (and JD does not review PRs). Merge on
-`main`, push, verify prod.
+   Do **not** bake the token into `.git/config` via `git remote set-url`: it ends
+   up in a plaintext file that gets read by every agent and every `git remote -v`.
+   Pass the URL on the command line; the token stays in `.env`.
+3. **Record the demo video**: 10 to 60 seconds of the change as a visitor sees
+   it, on the pull request's Vercel preview (the Vercel bot comments its link) or
+   your local `npm run dev`. Narrate it or caption it. A Loom works, as does a
+   screen recording.
+4. **Open the pull request** (`gh pr create`). The template asks for three
+   sections: **What and why**, **Demo** (drag the .mp4 or .mov into the
+   description so GitHub hosts it, or paste the Loom link), and **Needs a careful
+   look**. Nothing visible changed? The Demo section says
+   `No visible change: <why>`. The Demo video check fails a pull request
+   without one or the other.
+5. **Wait for the approval**, then merge (`--no-ff` merge commit). An approval is
+   withdrawn by any later push, so push fixes before asking. Verify prod below.
 
 ## GitHub Governor
 

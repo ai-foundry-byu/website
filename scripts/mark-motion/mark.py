@@ -65,7 +65,9 @@ Y0 = min(b[1] for b in boxes + [bbox(s) for s in hexsubs])
 X1 = max(b[2] for b in boxes + [bbox(s) for s in hexsubs])
 Y1 = max(b[3] for b in boxes + [bbox(s) for s in hexsubs])
 assert abs(Y0) < 1e-9, Y0
-K = 100 / 742.0   # cap height 742 font units -> 100
+# cap height -> 100. The hexagon's flats sit exactly on the cap line and the baseline, so its height is the cap
+# height in the file's units (687 for Archivo Expanded 700/125; the pre-2026-11-17 face was 742).
+_hb = bbox(hexsubs[0]); K = 100 / (_hb[3] - _hb[1])
 
 def fx(v): return (v - X0) * K
 def fy(v): return v * K
