@@ -26,7 +26,7 @@
 .af-build .vdot{fill:var(--af-bp-line);stroke:none;r:calc(1.2px * var(--k))}
 .af-build .dm-tr,.af-build .dm-diag{stroke:var(--af-bp-ground);stroke-width:calc(1.15 * var(--k))}
 .af-build .dm-diag{stroke-width:calc(.85 * var(--k))}
-.af-build .hx-arm{stroke-width:.9px;transform-box:view-box;transform-origin:312.022px 50.0px}
+.af-build .hx-arm{stroke-width:.9px;transform-box:view-box;transform-origin:391.39px 50.0px}
 /* phone: drop the 12.5 grid and the dimension row; keep the hex circle, axes and step-offs */
 @media (max-width:759px){.af-build .grid-minor,.af-build .dim,.af-build .dim-ticks,.af-build .drops{display:none}}
 @keyframes af-bp-grid-minor{0.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}18.182%{opacity:0.065;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.065;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
