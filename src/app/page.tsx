@@ -67,8 +67,9 @@ function Hero() {
             style={{
               /* Each line is one unbroken phrase (white-space: nowrap), so the
                  size is set by the copy column's own width through a container
-                 query: in Archivo Cast, "PRODUCTION-GRADE." measures about 14.3
-                 px of line per px of font, so 6.8cqi always fits it. */
+                 query: in Archivo Cast, "PRODUCTION-GRADE." (the old stack's
+                 longest line) measures about 14.3 px of line per px of font, so
+                 6.8cqi fits it, and the current longest, "PRODUCT BUILDER", is shorter. */
               fontSize: "min(60px, 6.8cqi)",
               textTransform: "uppercase",
               margin: "22px 0 0",

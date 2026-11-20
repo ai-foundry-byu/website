@@ -69,7 +69,8 @@ export const HERO_SUPPORT =
  * rule still holds; HERO_STATEMENT no longer renders on the landing page but
  * stays the decided one-line description used elsewhere.
  */
-export const HERO_STACK = ["Student-built.", "Production-grade.", "AI-native."]
+/** One sentence over three lines (Scott, 2026-11-20; it was "Student-built. Production-grade. AI-native."). */
+export const HERO_STACK = ["Full-stack", "product builder", "consultants."]
 
 /** Not currently rendered — removed from the hero by Corbin 2026-08-16;
  *  kept as the decided support line should it come back. */
