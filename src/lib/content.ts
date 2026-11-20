@@ -720,11 +720,11 @@ export const SURVEY_SECTIONS: IntakeSection[] = [
 export const STAY_INTERESTS: { key: string; label: string; detail?: string; strong?: boolean }[] = [
   {
     key: "interns",
-    label: "I'd consider hiring AI Foundry builder consultants for an internship",
+    label: "I'd consider hiring AI Foundry builder-consultants for an internship",
     detail: "Through STRAT 477R, for credit.",
     strong: true,
   },
-  { key: "project", label: "I'd consider hiring AI Foundry builder consultants for a specific project", strong: true },
+  { key: "project", label: "I'd consider hiring AI Foundry builder-consultants for a specific project", strong: true },
   { key: "advisor", label: "I'd be interested in serving on the AI Foundry Board of Advisors" },
   { key: "events", label: "I'd like invitations to AI events at BYU" },
   { key: "digest", label: "I'd like the newsletter" },
@@ -1395,10 +1395,10 @@ export type Axis = { name: string; detail: string }
 
 export const APPROACH_EYEBROW = "Our approach"
 
-export const APPROACH_HEADING = "We train AI builder consultants."
+export const APPROACH_HEADING = "We train AI builder-consultants."
 
 export const APPROACH_LEAD =
-  "An AI builder can build things for themselves. An AI builder consultant builds " +
+  "An AI builder can build things for themselves. An AI builder-consultant builds " +
   "something for someone else, which adds judgment, ownership of the outcome, " +
   "communication, and collaboration to the work. Two toolkits describe that person."
 
