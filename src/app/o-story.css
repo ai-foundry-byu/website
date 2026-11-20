@@ -9,7 +9,7 @@
    Consultant by 5.8 s and the O is whole again by 5.85 s.
    Phone and tablet: the big O builds and stays whole, so the first screen is the wordmark and the
    copy. The stage follows the facts as one section: a small copy of the locked mark, the Builder,
-   the Consultant and the link; the small mark and both captions show from the first frame. When the
+   the Consultant; the small mark and both captions show from the first frame. When the
    Builder comes into view the hexagon lifts out of the small mark's O, rides a 40 px rule down and
    grows into the Builder's box, which is drawn up on its own 2.12 s clock (outline traced, rings,
    spokes drawn out, corners, labels in ring order: .tk-builder.is-telling), and the small O re-inks.
@@ -17,41 +17,41 @@
    the Builder's cut, rides the Consultant's rule down into its box, and the Consultant is drawn up
    on its own 1.5 s clock (.is-telling; AFStoryReplay, html.io). With no script it is all simply there. prefers-reduced-motion binds nothing: the end state is the base style. */
 /* ── the O, told: the hexagon and the diamond lift out of the mark and teach ──
-   Geometry: the O slot is the hexagon's box in the wordmark's viewBox (254.286..369.757 x 0..100 of
-   868.952 x 101.348), expressed in cqw of .af-hero-inner, the box the wordmark spans. The
+   Geometry: the O slot is the hexagon's box in the wordmark's viewBox (333.654..449.127 x 0..100 of
+   1117.889 x 101.747), expressed in cqw of .af-hero-inner, the box the wordmark spans. The
    travellers carry the locked hexagon and diamond paths unchanged; only their box moves and grows.
-   The end state (motion or not) is the same: the O whole, a leader from the O, both profiles up. */
+   The end state (motion or not) is the same: the O whole and both profiles up; the leader has gone. */
 .af-hero-inner{
   position:relative; container-type:inline-size; align-content:start;
-  --art-top:0px; --cgap:64px; --wmh:11.6632cqw;
-  --hexb:calc(var(--art-top) + 11.5081cqw);
+  --art-top:0px; --cgap:64px; --wmh:9.1017cqw;
+  --hexb:calc(var(--art-top) + 8.9454cqw);
   --gapc:calc(var(--art-top) + var(--wmh) + var(--cgap) / 2);
-  --ocx:35.9079cqw;
+  --ocx:35.0115cqw;
   --sw:384px; --sx:calc(100cqw - var(--sw)); --sy:calc(var(--art-top) + var(--wmh) + var(--cgap));
   --tw:34px;
-  --R:66px; --bcx:192px; --bcy:171px; --bh:276px; --gap:14px;
-  --Rd:54px; --dcx:192px; --dcy:152px; --ch:238px;
-  --stage-h:calc(var(--bh) + var(--gap) + var(--ch) + 26px);
+  --R:66px; --bcx:192px; --bcy:131px; --bh:236px; --gap:28px;
+  --Rd:54px; --dcx:192px; --dcy:112px; --ch:198px;
+  --stage-h:calc(var(--bh) + var(--gap) + var(--ch));
   --lab:14px; --off:12px;
   min-height:calc(var(--sy) + var(--stage-h) + 8px);align-content:start;
 }
 /* desktop screens 920 px tall and under (1440x900, 1536x864): a tighter stage, so the whole diamond,
-   its labels and the link are built above the fold (measured: the link ends about 845 px down) */
+   and its labels are built above the fold */
 @media (min-width:1200px) and (max-height:920px){
   .af-hero{padding-top:40px}
-  .af-hero-inner{--cgap:40px;--R:58px;--bcy:156px;--bh:252px;--gap:8px;--Rd:46px;--dcy:136px;--ch:210px;--off:10px}
+  .af-hero-inner{--cgap:40px;--R:58px;--bcy:116px;--bh:212px;--gap:24px;--Rd:46px;--dcy:96px;--ch:170px;--off:10px}
 }
-/* 1280x800 and other short laptops: smaller still, so the link clears the 800 px fold */
+/* 1280x800 and other short laptops: smaller still, so the diamond clears the 800 px fold */
 @media (min-width:1200px) and (max-height:820px){
   .af-hero{padding-top:24px}
-  .af-hero-inner{--cgap:26px;--R:48px;--bcy:150px;--bh:232px;--gap:2px;--Rd:40px;--dcy:136px;--ch:202px;--off:9px;--lab:13px}
+  .af-hero-inner{--cgap:26px;--R:48px;--bcy:110px;--bh:192px;--gap:20px;--Rd:40px;--dcy:96px;--ch:162px;--off:9px;--lab:13px}
 }
 @media (max-width:1199px){
   .af-hero-inner{
     --art-top:0px; --cgap:64px;
     --sw:min(100cqw,384px); --sx:calc((100cqw - var(--sw)) / 2);
-    --R:54px; --bcx:calc(var(--sw) / 2); --bcy:157px; --bh:250px; --gap:12px;
-    --Rd:56px; --dcx:calc(var(--sw) / 2); --dcy:172px; --ch:260px;
+    --R:54px; --bcx:calc(var(--sw) / 2); --bcy:117px; --bh:210px; --gap:12px;
+    --Rd:56px; --dcx:calc(var(--sw) / 2); --dcy:132px; --ch:220px;
     --lab:13px; --off:10px;
     min-height:0;
   }
@@ -66,7 +66,8 @@
 .tk-builder{position:absolute;z-index:4;left:0;top:0;width:var(--sw);height:var(--bh)}
 .tk-consult{height:var(--ch);margin-top:calc(var(--bh) + var(--gap))}
 .tk-cap{margin:0;font-family:var(--font-body);font-size:14px;line-height:1.4;color:var(--af-mist);text-align:center;max-width:var(--sw);text-wrap:balance}
-.tk-eye{display:block;font-family:var(--font-display);font-stretch:112.5%;font-weight:500;font-size:12px;line-height:1.4;letter-spacing:.14em;text-transform:uppercase;color:var(--af-mist);margin-bottom:3px}
+/* each profile is captioned by its name alone (2026-11-20: the eyebrow and summary lines were cut, and the
+   centres above moved up 40 px with them) */
 .tk-name{display:block;font-family:var(--font-display);font-stretch:125%;font-weight:600;font-size:15px;line-height:1.25;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:2px}
 .tk-trav{position:absolute;left:calc(var(--bcx) - var(--R));top:calc(var(--bcy) - var(--R) * .86603);width:calc(var(--R) * 2)}
 .tk-dm{left:calc(var(--dcx) - var(--Rd));top:calc(var(--dcy) - var(--Rd));width:calc(var(--Rd) * 2)}
@@ -100,17 +101,16 @@
 .tk-src .tk-src-ghost path{fill:none;stroke:#fff;stroke-width:1px;vector-effect:non-scaling-stroke;stroke-linejoin:round}
 .tk-src.is-out .tk-src-o{opacity:0}
 .tk-src.is-out .tk-src-ghost{opacity:.5}
-.tk-more{display:block;width:max-content;margin:4px auto 0;font-family:var(--font-body);font-size:14px;line-height:20px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.5)}
-.tk-more::after{content:" \2192"}
 
-/* the leader: one 1px hairline from the bottom of the O to the profiles */
-.tk-lead{position:absolute;z-index:1;pointer-events:none;border:0 solid rgba(255,255,255,.26)}
+/* the leader: one 1px hairline from the bottom of the O to the profiles. It guides the eye once, as the
+   story plays, then fades (Scott, 2026-11-20): its rest state is gone, so reduced motion never shows it. */
+.tk-lead{position:absolute;z-index:1;pointer-events:none;border:0 solid rgba(255,255,255,.26);opacity:0}
 .tk-lead-a{left:var(--ocx);top:var(--hexb);width:calc(var(--sx) + var(--bcx) - var(--ocx));height:calc(var(--gapc) - var(--hexb));border-left-width:1px;border-bottom-width:1px}
 .tk-lead-b{left:calc(var(--sx) + var(--bcx));top:var(--gapc);height:calc(var(--sy) - var(--gapc) - 6px);border-left-width:1px}
 .tk-lead-c{display:none}
 
 /* phone and tablet: the hero grid takes the wordmark, then the copy, then the stage after the facts,
-   one section (the small mark, the Builder, the Consultant, the link). The leaders are a desktop device. */
+   one section (the small mark, the Builder, the Consultant). The leaders are a desktop device. */
 @media (max-width:1199px){
   .af-hero-art{grid-row:1;margin-bottom:var(--cgap)}
   .af-hero-copy{grid-row:2}
@@ -122,9 +122,9 @@
   .tk-lead{display:none}
   /* a 40 px rule above each profile: from the small mark's O to the Builder, from the Builder to the Consultant */
   .tk-box::before{content:"";position:absolute;left:50%;top:-52px;width:0;height:40px;border-left:1px solid rgba(255,255,255,.26)}
-  /* the small mark is centred, so its O sits 24.8 px left of the axis: the Builder's rule leaves the O,
+  /* the small mark is centred, so its O sits 26.4 px left of the axis: the Builder's rule leaves the O,
      steps across to the axis and drops, as the desktop leader does (its 1px line centred on the O) */
-  .tk-builder::before{left:calc(50% - 25.3px);width:25.3px;height:20px;border-bottom:1px solid rgba(255,255,255,.26)}
+  .tk-builder::before{left:calc(50% - 26.9px);width:26.9px;height:20px;border-bottom:1px solid rgba(255,255,255,.26)}
   .tk-builder::after{content:"";position:absolute;left:50%;top:-32px;width:0;height:20px;border-left:1px solid rgba(255,255,255,.26)}
   /* the spokes are drawn out from the centre: dashed by pathLength, widths in svg units (about 1 px) */
   .tk-grid .tk-spoke{vector-effect:none;stroke-dasharray:1 1;stroke-width:1.07}
@@ -140,7 +140,7 @@
    written the same way: ms from the hexagon's lift, over 2120 ms) ── */
 @keyframes st-o-ink{0.000%{opacity:1;clip-path:inset(-6% -6% -6% -6%)}57.242%{opacity:1;clip-path:inset(-6% -6% -6% -6%)}57.258%{opacity:0;clip-path:inset(106% -6% -6% -6%)}89.500%{opacity:0;clip-path:inset(106% -6% -6% -6%)}89.516%{opacity:1;clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}94.355%{opacity:1;clip-path:inset(-6% -6% -6% -6%)}100.000%{opacity:1;clip-path:inset(-6% -6% -6% -6%)}}
 @keyframes st-ghost{0.000%{opacity:0}57.258%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}61.290%{opacity:0.5}94.355%{opacity:0.5}94.371%{opacity:0}100.000%{opacity:0}}
-@keyframes st-hex-move{0.000%{left:calc(29.2635cqw - var(--sx));top:calc(var(--art-top) - var(--sy));width:13.2885cqw}57.258%{left:calc(29.2635cqw - var(--sx));top:calc(var(--art-top) - var(--sy));width:13.2885cqw;animation-timing-function:cubic-bezier(.35,0,.2,1)}62.097%{left:calc(var(--ocx) - var(--sx) - var(--tw) / 2);top:calc(var(--gapc) - var(--sy) - var(--tw) * .433);width:var(--tw);animation-timing-function:cubic-bezier(.65,0,.25,1)}66.935%{left:calc(var(--bcx) - var(--tw) / 2);top:calc(var(--gapc) - var(--sy) - var(--tw) * .433);width:var(--tw);animation-timing-function:cubic-bezier(.45,0,.2,1)}72.581%{left:calc(var(--bcx) - var(--R));top:calc(var(--bcy) - var(--R) * .86603);width:calc(var(--R) * 2)}100.000%{left:calc(var(--bcx) - var(--R));top:calc(var(--bcy) - var(--R) * .86603);width:calc(var(--R) * 2)}}
+@keyframes st-hex-move{0.000%{left:calc(29.8468cqw - var(--sx));top:calc(var(--art-top) - var(--sy));width:10.3296cqw}57.258%{left:calc(29.8468cqw - var(--sx));top:calc(var(--art-top) - var(--sy));width:10.3296cqw;animation-timing-function:cubic-bezier(.35,0,.2,1)}62.097%{left:calc(var(--ocx) - var(--sx) - var(--tw) / 2);top:calc(var(--gapc) - var(--sy) - var(--tw) * .433);width:var(--tw);animation-timing-function:cubic-bezier(.65,0,.25,1)}66.935%{left:calc(var(--bcx) - var(--tw) / 2);top:calc(var(--gapc) - var(--sy) - var(--tw) * .433);width:var(--tw);animation-timing-function:cubic-bezier(.45,0,.2,1)}72.581%{left:calc(var(--bcx) - var(--R));top:calc(var(--bcy) - var(--R) * .86603);width:calc(var(--R) * 2)}100.000%{left:calc(var(--bcx) - var(--R));top:calc(var(--bcy) - var(--R) * .86603);width:calc(var(--R) * 2)}}
 @keyframes st-trav-vis{0.000%{opacity:0}57.242%{opacity:0}57.258%{opacity:1}100.000%{opacity:1}}
 @keyframes st-fill{0.000%{fill-opacity:1}73.387%{fill-opacity:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}77.419%{fill-opacity:0.08}100.000%{fill-opacity:0.08}}
 @keyframes st-frame{0.000%{opacity:0}71.774%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}73.548%{opacity:1}100.000%{opacity:1}}
@@ -148,13 +148,12 @@
 @keyframes st-hgrid{0.000%{opacity:0}72.581%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}78.226%{opacity:1}100.000%{opacity:1}}
 @keyframes st-lab-b{0.000%{opacity:0;translate:0 4px}73.387%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}77.419%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @keyframes st-lab-c{0.000%{opacity:0;translate:0 4px}85.484%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}89.516%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
-@keyframes st-lab-m{0.000%{opacity:0;translate:0 4px}89.516%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}93.548%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @keyframes st-dm-move{0.000%{left:calc(var(--bcx) - var(--R) * .60621);top:calc(var(--bcy) - var(--bh) - var(--gap) - var(--R) * .60621);width:calc(var(--R) * 1.21242)}78.226%{left:calc(var(--bcx) - var(--R) * .60621);top:calc(var(--bcy) - var(--bh) - var(--gap) - var(--R) * .60621);width:calc(var(--R) * 1.21242);animation-timing-function:cubic-bezier(.65,0,.25,1)}86.290%{left:calc(var(--dcx) - var(--Rd));top:calc(var(--dcy) - var(--Rd));width:calc(var(--Rd) * 2)}100.000%{left:calc(var(--dcx) - var(--Rd));top:calc(var(--dcy) - var(--Rd));width:calc(var(--Rd) * 2)}}
 @keyframes st-dm-vis{0.000%{opacity:0}78.210%{opacity:0}78.226%{opacity:1}100.000%{opacity:1}}
 @keyframes st-dfill{0.000%{fill-opacity:0}78.226%{fill-opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}86.290%{fill-opacity:0.08}100.000%{fill-opacity:0.08}}
 @keyframes st-dgrid{0.000%{opacity:0}83.871%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}89.516%{opacity:1}100.000%{opacity:1}}
-@keyframes st-lead-a{0.000%{clip-path:inset(0 calc(100% - 1px) 100% 0)}57.258%{clip-path:inset(0 calc(100% - 1px) 100% 0);animation-timing-function:cubic-bezier(.35,0,.2,1)}62.097%{clip-path:inset(0 calc(100% - 1px) 0 0);animation-timing-function:cubic-bezier(.65,0,.25,1)}66.935%{clip-path:inset(0 0 0 0)}100.000%{clip-path:inset(0 0 0 0)}}
-@keyframes st-lead-b{0.000%{clip-path:inset(0 0 100% 0)}66.935%{clip-path:inset(0 0 100% 0);animation-timing-function:cubic-bezier(.45,0,.2,1)}70.645%{clip-path:inset(0 0 0 0)}100.000%{clip-path:inset(0 0 0 0)}}
+@keyframes st-lead-a{0.000%{opacity:1;clip-path:inset(0 calc(100% - 1px) 100% 0)}57.258%{clip-path:inset(0 calc(100% - 1px) 100% 0);animation-timing-function:cubic-bezier(.35,0,.2,1)}62.097%{clip-path:inset(0 calc(100% - 1px) 0 0);animation-timing-function:cubic-bezier(.65,0,.25,1)}66.935%{clip-path:inset(0 0 0 0)}82.000%{opacity:1;animation-timing-function:ease-in-out}96.000%{opacity:0;clip-path:inset(0 0 0 0)}100.000%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes st-lead-b{0.000%{opacity:1;clip-path:inset(0 0 100% 0)}66.935%{clip-path:inset(0 0 100% 0);animation-timing-function:cubic-bezier(.45,0,.2,1)}70.645%{clip-path:inset(0 0 0 0)}82.000%{opacity:1;animation-timing-function:ease-in-out}96.000%{opacity:0;clip-path:inset(0 0 0 0)}100.000%{opacity:0;clip-path:inset(0 0 0 0)}}
 @keyframes st-after{0.000%{opacity:0;visibility:hidden}93.548%{opacity:0;visibility:visible;animation-timing-function:cubic-bezier(.3,0,.3,1)}100.000%{opacity:1;visibility:visible}}
 @keyframes sb-fill{0.000%{fill-opacity:1}38.679%{fill-opacity:1;animation-timing-function:cubic-bezier(.45,0,.2,1)}57.547%{fill-opacity:0.08}100.000%{fill-opacity:0.08}}
 @keyframes sb-trace{0.000%{opacity:0;stroke-dashoffset:1}37.736%{opacity:0;stroke-dashoffset:1}38.679%{opacity:1;stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}59.906%{opacity:1;stroke-dashoffset:0}64.623%{opacity:1;stroke-dashoffset:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}71.698%{opacity:0;stroke-dashoffset:0}100.000%{opacity:0;stroke-dashoffset:0}}
@@ -172,7 +171,6 @@
 @keyframes sc-spoke{0.000%{stroke-dashoffset:1}16.667%{stroke-dashoffset:1;animation-timing-function:cubic-bezier(.55,.05,.3,1)}40.000%{stroke-dashoffset:0}100.000%{stroke-dashoffset:0}}
 @keyframes sc-dot{0.000%{opacity:0}28.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.2,1)}37.333%{opacity:1}100.000%{opacity:1}}
 @keyframes sc-lab{0.000%{opacity:0;translate:0 4px}32.000%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}50.667%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
-@keyframes sc-more{0.000%{opacity:0;translate:0 4px}63.333%{opacity:0;translate:0 4px;animation-timing-function:cubic-bezier(.3,0,.3,1)}83.333%{opacity:1;translate:0 0}100.000%{opacity:1;translate:0 0}}
 @media (prefers-reduced-motion:no-preference) and (min-width:1200px){
 .af-hero.is-playing .af-after{animation:st-after 6200ms linear 0ms both}
 .af-hero.is-playing .o-ink{animation:st-o-ink 6200ms linear 0ms both}
@@ -193,7 +191,6 @@
 .af-hero.is-playing .tk-consult .tk-cap{animation:st-lab-c 6200ms linear -120ms both}
 .af-hero.is-playing .tk-lb{animation:st-lab-b 6200ms linear calc(var(--i) * 45ms) both}
 .af-hero.is-playing .tk-lc{animation:st-lab-c 6200ms linear calc(var(--i) * 50ms) both}
-.af-hero.is-playing .tk-more{animation:st-lab-m 6200ms linear 0ms both}
 }
 @media (prefers-reduced-motion:no-preference) and (max-width:1199px){
 /* the replay shows once the section has told its story (AFStoryReplay, .is-told) */
@@ -202,7 +199,7 @@ html.io .af-hero:not(.is-told) .af-after{opacity:0;visibility:hidden}
 /* each profile's diagram waits until its traveller arrives (html.io, AFStoryReplay), then is drawn up on its own clock;
    the small mark, the captions and the rules show from the first frame */
 html.io .tk-builder:not(.is-telling) .tk-trav,html.io .tk-builder:not(.is-telling) .tk-lab{opacity:0}
-html.io .tk-consult:not(.is-telling) .tk-trav,html.io .tk-consult:not(.is-telling) .tk-lab,html.io .tk-consult:not(.is-telling) + .tk-more{opacity:0}
+html.io .tk-consult:not(.is-telling) .tk-trav,html.io .tk-consult:not(.is-telling) .tk-lab{opacity:0}
 .tk-src.is-whole .tk-src-o{animation:sr-ink 300ms cubic-bezier(.2,.7,.3,1) both}
 .tk-builder.is-telling .tk-fill{animation:sb-fill 2120ms linear 0ms both}
 .tk-builder.is-telling .tk-trace{animation:sb-trace 2120ms linear 0ms both}
@@ -219,5 +216,4 @@ html.io .tk-consult:not(.is-telling) .tk-trav,html.io .tk-consult:not(.is-tellin
 .tk-consult.is-telling .tk-spoke{animation:sc-spoke 1500ms linear calc(var(--i) * 60ms) both}
 .tk-consult.is-telling .tk-dots circle{animation:sc-dot 1500ms linear calc(var(--i) * 90ms) both}
 .tk-consult.is-telling .tk-lc{animation:sc-lab 1500ms linear calc(var(--i) * 110ms) both}
-.tk-consult.is-telling + .tk-more{animation:sc-more 1500ms linear 0ms both}
 }

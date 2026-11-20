@@ -12,7 +12,7 @@
  */
 export const O_STORY_MEASURE_JS = `(function () {
   var VBW = 520, CX = 260, CY = 160, R = 100
-  var HEX_C = [312.022, 50], HEX_R = 57.736, DIA_R = 35, WM_W = 868.952
+  var HEX_C = [391.39, 50], HEX_R = 57.737, DIA_R = 35, WM_W = 1117.889
   function px(v) { return v.toFixed(2) + "px" }
   var root = document.documentElement, raf = 0
   function fit(stage, slot) {

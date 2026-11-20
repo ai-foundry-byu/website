@@ -1460,11 +1460,6 @@ export const O_STORY_LINK: NavLink = { label: "What the O means", href: "/approa
 
 export const O_STORY_HEADING = "The O in AI Foundry holds two profiles"
 
-/** Hero eyebrows (short: they sit over a 384 px column). */
-export const O_STORY_HEX_EYEBROW = "The hexagon: six axes"
-
-export const O_STORY_DIAMOND_EYEBROW = "The diamond: four axes"
-
 /** /approach eyebrows. */
 export const O_STORY_HEX_SKILLS = "The hexagon: six builder skills"
 

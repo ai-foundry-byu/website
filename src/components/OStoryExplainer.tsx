@@ -115,7 +115,7 @@ export function OStoryExplainer() {
           </p>
           <div className="oa-wm-slot">
             {/* the locked mark (AFBuild's paths), White on navy */}
-            <svg className="oa-wm" viewBox="0 0 868.952 101.348" role="img" aria-label="AI Foundry">
+            <svg className="oa-wm" viewBox="0 0 1117.889 101.747" role="img" aria-label="AI Foundry">
               {LETTERS.map(([k, d]) => (
                 <path key={k} className="oa-wm-ink" d={d} />
               ))}
