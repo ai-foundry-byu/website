@@ -61,7 +61,7 @@ export default function CompetitionPage() {
             <p style={body}>
               Teams of two MBA students from any business school. One application per team. Twelve teams are selected,
               and each is paired with an advisor from a top AI lab. Selected teams pay $50 per student, which includes
-              lunch and supports the AI Foundry. There is no payment to apply.
+              lunch and supports the AI Foundry.
             </p>
 
             <h2 style={h2}>Agenda</h2>

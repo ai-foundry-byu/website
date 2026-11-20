@@ -146,7 +146,7 @@ export function CompetitionForm() {
           {sending ? "Sending" : "Submit application"}
         </Button>
         <span className="caption" style={{ color: "var(--text-meta)" }}>
-          One application per team. No payment now.
+          One application per team.
         </span>
         {serverError ? (
           <p role="alert" style={{ fontFamily: "var(--font-body)", fontWeight: 600, fontSize: "var(--size-caption)", color: "var(--royal)", margin: 0, flexBasis: "100%" }}>
