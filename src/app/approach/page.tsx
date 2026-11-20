@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   description:
     "How the AI Foundry at the " +
     SCHOOL_FULL +
-    " trains AI builder consultants: the Builder and Consultant toolkits, two classes, and real client work.",
+    " trains AI builder-consultants: the Builder and Consultant toolkits, two classes, and real client work.",
   alternates: { canonical: "/approach" },
 }
 
