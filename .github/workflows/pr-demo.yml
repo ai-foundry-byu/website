@@ -1,0 +1,45 @@
+name: Pull request demo
+
+# Every pull request shows its change on video before anyone approves it
+# (RUNBOOK.md, "Changes reach main by pull request"). This check reads only the
+# pull request's description: no secrets, no checkout of the branch's code.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  demo:
+    name: Demo video
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the description
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          # Template comments do not count.
+          body=$(printf '%s' "$BODY" | perl -0pe 's/<!--.*?-->//gs')
+          section() { printf '%s\n' "$body" | awk -v h="## $1" '$0==h{on=1;next} /^## /{on=0} on'; }
+          fail=0
+          for h in "What and why" "Demo" "Needs a careful look"; do
+            if ! printf '%s\n' "$body" | grep -qx "## $h"; then
+              echo "::error::The description has no '## $h' section (see .github/pull_request_template.md)."; fail=1
+            elif [ -z "$(section "$h" | tr -d '[:space:]')" ]; then
+              echo "::error::The '## $h' section is empty."; fail=1
+            fi
+          done
+          demo=$(section "Demo")
+          if printf '%s' "$demo" | grep -qiE 'github\.com/user-attachments/assets/|loom\.com/(share|embed)/|youtube\.com/|youtu\.be/|vimeo\.com/|\.(mp4|mov|webm)([?)#[:space:]]|$)'; then
+            echo "Demo video found."
+          elif printf '%s' "$demo" | grep -qE '^No visible change: .{10,}'; then
+            echo "No visible change, with a reason."
+          else
+            echo "::error::The Demo section has no video. Drag an .mp4 or .mov of the change into the description, or paste a Loom link. Nothing visible? Write 'No visible change: <why>'."; fail=1
+          fi
+          exit $fail
