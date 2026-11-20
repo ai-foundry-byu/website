@@ -69,8 +69,11 @@ export const HERO_SUPPORT =
  * rule still holds; HERO_STATEMENT no longer renders on the landing page but
  * stays the decided one-line description used elsewhere.
  */
-/** One sentence over three lines (Scott, 2026-11-20; it was "Student-built. Production-grade. AI-native."). */
-export const HERO_STACK = ["Full-stack", "product builder", "consultants."]
+/** One sentence over three lines (Scott, 2026-11-20; it was "Student-built. Production-grade. AI-native.").
+ *  Builder-consultant is hyphenated, two equal roles. The first line keeps its trailing space so the
+ *  heading's text reads as one sentence ("Full-stack product builder-consultants.") to screen readers
+ *  and search; the line break comes after the hyphen. */
+export const HERO_STACK = ["Full-stack ", "product builder-", "consultants."]
 
 /** Not currently rendered — removed from the hero by Corbin 2026-08-16;
  *  kept as the decided support line should it come back. */
