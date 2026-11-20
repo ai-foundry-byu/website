@@ -1,0 +1,158 @@
+/* /approach: the O tells its story (mockup for Scott Murff, 2026-11-17, branch brand/o-story-2026-11).
+   The page claim sits under a scroll story in the navy band: the wordmark settles, the O is scored,
+   drops out of the word, grows, and splits into its two profiles, the Builder hexagon and the
+   Consultant diamond, drawn in the language of ToolkitDiagram (rings, spokes, labelled corners) on
+   navy. Markup: src/components/OStoryExplainer.tsx. Everything outside the motion block is the end
+   state, which reduced motion, print and no-script show. The wordmark is the
+   locked mark (AFBuild's paths); the story only moves copies of its frames. */
+/* the navy band */
+.oa-band{background:var(--navy);color:#fff;overflow-x:clip;position:relative;display:flex;flex-direction:column}
+/* the h1 comes first in the DOM (page claim first for readers and search) and sits after the story on screen */
+.oa-band > .oa-story{order:1}
+.oa-band > .oa-hero-copy{order:2;width:100%}
+.oa-band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--af-slate);opacity:.8}
+.oa-eb{font-family:var(--font-display);font-weight:600;font-stretch:125%;font-size:var(--size-eyebrow);text-transform:uppercase;letter-spacing:.14em;line-height:1.2;color:rgba(255,255,255,.65);display:inline-block}
+
+.oa-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:64px 24px 40px;position:relative}
+.oa-wm-slot{position:relative;z-index:0;width:clamp(260px,38vw,520px)}
+.oa-wm{display:block;width:100%;height:auto;overflow:visible}
+.oa-wm-ink{fill:#fff}
+.oa-cue{display:none}
+
+.oa-profiles{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:20px 56px;width:100%;max-width:1100px}
+.oa-profile{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.oa-dg{display:block;width:100%;max-width:480px;height:auto;overflow:visible}
+.oa-profile figcaption{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.oa-profile b{font-family:var(--font-display);font-weight:700;font-size:var(--size-h3);text-transform:uppercase;letter-spacing:.02em;line-height:1.15}
+.oa-profile .oa-sum{text-wrap:balance;font-size:var(--size-body);line-height:1.45;color:var(--text-on-dark-body);max-width:34ch}
+.oa-caption{text-wrap:balance;margin:6px 0 0;max-width:56ch;text-align:center;font-size:18px;line-height:1.5;font-weight:400;color:#fff;padding-top:18px;border-top:1px solid var(--af-rule-dark)}
+
+/* the on-navy profile frames (end state = the base style) */
+.oa-dg-story .oa-dg-fill{fill:var(--af-navy-raised)}
+.oa-dg-story .oa-dg-ring,.oa-dg-story .oa-dg-spoke{fill:none;stroke:var(--af-rule-dark);stroke-width:1px;vector-effect:non-scaling-stroke}
+.oa-dg-story .oa-dg-frame{fill:none;stroke:#fff;stroke-width:1.5px;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.oa-dg-story .oa-dg-travel{transform-box:view-box;transform-origin:0 0}
+.oa-dg-story .oa-dg-dot{fill:#fff}
+.oa-dg-story .oa-dg-label{fill:#fff;font-family:var(--font-body);font-weight:500;font-size:16px}
+
+.oa-hero-copy{max-width:var(--container);margin:0 auto;padding:24px 24px 72px}
+.oa-hero-copy h1{font-family:var(--font-display);font-weight:700;font-stretch:var(--w-plate);font-size:var(--size-h1);line-height:1.05;letter-spacing:-.005em;margin:14px 0 0}
+.oa-hero-copy p{font-size:var(--size-body);line-height:1.55;color:var(--text-on-dark-body);max-width:62ch;margin:16px 0 0}
+
+/* short desktop windows (1440x760 and down): the end state has to fit one screen */
+@media (min-width:760px) and (max-height:760px){
+  .oa-stage{gap:18px;padding:28px 24px 24px}
+  .oa-wm-slot{width:clamp(260px,30vw,440px)}
+  .oa-dg{max-width:min(480px,46svh)}
+  .oa-dg-story .oa-dg-label{font-size:19px}
+  .oa-caption{padding-top:14px;margin:0}
+}
+
+/* phones: the two profiles stack */
+@media (max-width:759px){
+  .oa-stage{gap:10px;padding:12px 16px}
+  .oa-wm-slot{width:min(280px,72vw)}
+  .oa-profiles{grid-template-columns:1fr;gap:10px}
+  .oa-profile{gap:9px}
+  /* 40svh keeps both profiles inside an iPhone SE screen; 24 units at 267 px wide is 12.3 px.
+     The viewBox keeps 24 units under the lowest label, so it sits 14 px or more above the eyebrow. */
+  /* (100vw - 32px) * 520/590: the consultant's side labels (Collaboration, Communication) reach
+     about 35 units past the 520-unit view box on each side, so this keeps every label 16 px or more
+     inside the screen at 360, 375 and 390 wide. */
+  .oa-dg{max-width:min(340px,40svh,calc((100vw - 32px) * .881))}
+  .oa-dg-story .oa-dg-label{font-size:24px}
+  .oa-profile figcaption{gap:3px}
+  .oa-profile b{font-size:17px}
+  .oa-profile .oa-sum{font-size:14px;max-width:none}
+  .oa-profile .oa-eb{font-size:12px;letter-spacing:.05em;text-wrap:balance}
+  .oa-caption{font-size:14px;line-height:1.45;padding-top:10px;margin:0;max-width:none}
+  /* unpinned (screen shorter than the story): nothing has to fit one screen, so the profiles take their full size */
+  .oa-no-pin .oa-dg{max-width:min(340px,calc((100vw - 32px) * .881))}
+  .oa-hero-copy{padding:20px 16px 52px}
+  .oa-hero-copy h1{font-size:32px}
+  }
+
+/* ── THE STORY: scroll-driven, motion-allowed browsers only. Everything above is the end state,
+   which is what reduced motion, print and no-script show. The clock is script, not a CSS scroll
+   timeline (WebKit claims view() but does not run it the way Chromium does): the inline measure
+   script (src/lib/oStoryMeasure.ts) sets html.oa-js, maps the story's scroll progress to --p (0..1)
+   in a passive rAF-throttled scroll listener, and seeks every paused animation below to p x 1000 ms.
+   So each beat is written as a delay and a duration on one 1000 ms clock: 120ms means 12% of the
+   scroll. The same in WebKit and Chromium. ── */
+@media (prefers-reduced-motion:no-preference){
+    /* 230vh: about 1.3 screens of pinned story, then the h1's paragraph and the toolkits */
+    .oa-js .oa-story{height:230vh}
+    .oa-js .oa-stage{position:sticky;top:var(--af-header-h);height:calc(100vh - var(--af-header-h));height:calc(100svh - var(--af-header-h))}
+    .oa-js .oa-story *{animation-fill-mode:both;animation-timing-function:linear;animation-play-state:paused}
+    /* a phone screen shorter than the finished story (the script measures it, html.oa-tall): the stage
+       still pins under the bar, taller than the screen; the O, the frames and both profiles play in
+       the top of it, and the summaries below the fold are in place when the pin lets go */
+    .oa-js.oa-tall .oa-story{height:calc(var(--oa-stage-h) + 130vh)}
+    .oa-js.oa-tall .oa-stage{height:auto;justify-content:flex-start}
+
+    .oa-js .oa-cue{display:flex;position:absolute;left:0;right:0;bottom:28px;flex-direction:column;align-items:center;gap:10px;margin:0;
+      font-family:var(--font-display);font-weight:600;font-stretch:125%;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65);
+      animation-name:oa-fade-out;animation-delay:90ms;animation-duration:30ms}
+    .oa-js.oa-tall .oa-cue{bottom:auto;top:calc(var(--oa-vis) - 92px)}
+    .oa-js .oa-cue i{display:block;width:1px;height:36px;background:var(--af-rule-dark)}
+
+    /* 1. the wordmark arrives large and centred, then settles to the top (0 to 8%); the cue holds until the score */
+    .oa-js .oa-wm{--wx:0px;--wy:0px;--ws:1;transform-origin:50% 50%;animation-name:oa-wm;animation-delay:0ms;animation-duration:80ms;animation-timing-function:var(--af-ease-travel)}
+    /* the other letters step back while the O is read, and return with the captions (12 to 80%) */
+    .oa-js .oa-wm > .oa-wm-ink{animation-name:oa-step-back;animation-delay:120ms;animation-duration:680ms}
+
+    /* 2. the O is scored (12 to 20%), 3. drops straight out of the word at its own size (22 to 28%),
+       then grows below it (28 to 34%), 4. holds nested, diamond at the hexagon's center (34 to 40%),
+       5. splits into its two profiles (40 to 54%) */
+    .oa-js .oa-dg-story .oa-dg-travel{--t0x:0px;--t0y:0px;--s0:1;--tax:0px;--tay:0px;--sa:1;--tpx:0px;--tpy:0px;--sp:1;animation-name:oa-travel;animation-delay:120ms;animation-duration:420ms}
+    .oa-js .oa-dg-story .oa-dg-frame{stroke-dasharray:1 1;animation-name:oa-score;animation-delay:120ms;animation-duration:160ms}
+    /* 6. each profile is named as the split begins (46 to 54%), so its corners count up under a name */
+    .oa-js .oa-profile .oa-eb,.oa-js .oa-profile b{animation-name:oa-rise;animation-delay:460ms;animation-duration:70ms;animation-timing-function:var(--af-ease-seat)}
+    .oa-js .oa-profile-consultant .oa-eb,.oa-js .oa-profile-consultant b{animation-delay:470ms}
+    /* phones stack the profiles, so the diamond's path down crosses the Builder's caption: the names
+       wait until it is past (about 51%), still ahead of the corners at 54% */
+    @media (max-width:759px){
+      .oa-js .oa-profile .oa-eb,.oa-js .oa-profile b{animation-delay:520ms;animation-duration:50ms}
+      .oa-js .oa-profile-consultant .oa-eb,.oa-js .oa-profile-consultant b{animation-delay:530ms}
+    }
+    /* 7. the profile is drawn up inside the frame (50 to 68%), corners in ring order */
+    .oa-js .oa-dg-story .oa-dg-fill{animation-name:oa-fade-in;animation-delay:500ms;animation-duration:80ms}
+    .oa-js .oa-dg-story .oa-dg-ring{animation-name:oa-fade-in;animation-delay:510ms;animation-duration:90ms}
+    .oa-js .oa-dg-story .oa-dg-spoke{stroke-dasharray:1 1;animation-name:oa-draw;animation-delay:510ms;animation-duration:100ms;animation-timing-function:var(--af-ease-draw)}
+    .oa-js .oa-dg-story .oa-dg-corner{animation-name:oa-fade-in;animation-delay:var(--a);animation-duration:60ms}
+    /* 8. what each profile means (68 to 80%), then the line that ties them together (80 to 88%); 88 to 100% holds */
+    .oa-js .oa-profile .oa-sum{animation-name:oa-rise;animation-delay:680ms;animation-duration:90ms;animation-timing-function:var(--af-ease-seat)}
+    .oa-js .oa-profile-consultant .oa-sum{animation-delay:710ms}
+    .oa-js .oa-caption{animation-name:oa-rise;animation-delay:800ms;animation-duration:80ms;animation-timing-function:var(--af-ease-seat)}
+
+    /* a screen far too short for the story (a phone on its side): no pin, no motion, the end state in flow */
+    .oa-js.oa-no-pin .oa-story{height:auto}
+    .oa-js.oa-no-pin .oa-stage{position:static;height:auto}
+    .oa-js.oa-no-pin .oa-story *{animation:none}
+    .oa-js.oa-no-pin .oa-cue{display:none}
+}
+@keyframes oa-fade-out{to{opacity:0}}
+@keyframes oa-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes oa-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes oa-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes oa-wm{from{transform:translate(var(--wx),var(--wy)) scale(var(--ws))}to{transform:none}}
+@keyframes oa-step-back{0%{opacity:1}20%{opacity:.38}70%{opacity:.38}100%{opacity:1}}
+/* range 12..54 (42 points): scored in place to 22, drops at its own size to 28, grows clear of the word to 34,
+   holds nested to 40, travels to its profile by 54. s0 is the score's size: inset by half the 3 px stroke on
+   the hexagon and outset on the diamond's cut, so the whole stroke lies on the white ink of the O. */
+@keyframes oa-travel{
+  0%{transform:translate(var(--t0x),var(--t0y)) scale(var(--s0))}
+  23.81%{transform:translate(var(--t0x),var(--t0y)) scale(var(--s0));animation-timing-function:var(--af-ease-seat)}
+  38.1%{transform:translate(var(--tax),var(--tay)) scale(var(--sa));animation-timing-function:var(--af-ease-draw)}
+  52.38%{transform:translate(var(--tpx),var(--tpy)) scale(var(--sp))}
+  66.67%{transform:translate(var(--tpx),var(--tpy)) scale(var(--sp));animation-timing-function:var(--af-ease-travel)}
+  100%{transform:translate(0px,0px) scale(1)}
+}
+/* range 12..28: the score is cut in Navy on the white O (12..20), turns White as it drops off the ink (22..27) */
+@keyframes oa-score{
+  0%{stroke-dashoffset:1;stroke:var(--navy);stroke-width:3px}
+  50%{stroke-dashoffset:0;stroke:var(--navy);stroke-width:3px}
+  62.5%{stroke-dashoffset:0;stroke:var(--navy);stroke-width:3px}
+  93.75%{stroke-dashoffset:0;stroke:#fff;stroke-width:1.5px}
+  100%{stroke-dashoffset:0;stroke:#fff;stroke-width:1.5px}
+}

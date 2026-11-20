@@ -24,11 +24,49 @@
      - Slate is for metadata and large text only, never
        body-critical copy.
      - Orange/ember and light blue from earlier explorations
-       are retired. */
-  --navy: #002e5d; /* PMS 648C */
+       are retired (again in system v3: no orange, no BYU Blue). */
+  --navy: #002e5d; /* PMS 648C, BYU navy: still the heading ink on Studio */
   --white: #ffffff;
-  --royal: #003da5; /* PMS 293C */
-  --slate: #7c878e; /* PMS 430C */
+  /* SYSTEM V3 (the Runout kit, live 2026-11-19): the BYU Marriott
+     palette, flat, aligned to
+     Scott Murff's logo brief (2026-11-12). Navy and White are the
+     primaries, Royal and Slate the secondaries. Values from the design
+     team's system v3 (final-v3-2026-11-12, system/tokens.css). No
+     orange anywhere, no BYU Blue, no BYU Light Blue. Royal is the link,
+     focus and call-to-action colour on light grounds; on navy grounds
+     everything is White (White buttons with Navy labels). */
+  --royal: #003da5; /* BYU Marriott Royal: links, focus, CTAs on light */
+  /* --slate keeps the UI secondary-text job it had in v2 (kit Graphite,
+     small text on white). The brand Slate is --af-slate below. */
+  --slate: #4a5663;
+
+  /* ── RUNOUT · THE BYU MARRIOTT PALETTE (system v3 tokens.css) ── */
+  --af-navy: #002e5d; /* Navy, PMS 648 C: the primary */
+  --af-white: #ffffff; /* the other primary */
+  --af-royal: #003da5; /* secondary: actions on light, never on navy (1.43:1) */
+  --af-slate: #7c878e; /* secondary: the mark's accent member, set-out lines, rules */
+  --af-navy-raised: #0b3b6c; /* cards and menus on navy */
+  --af-night: #001a36; /* the deepest navy */
+  --af-ink: #0b1b2b;
+  --af-graphite: #4a5663;
+  --af-mist: #dde4eb;
+  --af-paper: #f4f6f9;
+  /* The one tonal lift: a very soft radial behind the mark on the navy
+     hero, never on the mark, never on type, never on light grounds. */
+  --af-ground-lift: radial-gradient(70% 60% at 50% 46%, #06396b 0%, var(--af-navy) 70%);
+  --af-rule-dark: rgba(255, 255, 255, 0.18);
+  /* the builder easings (kit MOTION.md) */
+  --af-ease-travel: cubic-bezier(0.65, 0, 0.25, 1); /* a member on the crane */
+  --af-ease-seat: cubic-bezier(0.3, 0, 0.3, 1); /* the last of the approach */
+  --af-ease-draw: cubic-bezier(0.45, 0, 0.2, 1); /* construction lines, the level */
+  /* Mark ink (AFBuild), Navy by default, White under
+     [data-theme="dark"] below. The other three are left from the Runout
+     build and no longer drawn. */
+  --af-mark-ink: var(--af-navy);
+  --af-mark-accent: var(--af-slate);
+  --af-construction: var(--af-royal);
+  --af-build-marker: var(--af-royal);
+  --af-build-marker-opacity: 1;
 
   /* ── THE LADDER (Measured Color Tier 2, 2026-08-17) ─────
      One navy, frozen into a fixed ramp. Refactoring UI's rule:
@@ -46,10 +84,10 @@
        navy    on white      13.56:1 |  99.6   any text
        royal   on white       9.50:1 |  91.0   any text (clears APCA body)
        navy/70 on white        5.4:1 |  76.8   secondary text, any size
-       slate   on white       3.68:1 |  64.4   >=24px reg / 18.66px bold + strokes
+       slate   on white       7.49:1 |  86.1   metadata (v3 Slate #4a5663)
        white     on navy     13.56:1 | -102.8  headings, buttons, labels
        white/82  on navy       9.5:1 |  -77.8  body-length text on navy
-       white/75  on navy      8.22:1 |  -69.0  metadata / nav links on navy
+       mist      on navy     10.57:1 |  -84.7  metadata / nav links on navy (v3 Mist)
        navy  on recessed     12.63:1 |  94.6   text on the navy/4 surface
        royal on recessed      8.85:1 |  86.0   links on the navy/4 surface
        white on royal         9.50:1 | -95.4   button ink
@@ -61,18 +99,18 @@
 
   /* on-dark text (baked solids) */
   --text-on-dark: var(--white); /* headings, buttons, short labels only */
-  --text-on-dark-body: #d1d9e2; /* white/82 — sentence-length text on navy */
-  --text-on-dark-soft: #bfcbd7; /* white/75 — metadata, footer nav */
+  --text-on-dark-body: #d1d9e2; /* white/82: sentence-length text on navy */
+  --text-on-dark-soft: #dde4eb; /* v3 Mist: metadata, footer nav on navy */
 
   /* surfaces (baked solids) */
-  --surface-page: var(--white);
-  --surface-inverse: var(--navy);
+  --surface-page: var(--white); /* Runout v2: white page, flat */
+  --surface-inverse: var(--navy); /* Runout v2: dark bands are flat BYU Navy */
   /* navy/4 = color-mix(in srgb, navy 4%, white). Defined so the value is
      frozen, but NOT YET USED as a section ground — that amendment to
      "all-white subpages" is a Tier 3 team vote. House rule for any
      future derived opaque value: color-mix must specify `in srgb`
      (the default oklab space shifts flat tints off their approved hex). */
-  --surface-recessed: #f5f7f9;
+  --surface-recessed: #f4f6f9; /* kit Paper */
 
   /* accent + fills */
   --accent: var(--royal);
@@ -110,7 +148,7 @@
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
 
   --w-cast: 125%;
-  --w-plate: 100%;
+  --w-plate: 112.5%; /* Runout: the kit's h2 width (was 100) */
   --w-rail: 62%;
 
   --size-hero: 64px;
@@ -143,12 +181,12 @@
   --container-pad: 24px;
   --measure: 66ch; /* body measure: 60-75 characters */
 
-  --radius: 5px; /* boxes round at 4-6px; 5px is the system value */
-  --shadow: none; /* elevation is drawn with hairlines, never shadows */
+  --radius: 4px; /* Runout v2: engineered, square-shouldered; buttons are 2px */
+  --shadow: none; /* elevation is drawn with hairlines, never shadows (flat) */
 
   --dur-fast: 150ms;
   --dur-base: 300ms;
-  --ease-stamp: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --ease-stamp: cubic-bezier(0.3, 0, 0.3, 1); /* Runout v2: the builder seat easing */
 
   /* ── LEGACY ALIASES ─────────────────────────────────────
      Kept so the pages outside the redesign (/network, /ops,
@@ -157,10 +195,10 @@
      the new accent without being rebuilt. Migrate to the
      semantic names above when touching them. */
   --byu-navy: var(--navy);
-  --byu-navy-deep: #001f3f; /* pressed / deepest surface */
-  --byu-navy-soft: #00396f; /* raised navy, rules and hover on dark */
+  --byu-navy-deep: var(--af-night); /* pressed / deepest surface */
+  --byu-navy-soft: var(--af-navy-raised); /* raised navy, rules and hover on dark */
   --byu-white: var(--white);
-  --byu-off-white: #f2f5f7; /* navy-tinted alternating surface */
+  --byu-off-white: var(--af-paper); /* kit Paper, the alternating surface */
   --byu-royal: var(--royal);
   --byu-slate-gray: var(--slate);
 
@@ -177,7 +215,7 @@
   --text-accent-on-inverse: var(--text-on-dark-soft);
   --text-on-accent: var(--white);
   --border-subtle: var(--border-hairline);
-  --border-on-inverse: rgba(255, 255, 255, 0.2);
+  --border-on-inverse: var(--af-rule-dark);
   --border-accent: var(--royal);
 
   --iron: var(--navy);
@@ -205,7 +243,7 @@
      white 75% on navy 8.22:1   soft text on dark
 
    LARGE TEXT ONLY (>=24px, or >=18.66px bold)
-     slate on white    3.68:1   metadata at size
+     slate on white    7.49:1   metadata (v3 Slate clears any size; kept here)
 
    ALLOWED anywhere (Measured Color additions)
      navy 70% on white  5.4:1   secondary text at any size
@@ -213,6 +251,7 @@
 
    PROHIBITED, these fail and must not ship
      royal on navy     1.43:1   royal never sits directly on navy
+     slate on navy     1.81:1   v3 Slate is a light-ground ink
      slate TEXT below 24px regular / 18.66px bold (3.68:1) — slate
        strokes (badge outlines etc.) are fine anywhere (non-text 3:1)
      royal FOCUS RINGS on navy grounds — on navy, focus is WHITE
@@ -505,12 +544,12 @@ html {
   transform: translateX(4px);
 }
 
-/* ── Card hover: registration marks + caption bar (motion plan #7) ──
+/* ── Card hover: registration marks (motion plan #7) ──
    Hovering a .reg-card swaps its hairline border to royal and slides
    four 1px corner ticks in at a 2px offset — print registration marks;
-   the card reads as indexed for machining. .reg-bar (inside the image
-   well of a showcase card) slides up from the bottom edge behind its
-   hairline. Devices without hover keep the bar visible. */
+   the card reads as indexed for machining. (The .reg-bar caption bar
+   that rode the old showcase image well went with the 2026-11-19 /work
+   rebuild: the library card already prints the name under the image.) */
 .reg-card {
   transition: border-color var(--dur-fast) var(--ease-stamp);
 }
@@ -527,32 +566,315 @@ html {
 .reg-tick.tr { top: 5px; right: 5px; border-top: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, 2px); }
 .reg-tick.bl { bottom: 5px; left: 5px; border-bottom: 1px solid var(--royal); border-left: 1px solid var(--royal); transform: translate(2px, -2px); }
 .reg-tick.br { bottom: 5px; right: 5px; border-bottom: 1px solid var(--royal); border-right: 1px solid var(--royal); transform: translate(-2px, -2px); }
-.reg-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #fff;
-  border-top: 1px solid var(--border-hairline);
-  padding: 8px 14px;
+@media (hover: hover) {
+  .reg-card:hover { border-color: var(--royal); }
+  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
+}
+
+/* ── /work portfolio (content.ts WORK) ─────────────────────
+   One grid ladder for both the featured row and the library: 3 across at
+   desktop, 2 at tablet, 1 on a phone. Fixed columns, not auto-fit, so a
+   card keeps one width whatever a filter leaves. Six featured and fifteen
+   library entries both divide by three, so the unfiltered desktop grids
+   end on a full row. */
+.work-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+@media (min-width: 640px) {
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .work-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.work-h1 {
+  font-size: clamp(40px, 7vw, var(--size-hero));
+  line-height: 1.02;
+  color: var(--navy);
+  margin: 0;
+}
+.work-h2 { color: var(--navy); margin: 0; }
+.work-lead {
+  font-size: var(--size-body);
+  line-height: 1.55;
+  color: var(--text-meta);
+  max-width: 60ch;
+  margin: 18px 0 0;
+}
+.work-sublead {
+  font-size: var(--size-ui);
+  line-height: 1.5;
+  color: var(--text-meta);
+  margin: 8px 0 0;
+}
+.work-count span { white-space: nowrap; }
+.work-count {
+  font-family: var(--font-mono);
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+  margin: 16px 0 0;
+}
+
+/* Card shell. Hairline, white, the reg-card hover; the body fills the cell
+   so links sit on one line across a row. */
+.work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--white);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.work-thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-hairline);
+  background: var(--surface-subtle);
+}
+/* Screenshots anchor at the top: the top of a product is its headline. */
+.work-thumb img { object-position: center top; }
+.work-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 20px;
+  flex: 1;
+}
+.work-card__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
+}
+.work-card__name {
+  font-size: 18px;
+  margin: 0;
+  color: var(--navy);
+}
+.work-card__rank {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--royal);
+  margin-right: 10px;
+}
+.work-card__blurb {
+  font-size: var(--size-ui);
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
+.work-card__tags {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-meta);
+  margin: 0;
+}
+.work-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-hairline);
+}
+.work-card__primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: var(--size-ui);
+  color: var(--royal);
+  text-decoration: none;
+}
+.work-card__secondary {
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+  text-decoration: none;
+}
+.work-card--featured .work-card__blurb { color: var(--text-meta); }
+/* On a phone the featured six become rows (thumbnail left, text right):
+   six full-height cards above a fifteen-card library made the page a
+   scroll marathon, and the row only has to say "start here". */
+@media (max-width: 639px) {
+  .work-card--featured { flex-direction: row; align-items: stretch; }
+  .work-card--featured .work-thumb {
+    flex: 0 0 112px;
+    aspect-ratio: auto;
+    border-bottom: 0;
+    border-right: 1px solid var(--border-hairline);
+  }
+  /* A 112px slice of a 16:10 shot: anchor top-left, where the product's
+     name and headline sit, not the middle of the page. */
+  .work-card--featured .work-thumb img { object-position: left top; }
+  .work-card--featured .work-card__body { padding: 12px 14px; gap: 6px; }
+  .work-card--featured .work-card__name { font-size: 16px; }
+  .work-card--featured .work-card__rank { font-size: 13px; margin-right: 6px; }
+  .work-card--featured .work-card__blurb { font-size: 13px; line-height: 1.45; }
+  .work-card--featured .work-plate { padding: 10px; }
+  .work-card--featured .work-plate__host { display: none; }
+  .work-card--featured .work-plate__repo { font-size: 14px; }
+}
+.work-card--featured:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The plate: the honest picture of a repo. Kind sets the ground (see
+   ShowcaseCard.tsx PLATE_TONE); every ink is a declared pairing. */
+.work-plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 20px;
+}
+/* The pattern sits on ::before, masked so it fades out from the top-right
+   corner before it reaches either line of text: a rule through a word costs
+   legibility, and the pattern is only there to tell kinds apart. */
+.work-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle at 100% 0%, #000 0%, transparent 62%);
+}
+.work-plate--navy { background-color: var(--navy); color: var(--white); }
+.work-plate--navy::before {
+  background-image:
+    linear-gradient(var(--border-on-inverse) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-on-inverse) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.work-plate--royal { background-color: var(--royal); color: var(--white); }
+.work-plate--royal::before {
+  background-image: radial-gradient(var(--border-on-inverse) 1.5px, transparent 2px);
+  background-size: 14px 14px;
+}
+.work-plate--light { background-color: var(--surface-subtle); color: var(--navy); }
+.work-plate--light::before {
+  background-image: repeating-linear-gradient(135deg, var(--border-hairline) 0 1px, transparent 1px 12px);
+}
+.work-plate__kind {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: var(--w-rail);
+  font-size: var(--size-eyebrow);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.work-plate__name {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.work-plate__host {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.work-plate--navy .work-plate__host { color: var(--text-on-dark-soft); }
+.work-plate__repo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-plate);
+  font-size: 26px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+/* Library controls. */
+.work-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.work-controls__search { flex: 1 1 320px; max-width: 560px; display: flex; flex-direction: column; gap: 8px; }
+.work-controls__sort { flex: 0 0 200px; margin-left: auto; display: flex; flex-direction: column; gap: 8px; }
+.work-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--size-ui);
+  line-height: 1.2;
+  color: var(--navy);
+}
+@media (max-width: 639px) {
+  .work-controls__sort { flex: 1 1 100%; margin-left: 0; }
+}
+.work-facet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+.work-facet__label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--size-ui);
+  color: var(--navy);
+  min-width: 52px;
+}
+.work-facet__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.work-chip {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  cursor: pointer;
+  background: transparent;
   color: var(--navy);
-  z-index: 1;
+  border: 1px solid var(--border-input);
+  transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
 }
-@media (hover: hover) {
-  .reg-bar {
-    transform: translateY(100%);
-    transition: transform var(--dur-fast) var(--ease-stamp);
-  }
-  .reg-card:hover { border-color: var(--royal); }
-  .reg-card:hover .reg-tick { opacity: 1; transform: translate(0, 0); }
-  .reg-card:hover .reg-bar { transform: translateY(0); }
+.work-chip__count { font-family: var(--font-mono); font-size: 12px; color: var(--text-meta); margin-left: 4px; }
+.work-chip:hover { border-color: var(--navy); }
+.work-chip[aria-pressed="true"] { background: var(--royal); border-color: var(--royal); color: var(--white); }
+.work-chip[aria-pressed="true"] .work-chip__count { color: var(--white); }
+.work-chip:disabled { cursor: default; color: var(--slate); border-color: var(--border-hairline); }
+.work-chip:disabled .work-chip__count { color: var(--slate); }
+.work-chip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.work-showing {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 8px 0 20px;
+  font-size: var(--size-caption);
+  color: var(--text-meta);
+}
+.work-clear {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--royal);
+  cursor: pointer;
+}
+.work-empty {
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius);
+  padding: 48px 32px;
+  text-align: center;
+  color: var(--text-meta);
 }
 
 ::selection {
@@ -752,6 +1074,22 @@ html {
   }
 }
 
+/* The Button's capitals are wide: below 380 px a long label ("Take the self-assessment") would run
+   past a 360 px screen, so there it tracks tighter, sets a large label at 13 px and sheds some
+   padding, and a label longer still may wrap to two lines.
+   The Button's look is inline, hence the !important. */
+@media (max-width: 379.98px) {
+  .ds-btn {
+    white-space: normal !important;
+    letter-spacing: 0.05em !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .ds-btn[data-size="lg"] {
+    font-size: 13px !important;
+  }
+}
+
 /* ═══ LEGACY CLASSES ════════════════════════════════════════
    Used by /network, /ops, and /lab/* only. The redesigned
    routes do not use these. Values read the new tokens (the
@@ -776,16 +1114,12 @@ html {
   background-color: var(--paper-dim);
 }
 .surface-iron {
+  /* Runout v2: flat BYU Navy, one Light Blue hairline at the foot. */
   background-color: var(--iron);
+  box-shadow: inset 0 -1px 0 var(--af-rule-dark);
 }
 .surface-iron-deep {
   background-color: var(--iron);
-  background-image: radial-gradient(
-    120% 90% at 28% 0%,
-    #004380 0%,
-    #002e5d 52%,
-    #001a35 100%
-  );
 }
 
 .ember-bar {
@@ -860,5 +1194,452 @@ html {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* ═══ RUNOUT · THE BYU MARRIOTT PALETTE ═══
+   System v3 of the Runout kit (final-v3-2026-11-12): flat Navy and
+   White, Royal and Slate, and motion that
+   builds rather than glows. Rules kept here:
+   - Navy carries the page; type is flat White or Navy, never a gradient;
+   - no orange anywhere: not in the mark, not on a button, not in motion;
+   - light grounds: Royal for links, calls to action and focus;
+   - navy grounds: White buttons with Navy labels, White links and focus,
+     Mist for secondary text; Royal never sits on navy (1.43:1);
+   - Slate is the accent: the mark's horizon beam on light grounds, and
+     the thin set-out lines on navy bands;
+   - one tonal lift, behind the hero mark only (--af-ground-lift);
+   - motion is mechanical: lines draw, pieces slide and seat, nothing
+     blurs, glows or breathes, and everything stops for reduced motion.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* The primary button: Royal with a White label on light grounds (hover
+   steps to Navy), White with a Navy label on navy (hover steps to Mist). */
+:root {
+  --cta-bg: var(--af-royal);
+  --cta-bg-hover: var(--navy);
+  --cta-ink: var(--white);
+}
+[data-ground="navy"] {
+  --cta-bg: var(--white);
+  --cta-bg-hover: var(--af-mist);
+  --cta-ink: var(--navy);
+}
+
+/* The logo build on navy (AFBuild): the whole wordmark White. */
+[data-theme="dark"] {
+  --af-mark-ink: var(--white);
+  --af-mark-accent: var(--white);
+  --af-construction: var(--white);
+  --af-build-marker: var(--white);
+  --af-build-marker-opacity: 0.8;
+}
+
+/* ── The bar (SiteHeader): Scott Murff's lockup on the white bar, 72px plus
+   its hairline. It holds still through a route transition. The bar is the
+   only sticky <header> on the site, so it is named by that, not a class. ── */
+:root {
+  --af-header-h: 73px;
+}
+header.sticky {
+  view-transition-name: af-header;
+}
+
+/* Scroll progress: a Slate construction line along the bar's foot,
+   driven by the document's own scroll (no script). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    header.sticky::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background: var(--af-slate);
+      opacity: 0.9;
+      transform-origin: left;
+      transform: scaleX(0);
+      animation: af-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes af-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Headings on navy: flat white. */
+.af-head-dark {
+  color: var(--white);
+}
+
+/* ── The hero ── */
+.af-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy);
+  /* the one tonal lift, behind the wordmark (it is built across the top
+     of the hero) */
+  background-image: radial-gradient(46% 40% at 34% 24%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
+  color: var(--white);
+  padding: 80px 24px 104px;
+  isolation: isolate;
+}
+/* One column. The AI FOUNDRY wordmark is built across the top
+   (AFBuild), then the copy under it on the same left edge. The copy
+   column stops at 780px, so the headline (6.8cqi) tops out near 53px; the
+   wordmark runs the full container (cap about 107px at 1200px) and leads. */
+.af-hero-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+.af-hero-copy {
+  position: relative;
+  z-index: 2;
+  container-type: inline-size;
+  max-width: 780px;
+}
+.af-hero-title {
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  color: var(--white);
+}
+.af-line {
+  display: block;
+  white-space: nowrap;
+}
+.af-hero-ctas {
+  display: flex;
+  gap: 14px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+}
+.af-hero-art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  justify-self: start;
+  margin: 0 0 64px;
+}
+.af-hero-art .af-build {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The copy is set the way the mark is built: each headline line is drawn
+   in left to right like a member run out along its level, then the
+   buttons and the figures seat. No blur, no fade-from-glow. */
+@media (prefers-reduced-motion: no-preference) {
+  /* The copy sets while the wordmark's hexagon and diamond land (the
+     letters rise 0 to 0.9s, AFBuild), so the two never compete. */
+  .af-line {
+    animation: af-line-set 0.62s var(--af-ease-draw) both;
+    animation-delay: calc(0.78s + var(--i, 0) * 0.12s);
+  }
+  .af-hero .af-hero-copy > span,
+  .af-hero-ctas,
+  .af-hero-facts {
+    animation: af-seat 0.5s var(--af-ease-seat) both;
+  }
+  .af-hero .af-hero-copy > span {
+    animation-delay: 0.65s;
+  }
+  .af-hero-ctas {
+    animation-delay: 1.22s;
+  }
+  .af-hero-facts {
+    animation-delay: 1.38s;
+  }
+}
+@keyframes af-line-set {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-14px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+@keyframes af-seat {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .af-hero {
+    padding: 40px 24px 72px;
+    background-image: radial-gradient(80% 22% at 50% 10%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
+  }
+  /* Phones and tablets: the wordmark runs the full content width, the
+     first thing under the bar, so the first viewport names AI Foundry. */
+  .af-hero-art {
+    margin: 8px 0 36px;
+  }
+  .af-hero-ctas {
+    margin-top: 32px;
+  }
+  /* On a phone one-line phrases would shrink to 24px; big type that
+     breaks at its own hyphens reads stronger at this width. */
+  .af-line {
+    white-space: normal;
+  }
+  /* Capped at 56px so on a tablet the headline stays under the wordmark's
+     cap (about 65px at 720px wide); a 390px phone still gets 10cqi. */
+  .af-hero-title {
+    font-size: min(10cqi, 56px) !important;
+  }
+  .af-hero-copy > span:first-child {
+    letter-spacing: 0.1em !important;
+    font-stretch: 112.5% !important;
+    font-size: 11px !important;
+  }
+}
+
+/* ── Construction rules on the navy bands and the footer ──
+   One Slate hairline at the top edge, drawn in left to right like a
+   set-out line as it scrolls into view. Flat: no gradient, no glow. */
+.af-horizon-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--af-slate);
+  opacity: 0.8;
+  transform-origin: left;
+  pointer-events: none;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .af-horizon-rule {
+      animation: af-rule-draw linear both;
+      animation-timeline: view();
+      /* The rule is 1px tall, so its cover range is the viewport: it draws
+         over the first fifth of the screen it travels, which a footer at
+         the very end of the page still reaches. */
+      animation-range: cover 0% cover 20%;
+    }
+  }
+}
+@keyframes af-rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ── View transitions between routes ──
+   The outgoing page steps back and clears; the incoming one is set in
+   from below on the seat easing. The bar holds still. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: af-vt-out 200ms var(--af-ease-travel) both;
+  }
+  ::view-transition-new(root) {
+    animation: af-vt-in 420ms var(--af-ease-seat) 80ms both;
+  }
+  ::view-transition-group(af-header) {
+    animation: none;
+  }
+}
+@keyframes af-vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes af-vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  .af-line,
+  .af-hero-ctas,
+  .af-hero-facts,
+  .af-hero .af-hero-copy > span,
+  .af-page-hero::after,
+  header.sticky::before {
+    animation: none !important;
+  }
+}
+
+/* Anchors (/#quote) land below the sticky bar. */
+[id] {
+  scroll-margin-top: var(--af-header-h);
+}
+
+/* The hero's three figures (guide, Website: hero; facts.yaml): a hairline,
+   then number over label. Static facts, never a live counter. */
+.af-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 48px;
+  margin: 48px 0 0;
+  padding: 28px 0 0;
+  border-top: 1px solid var(--af-rule-dark);
+  list-style: none;
+  max-width: 600px;
+}
+.af-hero-facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.af-hero-facts strong {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.05;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.af-hero-facts span {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--af-mist);
+}
+@media (max-width: 900px) {
+  .af-hero-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 24px;
+  }
+  .af-hero-facts strong {
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  .af-hero-facts span {
+    font-size: 13px;
+  }
+}
+
+/* Interior page heroes: the same flat navy as the landing hero, so a route
+   change crosses navy to navy under the still bar. A Slate set-out
+   line runs along the foot, drawn left to right on load. */
+.af-page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--navy);
+  color: var(--white);
+  padding: 80px 24px 72px;
+}
+.af-page-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--af-slate);
+  opacity: 0.8;
+  transform-origin: left;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .af-page-hero::after {
+    animation: af-run-out 0.8s var(--af-ease-draw) 0.15s both;
+  }
+}
+@keyframes af-run-out {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (max-width: 640px) {
+  .af-page-hero {
+    padding: 48px 24px 52px;
+  }
+}
+
+/* The route change: the build's level line. One 2px line in the build's
+   marker colour for light grounds (Royal; the bar is white) is
+   shot left to right along the bar's foot as the next page is set in,
+   holds a beat, and clears. RouteTransitions sets data-af-vt on <html>
+   for the new state only. */
+html[data-af-vt] header.sticky::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--af-build-marker);
+  transform-origin: left;
+  pointer-events: none;
+  animation: af-vt-level 0.9s both;
+}
+@keyframes af-vt-level {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  72% {
+    transform: scaleX(1);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* Touch: the footer's text links and the logo strip's Pause get 44 px of
+   hit area on coarse pointers without changing how they look. */
+@media (pointer: coarse) {
+  footer[data-ground="navy"] a.link-draw {
+    display: inline-block;
+    padding-block: 11px;
+  }
+  footer[data-ground="navy"] nav {
+    row-gap: 0 !important;
+  }
+  .af-hit {
+    position: relative;
+  }
+  .af-hit::before {
+    content: "";
+    position: absolute;
+    inset: -5px -3px;
+  }
+  .af-hit-lg::before {
+    inset: -10px -4px;
   }
 }

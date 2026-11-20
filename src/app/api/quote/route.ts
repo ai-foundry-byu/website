@@ -12,15 +12,15 @@ import { createClient } from "@supabase/supabase-js"
  */
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/* null when the deployment has no database configured (a preview without the env): the route then
+   still validates and answers with a JSON error instead of throwing before it can reply */
 function getSupabase() {
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!
-  )
+  const url = process.env.SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_KEY
+  return url && key ? createClient(url, key) : null
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = getSupabase()
   try {
     const body = await req.json()
 
@@ -67,6 +67,15 @@ export async function POST(req: NextRequest) {
       desired_timeline: str(body.desired_timeline),
       status: "pending",
       source: "web",
+    }
+
+    const supabase = getSupabase()
+    if (!supabase) {
+      console.error("quote submission: SUPABASE_URL or SUPABASE_SERVICE_KEY is not set")
+      return NextResponse.json(
+        { error: "Could not submit right now. Please try again." },
+        { status: 503 }
+      )
     }
 
     const { data, error } = await supabase

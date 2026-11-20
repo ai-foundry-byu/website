@@ -14,17 +14,25 @@ import styles from "./Button.module.css"
  * .../forms/Button.jsx, values preserved; internal hrefs render through
  * next/link so client navigation keeps working.
  */
-type Variant = "primary" | "secondary" | "inverse" | "ghost"
+type Variant = "primary" | "secondary" | "inverse" | "ghost" | "outline"
 
+/* Runout retheme, system v3: flat, square-shouldered buttons, no orange. The primary's
+   colours for its ground come from CSS (globals.css, --cta-*): Royal #003DA5
+   with a White label on white and paper (9.5:1), White with a Navy label on
+   Navy (13.6:1). Royal never sits on navy. ONE primary per surface; "outline" is
+   the second action on a navy ground (a white hairline). Hover steps one value (Royal to
+   Navy, White to Mist); it never glows. */
 const PALETTES: Record<string, React.CSSProperties> = {
-  primary: { background: "var(--accent)", color: "var(--accent-ink)", border: "1px solid var(--accent)" },
-  primaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
+  primary: { background: "var(--cta-bg)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg)" },
+  primaryHover: { background: "var(--cta-bg-hover)", color: "var(--cta-ink)", border: "1px solid var(--cta-bg-hover)" },
   secondary: { background: "transparent", color: "var(--navy)", border: "1px solid var(--navy)" },
   secondaryHover: { background: "var(--navy)", color: "#fff", border: "1px solid var(--navy)" },
   inverse: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
-  inverseHover: { background: "rgba(255,255,255,.85)", color: "var(--navy)", border: "1px solid rgba(255,255,255,.85)" },
+  inverseHover: { background: "var(--af-mist)", color: "var(--navy)", border: "1px solid var(--af-mist)" },
   ghost: { background: "transparent", color: "var(--royal)", border: "1px solid transparent" },
   ghostHover: { background: "transparent", color: "var(--navy)", border: "1px solid transparent" },
+  outline: { background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.7)" },
+  outlineHover: { background: "#fff", color: "var(--navy)", border: "1px solid #fff" },
 }
 
 export function Button({
@@ -62,12 +70,16 @@ export function Button({
   const off = disabled || loading
   const look = PALETTES[hover && !off ? variant + "Hover" : variant] || PALETTES.primary
   const s: React.CSSProperties = {
-    fontFamily: "var(--font-body)",
-    fontWeight: 500,
+    /* Kit: Archivo Expanded capitals, tracked open, 2px corners. */
+    fontFamily: "var(--font-display)",
+    fontStretch: "125%",
+    fontWeight: 600,
     lineHeight: 1.2,
-    fontSize: size === "lg" ? "16px" : "var(--size-ui)",
-    padding: size === "lg" ? "16px 28px" : "12px 20px",
-    borderRadius: "var(--radius)",
+    textTransform: "uppercase",
+    letterSpacing: "0.08em",
+    fontSize: size === "lg" ? "14px" : "12.5px",
+    padding: size === "lg" ? "17px 26px" : "12px 18px",
+    borderRadius: "2px",
     cursor: off ? "default" : "pointer",
     opacity: disabled ? 0.45 : 1,
     display: "inline-flex",
@@ -77,9 +89,11 @@ export function Button({
     textDecoration: "none",
     userSelect: "none",
     whiteSpace: "nowrap",
+    maxWidth: "100%",
+    textAlign: "center",
     flex: "none",
     transform: press && !off ? "translateY(1px)" : "none",
-    transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast)",
+    transition: "background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), transform 110ms var(--af-ease-seat)",
     ...look,
     ...style,
   }
@@ -96,13 +110,16 @@ export function Button({
   // Ring defaults: royal on the primary, none elsewhere. A royal ring
   // never goes on navy grounds (prohibited pair) — white is the ring for
   // buttons that live there.
-  const ringTone = ring ?? (variant === "primary" ? "royal" : "none")
+  // Runout v2: flat buttons, no splash ring unless a caller asks for one.
+  const ringTone = ring ?? "none"
+  /* ds-btn (globals.css): below 380 px a long capital label may wrap and tracks tighter, so it never
+     runs past a 360 px screen */
   const className =
     ringTone === "none"
-      ? undefined
+      ? "ds-btn"
       : ringTone === "royal"
-        ? styles.splash
-        : `${styles.splash} ${styles.splashWhite}`
+        ? `ds-btn ${styles.splash}`
+        : `ds-btn ${styles.splash} ${styles.splashWhite}`
   const inner = (
     <>
       {loading ? (
@@ -123,17 +140,17 @@ export function Button({
   )
   if (href) {
     return href.startsWith("/") && !download ? (
-      <Link href={href} className={className} style={s} {...handlers}>
+      <Link href={href} className={className} data-size={size} style={s} {...handlers}>
         {inner}
       </Link>
     ) : (
-      <a href={href} download={download} className={className} style={s} {...handlers}>
+      <a href={href} download={download} className={className} data-size={size} style={s} {...handlers}>
         {inner}
       </a>
     )
   }
   return (
-    <button type={type} disabled={off} className={className} style={s} {...handlers}>
+    <button type={type} disabled={off} className={className} data-size={size} style={s} {...handlers}>
       {inner}
     </button>
   )

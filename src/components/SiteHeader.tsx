@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { CurtainNavLink } from "@/components/CurtainRoute"
 import { AccountMenu } from "@/components/AccountMenu"
+import { MobileMenu } from "@/components/MobileMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
 import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
@@ -66,11 +67,12 @@ export function SiteHeader() {
           </Button>
         </nav>
 
-        {/* mobile and tablet nav: native disclosure, no script. The bar
+        {/* mobile and tablet nav: a native disclosure that MobileMenu closes on a pick,
+            an outside tap, Escape and a route change. The bar
             switches at lg (1024px), not md: with About and Sign in beside
             three tabs and the button, at 768 to 900px the bar squeezed the
             lockup to 36 to 190px wide (measured 2026-10-15). */}
-        <details className="relative lg:hidden">
+        <MobileMenu className="relative lg:hidden">
           <summary
             className="cursor-pointer list-none px-2 py-2 [&::-webkit-details-marker]:hidden"
             style={{ fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "var(--size-ui)", color: "var(--navy)" }}
@@ -123,7 +125,7 @@ export function SiteHeader() {
               </li>
             </ul>
           </nav>
-        </details>
+        </MobileMenu>
       </div>
     </header>
   )
