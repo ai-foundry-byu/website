@@ -54,7 +54,7 @@ export default function CompetitionPage() {
             <p style={body}>
               Every team builds against the same case: a specific prompt, written for this event, on using AI to build
               products that enhance human flourishing. Teams have 36 hours to carry an idea from a user problem to a
-              working product. Winners are selected by a panel of judges.
+              working product. Winners are selected by a panel of judges. Advisors also judge, and no one scores their own team.
             </p>
 
             <h2 style={h2}>Who can apply</h2>
