@@ -1395,12 +1395,12 @@ export type Axis = { name: string; detail: string }
 
 export const APPROACH_EYEBROW = "Our approach"
 
-export const APPROACH_HEADING = "We train AI builder-consultants."
+export const APPROACH_HEADING = "We train full-stack product builder-consultants."
 
 export const APPROACH_LEAD =
-  "An AI builder can build things for themselves. An AI builder-consultant builds " +
-  "something for someone else, which adds judgment, ownership of the outcome, " +
-  "communication, and collaboration to the work. Two toolkits describe that person."
+  "A builder makes software products for themselves. A builder-consultant makes them " +
+  "for a client, which also takes judgment, ownership of the outcome, communication, " +
+  "and collaboration. We teach and measure both sets of skills."
 
 export const TOOLKITS_EYEBROW = "Two toolkits"
 
@@ -1410,10 +1410,10 @@ export const TOOLKITS_HEADING = "The Builder and the Consultant"
  *  them around the hexagon by BUILDER_RING, below. */
 export const BUILDER_AXES: Axis[] = [
   { name: "Discovery", detail: "What to build, for whom, and whether you should." },
-  { name: "Design", detail: "The surface and the flow." },
+  { name: "Design", detail: "What people see, and how they move through it." },
   { name: "Application Architecture", detail: "How it is structured, shipped, and kept safe." },
   { name: "AI Systems", detail: "How the models work, and why they behave the way they do." },
-  { name: "Agentic Workflow", detail: "Putting AI to work, as the way you build and inside the product you build." },
+  { name: "Agentic Workflow", detail: "Building with AI agents, and building agents into the product." },
   { name: "Launch and Learn", detail: "How people find it, and whether it worked." },
 ]
 
@@ -1427,73 +1427,52 @@ export const BUILDER_RING = [
   "Discovery",
 ]
 
-export const BUILDER_SUMMARY = "What you can make."
-
 export const BUILDER_MEASURE =
   "Students rate themselves on all six at the start of the fall semester and again in " +
   "December, and get their own profile back both times."
 
 export const CONSULTANT_AXES: Axis[] = [
   { name: "Judgment", detail: "Solving the right problem, and saying what the facts support." },
-  { name: "Ownership", detail: "Driving the work forward." },
-  { name: "Communication", detail: "Whether people understand the work: the updates, decks, and memos written for a reader." },
+  { name: "Ownership", detail: "Moving the work forward without being asked, and answering for the result." },
+  { name: "Communication", detail: "Updates, decks, and memos the reader understands the first time." },
   { name: "Collaboration", detail: "Whether teammates and clients trust you, and want you on the next engagement." },
 ]
 
 /** Clockwise from the top corner. */
 export const CONSULTANT_RING = ["Judgment", "Communication", "Ownership", "Collaboration"]
 
-export const CONSULTANT_SUMMARY = "What changes when the work belongs to someone else."
-
 export const CONSULTANT_MEASURE =
-  "Two axes are about the work and two are about people. Students do not rate " +
-  "themselves here: the faculty advisor, teammates, and clients rate observed behavior " +
-  "at midterm and at the end of each term."
+  "Students do not rate themselves on these four. The faculty advisor, teammates, and " +
+  "clients rate what they saw, at midterm and at the end of each term."
 
-/* The O tells its story (mockup for Scott Murff, 2026-11-17). The O in the logo is the two
-   toolkits: the hexagon is the Builder profile, the diamond cut out of it the Consultant profile.
-   The home hero lifts them out of the mark after the blueprint build (AFStory), and /approach opens
-   with a scroll story that splits the O into the two profiles (OStoryExplainer). Axis names and
-   summaries are the toolkit constants above; these are only the new captions. */
+/* The O in the logo is the two toolkits: the hexagon is the Builder profile, the diamond cut out of
+   it the Consultant profile. The home hero lifts them out of the mark after the blueprint build
+   (AFStory); /approach draws each above its toolkit (ToolkitDiagram). */
 export const BUILDER_TITLE = "The Builder"
 
 export const CONSULTANT_TITLE = "The Consultant"
 
-/** The link from the hero story to /approach, and the cue that opens the /approach story. */
-export const O_STORY_LINK: NavLink = { label: "What the O means", href: "/approach" }
-
 export const O_STORY_HEADING = "The O in AI Foundry holds two profiles"
-
-/** /approach eyebrows. */
-export const O_STORY_HEX_SKILLS = "The hexagon: six builder skills"
-
-export const O_STORY_DIAMOND_SKILLS = "The diamond: four consultant skills"
-
-export const O_STORY_CAPTION =
-  "One O, two profiles: the hexagon is what you can build; the diamond at its center is how you " +
-  "build for someone else."
 
 export const O_STORY_REPLAY = "Replay"
 
 export const PEDAGOGY_EYEBROW = "Our pedagogy"
 
-export const PEDAGOGY_HEADING = "One prerequisite. Two profiles. Real clients."
+export const PEDAGOGY_HEADING = "Two classes, then client work."
 
 export const PEDAGOGY_STEPS: { title: string; blurb: string; points: string[] }[] = [
   {
-    title: "1. Build, the prerequisite",
+    title: "1. Build (the prerequisite)",
     blurb:
-      "You are the customer. Students learn the six Builder skills by building their own " +
-      "product with AI coding agents, two weeks per skill. Each week we teach a technique and " +
-      "students apply it to their project. This is where the Builder profile starts.",
+      "Students build their own product with AI coding agents, two weeks on each of the six " +
+      "Builder skills. Each week we teach one technique, and students apply it to their product.",
     points: ["MSB 341 · IS 693R · CS 498R", "Mondays, fall and winter"],
   },
   {
     title: "2. The Foundry Lab",
     blurb:
-      "You are the vendor. Class time is delivery: problem solving and collaboration on " +
-      "live client engagements. The Lab builds the Consultant profile and puts the " +
-      "Builder profile to work for a client.",
+      "Students spend class time on client projects, working with their team and the faculty " +
+      "advisor. Here they learn the Consultant skills and use the Builder skills for a client.",
     points: ["MBA 693R · STRAT 490R", "Fridays, 8:00 to 11:50 AM"],
   },
   {
@@ -1520,13 +1499,13 @@ export const PEDAGOGY_PRINCIPLES: { title: string; body: string }[] = [
       "name on.",
   },
   {
-    title: "First principles over tools",
+    title: "We teach how the parts work",
     body:
       "We teach the building blocks of AI software and how they combine. The tools change " +
       "every few months; the building blocks change slowly.",
   },
   {
-    title: "Other people rate the consultant",
+    title: "Other people rate the Consultant skills",
     body:
       "Students assess their own Builder skills. Judgment, ownership, communication, and " +
       "collaboration are rated by the people who worked with them, including the client.",
