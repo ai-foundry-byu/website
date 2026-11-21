@@ -140,7 +140,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
         <p>The mark puts both sides of that work into one letter. The O of FOUNDRY is a hexagon with a diamond cut from its centre.</p>
         <p><strong>The hexagon is the builder.</strong> Its six corners are the six skills on the Foundry's Builder Profile. It is also the cell of a honeycomb: Brigham Young adopted the beehive as a symbol of industry and cooperative work, and the hexagon is one cell of that hive, the builder's share of the work.</p>
         <p><strong>The diamond is the consultant and leader.</strong> Its four corners are the Consultant Profile: Judgment, Ownership, Communication and Collaboration. Like a diamond reflects light, we seek to reflect the Light of Christ.</p>
-        <p>The mark is deliberately simple. It is one flat colour, it reads at favicon size, and it holds up in embroidery and engraving. The letters are Libre Franklin, an open-licence Franklin Gothic, chosen to sit with the BYU Marriott lockup.</p>
+        <p>The mark is deliberately simple. It is one flat colour, it reads at favicon size, and it holds up in embroidery and engraving. The letters are Archivo Expanded Bold, the AI Foundry's existing nameplate face.</p>
       </div>
       <div>
         <h3>Specifications</h3>
@@ -154,7 +154,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); margin: 0 }
   <aside class="controls" aria-label="Controls">
     <div class="group proposal">
       <button class="btn" id="proposal" type="button">Proposed design</button>
-      <p class="hint" id="proposalNote">Puts every control back to the proposal: Libre Franklin, flat, diamond at 70%. Change anything below; this button always returns to it.</p>
+      <p class="hint" id="proposalNote">Puts every control back to the proposal: Archivo Expanded, flat, diamond at 70%. Change anything below; this button always returns to it.</p>
     </div>
 
     <div class="group">
@@ -452,7 +452,7 @@ const PRESETS = {
 };
 
 let st = { mode: "dih", orient: "flat", size: 80, ratio: 1, os: 3, scale: 100, space: 100, guides: false, compare: false, preset: "L",
-  sheen: "gradient", sa: 10, split: "left", pyr: 0, name: "ai", font: "librefranklin", lksz: 105, lg: false, bvw: 22, io: 10, tk0: 22, tk1: 28, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
+  sheen: "gradient", sa: 10, split: "left", pyr: 0, name: "ai", font: "archivo125", lksz: 105, lg: false, bvw: 22, io: 10, tk0: 22, tk1: 28, ow: 8, osp: 12, hdir: "v", rays: 0, raim: "sides", rlen: 55, rw: 6, rgap: 8, bpos: 35, bw: 12, scount: 2, slen: 55, sgap: 12, sw: 6, staper: true,
   glint: "twinkle", gat: "top", gsize: 34, gwaist: 5 };
 
 function load() {
@@ -741,8 +741,8 @@ function fitRatio() {
   if (st.mode !== "dih") return 1;
   return st.orient === "flat" ? 2 / S3 : S3 / 2;
 }
-// The proposed design (Scott, 2026-11-17: Libre Franklin, flat, diamond 70%): every setting, so the button restores all of them.
-const PROPOSAL = { font: "librefranklin", name: "ai", lksz: 105, mode: "dih", orient: "flat", size: 70, ratio: 1, os: 0, scale: 100, space: 100,
+// The proposed design (Scott, 2026-11-17: Archivo Expanded, flat, diamond 70%): every setting, so the button restores all of them.
+const PROPOSAL = { font: "archivo125", name: "ai", lksz: 105, mode: "dih", orient: "flat", size: 70, ratio: 1, os: 0, scale: 100, space: 100,
   sheen: "none", split: "left", lg: false, sa: 16, pyr: 0, rays: 0, glint: "none", gat: "top", gsize: 34, gwaist: 5 };  // Scott, 2026-11-17
 function applyProposal(redraw = true) { st = Object.assign(st, PROPOSAL, { preset: "proposal" }); if (redraw) render(); }
 const isProposal = () => Object.keys(PROPOSAL).every(k => st[k] === PROPOSAL[k] || (typeof PROPOSAL[k] === "number" && Math.abs(st[k] - PROPOSAL[k]) < 1e-6));
