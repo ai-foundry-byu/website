@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/ds/Eyebrow"
 export const metadata: Metadata = {
   title: "MBA Full-Stack Product Builder Case Competition",
   description:
-    "January 27 to 29, 2027. Twelve teams of two MBA students, each advised by someone from a top AI lab, build a working AI product against one case. $20,000 in prizes. Hosted by the AI Foundry at BYU Marriott.",
+    "January 27 to 29, 2027. Twelve teams of two MBA students, each advised by someone from a top AI lab, build a working AI product against one case. $10,000 in prizes. Hosted by the AI Foundry at BYU Marriott.",
   alternates: { canonical: "/competition" },
 }
 
@@ -46,7 +46,7 @@ export default function CompetitionPage() {
               MBA Full-Stack Product Builder Case Competition
             </h1>
             <p style={{ ...body, fontSize: "19px", color: "var(--text-meta)" }}>
-              $20,000 in prizes. Twelve teams of two MBA students, selected by application. Every team is advised by
+              $10,000 in prizes. Twelve teams of two MBA students, selected by application. Every team is advised by
               someone from a top AI lab.
             </p>
 
@@ -81,7 +81,7 @@ export default function CompetitionPage() {
             </table>
 
             <h2 style={h2}>Prizes</h2>
-            <p style={body}>First place $10,000. Second place $5,000. Third place $5,000.</p>
+            <p style={body}>First place $7,000. Second place $2,000. Third place $1,000.</p>
 
             <p style={{ ...body, marginTop: "36px", fontSize: "15px", color: "var(--text-meta)" }}>
               Hosted by the AI Foundry, an experiential learning experience for MBA and undergraduate students within the
