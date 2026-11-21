@@ -2,20 +2,26 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/SiteHeader"
 import { SiteFooter } from "@/components/SiteFooter"
-import { OStoryExplainer } from "@/components/OStoryExplainer"
+import { ToolkitDiagram } from "@/components/ToolkitDiagram"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
+import { Eyebrow } from "@/components/ds/Eyebrow"
 import { SectionHeader } from "@/components/ds/SectionHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import {
   APPROACH_CLIENT_HEADING,
   APPROACH_CLIENT_LEAD,
   APPROACH_CULTURE_LINK,
+  APPROACH_EYEBROW,
+  APPROACH_HEADING,
+  APPROACH_LEAD,
   BUILDER_AXES,
   BUILDER_MEASURE,
+  BUILDER_RING,
   BUILDER_TITLE,
   CONSULTANT_AXES,
   CONSULTANT_MEASURE,
+  CONSULTANT_RING,
   CONSULTANT_TITLE,
   PEDAGOGY_EYEBROW,
   PEDAGOGY_HEADING,
@@ -33,7 +39,7 @@ export const metadata: Metadata = {
   description:
     "How the AI Foundry at the " +
     SCHOOL_FULL +
-    " trains AI builder-consultants: the Builder and Consultant toolkits, two classes, and real client work.",
+    " trains full-stack product builder-consultants: the Builder and Consultant toolkits, two classes, and client work.",
   alternates: { canonical: "/approach" },
 }
 
@@ -41,13 +47,17 @@ export const metadata: Metadata = {
  * Our approach: the curriculum and pedagogy for everyone who reads the site
  * (clients, students, donors, faculty). The two toolkits are the center of
  * the page; the course books are their source (see the note in content.ts).
- * The page opens with the O's story (OStoryExplainer), which draws the two profiles, so the
- * Toolkits section below keeps only each toolkit's axes and how it is measured.
+ * The page opens with its claim. Each toolkit draws its shape (the hexagon, the diamond: the two
+ * halves of the logo's O) above its axes and how it is measured (Scott, 2026-11-20: the O's scroll
+ * story that opened the page repeated the home hero, so the shapes moved down here).
  * Culture is not repeated here; it lives on About and this page links to it.
  */
-function Toolkit({ title, axes, measure }: { title: string; axes: Axis[]; measure: string }) {
+function Toolkit({ title, axes, ring, start, measure }: { title: string; axes: Axis[]; ring: string[]; start: number; measure: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+      <div style={{ display: "flex", justifyContent: "center", padding: "4px 0 8px" }}>
+        <ToolkitDiagram axes={ring} start={start} title={title} />
+      </div>
       <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--size-h3)", textTransform: "uppercase", letterSpacing: "0.02em", margin: 0, color: "var(--navy)" }}>
         {title}
       </h3>
@@ -71,9 +81,29 @@ export default function ApproachPage() {
     <>
       <SiteHeader />
       <main>
-        {/* The O tells its story first (OStoryExplainer): the page claim sits under a scroll
-            story that splits the O into the Builder hexagon and the Consultant diamond. */}
-        <OStoryExplainer />
+        <section className="af-page-hero" data-ground="navy">
+          <Reveal style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+            <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)" }}>{APPROACH_EYEBROW}</Eyebrow>
+            <h1
+              className="af-head-dark"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontStretch: "var(--w-plate)",
+                fontSize: "var(--size-h1)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.005em",
+                margin: "14px 0 0",
+                maxWidth: "22ch",
+              }}
+            >
+              {APPROACH_HEADING}
+            </h1>
+            <p style={{ fontSize: "var(--size-body)", lineHeight: 1.55, color: "var(--text-on-dark-body)", maxWidth: "60ch", margin: "16px 0 0" }}>
+              {APPROACH_LEAD}
+            </p>
+          </Reveal>
+        </section>
 
         <section style={{ padding: "56px 24px 64px", position: "relative" }}>
           <DrawRule bleed />
@@ -83,10 +113,10 @@ export default function ApproachPage() {
             </Reveal>
             <Stagger style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(380px, 100%), 1fr))", gap: "56px" }}>
               <StaggerItem>
-                <Toolkit title={BUILDER_TITLE} axes={BUILDER_AXES} measure={BUILDER_MEASURE} />
+                <Toolkit title={BUILDER_TITLE} axes={BUILDER_AXES} ring={BUILDER_RING} start={0} measure={BUILDER_MEASURE} />
               </StaggerItem>
               <StaggerItem>
-                <Toolkit title={CONSULTANT_TITLE} axes={CONSULTANT_AXES} measure={CONSULTANT_MEASURE} />
+                <Toolkit title={CONSULTANT_TITLE} axes={CONSULTANT_AXES} ring={CONSULTANT_RING} start={-90} measure={CONSULTANT_MEASURE} />
               </StaggerItem>
             </Stagger>
           </div>

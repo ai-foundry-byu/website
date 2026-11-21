@@ -70,10 +70,4 @@ s = re.sub(r"left:calc\(50% - [\d.]+px\);width:[\d.]+px;height:20px", f"left:cal
 s = re.sub(r"steps across to the axis and drops, as the desktop leader does \*/", "steps across to the axis and drops, as the desktop leader does (its 1px line centred on the O) */", s)
 open(p, "w").write(s)
 
-# 5. /approach: the wordmark's viewBox and the measuring script's constants
-p = REPO + "src/components/OStoryExplainer.tsx"; s = open(p).read()
-s = re.sub(r'viewBox="0 0 [\d.]+ [\d.]+"', f'viewBox="{VB}"', s); open(p, "w").write(s)
-p = REPO + "src/lib/oStoryMeasure.ts"; s = open(p).read()
-s = re.sub(r"var HEX_C = \[[\d., ]+\], HEX_R = [\d.]+, DIA_R = [\d.]+, WM_W = [\d.]+",
-           f"var HEX_C = [{f(CX)}, {f(CY)}], HEX_R = {f(R)}, DIA_R = {f(D)}, WM_W = {f(W)}", s); open(p, "w").write(s)
 print(dict(VB=VB, off=off, O_left=cq(HL), O_w=cq(HR - HL), wmh=cq(H), hexb=cq(100), ocx=cq(CX), mask=(mx, mw)))
