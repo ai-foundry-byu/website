@@ -627,7 +627,8 @@ export const PARTNER_HEADLINE =
 export const PARTNER_DETAIL =
   "We build on the same frontier tooling we train your team to use."
 
-export const BUILD_HEADING = "What we build"
+/** Scott, 2026-11-27: it said "What we build", too close to "What we've built" just above it. */
+export const BUILD_HEADING = "How we can help"
 
 /**
  * The three things we sell.
