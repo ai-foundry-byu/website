@@ -7,6 +7,22 @@
    line and the headline set (0.2 to 0.8 s); the shapes lift out of the bar's O and land (0.95 to
    1.4 s, then the diamond to 1.7 s, HeroPair); their corners are named; the doors seat. Still by about 2.2 s. */
 
+/* The ground (Scott, 2026-11-27): a BYU Photo drone shot of the Tanner Building, the BYU Marriott
+   School's home, under the navy. It is blended by luminosity, so it reads as one navy tone, then
+   washed darker at the top and bottom and behind the headline and shapes, so every label stays
+   legible. The file is grayscale for that reason (public/hero/tanner-aerial.jpg, BYU Photo
+   I0000QuZm02hJKmQ, from the library's 1440 px preview until the original is downloaded). */
+.af-hero {
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(60% 55% at 50% 45%, rgba(0, 46, 93, 0.55), rgba(0, 46, 93, 0.25) 100%),
+    linear-gradient(180deg, rgba(0, 46, 93, 0.78) 0%, rgba(0, 46, 93, 0.6) 50%, rgba(0, 46, 93, 0.82) 100%),
+    url("/hero/tanner-aerial.jpg");
+  background-size: cover;
+  background-position: center 55%;
+  background-repeat: no-repeat;
+  background-blend-mode: normal, normal, luminosity;
+}
 .af-hero-inner {
   text-align: center;
 }
