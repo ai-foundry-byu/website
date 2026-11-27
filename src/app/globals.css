@@ -1317,6 +1317,12 @@ header.sticky {
   overflow: visible;
   --k: 9.2;
 }
+.af-lockup-dark .af-lockup-rule {
+  background: rgba(255, 255, 255, 0.3);
+}
+.af-lockup-dark a {
+  display: block;
+}
 @media (min-width: 1024px) {
   .af-lockup {
     gap: 14px;

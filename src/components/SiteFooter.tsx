@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { AFBuild } from "@/components/AFBuild"
 import { LINKEDIN_LINK, NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, SPONSOR_LABEL, SPONSORS, UPDATE_LINK } from "@/lib/content"
 
 /**
@@ -17,35 +18,23 @@ import { LINKEDIN_LINK, NAV_ALL, PROGRAM, QUOTE_CTA, ROADMAP_LINK, SCHOOL_FULL, 
  */
 const LEGAL_LINK = { label: "Legal", href: "/legal" }
 
+const SPONSOR = SPONSORS[0]
+
 const FOOTER_LINKS = [...NAV_ALL, QUOTE_CTA, ROADMAP_LINK, UPDATE_LINK, LEGAL_LINK]
 
 export function SiteFooter() {
   return (
     <footer data-ground="navy" className="mt-auto" style={{ background: "var(--surface-inverse)", color: "#fff" }}>
       <div style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", margin: "0 auto", padding: "56px var(--container-pad) 32px" }}>
-        {/* Top row: the Foundry's lockup, and opposite it who the Foundry
-            belongs to (each sponsor's own logo, white on navy; a second
-            sponsor joins the same row). */}
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <Image
-            src="/lockup-ai-foundry-white.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={4091}
-            height={360}
-            className="h-8 w-auto"
-          />
-          <div>
-            <span className="caption" style={{ display: "block", color: "var(--text-on-dark-soft)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
-              {SPONSOR_LABEL}
-            </span>
-            <div className="flex flex-wrap items-center gap-8">
-              {SPONSORS.map((sp) => (
-                <a key={sp.href} href={sp.href} aria-label={sp.name}>
-                  <Image src={sp.logoWhite} alt={sp.name} width={sp.width} height={sp.height} className="h-8 w-auto" />
-                </a>
-              ))}
-            </div>
-          </div>
+        {/* The bar's lockup, white on navy: the BYU Strategy program logo (linked to its site, so it
+            also says whose program this is), a hairline, AI FOUNDRY. It replaces the old BYU
+            Marriott lockup and the separate "A program of" logo, which repeated it (2026-11-26). */}
+        <div className="af-lockup af-lockup-dark">
+          <a href={SPONSOR.href} aria-label={`${SPONSOR_LABEL} ${SPONSOR.name}, ${SCHOOL_FULL}`}>
+            <Image src={SPONSOR.logoWhite} alt="" width={SPONSOR.width} height={SPONSOR.height} className="af-lockup-parent" />
+          </a>
+          <span className="af-lockup-rule" aria-hidden="true" />
+          <AFBuild theme="dark" id="af-foot-wn" build={false} className="af-lockup-mark" />
         </div>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3" style={{ marginTop: "32px" }}>
           {FOOTER_LINKS.map((l) => (
