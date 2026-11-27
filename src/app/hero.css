@@ -1,0 +1,229 @@
+/* The home hero (Scott Murff, 2026-11-26; markup in src/app/page.tsx and src/components/HeroPair.tsx).
+   One centred composition on the navy ground: the studio line, BUILDER-CONSULTANTS. on one line, the
+   Builder's hexagon and the Consultant's diamond as a centred pair under it, then the three doors.
+   The base styles are the finished hero; motion binds only under .af-hero.is-playing (it ships in the
+   server HTML) and prefers-reduced-motion: no-preference, so no script, print and reduced motion all
+   show the end state. Clock, from first paint: the bar's AI FOUNDRY builds (AFBuild, 0 to 1.2 s); the
+   line and the headline set (0.2 to 0.8 s); the shapes lift out of the bar's O and land (0.95 to
+   1.4 s, HeroPair); their corners are named; the doors seat. All still by about 2 s. */
+
+.af-hero-inner {
+  text-align: center;
+}
+.af-hero-lead {
+  margin: 0 auto 20px;
+  max-width: 40ch;
+  font-family: var(--font-body);
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--af-mist);
+}
+
+.af-pair-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  font-size: clamp(44px, 5.2vw, 64px);
+  line-height: 1;
+  letter-spacing: 0.005em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.af-w {
+  display: inline-block;
+}
+
+/* the pair: equal distances either side of the centre line */
+.af-pair-shapes {
+  display: flex;
+  justify-content: center;
+  gap: clamp(64px, 14vw, 200px);
+  margin-top: 34px;
+}
+.af-prof {
+  margin: 0;
+}
+.af-prof svg {
+  display: block;
+  overflow: visible;
+  max-width: 100%;
+  height: auto;
+}
+.af-prof-frame {
+  fill: #fff;
+  fill-opacity: 0.07;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.af-prof-lab {
+  fill: var(--af-mist);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.af-doors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 776px;
+  margin: 30px auto 0;
+  text-align: left;
+}
+.af-door {
+  position: relative;
+  display: block;
+  padding: 16px 40px 17px 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: var(--white);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.af-door-who {
+  display: block;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--af-mist);
+}
+.af-door-act {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.af-door-arrow {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  transition: transform 0.15s;
+}
+.af-door:hover,
+.af-door:focus-visible {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+.af-door:hover .af-door-who,
+.af-door:focus-visible .af-door-who {
+  color: var(--af-royal);
+}
+.af-door:hover .af-door-arrow {
+  transform: translateX(3px);
+}
+
+/* the lift (HeroPair): page-level, above the sticky bar it starts from */
+.af-trav {
+  position: absolute;
+  z-index: 60;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0;
+  color: #fff;
+}
+.af-trav path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Phones and small tablets: the headline breaks after its hyphen and the shapes stack, each drawn in place. */
+@media (max-width: 899px) {
+  .af-hero-lead {
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+  .af-pair-title {
+    white-space: normal;
+    font-size: min(9.4vw, 52px);
+  }
+  .af-w {
+    display: block;
+  }
+  .af-pair-shapes {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .af-doors {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 420px;
+  }
+}
+
+@keyframes af-h-seat {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes af-h-pop {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes af-h-trace {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes af-h-lab {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--dx) * -6px), calc(var(--dy) * -6px));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .af-hero.is-playing .af-hero-lead {
+    animation: af-h-seat 420ms var(--af-ease-seat) 200ms both;
+  }
+  .af-hero.is-playing .af-w {
+    animation: af-h-seat 520ms var(--af-ease-seat) calc(300ms + var(--i) * 90ms) both;
+  }
+  .af-hero.is-playing .af-door {
+    animation: af-h-seat 420ms var(--af-ease-seat) calc(1500ms + var(--i) * 60ms) both;
+  }
+  /* wide: the frames appear as the lifted outlines land on them */
+  @media (min-width: 900px) {
+    .af-hero.is-playing .af-prof-frame {
+      animation: af-h-pop 1ms linear 1400ms both;
+    }
+    .af-hero.is-playing .af-prof-lab {
+      animation: af-h-lab 300ms var(--af-ease-seat) calc(1420ms + var(--i) * 36ms) both;
+    }
+  }
+  /* narrow: no lift, each frame is traced in place */
+  @media (max-width: 899px) {
+    .af-hero.is-playing .af-prof-frame {
+      stroke-dasharray: 1 1;
+      animation: af-h-trace 500ms cubic-bezier(0.55, 0.05, 0.3, 1) 550ms both;
+    }
+    .af-hero.is-playing .af-prof-c .af-prof-frame {
+      animation-delay: 750ms;
+    }
+    .af-hero.is-playing .af-prof-lab {
+      animation: af-h-lab 300ms var(--af-ease-seat) calc(900ms + var(--i) * 36ms) both;
+    }
+    .af-hero.is-playing .af-door {
+      animation-delay: calc(600ms + var(--i) * 60ms);
+    }
+  }
+}

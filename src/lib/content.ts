@@ -59,6 +59,7 @@ export const HERO_STATEMENT = "An AI-native product studio and consultancy."
 /** One sentence, by Brandon's decision. It does one job: say whose program this
  *  is, on first reference and in full, per the naming rule above. Anything about
  *  who builds and what ships belongs further down the page, not here. */
+/* Not rendered on the home page since 2026-11-26: the bar's BYU Strategy lockup names the program. */
 export const HERO_SUPPORT =
   "An experiential learning program of " + SPONSOR_NAMES + " at the " + SCHOOL_FULL + "."
 
@@ -69,11 +70,18 @@ export const HERO_SUPPORT =
  * rule still holds; HERO_STATEMENT no longer renders on the landing page but
  * stays the decided one-line description used elsewhere.
  */
-/** One sentence over three lines (Scott, 2026-11-20; it was "Student-built. Production-grade. AI-native.").
- *  Builder-consultant is hyphenated, two equal roles. The first line keeps its trailing space so the
- *  heading's text reads as one sentence ("Full-stack product builder-consultants.") to screen readers
- *  and search; the line break comes after the hyphen. */
-export const HERO_STACK = ["Full-stack ", "product builder-", "consultants."]
+/** The headline (Scott, 2026-11-26; it was "Full-stack product builder-consultants."). It names
+ *  the two profiles the hero's O lifts out (the Builder and the Consultant); HERO_STATEMENT sits
+ *  under it. Builder-consultant is hyphenated, two equal roles; the break comes after the hyphen. */
+export const HERO_STACK = ["Builder-", "consultants."]
+
+/** The hero's three doors, one per audience (Scott, 2026-11-26). They replace the two hero
+ *  buttons and, on the home page, the bar's own Start a project button. */
+export const HERO_DOORS: { who: string; label: string; href: string }[] = [
+  { who: "Students", label: "Apply or learn more", href: "/students" },
+  { who: "Clients", label: "Start a project", href: "/quote" },
+  { who: "Friends", label: "Stay in touch", href: "/network" },
+]
 
 /** Not currently rendered — removed from the hero by Corbin 2026-08-16;
  *  kept as the decided support line should it come back. */
@@ -1447,14 +1455,10 @@ export const CONSULTANT_MEASURE =
 
 /* The O in the logo is the two toolkits: the hexagon is the Builder profile, the diamond cut out of
    it the Consultant profile. The home hero lifts them out of the mark after the blueprint build
-   (AFStory); /approach draws each above its toolkit (ToolkitDiagram). */
+   (HeroProfiles); /approach draws each above its toolkit (ToolkitDiagram). */
 export const BUILDER_TITLE = "The Builder"
 
 export const CONSULTANT_TITLE = "The Consultant"
-
-export const O_STORY_HEADING = "The O in AI Foundry holds two profiles"
-
-export const O_STORY_REPLAY = "Replay"
 
 export const PEDAGOGY_EYEBROW = "Our pedagogy"
 
