@@ -1281,102 +1281,76 @@ header.sticky {
   position: relative;
   overflow: hidden;
   background-color: var(--navy);
-  /* the one tonal lift, behind the wordmark (it is built across the top
-     of the hero) */
-  background-image: radial-gradient(46% 40% at 34% 24%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
+  /* the one tonal lift, behind the headline (the hero is one centred composition) */
+  background-image: radial-gradient(52% 46% at 50% 30%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
   color: var(--white);
-  padding: 80px 24px 104px;
+  padding: 64px 24px 96px;
   isolation: isolate;
 }
-/* One column. The AI FOUNDRY wordmark is built across the top
-   (AFBuild), then the copy under it on the same left edge. The copy
-   column stops at 780px, so the headline (6.8cqi) tops out near 53px; the
-   wordmark runs the full container (cap about 107px at 1200px) and leads. */
 .af-hero-inner {
   max-width: var(--container);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-}
-.af-hero-copy {
-  position: relative;
-  z-index: 2;
-  container-type: inline-size;
-  max-width: 780px;
-}
-.af-hero-title {
-  line-height: 1.02;
-  letter-spacing: -0.005em;
-  color: var(--white);
-}
-.af-line {
-  display: block;
-  white-space: nowrap;
-}
-.af-hero-ctas {
-  display: flex;
-  gap: 14px;
-  margin-top: 44px;
-  flex-wrap: wrap;
-}
-.af-hero-art {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: none;
-  justify-self: start;
-  margin: 0 0 64px;
-}
-.af-hero-art .af-build {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
-/* The copy is set the way the mark is built: each headline line is drawn
-   in left to right like a member run out along its level, then the
-   buttons and the figures seat. No blur, no fade-from-glow. */
-@media (prefers-reduced-motion: no-preference) {
-  /* The copy sets while the wordmark's hexagon and diamond land (the
-     letters rise 0 to 0.9s, AFBuild), so the two never compete. */
-  .af-line {
-    animation: af-line-set 0.62s var(--af-ease-draw) both;
-    animation-delay: calc(0.78s + var(--i, 0) * 0.12s);
+/* ── The bar's lockup (SiteHeader): BYU Strategy, a hairline, AI FOUNDRY ──
+   Sizes step up with the bar; the BYU Strategy logo is 251 px wide from 1280 px, the
+   minimum Marriott sets for a program lockup. --k scales AFBuild's construction strokes
+   (user units per CSS px: 1117.889 wide over the wordmark's rendered width). */
+.af-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.af-lockup-parent {
+  height: 22px;
+  width: auto;
+}
+.af-lockup-rule {
+  width: 1px;
+  height: 22px;
+  background: var(--border-hairline);
+}
+.af-lockup .af-lockup-mark {
+  display: block;
+  height: 11px;
+  width: auto;
+  overflow: visible;
+  --k: 9.2;
+}
+.af-lockup-dark .af-lockup-rule {
+  background: rgba(255, 255, 255, 0.3);
+}
+.af-lockup-dark a {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .af-lockup {
+    gap: 14px;
   }
-  .af-hero .af-hero-copy > span,
-  .af-hero-ctas,
-  .af-hero-facts {
-    animation: af-seat 0.5s var(--af-ease-seat) both;
+  .af-lockup-parent {
+    height: 28px;
   }
-  .af-hero .af-hero-copy > span {
-    animation-delay: 0.65s;
+  .af-lockup-rule {
+    height: 28px;
   }
-  .af-hero-ctas {
-    animation-delay: 1.22s;
-  }
-  .af-hero-facts {
-    animation-delay: 1.38s;
+  .af-lockup .af-lockup-mark {
+    height: 13px;
+    --k: 7.8;
   }
 }
-@keyframes af-line-set {
-  from {
-    clip-path: inset(0 100% 0 0);
-    transform: translateX(-14px);
+@media (min-width: 1280px) {
+  .af-lockup {
+    gap: 18px;
   }
-  to {
-    clip-path: inset(0 0 0 0);
-    transform: none;
+  .af-lockup-parent {
+    height: 40px;
   }
-}
-@keyframes af-seat {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .af-lockup-rule {
+    height: 36px;
   }
-  to {
-    opacity: 1;
-    transform: none;
+  .af-lockup .af-lockup-mark {
+    height: 21px;
+    --k: 4.84;
   }
 }
 
@@ -1384,29 +1358,6 @@ header.sticky {
   .af-hero {
     padding: 40px 24px 72px;
     background-image: radial-gradient(80% 22% at 50% 10%, #06396b 0%, rgba(0, 46, 93, 0) 100%);
-  }
-  /* Phones and tablets: the wordmark runs the full content width, the
-     first thing under the bar, so the first viewport names AI Foundry. */
-  .af-hero-art {
-    margin: 8px 0 36px;
-  }
-  .af-hero-ctas {
-    margin-top: 32px;
-  }
-  /* On a phone one-line phrases would shrink to 24px; big type that
-     breaks at its own hyphens reads stronger at this width. */
-  .af-line {
-    white-space: normal;
-  }
-  /* Capped at 56px so on a tablet the headline stays under the wordmark's
-     cap (about 65px at 720px wide); a 390px phone still gets 10cqi. */
-  .af-hero-title {
-    font-size: min(10cqi, 56px) !important;
-  }
-  .af-hero-copy > span:first-child {
-    letter-spacing: 0.1em !important;
-    font-stretch: 112.5% !important;
-    font-size: 11px !important;
   }
 }
 
@@ -1477,10 +1428,6 @@ header.sticky {
   ::view-transition-new(*) {
     animation: none !important;
   }
-  .af-line,
-  .af-hero-ctas,
-  .af-hero-facts,
-  .af-hero .af-hero-copy > span,
   .af-page-hero::after,
   header.sticky::before {
     animation: none !important;
@@ -1490,54 +1437,6 @@ header.sticky {
 /* Anchors (/#quote) land below the sticky bar. */
 [id] {
   scroll-margin-top: var(--af-header-h);
-}
-
-/* The hero's three figures (guide, Website: hero; facts.yaml): a hairline,
-   then number over label. Static facts, never a live counter. */
-.af-hero-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px 48px;
-  margin: 48px 0 0;
-  padding: 28px 0 0;
-  border-top: 1px solid var(--af-rule-dark);
-  list-style: none;
-  max-width: 600px;
-}
-.af-hero-facts li {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.af-hero-facts strong {
-  font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 1.05;
-  color: #fff;
-  font-variant-numeric: tabular-nums;
-}
-.af-hero-facts span {
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--af-mist);
-}
-@media (max-width: 900px) {
-  .af-hero-facts {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 40px;
-    padding-top: 24px;
-  }
-  .af-hero-facts strong {
-    font-size: 20px;
-    white-space: nowrap;
-  }
-  .af-hero-facts span {
-    font-size: 13px;
-  }
 }
 
 /* Interior page heroes: the same flat navy as the landing hero, so a route

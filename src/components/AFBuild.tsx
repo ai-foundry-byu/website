@@ -5,8 +5,8 @@
  * (_brand-src/hex-diamond/marketing/primary/ai-foundry_primary_white.svg), scaled so the cap
  * height is 100 and the ink starts at x = 0; they are generated from that file, never typed in.
  *
- * The blueprint build (design team kit, round18-2026-11-17-scott-final/motion/blueprint-build.html),
- * one 3.85 s clock:
+ * The build (since 2026-11-26 on a 1.2 s clock, src/app/af-build.css; markup from the design team kit,
+ * round18-2026-11-17-scott-final/motion/blueprint-build.html). The kit's original 3.85 s order was
  *   1. a faint drafting sheet comes up: grid, cap line, centre line, baseline, registration marks and
  *      a sparse dimension row (0 to 1.3 s);
  *   2. the letters are traced in outline, A to Y (0.45 to 1.8 s);
@@ -67,21 +67,20 @@ export function AFBuild({
   theme = "dark",
   id = "af-hero-wn",
   className,
-  story = false,
+  build = true,
 }: {
   theme?: "light" | "dark"
   /** Unique per instance on a page: it prefixes the masks and gradients (the diamond cut, the blueprint). */
   id?: string
   className?: string
-  /** The hero story (AFStory): the hexagon's ink is wrapped as .o-ink so the story can lift it out
-   *  and re-ink it, and a hairline ghost of the O holds its place meanwhile. Geometry unchanged. */
-  story?: boolean
+  /** Play the build on first paint (the default). False renders the finished mark, still. */
+  build?: boolean
 }) {
   const maskId = `${id}-cut`
   return (
     <svg
       viewBox="0 0 1117.889 101.747"
-      className={["af-build is-building", className ?? ""].join(" ")}
+      className={["af-build", build ? "is-building" : "", className ?? ""].join(" ")}
       data-theme={theme}
       role="img"
       aria-label="AI Foundry"
@@ -94,15 +93,9 @@ export function AFBuild({
         <rect x={MASK.x} y={MASK.y} width={MASK.width} height={MASK.height} fill="#fff" />
         <path className="af-cut" fill="#000" d={CUT} />
       </mask>
-      <g className={story ? "o-ink" : undefined} mask={`url(#${maskId})`}>
+      <g mask={`url(#${maskId})`}>
         <path className="af-ink af-hex" d={HEX} />
       </g>
-      {story && (
-        <g className="o-ghost" aria-hidden="true">
-          <path d={HEX} />
-          <path d={CUT} />
-        </g>
-      )}
       <g aria-hidden="true">
         {TRACES.map(([k, d], i) => (
           <path key={i} className={`c tr tr-${k}`} pathLength={1} d={d} />

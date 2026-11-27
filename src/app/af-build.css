@@ -1,5 +1,5 @@
 /* AI Foundry logo (Scott Murff, shipped 2026-11-17: Archivo Expanded, the O a flat-top hexagon with a 70% diamond cut): the blueprint build.
-   Generated from the design team's blueprint kit (round18 motion/blueprint-build.html). One 3850 ms clock.
+   Drawn on one 1.2 s clock (below); the base styles and markup come from the design team's blueprint kit.
    Base styles are the FINAL mark: every construction line (.c) rests at opacity 0 and the blueprint group
    rests fully masked, so no class, no CSS, print and prefers-reduced-motion all show the locked mark only.
    The animations bind only under .af-build.is-building. Line and ground colours follow the mark ink:
@@ -29,109 +29,51 @@
 .af-build .hx-arm{stroke-width:.9px;transform-box:view-box;transform-origin:391.39px 50.0px}
 /* phone: drop the 12.5 grid and the dimension row; keep the hex circle, axes and step-offs */
 @media (max-width:759px){.af-build .grid-minor,.af-build .dim,.af-build .dim-ticks,.af-build .drops{display:none}}
-@keyframes af-bp-grid-minor{0.000%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}18.182%{opacity:0.065;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.065;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-grid-mid{0%{opacity:0}1.558%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}19.740%{opacity:0.085;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.085;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-grid-major{0%{opacity:0}3.117%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}21.299%{opacity:0.1;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.1;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-g-cap{0%{stroke-dashoffset:1;opacity:0}1.818%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}3.896%{stroke-dashoffset:1;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}24.675%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-g-mid{0%{stroke-dashoffset:1;opacity:0}4.935%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}7.013%{stroke-dashoffset:1;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}27.792%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-g-base{0%{stroke-dashoffset:1;opacity:0}8.052%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}10.130%{stroke-dashoffset:1;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}30.909%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-reg-a{0%{opacity:0}6.494%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}16.883%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-reg-b{0%{opacity:0}9.870%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}20.260%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-dim{0%{stroke-dashoffset:1;opacity:0}5.714%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}7.792%{stroke-dashoffset:1;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}28.571%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-dim-ticks{0%{opacity:0}18.182%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}31.169%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.5;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-drops{0%{opacity:0}20.779%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}33.766%{opacity:0.26;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.26;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-tr-A{0%{stroke-dashoffset:1;opacity:0}10.130%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}11.688%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}29.870%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}48.831%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}52.727%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-A{0%{clip-path:inset(106% -6% -6% -6%)}42.857%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}52.727%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-I{0%{stroke-dashoffset:1;opacity:0}12.338%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}13.896%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}32.078%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}50.649%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}54.545%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-I{0%{clip-path:inset(106% -6% -6% -6%)}44.675%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}54.545%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-F{0%{stroke-dashoffset:1;opacity:0}14.545%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}16.104%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}34.286%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}52.468%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}56.364%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-F{0%{clip-path:inset(106% -6% -6% -6%)}46.494%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}56.364%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-U{0%{stroke-dashoffset:1;opacity:0}16.753%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}18.312%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}36.494%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}54.286%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}58.182%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-U{0%{clip-path:inset(106% -6% -6% -6%)}48.312%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}58.182%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-N{0%{stroke-dashoffset:1;opacity:0}18.961%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}20.519%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}38.701%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}56.104%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}60.000%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-N{0%{clip-path:inset(106% -6% -6% -6%)}50.130%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}60.000%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-D{0%{stroke-dashoffset:1;opacity:0}21.169%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}22.727%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}40.909%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}57.922%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}61.818%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-D{0%{clip-path:inset(106% -6% -6% -6%)}51.948%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}61.818%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-R{0%{stroke-dashoffset:1;opacity:0}23.377%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}24.935%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}43.117%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}59.740%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}63.636%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-R{0%{clip-path:inset(106% -6% -6% -6%)}53.766%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}63.636%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-tr-Y{0%{stroke-dashoffset:1;opacity:0}25.584%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}27.143%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}45.325%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}61.558%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}65.455%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-Y{0%{clip-path:inset(106% -6% -6% -6%)}55.584%{clip-path:inset(106% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}65.455%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-hx-centre{0%{opacity:0}24.675%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}28.052%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-axv{0%{opacity:0}22.078%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}29.870%{opacity:0.42;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.42;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-axh{0%{opacity:0}23.377%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}31.169%{opacity:0.42;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.42;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-circle{0%{stroke-dashoffset:1;opacity:0}23.896%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}25.974%{stroke-dashoffset:1;opacity:0.45;animation-timing-function:cubic-bezier(.45,0,.25,1)}42.857%{stroke-dashoffset:0;opacity:0.45;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.45;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-arm-rot{0%{transform:rotate(0deg)}25.974%{transform:rotate(0deg);animation-timing-function:cubic-bezier(.45,0,.25,1)}42.857%{transform:rotate(-360deg);animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{transform:rotate(-360deg)}}
-@keyframes af-bp-arm-op{0%{opacity:0}23.377%{opacity:0;animation-timing-function:linear}25.974%{opacity:.55;animation-timing-function:linear}42.857%{opacity:.55;animation-timing-function:linear}48.052%{opacity:0;animation-timing-function:linear}100%{opacity:0}}
-@keyframes af-bp-hx-step0{0%{opacity:0}26.494%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}29.610%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot0{0%{opacity:0}27.532%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}30.649%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-step1{0%{opacity:0}30.140%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}33.257%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot1{0%{opacity:0}31.179%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}34.296%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-step2{0%{opacity:0}31.429%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}34.546%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot2{0%{opacity:0}32.468%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}35.585%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-step3{0%{opacity:0}32.516%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}35.633%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot3{0%{opacity:0}33.555%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}36.672%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-step4{0%{opacity:0}33.797%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}36.914%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot4{0%{opacity:0}34.836%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}37.953%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-step5{0%{opacity:0}35.774%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}38.891%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.7;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-dot5{0%{opacity:0}36.813%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}39.930%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0}}
-@keyframes af-bp-hx-diam{0%{stroke-dashoffset:1;opacity:0}39.481%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}41.558%{stroke-dashoffset:1;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}49.351%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}84.416%{stroke-dashoffset:0;opacity:0.3;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-tr-hex{0%{stroke-dashoffset:1;opacity:0}49.091%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}50.649%{stroke-dashoffset:1;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}63.636%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}68.312%{stroke-dashoffset:0;opacity:0.8;animation-timing-function:cubic-bezier(.55,.05,.3,1)}72.208%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.55,.05,.3,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-ink-hex{0%{clip-path:inset(-6% -6% 106% -6%)}62.338%{clip-path:inset(-6% -6% 106% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}72.208%{clip-path:inset(-6% -6% -6% -6%);animation-timing-function:cubic-bezier(.2,.7,.3,1)}100%{clip-path:inset(-6% -6% -6% -6%)}}
-@keyframes af-bp-dm-diag{0%{stroke-dashoffset:1;opacity:0}73.247%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}75.325%{stroke-dashoffset:1;opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}79.481%{stroke-dashoffset:0;opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}85.195%{stroke-dashoffset:0;opacity:0.85;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-dm-tr{0%{stroke-dashoffset:1;opacity:0}75.844%{stroke-dashoffset:1;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}77.922%{stroke-dashoffset:1;opacity:0.95;animation-timing-function:cubic-bezier(.45,0,.25,1)}82.338%{stroke-dashoffset:0;opacity:0.95;animation-timing-function:cubic-bezier(.45,0,.25,1)}85.195%{stroke-dashoffset:0;opacity:0.95;animation-timing-function:cubic-bezier(.45,0,.25,1)}88.831%{stroke-dashoffset:0;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes af-bp-cut{0%{transform:scale(0)}81.039%{transform:scale(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}88.831%{transform:scale(1);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:scale(1)}}
-@keyframes af-bp-dz{0%{transform:scale(1.15)}67.532%{transform:scale(1.15);animation-timing-function:cubic-bezier(.4,0,.6,1)}81.818%{transform:scale(.2);animation-timing-function:cubic-bezier(.4,0,.6,1)}88.312%{transform:scale(0);animation-timing-function:cubic-bezier(.4,0,.6,1)}100%{transform:scale(0)}}
-.af-build.is-building .grid-minor{animation:af-bp-grid-minor 3850ms linear 0ms backwards}
-.af-build.is-building .grid-mid{animation:af-bp-grid-mid 3850ms linear 0ms backwards}
-.af-build.is-building .grid-major{animation:af-bp-grid-major 3850ms linear 0ms backwards}
-.af-build.is-building .g-cap{animation:af-bp-g-cap 3850ms linear 0ms backwards}
-.af-build.is-building .g-mid{animation:af-bp-g-mid 3850ms linear 0ms backwards}
-.af-build.is-building .g-base{animation:af-bp-g-base 3850ms linear 0ms backwards}
-.af-build.is-building .reg-a{animation:af-bp-reg-a 3850ms linear 0ms backwards}
-.af-build.is-building .reg-b{animation:af-bp-reg-b 3850ms linear 0ms backwards}
-.af-build.is-building .dim{animation:af-bp-dim 3850ms linear 0ms backwards}
-.af-build.is-building .dim-ticks{animation:af-bp-dim-ticks 3850ms linear 0ms backwards}
-.af-build.is-building .drops{animation:af-bp-drops 3850ms linear 0ms backwards}
-.af-build.is-building .tr-A{animation:af-bp-tr-A 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-A{animation:af-bp-ink-A 3850ms linear 0ms backwards}
-.af-build.is-building .tr-I{animation:af-bp-tr-I 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-I{animation:af-bp-ink-I 3850ms linear 0ms backwards}
-.af-build.is-building .tr-F{animation:af-bp-tr-F 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-F{animation:af-bp-ink-F 3850ms linear 0ms backwards}
-.af-build.is-building .tr-U{animation:af-bp-tr-U 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-U{animation:af-bp-ink-U 3850ms linear 0ms backwards}
-.af-build.is-building .tr-N{animation:af-bp-tr-N 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-N{animation:af-bp-ink-N 3850ms linear 0ms backwards}
-.af-build.is-building .tr-D{animation:af-bp-tr-D 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-D{animation:af-bp-ink-D 3850ms linear 0ms backwards}
-.af-build.is-building .tr-R{animation:af-bp-tr-R 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-R{animation:af-bp-ink-R 3850ms linear 0ms backwards}
-.af-build.is-building .tr-Y{animation:af-bp-tr-Y 3850ms linear 0ms backwards}
-.af-build.is-building .af-letter-Y{animation:af-bp-ink-Y 3850ms linear 0ms backwards}
-.af-build.is-building .hx-centre{animation:af-bp-hx-centre 3850ms linear 0ms backwards}
-.af-build.is-building .hx-axv{animation:af-bp-hx-axv 3850ms linear 0ms backwards}
-.af-build.is-building .hx-axh{animation:af-bp-hx-axh 3850ms linear 0ms backwards}
-.af-build.is-building .hx-circle{animation:af-bp-hx-circle 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step0{animation:af-bp-hx-step0 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot0{animation:af-bp-hx-dot0 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step1{animation:af-bp-hx-step1 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot1{animation:af-bp-hx-dot1 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step2{animation:af-bp-hx-step2 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot2{animation:af-bp-hx-dot2 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step3{animation:af-bp-hx-step3 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot3{animation:af-bp-hx-dot3 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step4{animation:af-bp-hx-step4 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot4{animation:af-bp-hx-dot4 3850ms linear 0ms backwards}
-.af-build.is-building .hx-step5{animation:af-bp-hx-step5 3850ms linear 0ms backwards}
-.af-build.is-building .hx-dot5{animation:af-bp-hx-dot5 3850ms linear 0ms backwards}
-.af-build.is-building .hx-diam{animation:af-bp-hx-diam 3850ms linear 0ms backwards}
-.af-build.is-building .tr-hex{animation:af-bp-tr-hex 3850ms linear 0ms backwards}
-.af-build.is-building .af-hex{animation:af-bp-ink-hex 3850ms linear 0ms backwards}
-.af-build.is-building .dm-diag{animation:af-bp-dm-diag 3850ms linear 0ms backwards}
-.af-build.is-building .dm-tr{animation:af-bp-dm-tr 3850ms linear 0ms backwards}
-.af-build.is-building .af-cut{animation:af-bp-cut 3850ms linear 0ms backwards}
-.af-build.is-building .dz{animation:af-bp-dz 3850ms linear 0ms backwards}
-.af-build.is-building .hx-arm{animation:af-bp-arm-rot 3850ms linear 0ms backwards,af-bp-arm-op 3850ms linear 0ms backwards}
+/* The build, one 1.2 s clock (Scott Murff, 2026-11-26; it was the kit's 3.85 s blueprint): a faint
+   drafting sheet (grid, cap line, centre line, baseline, the O's axes) comes up; each letter is traced
+   in outline and the ink rises into it from the baseline; the hexagon is traced and its ink drops in;
+   the diamond is scored and the cut opens; the sheet dissolves in toward the O. The compass, step-offs,
+   registration marks and dimension row stay in the markup but no longer animate, so they rest hidden. */
+@keyframes af-q-in-065{0%{opacity:0}19%{opacity:.065}80%{opacity:.065}100%{opacity:0}}
+@keyframes af-q-in-085{0%{opacity:0}19%{opacity:.085}80%{opacity:.085}100%{opacity:0}}
+@keyframes af-q-in-1{0%{opacity:0}19%{opacity:.1}80%{opacity:.1}100%{opacity:0}}
+@keyframes af-q-in-42{0%{opacity:0}17%{opacity:.42}78%{opacity:.42}100%{opacity:0}}
+@keyframes af-q-rule{0%{stroke-dashoffset:1;opacity:.3}37%{stroke-dashoffset:0;opacity:.3}80%{stroke-dashoffset:0;opacity:.3}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes af-q-draw{from{stroke-dashoffset:1;opacity:.8}to{stroke-dashoffset:0;opacity:.8}}
+@keyframes af-q-draw95{from{stroke-dashoffset:1;opacity:.95}to{stroke-dashoffset:0;opacity:.95}}
+@keyframes af-q-out{from{opacity:.8}to{opacity:0}}
+@keyframes af-q-rise{from{clip-path:inset(106% -6% -6% -6%)}to{clip-path:inset(-6% -6% -6% -6%)}}
+@keyframes af-q-drop{from{clip-path:inset(-6% -6% 106% -6%)}to{clip-path:inset(-6% -6% -6% -6%)}}
+@keyframes af-q-cut{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes af-q-dz{0%{transform:scale(1.15)}71%{transform:scale(1.15)}100%{transform:scale(0)}}
+.af-build.is-building .grid-minor{animation:af-q-in-065 1150ms linear 0ms backwards}
+.af-build.is-building .grid-mid{animation:af-q-in-085 1150ms linear 0ms backwards}
+.af-build.is-building .grid-major{animation:af-q-in-1 1150ms linear 0ms backwards}
+.af-build.is-building .g-cap{animation:af-q-rule 1150ms cubic-bezier(.45,0,.25,1) 0ms backwards}
+.af-build.is-building .g-mid{animation:af-q-rule 1110ms cubic-bezier(.45,0,.25,1) 40ms backwards}
+.af-build.is-building .g-base{animation:af-q-rule 1070ms cubic-bezier(.45,0,.25,1) 80ms backwards}
+.af-build.is-building .hx-axv,.af-build.is-building .hx-axh{animation:af-q-in-42 1050ms linear 100ms backwards}
+.af-build.is-building .tr-A{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 40ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-A{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 380ms backwards}
+.af-build.is-building .tr-I{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 72ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-I{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 412ms backwards}
+.af-build.is-building .tr-F{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 104ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-F{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 444ms backwards}
+.af-build.is-building .tr-U{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 136ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-U{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 476ms backwards}
+.af-build.is-building .tr-N{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 168ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-N{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 508ms backwards}
+.af-build.is-building .tr-D{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 200ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-D{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 540ms backwards}
+.af-build.is-building .tr-R{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 232ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-R{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 572ms backwards}
+.af-build.is-building .tr-Y{animation:af-q-draw 420ms cubic-bezier(.55,.05,.3,1) 264ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-letter-Y{animation:af-q-rise 360ms cubic-bezier(.45,0,.2,1) 604ms backwards}
+.af-build.is-building .tr-hex{animation:af-q-draw 440ms cubic-bezier(.55,.05,.3,1) 160ms both,af-q-out 200ms ease 880ms forwards}
+.af-build.is-building .af-hex{animation:af-q-drop 340ms cubic-bezier(.45,0,.2,1) 560ms backwards}
+.af-build.is-building .dm-tr{animation:af-q-draw95 260ms cubic-bezier(.45,0,.25,1) 760ms both,af-q-out 150ms ease 1060ms forwards}
+.af-build.is-building .af-cut{animation:af-q-cut 300ms cubic-bezier(.3,1.2,.4,1) 860ms backwards}
+.af-build.is-building .dz{animation:af-q-dz 1150ms cubic-bezier(.4,0,.6,1) 0ms backwards}
 /* symbol variant (hexagon alone, .af-symbol): it carries no construction; the hexagon drops in, then the cut opens */
 @keyframes af-hex-sym{0%{opacity:0;transform:translateY(-24.96px) scale(1.1)}30%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes af-cut-sym{0%{transform:scale(0)}100%{transform:scale(1)}}

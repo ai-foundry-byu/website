@@ -1,9 +1,8 @@
 import { SiteHeader } from "@/components/SiteHeader"
 import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/MotionPrimitives"
 import { SiteFooter } from "@/components/SiteFooter"
-import { AFBuild } from "@/components/AFBuild"
-import { AFStory } from "@/components/AFStory"
-import { AFStoryReplay } from "@/components/AFStoryReplay"
+import { ArrowRight } from "lucide-react"
+import { HeroPair } from "@/components/HeroPair"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -15,14 +14,13 @@ import {
   BUILD_LEAD,
   BUILDERS_LOGOS,
   BUILDERS_STRIP_EYEBROW,
-  HERO_STACK,
-  HERO_SUPPORT,
+  HERO_DOORS,
+  HERO_STATEMENT,
   CULTURE_LEAD,
   MARRIOTT_GUIDING,
   MARRIOTT_MISSION,
   MARRIOTT_VALUES,
   MARRIOTT_VISION,
-  NAV_CTA,
   OFFERINGS,
   QUOTE_CTA,
   PURPOSE,
@@ -38,74 +36,26 @@ import {
  * band. All copy comes from src/lib/content.ts.
  */
 
-/* Scott Murff's AI Foundry logo (shipped 2026-11-17): the hero is flat Navy with one soft tonal lift
-   behind the wordmark, and the AI FOUNDRY wordmark is built across the top of
-   it in three beats (AFBuild: the letters rise in, the hexagon seats in
-   the O slot, the diamond is cut open), White on navy. It is the first thing under the
-   bar at every width, so a phone names AI Foundry in its first viewport.
-   Below it the headline is flat White (type is never a gradient) and the
-   primary on this surface is White with a Navy label (system v3). */
-const HERO_FACTS = [
-  { value: "5 weeks", label: "engagements, extendable" },
-  { value: "1 or 2", label: "builders per team" },
-  { value: "30", label: "students, many disciplines" },
-]
-
+/* The hero (Scott Murff, 2026-11-26): no wordmark of its own. The bar's AI FOUNDRY is built as a
+   blueprint on first paint (SiteHeader home), then its hexagon and diamond lift out into the Builder and
+   the Consultant under BUILDER-CONSULTANTS. (HeroPair). The studio line sits above as a lead-in, the
+   three doors (one per audience) below. Styles and clock: src/app/hero.css. */
 function Hero() {
   return (
     <section className="af-hero is-playing" data-ground="navy">
       <div className="af-hero-inner">
-        <div className="af-hero-art">
-          <AFBuild theme="dark" id="af-hero-wn" story />
-        </div>
-        <div className="af-hero-copy">
-          <Eyebrow tone="on-dark" style={{ color: "var(--af-mist)", letterSpacing: "0.16em", fontStretch: "125%", fontWeight: 500, lineHeight: 1.7 }}>
-            {HERO_SUPPORT.replace(/\.$/, "")}
-          </Eyebrow>
-          <h1
-            className="hero af-hero-title"
-            style={{
-              /* Each line is one unbroken phrase (white-space: nowrap), so the
-                 size is set by the copy column's own width through a container
-                 query: in Archivo Cast, "PRODUCTION-GRADE." (the old stack's
-                 longest line) measures about 14.3 px of line per px of font, so
-                 6.8cqi fits it, and the current longest, "PRODUCT BUILDER", is shorter. */
-              fontSize: "min(60px, 6.8cqi)",
-              textTransform: "uppercase",
-              margin: "22px 0 0",
-            }}
-          >
-            {HERO_STACK.map((line, i) => (
-              <span key={line} className="af-line" style={{ ["--i" as string]: i } as React.CSSProperties}>
-                {line}
-              </span>
-            ))}
-          </h1>
-          <div className="af-hero-ctas">
-            <Button variant="primary" size="lg" href={NAV_CTA.href}>
-              {NAV_CTA.label}
-            </Button>
-            <Button variant="outline" size="lg" href="/network">
-              Join the network
-            </Button>
-          </div>
-          {/* The guide's three figures (Website: hero), each a fact already on
-              the site: five-week engagements (/approach), teams of one or two
-              and 30 students (/about). Static facts, never a live counter. */}
-          <ul className="af-hero-facts">
-            {HERO_FACTS.map((f) => (
-              <li key={f.value}>
-                <strong>{f.value}</strong>
-                <span>{f.label}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Then the O tells its story: the hexagon and the diamond lift out of the mark and show
-            the Builder and Consultant profiles (AFStory, o-story.css). */}
-        <AFStory />
+        <p className="af-hero-lead">{HERO_STATEMENT}</p>
+        <HeroPair />
+        <nav className="af-doors" aria-label="Get involved">
+          {HERO_DOORS.map((d, i) => (
+            <a key={d.href} className="af-door" href={d.href} style={{ "--i": i } as React.CSSProperties}>
+              <span className="af-door-who">{d.who}</span>
+              <span className="af-door-act">{d.label}</span>
+              <ArrowRight className="af-door-arrow" size={18} aria-hidden="true" />
+            </a>
+          ))}
+        </nav>
       </div>
-      <AFStoryReplay />
     </section>
   )
 }
@@ -244,7 +194,7 @@ function QuoteBand() {
 export default function Home() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader home />
       <main>
         <Hero />
         <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} />

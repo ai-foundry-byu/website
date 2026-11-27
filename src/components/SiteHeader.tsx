@@ -4,18 +4,23 @@ import { AccountMenu } from "@/components/AccountMenu"
 import { MobileMenu } from "@/components/MobileMenu"
 import { NavMenu } from "@/components/NavMenu"
 import { Button } from "@/components/ds/Button"
-import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
+import { AFBuild } from "@/components/AFBuild"
+import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL, SPONSORS } from "@/lib/content"
+
+const SPONSOR = SPONSORS[0]
 
 /**
  * Top bar: co-brand lockup left, links, the door into the app (AccountMenu),
  * and one action right. Port of
  * design_handoff .../navigation/NavBar.jsx onto the repo's nav content.
  *
- * The mark is the BYU Marriott + AI Foundry lockup file. Since 2026-11-17 its
- * AI FOUNDRY half is the hexagon-and-diamond wordmark (Archivo Expanded, see
- * _brand-src/hex-diamond); the BYU Marriott half and the bar are the official
- * file's own pixels, and the final artwork is with BYU Marriott Marketing.
- * White bar, so the navy variant is the one used here.
+ * The mark is a draft lockup (Scott Murff, 2026-11-26): the official BYU Strategy
+ * program logo (Marriott's file, unaltered), a hairline rule, then the AI FOUNDRY
+ * wordmark drawn live (AFBuild, light). Marriott Marketing is reviewing it; until
+ * it approves a final file this draft is what runs. On the home page (`home`) the
+ * wordmark plays its blueprint build on first paint and its O hands the hexagon and
+ * diamond to the hero (HeroPair); everywhere else it is still. The home page also
+ * drops the bar's Start a project button: the hero's Clients door replaces it.
  *
  * Nav links render through CurtainNavLink (the corbin-curtain-site
  * experiment) so route changes run behind the curtain. The CTA is
@@ -24,7 +29,7 @@ import { NAV, NAV_ABOUT, NAV_CTA, PROGRAM, SCHOOL_FULL } from "@/lib/content"
  * The handoff bar is desktop-only; the mobile disclosure below is the
  * repo's own, styled to the system (Plex 500 UI labels, hairline panel).
  */
-export function SiteHeader() {
+export function SiteHeader({ home = false }: { home?: boolean }) {
   return (
     <header
       className="sticky top-0 z-50"
@@ -34,15 +39,10 @@ export function SiteHeader() {
         className="mx-auto flex items-center justify-between gap-6"
         style={{ maxWidth: "calc(var(--container) + 2 * var(--container-pad))", padding: "0 var(--container-pad)", height: "72px" }}
       >
-        <CurtainNavLink href="/" className="flex items-center no-underline">
-          <Image
-            src="/lockup-ai-foundry.png"
-            alt={`${SCHOOL_FULL}, ${PROGRAM}`}
-            width={4091}
-            height={360}
-            priority
-            className="h-6 w-auto md:h-8"
-          />
+        <CurtainNavLink href="/" className="af-lockup no-underline" aria-label={`${PROGRAM}, ${SPONSOR.name}, ${SCHOOL_FULL}`}>
+          <Image src={SPONSOR.logo} alt="" width={SPONSOR.width} height={SPONSOR.height} priority className="af-lockup-parent" />
+          <span className="af-lockup-rule" aria-hidden="true" />
+          <AFBuild theme="light" id="af-bar-wn" build={home} className="af-lockup-mark" />
         </CurtainNavLink>
 
         {/* desktop nav — the tabs carry the link-draw underline (motion
@@ -62,9 +62,11 @@ export function SiteHeader() {
           {/* The door into the app, set off from the site's own pages by a hairline. */}
           <span aria-hidden="true" style={{ width: 1, height: 20, background: "var(--border-hairline)", margin: "0 -6px" }} />
           <AccountMenu variant="bar" />
-          <Button variant="primary" href={NAV_CTA.href}>
-            {NAV_CTA.label}
-          </Button>
+          {!home && (
+            <Button variant="primary" href={NAV_CTA.href}>
+              {NAV_CTA.label}
+            </Button>
+          )}
         </nav>
 
         {/* mobile and tablet nav: a native disclosure that MobileMenu closes on a pick,
