@@ -140,7 +140,7 @@ function How() {
                 {p.milestones.map((m) => (
                   <li key={m.title}>
                     <span className="af-ms-title">{m.title}</span>
-                    <span className="af-ms-detail">{m.detail}</span>
+                    {m.detail && <span className="af-ms-detail">{m.detail}</span>}
                   </li>
                 ))}
               </ul>

@@ -546,7 +546,8 @@ export const WORK_FEATURED: WorkItem[] = WORK.filter((w) => w.featured).sort(
  *  client does or receives. No timelines and no fee (Scott): both are set in the written scope. */
 export const HOME_HOW_HEADING = "How a project works"
 
-export const HOME_PHASES: { phase: string; milestones: { title: string; detail: string }[] }[] = [
+/** A milestone with nothing true and specific to add has no detail line (Scott, 2026-11-27). */
+export const HOME_PHASES: { phase: string; milestones: { title: string; detail?: string }[] }[] = [
   {
     phase: "Reach out",
     milestones: [
@@ -557,16 +558,16 @@ export const HOME_PHASES: { phase: string; milestones: { title: string; detail: 
   {
     phase: "Scope",
     milestones: [
-      { title: "A written scope", detail: "Deliverables, cost, and schedule, in writing." },
-      { title: "Sign the engagement letter", detail: "In the AI Foundry client portal, where billing is set up too." },
+      { title: "A written scope", detail: "Deliverables, cost, and schedule." },
+      { title: "Sign the engagement letter", detail: "In the AI Foundry client portal." },
     ],
   },
   {
     phase: "Deliver",
     milestones: [
       { title: "Onboarding", detail: "Access, data, and your team." },
-      { title: "Build", detail: "One or two builders, for as long as the scope calls for." },
-      { title: "Handoff", detail: "Everything in the scope, handed to your team." },
+      { title: "Build", detail: "Two builders, for as long as the scope calls for." },
+      { title: "Handoff" },
     ],
   },
 ]
