@@ -627,7 +627,8 @@ export const PARTNER_HEADLINE =
 export const PARTNER_DETAIL =
   "We build on the same frontier tooling we train your team to use."
 
-export const BUILD_HEADING = "What we build"
+/** Scott, 2026-11-27: it said "What we build", too close to "What we've built" just above it. */
+export const BUILD_HEADING = "How we can help"
 
 /**
  * The three things we sell.
@@ -749,10 +750,11 @@ export const QUOTE_FIELDS: QuoteField[] = [
   },
 ]
 
-/** What happens after the form. Three steps, so nobody wonders. */
+/** What happens after the form. Three steps, so nobody wonders. Step 2 promised a longer intake
+ *  survey until 2026-11-27; there is none (Scott), so it promises only the conversation. */
 export const QUOTE_STEPS: { n: number; title: string; detail: string }[] = [
   { n: 1, title: "You send the short form", detail: "Eight fields. Two minutes." },
-  { n: 2, title: "We follow up", detail: "A conversation, plus a longer intake survey covering process, users, data, platform, and compliance." },
+  { n: 2, title: "We follow up", detail: "A conversation about what you want built." },
   { n: 3, title: "You get a written scope", detail: "Deliverables, cost, and schedule, in writing." },
 ]
 
