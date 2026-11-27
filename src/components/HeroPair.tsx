@@ -9,8 +9,8 @@ import "@/app/hero.css"
  * HeroPair: the home hero's headline and the two profiles under it (Scott Murff, 2026-11-26).
  * BUILDER-CONSULTANTS. is set on one line, centred, with the two shapes as a centred pair beneath it:
  * the Builder's hexagon left, under BUILDER, and the Consultant's diamond right, under CONSULTANTS.
- * They sit the same distance either side of the centre line (Scott chose symmetry over centring each
- * shape on its word), so the whole hero is one centred composition.
+ * They sit over the centres of the left and right doors below (Scott, 2026-11-27), so the shapes and
+ * the doors share one set of verticals and the hero is one centred composition.
  *
  * On a wide screen, as the bar's AI FOUNDRY finishes its build (AFBuild in SiteHeader, home only),
  * an outline of the hexagon lifts out of the bar's O and lands as the Builder, and the diamond
@@ -28,6 +28,7 @@ type Geo = { names: string[]; start: number; R: number; w: number; h: number }
 const BUILDER: Geo = { names: BUILDER_RING, start: 0, R: 70, w: 360, h: 224 }
 const CONSULTANT: Geo = { names: CONSULTANT_RING, start: -90, R: 60, w: 360, h: 196 }
 const LINE = 17 // label line height
+const LIFT = 950 // ms on the hero's CSS clock when the outlines leave the bar's O
 
 function Profile({ g, label, cls }: { g: Geo; label: string; cls: string }) {
   const cx = g.w / 2
@@ -64,8 +65,9 @@ function Profile({ g, label, cls }: { g: Geo; label: string; cls: string }) {
   )
 }
 
-/** One traveller: an outline of `d` that starts over `from` and lands on `to`, recoloured navy to white. */
-function fly(d: string, viewBox: string, from: DOMRect, to: DOMRect, delay: number) {
+/** One traveller: an outline of `d` that starts over `from` and lands on `to`, recoloured navy to white.
+ *  `start` is the CSS clock's start (document timeline ms), so it lands exactly as the CSS shows the frame. */
+function fly(d: string, viewBox: string, from: DOMRect, to: DOMRect, start: number) {
   const ns = "http://www.w3.org/2000/svg"
   const svg = document.createElementNS(ns, "svg")
   svg.setAttribute("viewBox", viewBox)
@@ -84,18 +86,22 @@ function fly(d: string, viewBox: string, from: DOMRect, to: DOMRect, delay: numb
   document.body.appendChild(svg)
   const dx = from.left + from.width / 2 - (to.left + to.width / 2)
   const dy = from.top + from.height / 2 - (to.top + to.height / 2)
-  const start = `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height})`
-  const timing = { duration: 460, delay, easing: "cubic-bezier(.65,0,.25,1)", fill: "both" as const }
+  const from0 = `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height})`
+  // lands at LIFT + 460 = 1410 ms on the CSS clock; the frame is shown from 1400 ms (hero.css), so
+  // the outline hands over to the frame under it instead of fading out before it appears
+  const timing = { duration: 460, delay: LIFT, easing: "cubic-bezier(.65,0,.25,1)", fill: "both" as const }
   const move = svg.animate(
     [
-      { opacity: 0, transform: start },
-      { opacity: 1, transform: start, offset: 0.08 },
-      { opacity: 1, transform: "none", offset: 0.96 },
+      { opacity: 0, transform: from0 },
+      { opacity: 1, transform: from0, offset: 0.08 },
+      { opacity: 1, transform: "none", offset: 0.98 },
       { opacity: 0, transform: "none" },
     ],
     timing,
   )
-  svg.animate([{ color: "#002e5d" }, { color: "#002e5d", offset: 0.16 }, { color: "#ffffff", offset: 0.3 }, { color: "#ffffff" }], timing)
+  const tint = svg.animate([{ color: "#002e5d" }, { color: "#002e5d", offset: 0.16 }, { color: "#ffffff", offset: 0.3 }, { color: "#ffffff" }], timing)
+  move.startTime = start
+  tint.startTime = start
   move.finished.then(() => svg.remove(), () => svg.remove())
   return svg
 }
@@ -104,12 +110,14 @@ export function HeroPair() {
   const [first, second] = HERO_STACK
 
   useEffect(() => {
-    // The lift belongs to the first paint only: skip it on narrow screens, for reduced motion, and
-    // when the page hydrated too late to start it before the shapes land (the CSS lands them anyway).
+    // The lift belongs to the first paint only: skip it on narrow screens and for reduced motion. It
+    // runs on the hero's CSS clock (the start of the frame's own CSS animation), not on page load,
+    // and is skipped if the page hydrated too late to start it before the shapes land.
     if (!window.matchMedia("(min-width: 900px) and (prefers-reduced-motion: no-preference)").matches) return
-    const LIFT = 950
-    const now = performance.now()
-    if (now > LIFT - 50) return
+    const css = document.querySelector(".af-prof-b .af-prof-frame")?.getAnimations()[0]
+    const clock = css?.startTime
+    const now = document.timeline.currentTime
+    if (typeof clock !== "number" || typeof now !== "number" || now - clock > LIFT - 50) return
     const o = document.querySelector<SVGPathElement>(".af-lockup .af-hex")
     const b = document.querySelector<SVGPolygonElement>(".af-prof-b .af-prof-frame")
     const c = document.querySelector<SVGPolygonElement>(".af-prof-c .af-prof-frame")
@@ -120,8 +128,8 @@ export function HeroPair() {
     const ch = hx.height * 0.7
     const cut = new DOMRect(hx.left + (hx.width - cw) / 2, hx.top + (hx.height - ch) / 2, cw, ch)
     const made = [
-      fly(HEX, "333.654 0 115.473 100", hx, b.getBoundingClientRect(), LIFT - now),
-      fly(CUT, "356.39 15.007 70 70", cut, c.getBoundingClientRect(), LIFT - now),
+      fly(HEX, "333.654 0 115.473 100", hx, b.getBoundingClientRect(), clock),
+      fly(CUT, "356.39 15.007 70 70", cut, c.getBoundingClientRect(), clock),
     ]
     return () => made.forEach((el) => el.remove())
   }, [])
