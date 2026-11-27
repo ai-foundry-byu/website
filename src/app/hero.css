@@ -5,7 +5,7 @@
    server HTML) and prefers-reduced-motion: no-preference, so no script, print and reduced motion all
    show the end state. Clock, from first paint: the bar's AI FOUNDRY builds (AFBuild, 0 to 1.2 s); the
    line and the headline set (0.2 to 0.8 s); the shapes lift out of the bar's O and land (0.95 to
-   1.4 s, HeroPair); their corners are named; the doors seat. All still by about 2 s. */
+   1.4 s, then the diamond to 1.7 s, HeroPair); their corners are named; the doors seat. Still by about 2.2 s. */
 
 .af-hero-inner {
   text-align: center;
@@ -224,6 +224,16 @@
     }
     .af-hero.is-playing .af-prof-lab {
       animation: af-h-lab 300ms var(--af-ease-seat) calc(1420ms + var(--i) * 36ms) both;
+    }
+    /* the diamond lands 300 ms after the hexagon (STAGGER, src/lib/heroLift.ts) */
+    .af-hero.is-playing .af-prof-c .af-prof-frame {
+      animation-delay: 1700ms;
+    }
+    .af-hero.is-playing .af-prof-c .af-prof-lab {
+      animation-delay: calc(1720ms + var(--i) * 36ms);
+    }
+    .af-hero.is-playing .af-door {
+      animation-delay: calc(1800ms + var(--i) * 60ms);
     }
   }
   /* narrow: no lift, each frame is traced in place */
