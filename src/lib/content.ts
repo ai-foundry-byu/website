@@ -563,11 +563,17 @@ export const HOME_PHASES: { phase: string; milestones: { title: string; detail?:
     ],
   },
   {
-    phase: "Deliver",
+    phase: "Build",
     milestones: [
       { title: "Onboarding", detail: "Access, data, and your team." },
-      { title: "Build", detail: "Two builders, for as long as the scope calls for." },
-      { title: "Handoff" },
+      { title: "Two builders", detail: "For as long as the scope calls for." },
+    ],
+  },
+  {
+    phase: "Hand off",
+    milestones: [
+      { title: "Train your team" },
+      { title: "Transfer or maintain", detail: "Your team takes it over, or we keep maintaining it." },
     ],
   },
 ]

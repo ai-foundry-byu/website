@@ -5,8 +5,8 @@
 .af-phases {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 40px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 32px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -87,6 +87,12 @@
   font-size: 15px;
   line-height: 1.5;
   color: var(--text-meta);
+}
+@media (min-width: 761px) and (max-width: 1023px) {
+  .af-phases {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 32px;
+  }
 }
 @media (max-width: 760px) {
   .af-phases {
