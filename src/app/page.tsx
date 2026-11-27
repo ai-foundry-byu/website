@@ -10,32 +10,31 @@ import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { NameCarousel } from "@/components/ds/NameCarousel"
 import { SectionHeader } from "@/components/ds/SectionHeader"
-import { ValueRow } from "@/components/ds/ValueRow"
+import { FeaturedCard } from "@/components/ds/ShowcaseCard"
+import "./home.css"
 import {
   BUILD_HEADING,
-  BUILD_LEAD,
   BUILDERS_LOGOS,
   BUILDERS_STRIP_EYEBROW,
   HERO_DOORS,
   HERO_STATEMENT,
-  CULTURE_LEAD,
-  MARRIOTT_GUIDING,
-  MARRIOTT_MISSION,
-  MARRIOTT_VALUES,
-  MARRIOTT_VISION,
+  HOME_PHASES,
+  HOME_HOW_HEADING,
+  HOME_WORK,
+  HOME_WORK_HEADING,
   OFFERINGS,
-  QUOTE_CTA,
   PURPOSE,
-  QUOTE_HEADLINE,
+  QUOTE_CTA,
+  WORK_CTA,
 } from "@/lib/content"
 
 /**
- * The landing page, rebuilt to design_handoff_ai_foundry_website/ui_kits/
- * landing (direction 4b on structure 1b). Section order is the design's:
- * hero over the motion layer, the shipped-at strip, the Foundry's purpose,
- * then BYU Marriott's vision
- * then mission in their own bands, its values as expanding rows, the offerings, the navy CTA
- * band. All copy comes from src/lib/content.ts.
+ * The landing page (storyline, Scott Murff, 2026-11-27). Each section answers the next question a
+ * visitor has: what are you (the hero), are you any good (where our builders have shipped, then
+ * three things we built), what can you build for me (the offerings), what is it like (how a
+ * project works), why do you exist and what do I do now (the purpose over the three doors again).
+ * BYU Marriott's mission, vision and values live on marriott.byu.edu, not here.
+ * All copy comes from src/lib/content.ts.
  */
 
 /* The hero (Scott Murff, 2026-11-26): no wordmark of its own. The bar's AI FOUNDRY is built as a
@@ -44,21 +43,28 @@ import {
    three doors (one per audience) below. Styles and clock: src/app/hero.css. */
 const HERO_LIFT_SCRIPT = `(${heroLift.toString()})(${JSON.stringify(HEX)},${JSON.stringify(CUT)},${LIFT},${STAGGER})`
 
+/** The three doors, one per audience: under the hero and again in the closing band. */
+function Doors({ label }: { label: string }) {
+  return (
+    <nav className="af-doors" aria-label={label}>
+      {HERO_DOORS.map((d, i) => (
+        <a key={d.href} className="af-door" href={d.href} style={{ "--i": i } as React.CSSProperties}>
+          <span className="af-door-who">{d.who}</span>
+          <span className="af-door-act">{d.label}</span>
+          <ArrowRight className="af-door-arrow" size={18} aria-hidden="true" />
+        </a>
+      ))}
+    </nav>
+  )
+}
+
 function Hero() {
   return (
     <section className="af-hero is-playing" data-ground="navy">
       <div className="af-hero-inner">
         <p className="af-hero-lead">{HERO_STATEMENT}</p>
         <HeroPair />
-        <nav className="af-doors" aria-label="Get involved">
-          {HERO_DOORS.map((d, i) => (
-            <a key={d.href} className="af-door" href={d.href} style={{ "--i": i } as React.CSSProperties}>
-              <span className="af-door-who">{d.who}</span>
-              <span className="af-door-act">{d.label}</span>
-              <ArrowRight className="af-door-arrow" size={18} aria-hidden="true" />
-            </a>
-          ))}
-        </nav>
+        <Doors label="Get involved" />
       </div>
       {/* the lift starts as this HTML is parsed, not when the bundle hydrates (src/lib/heroLift.ts) */}
       <script dangerouslySetInnerHTML={{ __html: HERO_LIFT_SCRIPT }} />
@@ -66,73 +72,37 @@ function Hero() {
   )
 }
 
-function MissionVision() {
-  const block = (eyebrow: string, text: string) => (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px", textAlign: "center" }}>
-      <Eyebrow>{eyebrow}</Eyebrow>
-      {/* Two lines, not three (Corbin, 2026-08-16): the measure widened
-          from 34ch, and text-wrap balance evens the pair. */}
-      <h2
-        style={{
-          fontFamily: "var(--font-display)",
-          fontWeight: 700,
-          fontStretch: "var(--w-plate)",
-          fontSize: "34px",
-          lineHeight: 1.2,
-          margin: 0,
-          maxWidth: "58ch",
-          color: "var(--navy)",
-        }}
-      >
-        {text}
-      </h2>
-    </div>
-  )
+/** Three things we built, as the /work page's featured cards, then the way into the library. */
+function Work() {
   return (
-    <section style={{ padding: "64px 24px", position: "relative" }}>
-      <DrawRule bleed />
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "48px" }}>
-        {/* The Foundry keeps one statement of its own, its purpose. Mission,
-            vision and values are BYU Marriott's, verbatim (Scott, 2026-10-19). */}
-        <Reveal>{block("Our purpose", PURPOSE)}</Reveal>
+    <section style={{ padding: "72px 24px 64px", position: "relative" }}>
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "32px" }}>
         <Reveal>
-          <p style={{ margin: "0 auto", maxWidth: "58ch", textAlign: "center", fontSize: "18px", lineHeight: 1.5, color: "var(--text-meta)" }}>
-            {CULTURE_LEAD}
-          </p>
+          <SectionHeader title={HOME_WORK_HEADING} />
         </Reveal>
-        <Reveal>{block("Vision", MARRIOTT_VISION)}</Reveal>
-        <Reveal>{block("Mission", MARRIOTT_MISSION)}</Reveal>
+        <div className="work-grid">
+          {HOME_WORK.map((it) => (
+            <FeaturedCard key={it.name} item={it} />
+          ))}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button variant="secondary" href={WORK_CTA.href}>
+            {WORK_CTA.label}
+          </Button>
+        </div>
       </div>
     </section>
   )
 }
 
-function Values() {
-  return (
-    <section style={{ padding: "0 24px 64px" }}>
-      <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: "28px" }}>
-            <Eyebrow>Values</Eyebrow>
-          </div>
-          <div style={{ borderBottom: "1px solid var(--border-strong)" }}>
-            {[...MARRIOTT_VALUES, MARRIOTT_GUIDING].map((v) => (
-              <ValueRow key={v.title} name={v.title} body={v.blurb} />
-            ))}
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
+/* id="quote": the bar's Start a project button on every other page targets /#quote. */
 function Build() {
   return (
     <section id="quote" style={{ padding: "64px 24px", position: "relative" }}>
       <DrawRule bleed />
       <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "36px" }}>
         <Reveal>
-          <SectionHeader title={BUILD_HEADING} lead={BUILD_LEAD} />
+          <SectionHeader title={BUILD_HEADING} />
         </Reveal>
         {/* minmax(min(300px, 100%), …) rather than a bare minmax(300px, …):
             a hard 300px track cannot shrink, so on a 320px viewport the
@@ -150,49 +120,55 @@ function Build() {
   )
 }
 
-/* Headline and button only, per Corbin 2026-08-16 — the supporting
-   sentence and the two-minute note moved off; /quote still carries both.
-   Measured Color Tier 3: the band and the footer below it are ONE
-   composed navy terminal (Stripe never stacks two dark regions) — the
-   white/15 hairline is the internal seam. */
-function QuoteBand() {
+/** How a project works: three phases on one drawn rule, each with the milestones a client does or
+ *  receives, then the form. No timelines or fees (Scott, 2026-11-27). */
+function How() {
   return (
-    <section
-      data-ground="navy"
-      className="af-band"
-      style={{ background: "var(--surface-inverse)", padding: "72px 24px 64px", borderBottom: "1px solid var(--af-rule-dark)", position: "relative", overflow: "hidden" }}
-    >
+    <section style={{ padding: "64px 24px 80px", position: "relative" }}>
+      <DrawRule bleed />
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", flexDirection: "column", gap: "40px" }}>
+        <Reveal>
+          <SectionHeader title={HOME_HOW_HEADING} />
+        </Reveal>
+        <ol className="af-phases">
+          {HOME_PHASES.map((p, i) => (
+            <li key={p.phase} className="af-phase">
+              <span className="af-phase-mark" aria-hidden="true" />
+              <span className="af-phase-n">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="af-phase-name">{p.phase}</h3>
+              <ul className="af-ms">
+                {p.milestones.map((m) => (
+                  <li key={m.title}>
+                    <span className="af-ms-title">{m.title}</span>
+                    <span className="af-ms-detail">{m.detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button variant="primary" size="lg" href={QUOTE_CTA.href}>
+            {QUOTE_CTA.label}
+          </Button>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/** The close, on navy: why the Foundry exists, then the three doors again. */
+function Close() {
+  return (
+    <section data-ground="navy" className="af-band af-close">
       <div aria-hidden="true" className="af-horizon-rule" />
-      <Reveal
-        style={{
-          position: "relative",
-          maxWidth: "var(--container)",
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "24px",
-          textAlign: "center",
-        }}
-      >
-        <h2
-          className="af-head-dark"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontStretch: "var(--w-cast)",
-            fontSize: "clamp(30px, 4vw, 44px)",
-            lineHeight: 1.1,
-            margin: 0,
-            textTransform: "uppercase",
-          }}
-        >
-          {QUOTE_HEADLINE}
-        </h2>
-        <Button variant="primary" size="lg" href={QUOTE_CTA.href}>
-          {QUOTE_CTA.label}
-        </Button>
-      </Reveal>
+      <div className="af-close-inner">
+        <Reveal>
+          <Eyebrow tone="on-dark">Our purpose</Eyebrow>
+          <h2 className="af-close-purpose">{PURPOSE}</h2>
+        </Reveal>
+        <Doors label="Get involved, again" />
+      </div>
     </section>
   )
 }
@@ -204,10 +180,10 @@ export default function Home() {
       <main>
         <Hero />
         <NameCarousel eyebrow={BUILDERS_STRIP_EYEBROW} items={BUILDERS_LOGOS} />
-        <MissionVision />
-        <Values />
+        <Work />
         <Build />
-        <QuoteBand />
+        <How />
+        <Close />
       </main>
       <SiteFooter />
     </>

@@ -1,0 +1,146 @@
+/* The home page below the hero (src/app/page.tsx; the hero's own styles are in hero.css). */
+
+/* How a project works: three phases on one rule, a marker where each begins, milestones under it.
+   Phones: the rule runs down the left and the phases stack. */
+.af-phases {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.af-phases::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--navy);
+}
+.af-phase {
+  position: relative;
+  padding-top: 34px;
+}
+.af-phase-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 0 0 4px var(--white);
+}
+.af-phase-n {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-meta);
+}
+.af-phase-name {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+}
+.af-ms {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.af-ms li {
+  position: relative;
+  padding-left: 18px;
+}
+.af-ms li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--navy);
+}
+.af-ms-title {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--navy);
+}
+.af-ms-detail {
+  display: block;
+  margin-top: 3px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-meta);
+}
+@media (max-width: 760px) {
+  .af-phases {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    padding-left: 32px;
+  }
+  .af-phases::before {
+    top: 0;
+    bottom: 0;
+    left: 7px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+  .af-phase {
+    padding-top: 0;
+  }
+  .af-phase-mark {
+    left: -32px;
+    top: 2px;
+  }
+}
+
+/* The close: the purpose over the three doors, on navy */
+.af-close {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-inverse);
+  border-bottom: 1px solid var(--af-rule-dark);
+  padding: 88px 24px 96px;
+}
+.af-close-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.af-close-purpose {
+  margin: 16px 0 0;
+  max-width: 30ch;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: var(--w-plate);
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.2;
+  color: var(--white);
+  text-wrap: balance;
+}
+.af-close .af-doors {
+  width: 100%;
+  margin-top: 44px;
+}
