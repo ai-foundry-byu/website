@@ -629,10 +629,6 @@ export const PARTNER_DETAIL =
 
 export const BUILD_HEADING = "What we build"
 
-/** Under the BUILD_HEADING compression pair, from the redesign. */
-export const BUILD_LEAD =
-  "Every engagement combines what your project needs. You get a written scope, a cost estimate, and a delivery timeline."
-
 /**
  * The three things we sell.
  *
@@ -912,48 +908,6 @@ export const PURPOSE =
 
 export const CULTURE_LEAD =
   "AI Foundry shares the mission, vision, and values of the BYU Marriott School of Business."
-
-/**
- * The top of the pyramid: BYU Marriott's own vision, mission, values, and
- * guiding principle, verbatim as published by the school. The Foundry does
- * not edit these; it inherits them.
- */
-export const MARRIOTT_EYEBROW = "BYU Marriott"
-
-export const MARRIOTT_VISION =
-  "We aspire to transform the world through Christlike leadership."
-
-export const MARRIOTT_MISSION =
-  "We develop leaders of faith, intellect, and character."
-
-export const MARRIOTT_VALUES: { title: string; blurb: string }[] = [
-  {
-    title: "Faith in Christ",
-    blurb:
-      "We value deep and abiding faith in Jesus Christ. Our faith gives us the capacity to envision a better future, the confidence to make that future happen, and the courage to act in the face of challenges.",
-  },
-  {
-    title: "Integrity in Action",
-    blurb:
-      "We value integrity and hold ourselves to the highest moral and ethical standards. Acting with integrity builds trust, strengthens character, and focuses our ambitions on things of eternal consequence.",
-  },
-  {
-    title: "Respect for All",
-    blurb:
-      "We value respect for all individuals as children of God and recognize the inherent worth, divine potential, and agency of each person. A climate of respect and belonging enhances our learning, facilitates collaboration, and encourages personal growth.",
-  },
-  {
-    title: "Excellence",
-    blurb:
-      "We value excellence in learning, teaching, research, management, and leadership. An expectation of excellence magnifies our influence and motivates us to continually improve.",
-  },
-]
-
-export const MARRIOTT_GUIDING = {
-  title: "Centered on Students",
-  blurb:
-    "We evaluate our decisions and actions by the impact they will have on the academic experience, professional preparation, character development, emotional well-being, and spiritual growth of our students.",
-}
 
 export const CULTURE_DOUBLE_CLICK_HEADING = "How we operate"
 
