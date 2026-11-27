@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { CUT, HEX } from "@/components/AFBuild"
 import { BUILDER_RING, BUILDER_TITLE, CONSULTANT_RING, CONSULTANT_TITLE, HERO_STACK } from "@/lib/content"
+import { LIFT, STAGGER, heroLift } from "@/lib/heroLift"
 import "@/app/hero.css"
 
 /**
@@ -14,8 +15,9 @@ import "@/app/hero.css"
  *
  * On a wide screen, as the bar's AI FOUNDRY finishes its build (AFBuild in SiteHeader, home only),
  * an outline of the hexagon lifts out of the bar's O and lands as the Builder, and the diamond
- * leaves the cut and lands as the Consultant, both at about 1.4 s. They are navy over the white bar
- * and white over the navy hero. The O stays whole. The travellers are the only script here; the
+ * leaves the cut and lands as the Consultant, at about 1.4 s and 1.7 s, one after the other. They are navy over the white bar
+ * and white over the navy hero. The O stays whole. The travellers (src/lib/heroLift.ts) are the only
+ * script here, run inline as the HTML parses (HERO_LIFT_SCRIPT, page.tsx); the
  * profiles themselves are server HTML and CSS (src/app/hero.css), so with no script, or with
  * prefers-reduced-motion, the page simply shows the finished hero. Below 900 px the words stack
  * over the shapes and the shapes are drawn in place, with no lift.
@@ -28,7 +30,6 @@ type Geo = { names: string[]; start: number; R: number; w: number; h: number }
 const BUILDER: Geo = { names: BUILDER_RING, start: 0, R: 70, w: 360, h: 224 }
 const CONSULTANT: Geo = { names: CONSULTANT_RING, start: -90, R: 60, w: 360, h: 196 }
 const LINE = 17 // label line height
-const LIFT = 950 // ms on the hero's CSS clock when the outlines leave the bar's O
 
 function Profile({ g, label, cls }: { g: Geo; label: string; cls: string }) {
   const cx = g.w / 2
@@ -65,74 +66,12 @@ function Profile({ g, label, cls }: { g: Geo; label: string; cls: string }) {
   )
 }
 
-/** One traveller: an outline of `d` that starts over `from` and lands on `to`, recoloured navy to white.
- *  `start` is the CSS clock's start (document timeline ms), so it lands exactly as the CSS shows the frame. */
-function fly(d: string, viewBox: string, from: DOMRect, to: DOMRect, start: number) {
-  const ns = "http://www.w3.org/2000/svg"
-  const svg = document.createElementNS(ns, "svg")
-  svg.setAttribute("viewBox", viewBox)
-  svg.setAttribute("preserveAspectRatio", "none")
-  svg.setAttribute("aria-hidden", "true")
-  svg.setAttribute("class", "af-trav")
-  const path = document.createElementNS(ns, "path")
-  path.setAttribute("d", d)
-  svg.appendChild(path)
-  Object.assign(svg.style, {
-    left: `${to.left + window.scrollX}px`,
-    top: `${to.top + window.scrollY}px`,
-    width: `${to.width}px`,
-    height: `${to.height}px`,
-  })
-  document.body.appendChild(svg)
-  const dx = from.left + from.width / 2 - (to.left + to.width / 2)
-  const dy = from.top + from.height / 2 - (to.top + to.height / 2)
-  const from0 = `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height})`
-  // lands at LIFT + 460 = 1410 ms on the CSS clock; the frame is shown from 1400 ms (hero.css), so
-  // the outline hands over to the frame under it instead of fading out before it appears
-  const timing = { duration: 460, delay: LIFT, easing: "cubic-bezier(.65,0,.25,1)", fill: "both" as const }
-  const move = svg.animate(
-    [
-      { opacity: 0, transform: from0 },
-      { opacity: 1, transform: from0, offset: 0.08 },
-      { opacity: 1, transform: "none", offset: 0.98 },
-      { opacity: 0, transform: "none" },
-    ],
-    timing,
-  )
-  const tint = svg.animate([{ color: "#002e5d" }, { color: "#002e5d", offset: 0.16 }, { color: "#ffffff", offset: 0.3 }, { color: "#ffffff" }], timing)
-  move.startTime = start
-  tint.startTime = start
-  move.finished.then(() => svg.remove(), () => svg.remove())
-  return svg
-}
-
 export function HeroPair() {
   const [first, second] = HERO_STACK
 
-  useEffect(() => {
-    // The lift belongs to the first paint only: skip it on narrow screens and for reduced motion. It
-    // runs on the hero's CSS clock (the start of the frame's own CSS animation), not on page load,
-    // and is skipped if the page hydrated too late to start it before the shapes land.
-    if (!window.matchMedia("(min-width: 900px) and (prefers-reduced-motion: no-preference)").matches) return
-    const css = document.querySelector(".af-prof-b .af-prof-frame")?.getAnimations()[0]
-    const clock = css?.startTime
-    const now = document.timeline.currentTime
-    if (typeof clock !== "number" || typeof now !== "number" || now - clock > LIFT - 50) return
-    const o = document.querySelector<SVGPathElement>(".af-lockup .af-hex")
-    const b = document.querySelector<SVGPolygonElement>(".af-prof-b .af-prof-frame")
-    const c = document.querySelector<SVGPolygonElement>(".af-prof-c .af-prof-frame")
-    if (!o || !b || !c) return
-    const hx = o.getBoundingClientRect()
-    // the cut sits centred in the hexagon: 70 of its 115.473 units wide, 70 of its 100 tall
-    const cw = (hx.width * 70) / 115.473
-    const ch = hx.height * 0.7
-    const cut = new DOMRect(hx.left + (hx.width - cw) / 2, hx.top + (hx.height - ch) / 2, cw, ch)
-    const made = [
-      fly(HEX, "333.654 0 115.473 100", hx, b.getBoundingClientRect(), clock),
-      fly(CUT, "356.39 15.007 70 70", cut, c.getBoundingClientRect(), clock),
-    ]
-    return () => made.forEach((el) => el.remove())
-  }, [])
+  // the lift normally starts from the inline script page.tsx writes after the hero (HERO_LIFT_SCRIPT);
+  // this covers arriving here by client-side navigation, where that script does not run
+  useEffect(() => heroLift(HEX, CUT, LIFT, STAGGER), [])
 
   return (
     <div className="af-pair">

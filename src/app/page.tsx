@@ -3,6 +3,8 @@ import { DrawRule, Reveal, Stagger, StaggerItem } from "@/components/motion/Moti
 import { SiteFooter } from "@/components/SiteFooter"
 import { ArrowRight } from "lucide-react"
 import { HeroPair } from "@/components/HeroPair"
+import { CUT, HEX } from "@/components/AFBuild"
+import { LIFT, STAGGER, heroLift } from "@/lib/heroLift"
 import { Button } from "@/components/ds/Button"
 import { Card } from "@/components/ds/Card"
 import { Eyebrow } from "@/components/ds/Eyebrow"
@@ -40,6 +42,8 @@ import {
    blueprint on first paint (SiteHeader home), then its hexagon and diamond lift out into the Builder and
    the Consultant under BUILDER-CONSULTANTS. (HeroPair). The studio line sits above as a lead-in, the
    three doors (one per audience) below. Styles and clock: src/app/hero.css. */
+const HERO_LIFT_SCRIPT = `(${heroLift.toString()})(${JSON.stringify(HEX)},${JSON.stringify(CUT)},${LIFT},${STAGGER})`
+
 function Hero() {
   return (
     <section className="af-hero is-playing" data-ground="navy">
@@ -56,6 +60,8 @@ function Hero() {
           ))}
         </nav>
       </div>
+      {/* the lift starts as this HTML is parsed, not when the bundle hydrates (src/lib/heroLift.ts) */}
+      <script dangerouslySetInnerHTML={{ __html: HERO_LIFT_SCRIPT }} />
     </section>
   )
 }
